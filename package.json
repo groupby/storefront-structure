@@ -1,0 +1,53 @@
+{
+  "name": "@storefront/structure",
+  "version": "0.0.0-development",
+  "description": "Structural components for creating StoreFront components",
+  "keywords": [
+    "storefront",
+    "storefront-component"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/groupby/storefront-structure.git"
+  },
+  "bugs": {
+    "url": "https://github.com/groupby/storefront-structure/issues"
+  },
+  "homepage": "https://github.com/groupby/storefront-structure#readme",
+  "author": "Ben Teichman <ben.teichman@groupbyinc.com>",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "start": "start-runner -f tasks.js",
+    "prepush": "yarn start prepush",
+    "prepublish": "yarn start build"
+  },
+  "release": {
+    "verifyConditions": "condition-circle"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^7.0.11",
+    "babel-preset-latest": "^6.24.0",
+    "babel-preset-stage-3": "^6.22.0",
+    "condition-circle": "^1.5.0",
+    "cz-conventional-changelog": "^2.0.0",
+    "husky": "^0.13.3",
+    "re-start": "^1.9.0",
+    "start-babel-cli": "^4.0.1",
+    "start-clean": "^2.0.0",
+    "start-env": "^3.0.0",
+    "start-files": "^2.0.0",
+    "start-webpack": "^0.2.0",
+    "tslint": "^4.5.1",
+    "tslint-config-groupby": "^1.0.0",
+    "typescript": "^2.2.2"
+  }
+}
