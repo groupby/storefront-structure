@@ -1,0 +1,13 @@
+gb-list.gb-stylish>ul, [data-is="gb-list"].gb-stylish>ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+gb-list.gb-stylish>ul>li, [data-is="gb-list"].gb-stylish>ul>li {
+  margin: 0 10px;
+}
+
+gb-list>ul.inline>li, [data-is="gb-list"]>ul.inline>li {
+  display: inline-block;
+}

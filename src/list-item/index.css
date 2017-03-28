@@ -1,0 +1,8 @@
+gb-list-item.gb-stylish a, [data-is="gb-list-item"].gb-stylish a {
+  color: #888;
+  cursor: pointer;
+}
+
+gb-list-item.gb-stylish a:hover, [data-is="gb-list-item"].gb-stylish a:hover {
+  color: black;
+}
