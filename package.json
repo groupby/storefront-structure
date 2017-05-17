@@ -37,7 +37,10 @@
     },
     "restart": {
       "watchFiles": "src/**/*.{ts,html,css}",
-      "copyFiles": "src/**/*.{html,css}"
+      "copyFiles": "src/**/*.{html,css}",
+      "releaseOpts": {
+        "public": true
+      }
     }
   },
   "devDependencies": {
