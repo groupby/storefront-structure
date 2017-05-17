@@ -1,0 +1,5 @@
+<select ref="selector" onchange="{ updateSelection }">
+  <option data-is="gb-select-option" each="{ option in $select.options }">
+    <yield/>
+  </option>
+</select>

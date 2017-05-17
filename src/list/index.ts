@@ -2,7 +2,7 @@ import { view, Component } from '@storefront/core';
 
 @view('gb-list', require('./index.html'), require('./index.css'), [
   { name: 'inline', default: true },
-  { name: 'items', default: ['a', 'b', 'c'] },
+  { name: 'items', default: [] },
   { name: 'itemAlias', default: 'item' },
   { name: 'indexAlias', default: 'i' },
   { name: 'shouldRender', default: (item) => typeof item.shouldRender !== 'function' || item.shouldRender() }
