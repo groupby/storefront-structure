@@ -5,7 +5,8 @@ import Select from '../select';
 class NativeSelect {
   $select: Select.Props;
 
-  updateSelection(event: { target: HTMLSelectElement }) {
+  updateSelection(event: { target: HTMLSelectElement, preventUpdate: boolean }) {
+    event.preventUpdate = true;
     if (this.$select.onSelect) {
       this.$select.onSelect(event.target.selectedIndex);
     }
