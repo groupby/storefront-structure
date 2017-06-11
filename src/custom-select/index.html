@@ -1,0 +1,10 @@
+<div class="gb-select { gb-active: isActive } gb-{ props.hover ? 'hoverable' : 'clickable' }" onmouseenter="{ onHoverActivate }">
+  <div class="gb-select-toggle" ref="toggle" onblur="{ onLostFocus }" tabindex="-1">
+    <gb-button on-click="{ onClickActivate }">{ $customSelect.selected().label }</gb-button>
+  </div>
+  <gb-list class="gb-option-list" items="{ $select.options }" item-alias="option" onmouseleave="{ onClickDeactivate }">
+    <gb-button class="{ gb-selected: $option.selected }" type="button" onclick="{ $customSelect.onSelect }">
+      <yield>{ $option.label }</yield>
+    </gb-button>
+  </gb-list>
+</div>

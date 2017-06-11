@@ -1,0 +1,77 @@
+{
+  "name": "@storefront/structure",
+  "version": "0.0.14-development",
+  "description": "Structural components for creating StoreFront components",
+  "keywords": [
+    "storefront",
+    "storefront-component"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/groupby/storefront-structure.git"
+  },
+  "bugs": {
+    "url": "https://github.com/groupby/storefront-structure/issues"
+  },
+  "homepage": "https://github.com/groupby/storefront-structure#readme",
+  "author": "Ben Teichman <ben.teichman@groupbyinc.com>",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module:esnext": "esnext/index.js",
+  "files": [
+    "dist/",
+    "esnext/",
+    "src/"
+  ],
+  "scripts": {
+    "start": "start-runner -p re-start/presets/typescript",
+    "esnext": "npm start build -- -- --compileOpts.configFile tsconfig.esnext.json --outDir esnext",
+    "dev": "npm start dev",
+    "test": "npm start test",
+    "tdd": "npm start tdd",
+    "prepush": "npm start prepush",
+    "prepublish": "npm start build && npm run esnext"
+  },
+  "release": {
+    "verifyConditions": "condition-circle"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    },
+    "restart": {
+      "watchFiles": "src/**/*.{ts,html,css}",
+      "copyFiles": "src/**/*.{html,css}",
+      "testFiles": [
+        "test/bootstrap.ts",
+        "test/**/*.ts"
+      ],
+      "releaseOpts": {
+        "public": true
+      }
+    }
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.0",
+    "@types/node": "^7.0.29",
+    "@types/sinon": "^2.3.1",
+    "@types/sinon-chai": "^2.7.28",
+    "chai": "^4.0.2",
+    "condition-circle": "^1.5.0",
+    "cz-conventional-changelog": "^2.0.0",
+    "husky": "^0.13.3",
+    "mocha-suite": "^1.0.9",
+    "mock-require": "^2.0.2",
+    "re-start": "^1.14.8",
+    "sinon": "^2.3.4",
+    "sinon-chai": "^2.11.0",
+    "tslint": "^5.4.3",
+    "tslint-config-groupby": "^1.0.0",
+    "typescript": "^2.3.3",
+    "webpack": "^2.6.1"
+  },
+  "dependencies": {
+    "@storefront/core": "^1.2.2",
+    "start-simple-cli": "^4.1.1"
+  }
+}

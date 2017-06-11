@@ -1,0 +1,17 @@
+gb-custom-select .gb-select,
+[data-is="gb-custom-select"] .gb-select {
+  display: inline-block;
+  position: relative;
+}
+
+.gb-select .gb-option-list {
+  display: none;
+  position: absolute;
+  z-index: 10;
+}
+
+.gb-select.gb-hoverable.gb-active:hover .gb-option-list,
+.gb-select.gb-clickable.gb-active .gb-select-toggle:focus+.gb-option-list,
+.gb-select.gb-clickable.gb-active .gb-option-list:hover {
+  display: block;
+}
