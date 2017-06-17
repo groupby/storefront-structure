@@ -65,13 +65,13 @@
     "re-start": "^1.14.8",
     "sinon": "^2.3.4",
     "sinon-chai": "^2.11.0",
+    "start-simple-cli": "^4.1.1",
     "tslint": "^5.4.3",
     "tslint-config-groupby": "^1.0.0",
     "typescript": "^2.3.3",
     "webpack": "^2.6.1"
   },
   "dependencies": {
-    "@storefront/core": "^1.2.2",
-    "start-simple-cli": "^4.1.1"
+    "@storefront/core": "^1.2.2"
   }
 }
