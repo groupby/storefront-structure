@@ -1,5 +1,6 @@
 import './badge';
 import Button from './button';
+import './container';
 import CustomSelect from './custom-select';
 import Icon from './icon';
 import Link from './link';
