@@ -1,7 +1,8 @@
+import { utils } from '@storefront/core';
 import CustomSelect from '../../src/custom-select';
 import suite from './_suite';
 
-suite('CustomSelect', ({ expect, spy }) => {
+suite('CustomSelect', ({ expect, spy, stub }) => {
   let customSelect: CustomSelect;
 
   beforeEach(() => customSelect = new CustomSelect());
@@ -35,26 +36,44 @@ suite('CustomSelect', ({ expect, spy }) => {
           const index = 18;
           customSelect.$select = <any>{ onSelect };
           customSelect.update = () => null;
-          customSelect.refs = <any>{ toggle: { blur: () => null } };
 
           customSelect.state.onSelect(<any>{ item: { i: index } });
 
           expect(onSelect).to.be.calledWith(index);
         });
 
-        it('should update() isActive to false and blur the toggle', () => {
-          const blur = spy();
+        it('should update() isActive to false', () => {
           const update = customSelect.update = spy();
           customSelect.$select = <any>{};
-          customSelect.refs = <any>{ toggle: { blur } };
 
           customSelect.state.onSelect(<any>{});
 
           expect(update).to.be.calledWith({ isActive: false });
-          expect(blur).to.be.called;
         });
       });
     });
+
+   describe('onUpdated()', () => {
+     it('should add onclick listener to document when isActive is true', () => {
+      const addEventListener = spy();
+      customSelect.isActive = true;
+      stub(utils.WINDOW, 'document').returns({ addEventListener });
+
+      customSelect.onUpdated();
+
+      expect(addEventListener).to.be.calledWith('click', customSelect.onClickDeactivate);
+     });
+
+     it('should remove onclick listener on document when isActive is false', () => {
+      const removeEventListener = spy();
+      customSelect.isActive = false;
+      stub(utils.WINDOW, 'document').returns({ removeEventListener });
+
+      customSelect.onUpdated();
+
+      expect(removeEventListener).to.be.calledWith('click', customSelect.onClickDeactivate);
+     });
+   });
   });
 
   describe('onHoverActivate()', () => {
@@ -94,13 +113,13 @@ suite('CustomSelect', ({ expect, spy }) => {
     });
   });
 
-  describe('onClickDeactivate()', () => {
+  describe('onHoverDeactivate()', () => {
     it('should set preventUpdate', () => {
       const event: any = {};
       customSelect.update = () => null;
       customSelect.props = <any>{};
 
-      customSelect.onClickDeactivate(event);
+      customSelect.onHoverDeactivate(event);
 
       expect(event.preventUpdate).to.be.true;
     });
@@ -109,7 +128,7 @@ suite('CustomSelect', ({ expect, spy }) => {
       const update = customSelect.update = spy();
       customSelect.props = <any>{};
 
-      customSelect.onClickDeactivate(<any>{});
+      customSelect.onHoverDeactivate(<any>{});
 
       expect(update).to.be.called;
     });
@@ -118,7 +137,7 @@ suite('CustomSelect', ({ expect, spy }) => {
       customSelect.update = () => expect.fail();
       customSelect.props = <any>{ hover: true };
 
-      customSelect.onClickDeactivate(<any>{});
+      customSelect.onHoverDeactivate(<any>{});
     });
 
     it('should call update() if active', () => {
@@ -126,71 +145,91 @@ suite('CustomSelect', ({ expect, spy }) => {
       customSelect.props = <any>{};
       customSelect.isActive = true;
 
-      customSelect.onClickDeactivate(<any>{});
+      customSelect.onHoverDeactivate(<any>{});
     });
   });
 
-  describe('onLostFocus', () => {
+  describe('onClickDeactivate()', () => {
     it('should set preventUpdate', () => {
       const event: any = {};
+      customSelect.update = () => null;
       customSelect.props = <any>{};
+      customSelect.refs = <any>{ toggle: { refs: { button: { b: 'b' } } } };
 
-      customSelect.onLostFocus(event);
+      customSelect.onClickDeactivate(event);
 
       expect(event.preventUpdate).to.be.true;
     });
 
-    it('should unset isActive', () => {
+    it('should unset isActive if event target is not this component\'s button', () => {
+      const removeEventListener = spy();
+      const button = { a: 'a' };
+      const event: any = { target: button };
+      const update = customSelect.update = spy();
       customSelect.props = <any>{};
-      customSelect.isActive = true;
+      customSelect.refs = <any>{ toggle: { refs: { button: { b: 'b' } } } };
 
-      customSelect.onLostFocus(<any>{});
+      customSelect.onClickDeactivate(event);
 
-      expect(customSelect.isActive).to.be.false;
+      expect(update).to.be.calledWith({ isActive: false });
+    });
+
+    it('should do nothing if event target is this component\'s button', () => {
+      const button = { a: 'a' };
+      const event: any = { target: button };
+      customSelect.update = () => expect.fail();
+      customSelect.props = <any>{};
+      customSelect.refs = <any>{ toggle: { refs: { button } } };
+
+      customSelect.onClickDeactivate(event);
     });
 
     it('should not set isActive if in hover mode', () => {
+      const event: any = { target: { a: 'a' } };
       customSelect.props = <any>{ hover: true };
-      customSelect.isActive = true;
+      customSelect.update = () => expect.fail();
+      customSelect.refs = <any>{ toggle: { refs: { button: { b: 'b' } } } };
 
-      customSelect.onLostFocus(<any>{});
-
-      expect(customSelect.isActive).to.be.true;
+      customSelect.onClickDeactivate(event);
     });
   });
 
-  describe('onClickActivate()', () => {
+  describe('onClickToggleActive()', () => {
+    it('should set preventUpdate', () => {
+      const event: any = {};
+      customSelect.update = () => null;
+      customSelect.props = <any>{};
+
+      customSelect.onClickToggleActive(event);
+
+      expect(event.preventUpdate).to.be.true;
+    });
+
     it('should toggle isActive on', () => {
-      const focus = spy();
       const update = customSelect.update = spy();
       customSelect.isActive = false;
       customSelect.props = <any>{};
-      customSelect.refs = <any>{ toggle: { focus } };
 
-      customSelect.onClickActivate();
+      customSelect.onClickToggleActive(<any>{});
 
       expect(update).to.be.calledWith({ isActive: true });
-      expect(focus).to.be.called;
     });
 
     it('should toggle isActive off', () => {
-      const blur = spy();
       const update = customSelect.update = spy();
       customSelect.isActive = true;
       customSelect.props = <any>{};
-      customSelect.refs = <any>{ toggle: { blur } };
 
-      customSelect.onClickActivate();
+      customSelect.onClickToggleActive(<any>{});
 
       expect(update).to.be.calledWith({ isActive: false });
-      expect(blur).to.be.called;
     });
 
     it('should only toggle if click mode', () => {
       customSelect.update = () => expect.fail();
       customSelect.props = <any>{ hover: true };
 
-      customSelect.onClickActivate();
+      customSelect.onClickToggleActive(<any>{});
     });
   });
 });

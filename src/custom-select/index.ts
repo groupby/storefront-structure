@@ -1,4 +1,5 @@
 import { alias, tag, utils, Tag } from '@storefront/core';
+import Button from '../button';
 import Select from '../select';
 
 @alias('customSelect')
@@ -6,7 +7,7 @@ import Select from '../select';
 class CustomSelect {
 
   $select: Select.Props;
-  refs: { toggle: HTMLButtonElement };
+  refs: { toggle: Button };
   props: CustomSelect.Props = {
     hover: false
   };
@@ -17,10 +18,17 @@ class CustomSelect {
         this.$select.onSelect(event.item.i);
       }
       this.update({ isActive: false });
-      this.refs.toggle.blur();
     }
   };
   isActive: boolean = false;
+
+  onUpdated() {
+    if (this.isActive) {
+      utils.WINDOW.document().addEventListener('click', this.onClickDeactivate);
+    } else {
+      utils.WINDOW.document().removeEventListener('click', this.onClickDeactivate);
+    }
+  }
 
   onHoverActivate(event: MouseEvent & Tag.Event) {
     event.preventUpdate = true;
@@ -29,29 +37,24 @@ class CustomSelect {
     }
   }
 
-  onClickDeactivate(event: MouseEvent & Tag.Event) {
+  onHoverDeactivate(event: MouseEvent & Tag.Event) {
     event.preventUpdate = true;
     if (!this.props.hover && !this.isActive) {
       this.update();
     }
   }
 
-  onLostFocus = (event: FocusEvent & Tag.Event) => {
+  onClickDeactivate = (event: MouseEvent & Tag.Event) => {
     event.preventUpdate = true;
-    if (!this.props.hover) {
-      this.isActive = false;
+    if (!this.props.hover && event.target !== this.refs.toggle.refs.button) {
+      this.update({ isActive: false });
     }
   }
 
-  onClickActivate = () => {
+  onClickToggleActive = (event: MouseEvent & Tag.Event) => {
+    event.preventUpdate = true;
     if (!this.props.hover) {
-      const isActive = this.isActive;
-      this.update({ isActive: !isActive });
-      if (isActive) {
-        this.refs.toggle.blur();
-      } else {
-        this.refs.toggle.focus();
-      }
+      this.update({ isActive: !this.isActive });
     }
   }
 }

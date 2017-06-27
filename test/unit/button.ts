@@ -18,11 +18,12 @@ suite('Button', ({ expect, spy }) => {
 
     it('should call props.onClick if exists', () => {
       const onClick = spy();
+      const event = <any>{};
       button.props = <any>{ onClick };
 
-      button.onClick(<any>{});
+      button.onClick(event);
 
-      expect(onClick).to.be.called;
+      expect(onClick).to.be.calledWith(event);
     });
   });
 });

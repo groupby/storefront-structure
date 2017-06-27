@@ -72,6 +72,6 @@
     "webpack": "^2.6.1"
   },
   "dependencies": {
-    "@storefront/core": "^1.2.2"
+    "@storefront/core": "^1.2.20"
   }
 }
