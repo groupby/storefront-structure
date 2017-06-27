@@ -29,5 +29,5 @@ jobs:
           name: Release
           command: yarn start release || true
       - run:
-        name: Upload Lockfile
-        command: greenkeeper-lockfile-upload
+          name: Upload Lockfile
+          command: greenkeeper-lockfile-upload
