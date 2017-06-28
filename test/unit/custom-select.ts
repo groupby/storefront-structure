@@ -57,7 +57,7 @@ suite('CustomSelect', ({ expect, spy, stub }) => {
      it('should add onclick listener to document when isActive is true', () => {
       const addEventListener = spy();
       customSelect.isActive = true;
-      stub(utils.WINDOW, 'document').returns({ addEventListener });
+      stub(utils, 'WINDOW').returns({ document: { addEventListener } });
 
       customSelect.onUpdated();
 
@@ -67,7 +67,7 @@ suite('CustomSelect', ({ expect, spy, stub }) => {
      it('should remove onclick listener on document when isActive is false', () => {
       const removeEventListener = spy();
       customSelect.isActive = false;
-      stub(utils.WINDOW, 'document').returns({ removeEventListener });
+      stub(utils, 'WINDOW').returns({ document: { removeEventListener } });
 
       customSelect.onUpdated();
 

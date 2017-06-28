@@ -24,9 +24,9 @@ class CustomSelect {
 
   onUpdated() {
     if (this.isActive) {
-      utils.WINDOW.document().addEventListener('click', this.onClickDeactivate);
+      utils.WINDOW().document.addEventListener('click', this.onClickDeactivate);
     } else {
-      utils.WINDOW.document().removeEventListener('click', this.onClickDeactivate);
+      utils.WINDOW().document.removeEventListener('click', this.onClickDeactivate);
     }
   }
 
