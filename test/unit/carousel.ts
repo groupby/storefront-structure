@@ -8,7 +8,11 @@ suite('Carousel', ({ expect }) => {
 
   describe('constructor()', () => {
     it('should set initial values', () => {
-      expect(carousel.props).to.eql({ items: [] });
+      expect(carousel.props).to.eql({
+        items: [],
+        prevIcon: '',
+        nextIcon: ''
+      });
     });
 
     describe('state', () => {
@@ -17,4 +21,7 @@ suite('Carousel', ({ expect }) => {
       });
     });
   });
+
+  describe('onClickLeft()', () => {});
+  describe('onClickRight()', () => {});
 });

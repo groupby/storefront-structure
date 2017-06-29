@@ -21,7 +21,7 @@ namespace Carousel {
   }
 
   export interface State {
-    index: number
+    index: number;
   }
 }
 
