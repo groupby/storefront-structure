@@ -22,6 +22,15 @@ suite('Carousel', ({ expect }) => {
     });
   });
 
-  describe('onClickLeft()', () => {});
-  describe('onClickRight()', () => {});
+  describe('onClickPrev()', () => {
+    it('should exist', () => {
+      expect(carousel.onClickPrev).to.be.ok;
+    });
+  });
+
+  describe('onClickNext()', () => {
+    it('should exist', () => {
+      expect(carousel.onClickNext).to.be.ok;
+    });
+  });
 });

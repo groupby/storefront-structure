@@ -10,6 +10,14 @@ class Carousel {
   state: Carousel.State = {
     index: 0
   };
+
+  onClickPrev(event: MouseEvent & Tag.Event) {
+    // TODO
+  }
+
+  onClickNext(event: MouseEvent & Tag.Event) {
+    // TODO
+  }
 }
 
 interface Carousel extends Tag<Carousel.Props> { }
