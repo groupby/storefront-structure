@@ -1,16 +1,16 @@
-gb-custom-select .gb-select,
-[data-is="gb-custom-select"] .gb-select {
+gb-custom-select.gb-ui .gb-select,
+[data-is="gb-custom-select"].gb-ui .gb-select {
   display: inline-block;
   position: relative;
 }
 
-.gb-select .gb-option-list {
+.gb-select .gb-option-list.gb-ui {
   display: none;
   position: absolute;
   z-index: 10;
 }
 
-.gb-select.gb-hoverable.gb-active:hover .gb-option-list,
-.gb-select.gb-clickable.gb-active .gb-option-list {
+.gb-select.gb-hoverable.gb-active:hover .gb-option-list.gb-ui,
+.gb-select.gb-clickable.gb-active .gb-option-list.gb-ui {
   display: block;
 }
