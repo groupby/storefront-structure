@@ -1,21 +1,27 @@
 import { tag, Tag } from '@storefront/core';
+import List from '../list';
 
 @tag('gb-carousel', require('./index.html'))
 class Carousel {
+
+  refs: {
+    list: List,
+    viewport: HTMLDivElement
+  };
   props: Carousel.Props = {
     items: [],
     prevIcon: '',
     nextIcon: ''
   };
   state: Carousel.State = {
-    index: 0
+    offset: 0
   };
 
-  onClickPrev(event: MouseEvent & Tag.Event) {
+  onClickPrev() {
     // TODO
   }
 
-  onClickNext(event: MouseEvent & Tag.Event) {
+  onClickNext() {
     // TODO
   }
 }
@@ -29,7 +35,7 @@ namespace Carousel {
   }
 
   export interface State {
-    index: number;
+    offset: number;
   }
 }
 
