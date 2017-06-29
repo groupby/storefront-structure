@@ -53,13 +53,13 @@
   },
   "devDependencies": {
     "@types/chai": "^4.0.0",
-    "@types/node": "^7.0.29",
+    "@types/node": "^8.0.5",
     "@types/sinon": "^2.3.1",
     "@types/sinon-chai": "^2.7.28",
     "chai": "^4.0.2",
     "condition-circle": "^1.5.0",
     "cz-conventional-changelog": "^2.0.0",
-    "husky": "^0.13.3",
+    "husky": "^0.14.1",
     "mocha-suite": "^1.0.9",
     "mock-require": "^2.0.2",
     "re-start": "^1.14.8",
@@ -69,7 +69,7 @@
     "tslint": "^5.4.3",
     "tslint-config-groupby": "^1.0.0",
     "typescript": "^2.3.3",
-    "webpack": "^2.6.1"
+    "webpack": "^3.0.0"
   },
   "dependencies": {
     "@storefront/core": "^1.6.0"
