@@ -57,5 +57,50 @@ suite('Carousel', ({ expect, stub, spy }) => {
     });
   });
 
-  describe('onClickNext()');
+  describe('onClickNext()', () => {
+    let carouselSet;
+    let list;
+    let getComputedStyle;
+
+    beforeEach(() => {
+      list = <any>{ list: 'list' };
+      const viewport = <any>{ viewport: 'viewport' };
+      getComputedStyle = stub();
+      getComputedStyle.withArgs(viewport).returns({ width: '5px' });
+      stub(utils, 'WINDOW').returns({ getComputedStyle });
+      carouselSet = carousel.set = spy();
+      carousel.props = <any>{
+        items: [1, 2, 3, 4, 5, 6, 7]
+      };
+      carousel.refs = <any>{ list, viewport };
+    });
+
+    it('should go to the next page', () => {
+      carousel.state = <any>{ offset: 0 };
+      getComputedStyle.withArgs(list).returns({ width: '14px' });
+
+      carousel.onClickNext();
+
+      expect(carouselSet).to.be.calledWith({ offset: 2 });
+    });
+
+    it('should not show a blank page', () => {
+      carousel.props.items = [1, 2, 3, 4, 5, 6];
+      carousel.state = <any>{ offset: 4 };
+      getComputedStyle.withArgs(list).returns({ width: '12px' });
+
+      carousel.onClickNext();
+
+      expect(carouselSet).to.be.calledWith({ offset: 4 });
+    });
+
+    it('should show the remaining item', () => {
+      carousel.state = <any>{ offset: 6 };
+      getComputedStyle.withArgs(list).returns({ width: '14px' });
+
+      carousel.onClickNext();
+
+      expect(carouselSet).to.be.calledWith({ offset: 6 });
+    });
+  });
 });
