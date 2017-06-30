@@ -21,6 +21,14 @@ suite('Carousel', ({ expect, stub, spy }) => {
         expect(carousel.state.offset).to.eq(0);
       });
     });
+
+    describe('onMount()', () => {
+    });
+  });
+
+  describe('calculateAttributes()', () => {
+    it('should calcuate pageSize');
+    it('should calcuate maxOffset');
   });
 
   describe('onClickPrev()', () => {
