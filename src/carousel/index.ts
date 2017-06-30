@@ -1,11 +1,11 @@
-import { tag, Tag } from '@storefront/core';
+import { tag, utils, Tag } from '@storefront/core';
 import List from '../list';
 
 @tag('gb-carousel', require('./index.html'))
 class Carousel {
 
   refs: {
-    list: List,
+    list: HTMLDivElement,
     viewport: HTMLDivElement
   };
   props: Carousel.Props = {
@@ -18,7 +18,10 @@ class Carousel {
   };
 
   onClickPrev() {
-    // TODO
+    const viewportWidth = parseFloat(utils.WINDOW().getComputedStyle(this.refs.viewport).width);
+    const itemWidth = parseFloat(utils.WINDOW().getComputedStyle(this.refs.list).width) / this.props.items.length;
+    const newOffset = Math.max(0, this.state.offset - Math.floor(viewportWidth / itemWidth));
+    this.set({ offset: newOffset });
   }
 
   onClickNext() {

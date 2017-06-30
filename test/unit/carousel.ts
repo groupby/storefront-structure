@@ -2,7 +2,7 @@ import { utils } from '@storefront/core';
 import Carousel from '../../src/carousel';
 import suite from './_suite';
 
-suite('Carousel', ({ expect, stub }) => {
+suite('Carousel', ({ expect, stub, spy }) => {
   let carousel: Carousel;
 
   beforeEach(() => carousel = new Carousel());
@@ -24,32 +24,38 @@ suite('Carousel', ({ expect, stub }) => {
   });
 
   describe('onClickPrev()', () => {
-    it('should exist', () => {
-      expect(carousel.onClickPrev).to.be.ok;
-    });
+    let carouselSet;
 
-    it('should go to the previous page', () => {
-      const list = <any>{};
-      const viewport = <any>{};
+    beforeEach(() => {
+      const list = <any>{ list: 'list' };
+      const viewport = <any>{ viewport: 'viewport' };
       const getComputedStyle = stub();
       getComputedStyle.withArgs(list).returns({ width: '14px' });
       getComputedStyle.withArgs(viewport).returns({ width: '5px' });
       stub(utils, 'WINDOW').returns({ getComputedStyle });
+      carouselSet = carousel.set = spy();
       carousel.props = <any>{
         items: [1, 2, 3, 4, 5, 6, 7]
       };
       carousel.refs = <any>{ list, viewport };
+    });
+
+    it('should go to the previous page', () => {
       carousel.state = <any>{ offset: 4 };
 
       carousel.onClickPrev();
 
-      expect(carousel.state.offset).to.eq(2);
+      expect(carouselSet).to.be.calledWith({ offset: 2 });
+    });
+
+    it('should not set offset less than 0', () => {
+      carousel.state = <any>{ offset: 1 };
+
+      carousel.onClickPrev();
+
+      expect(carouselSet).to.be.calledWith({ offset: 0 });
     });
   });
 
-  describe('onClickNext()', () => {
-    it('should exist', () => {
-      expect(carousel.onClickNext).to.be.ok;
-    });
-  });
+  describe('onClickNext()');
 });
