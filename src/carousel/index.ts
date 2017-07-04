@@ -14,7 +14,9 @@ class Carousel {
     nextIcon: ''
   };
   state: Carousel.State = {
-    offset: 0
+    offset: 0,
+    maxOffset: 0,
+    pageSize: 0
   };
 
   calculateAttributes() {
@@ -53,6 +55,8 @@ namespace Carousel {
 
   export interface State {
     offset: number;
+    maxOffset: number;
+    pageSize: number;
   }
 }
 

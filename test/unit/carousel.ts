@@ -20,6 +20,14 @@ suite('Carousel', ({ expect, stub, spy }) => {
       it('should set inital offset to 0', () => {
         expect(carousel.state.offset).to.eq(0);
       });
+
+      it('should set initial maxOffset to 0', () => {
+        expect(carousel.state.maxOffset).to.eq(0);
+      });
+
+      it('should set initial pageSize to 0', () => {
+        expect(carousel.state.pageSize).to.eq(0);
+      });
     });
 
     describe('onMount()', () => {
