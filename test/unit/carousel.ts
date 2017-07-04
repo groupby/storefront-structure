@@ -31,6 +31,23 @@ suite('Carousel', ({ expect, stub, spy }) => {
     });
 
     describe('onMount()', () => {
+      it('should call calculateAttributes', () => {
+        const calculateAttributes = carousel.calculateAttributes = spy();
+
+        carousel.onMount();
+
+        expect(calculateAttributes).to.be.called;
+      });
+    });
+
+    describe('onUpdate()', () => {
+      it('should call calculateAttributes', () => {
+        const calculateAttributes = carousel.calculateAttributes = spy();
+
+        carousel.onUpdate();
+
+        expect(calculateAttributes).to.be.called;
+      });
     });
   });
 

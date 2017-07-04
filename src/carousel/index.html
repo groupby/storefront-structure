@@ -3,7 +3,7 @@
     <gb-icon url="{ prevIcon }"></gb-icon>
   </gb-button>
 </div>
-<div ref="viewport">
+<div ref="viewport" onresize="{ calculateAttributes }">
   <div data-is="gb-list" ref="list">
     <yield/>
   </div>

@@ -19,6 +19,14 @@ class Carousel {
     pageSize: 0
   };
 
+  onMount() {
+    this.calculateAttributes();
+  }
+
+  onUpdate() {
+    this.calculateAttributes();
+  }
+
   calculateAttributes() {
     const viewportWidth = parseFloat(utils.WINDOW().getComputedStyle(this.refs.viewport).width);
     const itemWidth = parseFloat(utils.WINDOW().getComputedStyle(this.refs.list).width) / this.props.items.length;
