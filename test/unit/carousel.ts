@@ -27,7 +27,24 @@ suite('Carousel', ({ expect, stub, spy }) => {
   });
 
   describe('calculateAttributes()', () => {
-    it('should calcuate pageSize');
+    it('should calcuate pageSize', () => {
+      const carouselSet = carousel.set = spy();
+      const getComputedStyle = stub();
+      const list = <any>{ list: 'list' };
+      const viewport = <any>{ viewport: 'viewport' };
+      carousel.props = <any>{
+        items: [1, 2, 3, 4, 5, 6, 7]
+      };
+      carousel.refs = <any>{ list, viewport };
+      getComputedStyle.withArgs(list).returns({ width: '14px' });
+      getComputedStyle.withArgs(viewport).returns({ width: '5px' });
+      stub(utils, 'WINDOW').returns({ getComputedStyle });
+
+      carousel.calculateAttributes();
+
+      expect(carouselSet).to.be.calledWith({ pageSize: 2 });
+    });
+
     it('should calcuate maxOffset');
   });
 

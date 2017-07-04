@@ -17,6 +17,14 @@ class Carousel {
     offset: 0
   };
 
+  calculateAttributes() {
+    const viewportWidth = parseFloat(utils.WINDOW().getComputedStyle(this.refs.viewport).width);
+    const itemWidth = parseFloat(utils.WINDOW().getComputedStyle(this.refs.list).width) / this.props.items.length;
+    const pageSize = Math.floor(viewportWidth / itemWidth);
+
+    this.set({ pageSize });
+  }
+
   onClickPrev() {
     const viewportWidth = parseFloat(utils.WINDOW().getComputedStyle(this.refs.viewport).width);
     const itemWidth = parseFloat(utils.WINDOW().getComputedStyle(this.refs.list).width) / this.props.items.length;
