@@ -35,25 +35,51 @@ suite('Carousel', ({ expect, stub, spy }) => {
   });
 
   describe('calculateAttributes()', () => {
-    it('should calcuate attributes', () => {
-      const carouselSet = carousel.set = spy();
-      const getComputedStyle = stub();
-      const list = <any>{ list: 'list' };
+    let carouselSet;
+    let getComputedStyle;
+    let list;
+
+    beforeEach(() => {
       const viewport = <any>{ viewport: 'viewport' };
+      list = <any>{ list: 'list' };
+      carousel.refs = <any>{ list, viewport };
+      carouselSet = carousel.set = spy();
+      getComputedStyle = stub();
+      getComputedStyle.withArgs(viewport).returns({ width: '5px' });
+      stub(utils, 'WINDOW').returns({ getComputedStyle });
+    });
+
+    it('should calcuate pageSize', () => {
       carousel.props = <any>{
         items: [1, 2, 3, 4, 5, 6, 7]
       };
-      carousel.refs = <any>{ list, viewport };
       getComputedStyle.withArgs(list).returns({ width: '14px' });
-      getComputedStyle.withArgs(viewport).returns({ width: '5px' });
-      stub(utils, 'WINDOW').returns({ getComputedStyle });
 
       carousel.calculateAttributes();
 
-      expect(carouselSet).to.be.calledWith({
-        pageSize: 2,
-        maxOffset: 6
-      });
+      expect(carouselSet).to.be.calledWithMatch({ pageSize: 2 });
+    });
+
+    it('should calculate maxOffset for list length divisible by page size', () => {
+      carousel.props = <any>{
+        items: [1, 2, 3, 4, 5, 6, 7]
+      };
+      getComputedStyle.withArgs(list).returns({ width: '14px' });
+
+      carousel.calculateAttributes();
+
+      expect(carouselSet).to.be.calledWithMatch({ maxOffset: 6 });
+    });
+
+    it('should calculate maxOffset for list length not divisible by page size', () => {
+      carousel.props = <any>{
+        items: [1, 2, 3, 4, 5, 6]
+      };
+      getComputedStyle.withArgs(list).returns({ width: '12px' });
+
+      carousel.calculateAttributes();
+
+      expect(carouselSet).to.be.calledWithMatch({ maxOffset: 4 });
     });
   });
 
@@ -61,21 +87,18 @@ suite('Carousel', ({ expect, stub, spy }) => {
     let carouselSet;
 
     beforeEach(() => {
-      const list = <any>{ list: 'list' };
-      const viewport = <any>{ viewport: 'viewport' };
-      const getComputedStyle = stub();
-      getComputedStyle.withArgs(list).returns({ width: '14px' });
-      getComputedStyle.withArgs(viewport).returns({ width: '5px' });
-      stub(utils, 'WINDOW').returns({ getComputedStyle });
       carouselSet = carousel.set = spy();
       carousel.props = <any>{
         items: [1, 2, 3, 4, 5, 6, 7]
       };
-      carousel.refs = <any>{ list, viewport };
     });
 
     it('should go to the previous page', () => {
-      carousel.state = <any>{ offset: 4 };
+      carousel.state = <any>{
+        offset: 4,
+        maxOffset: 6,
+        pageSize: 2
+      };
 
       carousel.onClickPrev();
 
@@ -83,7 +106,11 @@ suite('Carousel', ({ expect, stub, spy }) => {
     });
 
     it('should not set offset less than 0', () => {
-      carousel.state = <any>{ offset: 1 };
+      carousel.state = <any>{
+        offset: 1,
+        maxOffset: 6,
+        pageSize: 2
+      };
 
       carousel.onClickPrev();
 
@@ -93,44 +120,32 @@ suite('Carousel', ({ expect, stub, spy }) => {
 
   describe('onClickNext()', () => {
     let carouselSet;
-    let list;
-    let getComputedStyle;
 
     beforeEach(() => {
-      list = <any>{ list: 'list' };
-      const viewport = <any>{ viewport: 'viewport' };
-      getComputedStyle = stub();
-      getComputedStyle.withArgs(viewport).returns({ width: '5px' });
-      stub(utils, 'WINDOW').returns({ getComputedStyle });
       carouselSet = carousel.set = spy();
       carousel.props = <any>{
         items: [1, 2, 3, 4, 5, 6, 7]
       };
-      carousel.refs = <any>{ list, viewport };
     });
 
     it('should go to the next page', () => {
-      carousel.state = <any>{ offset: 0 };
-      getComputedStyle.withArgs(list).returns({ width: '14px' });
+      carousel.state = <any>{
+        offset: 0,
+        maxOffset: 6,
+        pageSize: 2
+      };
 
       carousel.onClickNext();
 
       expect(carouselSet).to.be.calledWith({ offset: 2 });
     });
 
-    it('should not show a blank page', () => {
-      carousel.props.items = [1, 2, 3, 4, 5, 6];
-      carousel.state = <any>{ offset: 4 };
-      getComputedStyle.withArgs(list).returns({ width: '12px' });
-
-      carousel.onClickNext();
-
-      expect(carouselSet).to.be.calledWith({ offset: 4 });
-    });
-
-    it('should show the remaining item', () => {
-      carousel.state = <any>{ offset: 6 };
-      getComputedStyle.withArgs(list).returns({ width: '14px' });
+    it('should not exceed the maxOffset', () => {
+      carousel.state = <any>{
+        offset: 5,
+        maxOffset: 6,
+        pageSize: 2
+      };
 
       carousel.onClickNext();
 
