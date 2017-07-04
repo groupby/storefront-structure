@@ -21,8 +21,9 @@ class Carousel {
     const viewportWidth = parseFloat(utils.WINDOW().getComputedStyle(this.refs.viewport).width);
     const itemWidth = parseFloat(utils.WINDOW().getComputedStyle(this.refs.list).width) / this.props.items.length;
     const pageSize = Math.floor(viewportWidth / itemWidth);
+    const maxOffset = Math.max(0, Math.floor((this.props.items.length - 1) / pageSize)) * pageSize;
 
-    this.set({ pageSize });
+    this.set({ pageSize, maxOffset });
   }
 
   onClickPrev() {

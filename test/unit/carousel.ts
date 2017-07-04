@@ -27,7 +27,7 @@ suite('Carousel', ({ expect, stub, spy }) => {
   });
 
   describe('calculateAttributes()', () => {
-    it('should calcuate pageSize', () => {
+    it('should calcuate attributes', () => {
       const carouselSet = carousel.set = spy();
       const getComputedStyle = stub();
       const list = <any>{ list: 'list' };
@@ -42,10 +42,11 @@ suite('Carousel', ({ expect, stub, spy }) => {
 
       carousel.calculateAttributes();
 
-      expect(carouselSet).to.be.calledWith({ pageSize: 2 });
+      expect(carouselSet).to.be.calledWith({
+        pageSize: 2,
+        maxOffset: 6
+      });
     });
-
-    it('should calcuate maxOffset');
   });
 
   describe('onClickPrev()', () => {
