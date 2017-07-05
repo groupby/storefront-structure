@@ -3,9 +3,13 @@
     <gb-icon url="{ prevIcon }"></gb-icon>
   </gb-button>
 </div>
-<div ref="viewport" onresize="{ calculateAttributes }">
-  <div data-is="gb-list" ref="list">
-    <yield/>
+<div ref="viewport" style="overflow: hidden;" onresize="{ calculateAttributes }">
+  <div ref="listwrapper">
+    <gb-list items="{ props.items }">
+      <yield>
+        <div>{ item }</div>
+      </yield>
+    </gb-list>
   </div>
 </div>
 <div>

@@ -5,7 +5,7 @@ import List from '../list';
 class Carousel {
 
   refs: {
-    list: HTMLDivElement,
+    listwrapper: HTMLDivElement,
     viewport: HTMLDivElement
   };
   props: Carousel.Props = {
@@ -14,10 +14,10 @@ class Carousel {
     nextIcon: ''
   };
   state: Carousel.State = {
-    offset: 0,
-    maxOffset: 0,
-    pageSize: 0
+    offset: 0
   };
+  maxOffset: number = 0;
+  pageSize: number = 0;
 
   onMount() {
     this.calculateAttributes();
@@ -29,19 +29,17 @@ class Carousel {
 
   calculateAttributes() {
     const viewportWidth = parseFloat(utils.WINDOW().getComputedStyle(this.refs.viewport).width);
-    const itemWidth = parseFloat(utils.WINDOW().getComputedStyle(this.refs.list).width) / this.props.items.length;
-    const pageSize = Math.floor(viewportWidth / itemWidth);
-    const maxOffset = Math.max(0, Math.floor((this.props.items.length - 1) / pageSize)) * pageSize;
-
-    this.set({ pageSize, maxOffset });
+    const itemWidth = parseFloat(utils.WINDOW().getComputedStyle(this.refs.listwrapper).width) / this.props.items.length;
+    this.pageSize = Math.floor(viewportWidth / itemWidth);
+    this.maxOffset = Math.max(0, Math.floor((this.props.items.length - 1) / this.pageSize)) * this.pageSize;
   }
 
   onClickPrev() {
-    this.set({ offset: Math.max(0, this.state.offset - this.state.pageSize) });
+    this.set({ offset: Math.max(0, this.state.offset - this.pageSize) });
   }
 
   onClickNext() {
-    this.set({ offset: Math.min(this.state.offset + this.state.pageSize, this.state.maxOffset) });
+    this.set({ offset: Math.min(this.state.offset + this.pageSize, this.maxOffset) });
   }
 }
 
@@ -55,8 +53,6 @@ namespace Carousel {
 
   export interface State {
     offset: number;
-    maxOffset: number;
-    pageSize: number;
   }
 }
 
