@@ -1,7 +1,7 @@
 import { tag, utils, Tag } from '@storefront/core';
 import List from '../list';
 
-@tag('gb-carousel', require('./index.html'))
+@tag('gb-carousel', require('./index.html'), require('./index.css'))
 class Carousel {
 
   refs: {
@@ -34,11 +34,11 @@ class Carousel {
     this.maxOffset = Math.max(0, Math.floor((this.props.items.length - 1) / this.pageSize)) * this.pageSize;
   }
 
-  onClickPrev() {
+  onClickPrev = () => {
     this.set({ offset: Math.max(0, this.state.offset - this.pageSize) });
   }
 
-  onClickNext() {
+  onClickNext = () => {
     this.set({ offset: Math.min(this.state.offset + this.pageSize, this.maxOffset) });
   }
 }

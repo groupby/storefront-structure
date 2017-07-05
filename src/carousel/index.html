@@ -3,8 +3,8 @@
     <gb-icon url="{ prevIcon }"></gb-icon>
   </gb-button>
 </div>
-<div ref="viewport" style="overflow: hidden;" onresize="{ calculateAttributes }">
-  <div ref="listwrapper">
+<div ref="viewport" class="gb-carousel__viewport" onresize="{ calculateAttributes }">
+  <div ref="listwrapper" class="gb-carousel__listwrapper">
     <gb-list items="{ props.items }">
       <yield>
         <div>{ item }</div>
