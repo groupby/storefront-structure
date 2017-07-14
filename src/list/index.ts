@@ -4,7 +4,6 @@ import { tag, Tag } from '@storefront/core';
 class List {
 
   props: List.Props = {
-    inline: true,
     items: [],
     itemAlias: 'item',
     indexAlias: 'i',
@@ -19,7 +18,6 @@ class List {
 interface List extends Tag<List.Props> { }
 namespace List {
   export interface Props {
-    inline?: boolean;
     items?: any[];
     itemAlias?: string;
     indexAlias?: string;
