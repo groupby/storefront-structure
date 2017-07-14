@@ -1,6 +1,6 @@
 import { tag, Tag } from '@storefront/core';
 
-@tag('gb-list', require('./index.html'), require('./index.css'))
+@tag('gb-list', require('./index.html'))
 class List {
 
   props: List.Props = {
