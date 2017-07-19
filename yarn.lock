@@ -35,9 +35,9 @@
     conventional-changelog "0.0.17"
     github-url-from-git "^1.4.0"
 
-"@storefront/core@~1.7.0":
-  version "1.7.4"
-  resolved "https://registry.yarnpkg.com/@storefront/core/-/core-1.7.4.tgz#1ba53836829776f9a1bd101d6e851014a60eaac1"
+"@storefront/core@~1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@storefront/core/-/core-1.8.0.tgz#4c490ecb2ba07db9c40a28dcf8a6a989bc9ff4a7"
   dependencies:
     "@storefront/flux-capacitor" "1.2.4"
     "@types/clone" "^0.1.30"
