@@ -1,4 +1,6 @@
-# storefront-structure
+# StoreFront structure
+
+StoreFront structural components, building blocks for high-level components
 
 [![npm (scoped with tag)](https://img.shields.io/npm/v/@storefront/structure.svg?style=flat-square)](https://www.npmjs.com/package/@storefront/structure)
 [![CircleCI branch](https://img.shields.io/circleci/project/github/groupby/storefront-structure/master.svg?style=flat-square)](https://circleci.com/gh/groupby/storefront-structure/tree/master)
@@ -11,4 +13,51 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://choosealicense.com/licenses/mit/)
 [![Greenkeeper badge](https://badges.greenkeeper.io/groupby/storefront-structure.svg)](https://greenkeeper.io/)
 
-Structural components for building complete StoreFront components
+## Getting Started
+
+This module requires [`@storefront/core`](https://www.npmjs.com/package/@storefront/core) for the components to render.
+
+### Prerequisites
+
+This module is meant to be used in a `node` environment which is bundled for use in the browser.
+
+### Installing
+
+Use `npm` or `yarn` to install in a `node` project that uses `webpack`, `browserify` or similar.
+
+```sh
+npm install --save @storefront/structure
+# or
+yarn add @storefront/structure
+```
+
+## Usage
+
+This module provides a number of strucutal components for use with StoreFront.
+
+## Running the tests
+
+Tests can be run to generate coverage information.
+Once run, open `coverage/index.html` in your browser to view coverage breakdown.
+
+```sh
+npm start coverage
+# or
+yarn start coverage
+```
+
+Tests can be run continuously for development
+
+```sh
+npm run tdd
+# or
+yarn tdd
+```
+
+Tests can also be run alone
+
+```sh
+npm test
+# or
+yarn test
+```
