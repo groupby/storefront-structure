@@ -61,3 +61,18 @@ npm test
 # or
 yarn test
 ```
+
+## Components
+
+*   `<gb-badge>`
+*   `<gb-button>`
+*   `<gb-container>`
+*   `<gb-custom-select>`
+*   `<gb-icon>`
+*   `<gb-link>`
+*   `<gb-list>`
+*   `<gb-list-item>`
+*   `<gb-native-select>`
+*   `<gb-raw>`
+*   `<gb-select>`
+*   `<gb-select-option>`
