@@ -76,3 +76,4 @@ yarn test
 *   `<gb-raw>`
 *   `<gb-select>`
 *   `<gb-select-option>`
+*   `<gb-toggle>`

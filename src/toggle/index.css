@@ -1,0 +1,26 @@
+gb-toggle.gb-ui .gb-toggle__wrapper,
+[data-is="gb-toggle"].gb-ui .gb-toggle__wrapper {
+  cursor: pointer;
+}
+
+gb-toggle.gb-ui .gb-toggle__track,
+[data-is="gb-toggle"].gb-ui .gb-toggle__track {
+  position: relative;
+}
+
+gb-toggle.gb-ui .gb-toggle__target,
+[data-is="gb-toggle"].gb-ui .gb-toggle__target {
+  display: none;
+}
+
+gb-toggle.gb-ui .gb-toggle__indicator,
+[data-is="gb-toggle"].gb-ui .gb-toggle__indicator {
+  position: absolute;
+  left: 0;
+}
+
+gb-toggle.gb-ui .gb-toggle__target:checked+.gb-toggle__track .gb-toggle__indicator,
+[data-is="gb-toggle"].gb-ui .gb-toggle__target:checked+.gb-toggle__track .gb-toggle__indicator {
+  left: 100%;
+  transform: translateX(-100%);
+}

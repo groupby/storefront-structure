@@ -13,3 +13,5 @@ mock('../src/list/index.html', {});
 mock('../src/list/index.css', {});
 mock('../src/native-select/index.html', {});
 mock('../src/select/index.html', {});
+mock('../src/toggle/index.html', {});
+mock('../src/toggle/index.css', {});

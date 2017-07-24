@@ -9,6 +9,7 @@ import NativeSelect from '../../src/native-select';
 import Raw from '../../src/raw';
 import Select from '../../src/select';
 import SelectOption from '../../src/select-option';
+import Toggle from '../../src/toggle';
 import suite from './_suite';
 
 suite('package', ({ expect }) => {
@@ -50,5 +51,9 @@ suite('package', ({ expect }) => {
 
   it('should expose SelectOption', () => {
     expect(pkg.SelectOption).to.eq(SelectOption);
+  });
+
+  it('should expose Toggle', () => {
+    expect(pkg.Toggle).to.eq(Toggle);
   });
 });

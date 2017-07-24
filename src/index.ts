@@ -10,6 +10,7 @@ import NativeSelect from './native-select';
 import Raw from './raw';
 import Select from './select';
 import SelectOption from './select-option';
+import Toggle from './toggle';
 
 export {
   Button,
@@ -21,5 +22,6 @@ export {
   NativeSelect,
   Raw,
   Select,
-  SelectOption
+  SelectOption,
+  Toggle
 };
