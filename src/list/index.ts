@@ -1,17 +1,22 @@
 import { tag, Tag } from '@storefront/core';
 
-@tag('gb-list', require('./index.html'))
+@tag('gb-list', require('./index.html'), require('./index.css'))
 class List {
 
   props: List.Props = {
     items: [],
     itemAlias: 'item',
     indexAlias: 'i',
-    shouldRender: (item) => typeof item.shouldRender !== 'function' || item.shouldRender()
+    layout: 'list',
+    shouldRender: (item) => typeof item.shouldRender !== 'function' || item.shouldRender(),
   };
 
   init() {
     this.expose('list', this.props);
+  }
+
+  isGrid() {
+    return this.props.layout.toLowerCase() === 'grid';
   }
 }
 
@@ -21,6 +26,7 @@ namespace List {
     items?: any[];
     itemAlias?: string;
     indexAlias?: string;
+    layout?: string;
     shouldRender?: (item: { shouldRender?: () => boolean }) => boolean;
   }
 }

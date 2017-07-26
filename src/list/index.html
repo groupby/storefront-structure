@@ -1,5 +1,5 @@
-<ul>
-  <li data-is="gb-list-item" each="{ item, i in $list.items }">
+<ul class="gb-list__wrapper { isGrid() ? 'gb-list__wrapper--grid' : 'gb-list__wrapper--column' }">
+  <li data-is="gb-list-item" class="gb-list__item" each="{ item, i in $list.items }">
     <yield/>
   </li>
 </ul>

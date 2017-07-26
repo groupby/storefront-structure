@@ -31,4 +31,22 @@ suite('List', ({ expect, spy, stub }) => {
       expect(expose).to.be.calledWith('list', props);
     });
   });
+
+  describe('isGrid()', () => {
+    it('should return false if layout is list', () => {
+      expect(list.isGrid()).to.be.false;
+    });
+
+    it('should return true if layout is grid', () => {
+      list.props = { layout: 'grid' };
+
+      expect(list.isGrid()).to.be.true;
+    });
+
+    it('should be case insensitive', () => {
+      list.props = { layout: 'GriD' };
+
+      expect(list.isGrid()).to.be.true;
+    });
+  });
 });
