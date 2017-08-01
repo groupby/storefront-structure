@@ -61,7 +61,7 @@ class CustomSelect {
 
 interface CustomSelect extends Tag<CustomSelect.Props, CustomSelect.State> { }
 namespace CustomSelect {
-  export interface Props {
+  export interface Props extends Tag.Props {
     hover: boolean;
   }
 

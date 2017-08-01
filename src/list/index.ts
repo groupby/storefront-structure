@@ -22,7 +22,7 @@ class List {
 
 interface List extends Tag<List.Props> { }
 namespace List {
-  export interface Props {
+  export interface Props extends Tag.Props {
     items?: any[];
     itemAlias?: string;
     indexAlias?: string;

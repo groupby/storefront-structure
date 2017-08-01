@@ -24,7 +24,7 @@ class Toggle {
 
 interface Toggle extends Tag<Toggle.Props> { }
 namespace Toggle {
-  export interface Props {
+  export interface Props extends Tag.Props {
     checked?: boolean;
     onToggle?: (checked: boolean) => void;
   }

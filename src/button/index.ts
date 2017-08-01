@@ -14,7 +14,7 @@ class Button {
 
 interface Button extends Tag<Button.Props> { }
 namespace Button {
-  export interface Props {
+  export interface Props extends Tag.Props {
     onClick: (event: MouseEvent & Tag.Event) => void;
   }
 }

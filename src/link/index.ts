@@ -14,7 +14,7 @@ class Link {
 
 interface Link extends Tag<Link.Props> { }
 namespace Link {
-  export interface Props {
+  export interface Props extends Tag.Props {
     onClick(): void;
   }
 }

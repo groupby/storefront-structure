@@ -16,7 +16,7 @@ class Select {
 
 interface Select extends Tag<Select.Props> { }
 namespace Select {
-  export interface Props {
+  export interface Props extends Tag.Props {
     options: Option[];
     optionAlias: string;
     indexAlias: string;

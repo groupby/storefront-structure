@@ -22,7 +22,7 @@ class Raw {
 
 interface Raw extends Tag<Raw.Props> { }
 namespace Raw {
-  export interface Props {
+  export interface Props extends Tag.Props {
     content: string;
   }
 }
