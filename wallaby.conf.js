@@ -17,8 +17,7 @@ module.exports = function(wallaby) {
       '**/*.{html,css}': (file) => ({ code: `module.exports = ${JSON.stringify(file.content)};` })
     },
     setup() {
-      const chai = require('chai');
-      chai.use(require('sinon-chai'));
+      require('@storefront/testing').wallaby(require('chai'));
     }
   };
 };

@@ -1,17 +1,16 @@
+import { bootstrap } from '@storefront/testing';
 import * as chai from 'chai';
-import * as mock from 'mock-require';
-import * as sinonChai from 'sinon-chai';
 
-chai.use(sinonChai);
-
-mock('../src/button/index.html', {});
-mock('../src/custom-select/index.html', {});
-mock('../src/custom-select/index.css', {});
-mock('../src/icon/index.html', {});
-mock('../src/link/index.html', {});
-mock('../src/list/index.html', {});
-mock('../src/list/index.css', {});
-mock('../src/native-select/index.html', {});
-mock('../src/select/index.html', {});
-mock('../src/toggle/index.html', {});
-mock('../src/toggle/index.css', {});
+bootstrap(chai, __dirname, [
+  '../src/button/index.html',
+  '../src/custom-select/index.html',
+  '../src/custom-select/index.css',
+  '../src/icon/index.html',
+  '../src/link/index.html',
+  '../src/list/index.html',
+  '../src/list/index.css',
+  '../src/native-select/index.html',
+  '../src/select/index.html',
+  '../src/toggle/index.html',
+  '../src/toggle/index.css',
+]);
