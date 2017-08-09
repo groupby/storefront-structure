@@ -24,13 +24,15 @@
     "src/"
   ],
   "scripts": {
+    "prepare": "install-self-peers -- --ignore-scripts",
+    "build": "npm start build && npm run esnext",
     "start": "start-runner -p re-start/presets/typescript",
     "esnext": "npm start build -- -- --compileOpts.configFile tsconfig.esnext.json --outDir esnext",
     "dev": "npm start dev",
     "test": "npm start test",
     "tdd": "npm start tdd",
     "prepush": "npm start prepush",
-    "prepublish": "npm start build && npm run esnext",
+    "prepublishOnly": "npm run build",
     "docs": "typedoc src/**/*.ts",
     "docs:json": "npm run docs -- --json component.docs.json"
   },
@@ -55,6 +57,7 @@
   },
   "devDependencies": {
     "@storefront/testing": "^1.0.2",
+    "@team-griffin/install-self-peers": "^1.1.1",
     "@types/node": "^8.0.18",
     "chai": "^4.1.0",
     "condition-circle": "^1.5.0",

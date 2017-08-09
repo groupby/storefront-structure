@@ -1,6 +1,7 @@
 defaults:
+  # TODO: see BBD-650
   node_cache: &node_cache
-    key: node_cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+    key: node_cache-{{ .Branch }}-{{ checksum "package.json" }}
   build_cache: &build_cache
     key: build_cache-{{ .Branch }}-{{ epoch }}
 
@@ -29,7 +30,7 @@ jobs:
           command: greenkeeper-lockfile-update
       - run:
           name: Build
-          command: yarn start build
+          command: yarn build
       - run:
           name: Upload Lockfile
           command: greenkeeper-lockfile-upload
