@@ -1,6 +1,7 @@
 import * as pkg from '../../src';
 import Button from '../../src/button';
 import CustomSelect from '../../src/custom-select';
+import FilteredList from '../../src/filtered-list';
 import Icon from '../../src/icon';
 import Link from '../../src/link';
 import List from '../../src/list';
@@ -19,6 +20,10 @@ suite('package', ({ expect }) => {
 
   it('should expose CustomSelect', () => {
     expect(pkg.CustomSelect).to.eq(CustomSelect);
+  });
+
+  it('should expose FilteredList', () => {
+    expect(pkg.FilteredList).to.eq(FilteredList);
   });
 
   it('should expose Icon', () => {

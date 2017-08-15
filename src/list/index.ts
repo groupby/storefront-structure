@@ -1,12 +1,15 @@
 import { tag, Tag } from '@storefront/core';
 
+export const DEFAULT_ITEM_ALIAS = 'item';
+export const DEFAULT_INDEX_ALIAS = 'i';
+
 @tag('gb-list', require('./index.html'), require('./index.css'))
 class List {
 
   props: List.Props = {
     items: [],
-    itemAlias: 'item',
-    indexAlias: 'i',
+    itemAlias: DEFAULT_ITEM_ALIAS,
+    indexAlias: DEFAULT_INDEX_ALIAS,
     layout: 'list',
     shouldRender: (item) => typeof item.shouldRender !== 'function' || item.shouldRender(),
   };

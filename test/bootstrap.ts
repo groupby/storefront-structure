@@ -5,6 +5,7 @@ bootstrap(chai, __dirname, [
   '../src/button/index.html',
   '../src/custom-select/index.html',
   '../src/custom-select/index.css',
+  '../src/filtered-list/index.html',
   '../src/icon/index.html',
   '../src/link/index.html',
   '../src/list/index.html',
