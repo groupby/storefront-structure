@@ -39,17 +39,17 @@
     conventional-changelog "0.0.17"
     github-url-from-git "^1.4.0"
 
-"@storefront/core@~1.12.0":
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/@storefront/core/-/core-1.12.0.tgz#358a83fa9672eb0364634dd703c3fe59a32d36c4"
+"@storefront/core@~1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@storefront/core/-/core-1.13.0.tgz#b4b509fbedb991b7f6a2665f52eae443f08b5152"
   dependencies:
-    "@storefront/flux-capacitor" "1.12.0"
+    "@storefront/flux-capacitor" "1.12.1"
     "@types/clone" "^0.1.30"
     "@types/deep-assign" "^0.1.0"
     "@types/js-cookie" "^2.0.28"
     "@types/lodash" "^4.14.70"
     "@types/loglevel" "^1.4.29"
-    "@types/riot" "^2.6.2"
+    "@types/riot" "^3.6.0"
     clone "^2.1.1"
     deep-assign "^2.0.0"
     gb-tracker-client "^3.5.2"
@@ -59,9 +59,9 @@
     riot "^3.4.4"
     url-parse "^1.1.9"
 
-"@storefront/flux-capacitor@1.12.0":
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/@storefront/flux-capacitor/-/flux-capacitor-1.12.0.tgz#8a789e569c4e284fe9a4fbb212db93a0d157f351"
+"@storefront/flux-capacitor@1.12.1":
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/@storefront/flux-capacitor/-/flux-capacitor-1.12.1.tgz#5883d31f32f0e191e463c758d971077b7a92a5d3"
   dependencies:
     "@manaflair/redux-batch" "^0.1.0"
     "@types/redux-logger" "^3.0.0"
@@ -186,9 +186,9 @@
   dependencies:
     redux "^3.6.0"
 
-"@types/riot@^2.6.2":
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/@types/riot/-/riot-2.6.2.tgz#5721ee98fd20916a0e85e292291a74f72692c0da"
+"@types/riot@^3.6.0":
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/@types/riot/-/riot-3.6.0.tgz#a45f974c75253fe3f835f80744ec68ac5ae82628"
 
 "@types/shelljs@^0.7.0":
   version "0.7.2"
