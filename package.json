@@ -72,9 +72,6 @@
     "webpack": "^3.4.1"
   },
   "peerDependencies": {
-    "@storefront/core": "~1.13.0"
-  },
-  "dependencies": {
     "@storefront/core": "~1.14.0"
   }
 }
