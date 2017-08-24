@@ -11,6 +11,7 @@ import NativeSelect from './native-select';
 import Raw from './raw';
 import Select from './select';
 import SelectOption from './select-option';
+import Swatch from './swatch';
 import Toggle from './toggle';
 
 export {
@@ -25,5 +26,6 @@ export {
   Raw,
   Select,
   SelectOption,
+  Swatch,
   Toggle
 };
