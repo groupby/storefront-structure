@@ -59,7 +59,7 @@ jobs:
       - restore_cache:
           <<: *node_cache
       - restore_cache:
-          key: build_cache
+          key: build_cache-{{ .Branch }}
       - run:
           name: Release
           command: yarn start release || true
@@ -71,7 +71,7 @@ jobs:
       - restore_cache:
           <<: *node_cache
       - restore_cache:
-          key: docs_cache
+          key: docs_cache-{{ .Branch }}
       - run:
           name: Documentation
           command: |
@@ -100,7 +100,7 @@ jobs:
               echo "no change in generated documentation"
             fi
       - save_cache:
-          key: docs_cache-{{ checksum "component.docs.json" }}
+          key: docs_cache-{{ .Branch }}-{{ checksum "components.docs.json" }}
           paths:
             - ~/project/component.docs.json
 
