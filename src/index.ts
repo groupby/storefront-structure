@@ -11,7 +11,10 @@ import NativeSelect from './native-select';
 import Raw from './raw';
 import Select from './select';
 import SelectOption from './select-option';
+import Swatch from './swatch';
+import Swatches from './swatches';
 import Toggle from './toggle';
+import Tooltip from './tooltip';
 
 export {
   Button,
@@ -25,5 +28,8 @@ export {
   Raw,
   Select,
   SelectOption,
-  Toggle
+  Swatch,
+  Swatches,
+  Toggle,
+  Tooltip
 };
