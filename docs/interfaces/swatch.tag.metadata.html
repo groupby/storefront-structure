@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Props | @storefront/structure</title>
+	<title>Metadata | @storefront/structure</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,16 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../classes/customselect.html">CustomSelect</a>
+					<a href="../classes/swatch.html">Swatch</a>
 				</li>
 				<li>
-					<a href="customselect.props.html">Props</a>
+					<a href="../modules/swatch.tag.html">Tag</a>
+				</li>
+				<li>
+					<a href="swatch.tag.metadata.html">Metadata</a>
 				</li>
 			</ul>
-			<h1>Interface Props</h1>
+			<h1>Interface Metadata</h1>
 		</div>
 	</div>
 </header>
@@ -73,12 +76,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">Props</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">Props</span>
-							</li>
-						</ul>
+						<span class="target">Metadata</span>
 					</li>
 				</ul>
 			</section>
@@ -89,9 +87,13 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="customselect.props.html#hover" class="tsd-kind-icon">hover</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="customselect.props.html#stylish" class="tsd-kind-icon">stylish</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="customselect.props.html#ui" class="tsd-kind-icon">ui</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="swatch.tag.metadata.html#alias" class="tsd-kind-icon">alias</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="swatch.tag.metadata.html#attributes" class="tsd-kind-icon">attributes</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="swatch.tag.metadata.html#configurable" class="tsd-kind-icon">configurable</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="swatch.tag.metadata.html#defaults" class="tsd-kind-icon">defaults</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="swatch.tag.metadata.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="swatch.tag.metadata.html#origin" class="tsd-kind-icon">origin</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="swatch.tag.metadata.html#transform" class="tsd-kind-icon">transform</a></li>
 							</ul>
 						</section>
 					</div>
@@ -100,34 +102,72 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="hover" class="tsd-anchor"></a>
-					<h3>hover</h3>
-					<div class="tsd-signature tsd-kind-icon">hover<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="alias" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> alias</h3>
+					<div class="tsd-signature tsd-kind-icon">alias<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/35e584d/src/custom-select/index.ts#L65">src/custom-select/index.ts:65</a></li>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:53</li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="stylish" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> stylish</h3>
-					<div class="tsd-signature tsd-kind-icon">stylish<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="attributes" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> attributes</h3>
+					<div class="tsd-signature tsd-kind-icon">attributes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Attribute</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from Props.stylish</p>
 						<ul>
-							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:61</li>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:57</li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="ui" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> ui</h3>
-					<div class="tsd-signature tsd-kind-icon">ui<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="configurable" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> configurable</h3>
+					<div class="tsd-signature tsd-kind-icon">configurable<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from Props.ui</p>
 						<ul>
-							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:60</li>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:55</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="defaults" class="tsd-anchor"></a>
+					<h3>defaults</h3>
+					<div class="tsd-signature tsd-kind-icon">defaults<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:52</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:51</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="origin" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> origin</h3>
+					<div class="tsd-signature tsd-kind-icon">origin<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:54</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="transform" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> transform</h3>
+					<div class="tsd-signature tsd-kind-icon">transform<span class="tsd-signature-symbol">:</span> <a href="../modules/swatch.tag.html#transform" class="tsd-signature-type">Transform</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:56</li>
 						</ul>
 					</aside>
 				</section>
@@ -143,82 +183,71 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/button.html" class="tsd-kind-icon">Button</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="swatch.tag.description.html" class="tsd-kind-icon">Description</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="swatch.tag.event.html" class="tsd-kind-icon">Event</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="swatch.tag.lifecycle.html" class="tsd-kind-icon">Lifecycle</a>
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class">
-						<a href="../classes/customselect.html" class="tsd-kind-icon">Custom<wbr>Select</a>
+					<li class="current tsd-kind-interface tsd-parent-kind-module">
+						<a href="swatch.tag.metadata.html" class="tsd-kind-icon">Metadata</a>
 						<ul>
-							<li class="current tsd-kind-interface tsd-parent-kind-class">
-								<a href="customselect.props.html" class="tsd-kind-icon">Props</a>
-								<ul>
-									<li class=" tsd-kind-property tsd-parent-kind-interface">
-										<a href="customselect.props.html#hover" class="tsd-kind-icon">hover</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-										<a href="customselect.props.html#stylish" class="tsd-kind-icon">stylish</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-										<a href="customselect.props.html#ui" class="tsd-kind-icon">ui</a>
-									</li>
-								</ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="swatch.tag.metadata.html#alias" class="tsd-kind-icon">alias</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="swatch.tag.metadata.html#attributes" class="tsd-kind-icon">attributes</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="swatch.tag.metadata.html#configurable" class="tsd-kind-icon">configurable</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="swatch.tag.metadata.html#defaults" class="tsd-kind-icon">defaults</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="swatch.tag.metadata.html#name" class="tsd-kind-icon">name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="swatch.tag.metadata.html#origin" class="tsd-kind-icon">origin</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="swatch.tag.metadata.html#transform" class="tsd-kind-icon">transform</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/filteredlist.html" class="tsd-kind-icon">Filtered<wbr>List</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="swatch.tag.mixin.html" class="tsd-kind-icon">Mixin</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/icon.html" class="tsd-kind-icon">Icon</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="swatch.tag.props.html" class="tsd-kind-icon">Props</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/link.html" class="tsd-kind-icon">Link</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/swatch.tag.html#primedactions" class="tsd-kind-icon">Primed<wbr>Actions</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/list.html" class="tsd-kind-icon">List</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/swatch.tag.html#transform" class="tsd-kind-icon">Transform</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/listitem.html" class="tsd-kind-icon">List<wbr>Item</a>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/swatch.tag.html#create" class="tsd-kind-icon">create</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/nativeselect.html" class="tsd-kind-icon">Native<wbr>Select</a>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/swatch.tag.html#getdescription" class="tsd-kind-icon">get<wbr>Description</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/raw.html" class="tsd-kind-icon">Raw</a>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/swatch.tag.html#getmeta" class="tsd-kind-icon">get<wbr>Meta</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/select.html" class="tsd-kind-icon">Select</a>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/swatch.tag.html#mixin-1" class="tsd-kind-icon">mixin</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/selectoption.html" class="tsd-kind-icon">Select<wbr>Option</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/swatch.html" class="tsd-kind-icon">Swatch</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="../classes/swatches.html" class="tsd-kind-icon">Swatches</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/toggle.html" class="tsd-kind-icon">Toggle</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/tooltip.html" class="tsd-kind-icon">Tooltip</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#data_url_prefix" class="tsd-kind-icon">DATA_<wbr>URL_<wbr>PREFIX</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#default_index_alias" class="tsd-kind-icon">DEFAULT_<wbr>INDEX_<wbr>ALIAS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#default_item_alias" class="tsd-kind-icon">DEFAULT_<wbr>ITEM_<wbr>ALIAS</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#image_pattern" class="tsd-kind-icon">IMAGE_<wbr>PATTERN</a>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/swatch.tag.html#setdescription" class="tsd-kind-icon">set<wbr>Description</a>
 					</li>
 				</ul>
 			</nav>
