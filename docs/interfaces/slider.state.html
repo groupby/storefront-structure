@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Props | @storefront/structure</title>
+	<title>State | @storefront/structure</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../classes/toggle.html">Toggle</a>
+					<a href="../classes/slider.html">Slider</a>
 				</li>
 				<li>
-					<a href="toggle.props.html">Props</a>
+					<a href="slider.state.html">State</a>
 				</li>
 			</ul>
-			<h1>Interface Props</h1>
+			<h1>Interface State</h1>
 		</div>
 	</div>
 </header>
@@ -73,12 +73,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">Props</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">Props</span>
-							</li>
-						</ul>
+						<span class="target">State</span>
 					</li>
 				</ul>
 			</section>
@@ -89,10 +84,15 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="toggle.props.html#checked" class="tsd-kind-icon">checked</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="toggle.props.html#ontoggle" class="tsd-kind-icon">on<wbr>Toggle</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="toggle.props.html#stylish" class="tsd-kind-icon">stylish</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="toggle.props.html#ui" class="tsd-kind-icon">ui</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="slider.state.html#baseleft" class="tsd-kind-icon">base<wbr>Left</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="slider.state.html#baselength" class="tsd-kind-icon">base<wbr>Length</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="slider.state.html#connect" class="tsd-kind-icon">connect</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="slider.state.html#handle" class="tsd-kind-icon">handle</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="slider.state.html#handlelower" class="tsd-kind-icon">handle<wbr>Lower</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="slider.state.html#handleupper" class="tsd-kind-icon">handle<wbr>Upper</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="slider.state.html#islower" class="tsd-kind-icon">is<wbr>Lower</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="slider.state.html#limit" class="tsd-kind-icon">limit</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="slider.state.html#mouseleft" class="tsd-kind-icon">mouse<wbr>Left</a></li>
 							</ul>
 						</section>
 					</div>
@@ -101,65 +101,92 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="checked" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> checked</h3>
-					<div class="tsd-signature tsd-kind-icon">checked<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="baseleft" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> base<wbr>Left</h3>
+					<div class="tsd-signature tsd-kind-icon">base<wbr>Left<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9a0df7c/src/toggle/index.ts#L28">src/toggle/index.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9a0df7c/src/slider/index.ts#L147">src/slider/index.ts:147</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="ontoggle" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>Toggle</h3>
-					<div class="tsd-signature tsd-kind-icon">on<wbr>Toggle<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<a name="baselength" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> base<wbr>Length</h3>
+					<div class="tsd-signature tsd-kind-icon">base<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9a0df7c/src/toggle/index.ts#L29">src/toggle/index.ts:29</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>checked<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>checked: <span class="tsd-signature-type">boolean</span></h5>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="stylish" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> stylish</h3>
-					<div class="tsd-signature tsd-kind-icon">stylish<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from Props.stylish</p>
-						<ul>
-							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:62</li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9a0df7c/src/slider/index.ts#L146">src/slider/index.ts:146</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="ui" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> ui</h3>
-					<div class="tsd-signature tsd-kind-icon">ui<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="connect" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> connect</h3>
+					<div class="tsd-signature tsd-kind-icon">connect<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Element</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from Props.ui</p>
 						<ul>
-							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:61</li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9a0df7c/src/slider/index.ts#L153">src/slider/index.ts:153</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="handle" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> handle</h3>
+					<div class="tsd-signature tsd-kind-icon">handle<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Element</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9a0df7c/src/slider/index.ts#L149">src/slider/index.ts:149</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="handlelower" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> handle<wbr>Lower</h3>
+					<div class="tsd-signature tsd-kind-icon">handle<wbr>Lower<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Element</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9a0df7c/src/slider/index.ts#L150">src/slider/index.ts:150</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="handleupper" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> handle<wbr>Upper</h3>
+					<div class="tsd-signature tsd-kind-icon">handle<wbr>Upper<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Element</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9a0df7c/src/slider/index.ts#L151">src/slider/index.ts:151</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="islower" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> is<wbr>Lower</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Lower<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9a0df7c/src/slider/index.ts#L152">src/slider/index.ts:152</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="limit" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> limit</h3>
+					<div class="tsd-signature tsd-kind-icon">limit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9a0df7c/src/slider/index.ts#L154">src/slider/index.ts:154</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="mouseleft" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> mouse<wbr>Left</h3>
+					<div class="tsd-signature tsd-kind-icon">mouse<wbr>Left<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9a0df7c/src/slider/index.ts#L148">src/slider/index.ts:148</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -208,34 +235,40 @@
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="../classes/selectoption.html" class="tsd-kind-icon">Select<wbr>Option</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/slider.html" class="tsd-kind-icon">Slider</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/swatch.html" class="tsd-kind-icon">Swatch</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="../classes/swatches.html" class="tsd-kind-icon">Swatches</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/toggle.html" class="tsd-kind-icon">Toggle</a>
+						<a href="../classes/slider.html" class="tsd-kind-icon">Slider</a>
 						<ul>
 							<li class="current tsd-kind-interface tsd-parent-kind-class">
-								<a href="toggle.props.html" class="tsd-kind-icon">Props</a>
+								<a href="slider.state.html" class="tsd-kind-icon">State</a>
 								<ul>
 									<li class=" tsd-kind-property tsd-parent-kind-interface">
-										<a href="toggle.props.html#checked" class="tsd-kind-icon">checked</a>
+										<a href="slider.state.html#baseleft" class="tsd-kind-icon">base<wbr>Left</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-interface">
-										<a href="toggle.props.html#ontoggle" class="tsd-kind-icon">on<wbr>Toggle</a>
+										<a href="slider.state.html#baselength" class="tsd-kind-icon">base<wbr>Length</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-										<a href="toggle.props.html#stylish" class="tsd-kind-icon">stylish</a>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="slider.state.html#connect" class="tsd-kind-icon">connect</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-										<a href="toggle.props.html#ui" class="tsd-kind-icon">ui</a>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="slider.state.html#handle" class="tsd-kind-icon">handle</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="slider.state.html#handlelower" class="tsd-kind-icon">handle<wbr>Lower</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="slider.state.html#handleupper" class="tsd-kind-icon">handle<wbr>Upper</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="slider.state.html#islower" class="tsd-kind-icon">is<wbr>Lower</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="slider.state.html#limit" class="tsd-kind-icon">limit</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="slider.state.html#mouseleft" class="tsd-kind-icon">mouse<wbr>Left</a>
 									</li>
 								</ul>
 							</li>
@@ -243,6 +276,15 @@
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="../classes/swatch.html" class="tsd-kind-icon">Swatch</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="../classes/swatches.html" class="tsd-kind-icon">Swatches</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="../classes/toggle.html" class="tsd-kind-icon">Toggle</a>
+					</li>
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="../classes/tooltip.html" class="tsd-kind-icon">Tooltip</a>
 					</li>
