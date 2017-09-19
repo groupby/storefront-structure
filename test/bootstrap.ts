@@ -12,6 +12,8 @@ bootstrap(chai, __dirname, [
   '../src/list/index.css',
   '../src/native-select/index.html',
   '../src/select/index.html',
+  '../src/slider/index.html',
+  '../src/slider/index.css',
   '../src/swatch/index.html',
   '../src/swatches/index.html',
   '../src/toggle/index.html',

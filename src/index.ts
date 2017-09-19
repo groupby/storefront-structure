@@ -11,6 +11,7 @@ import NativeSelect from './native-select';
 import Raw from './raw';
 import Select from './select';
 import SelectOption from './select-option';
+import Slider from './slider';
 import Swatch from './swatch';
 import Swatches from './swatches';
 import Toggle from './toggle';
@@ -28,6 +29,7 @@ export {
   Raw,
   Select,
   SelectOption,
+  Slider,
   Swatch,
   Swatches,
   Toggle,
