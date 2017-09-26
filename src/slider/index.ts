@@ -147,10 +147,7 @@ namespace Slider {
     baseLeft?: number;
     mouseLeft?: number;
     handle?: Element;
-    handleLower?: Element;
-    handleUpper?: Element;
     isLower?: boolean;
-    connect?: Element;
     limit?: number;
   }
 
