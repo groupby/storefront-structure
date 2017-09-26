@@ -1,6 +1,7 @@
 gb-tooltip.gb-ui,
 [data-is="gb-tooltip"].gb-ui {
   position: relative;
+  display: inline-block;
 }
 
 .gb-tooltip__target:hover+.gb-tooltip__content {
@@ -12,28 +13,26 @@ gb-tooltip.gb-ui,
   display: none;
 }
 
-.gb-tooltip__content--above,
-.gb-tooltip__content--below {
-  left: 0;
-}
-
-.gb-tooltip__content--left,
-.gb-tooltip__content--right {
-  bottom: 0;
-}
-
 .gb-tooltip__content--above {
   bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .gb-tooltip__content--below {
   top: 100%;
+  left: 50%;
+  transform: translate(-50%, 50%);
 }
 
 .gb-tooltip__content--left {
   right: 100%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .gb-tooltip__content--right {
   left: 100%;
+  top: 50%;
+  transform: translate(50%, -50%);
 }
