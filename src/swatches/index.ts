@@ -28,12 +28,13 @@ class Swatches {
 interface Swatches extends Tag<Swatches.Props, Swatches.State> { }
 namespace Swatches {
   export interface Props extends Tag.Props {
+    items?: any[];
     onClick(index: number): void;
     onChange(index: number, isActive: boolean): void;
   }
 
   export interface State {
-    onClick(e: Event): void;
+    onClick(event: Event): void;
     onActivate(event: Event): void;
     onDeactivate(event: Event): void;
   }
