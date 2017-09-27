@@ -39,11 +39,11 @@
     conventional-changelog "0.0.17"
     github-url-from-git "^1.4.0"
 
-"@storefront/core@~1.21.0":
-  version "1.21.0"
-  resolved "https://registry.yarnpkg.com/@storefront/core/-/core-1.21.0.tgz#903b039253689b21d5f4c921c39ed6bec808f936"
+"@storefront/core@~1.21.1":
+  version "1.21.1"
+  resolved "https://registry.yarnpkg.com/@storefront/core/-/core-1.21.1.tgz#04a9de239007dd47f950ea9bf6b25d436c6806df"
   dependencies:
-    "@storefront/flux-capacitor" "1.17.0"
+    "@storefront/flux-capacitor" "1.17.1"
     "@types/clone" "^0.1.30"
     "@types/deep-assign" "^0.1.0"
     "@types/js-cookie" "^2.0.28"
@@ -59,9 +59,9 @@
     riot "^3.4.4"
     url-parse "^1.1.9"
 
-"@storefront/flux-capacitor@1.17.0":
-  version "1.17.0"
-  resolved "https://registry.yarnpkg.com/@storefront/flux-capacitor/-/flux-capacitor-1.17.0.tgz#fe7a7bbcb466d82d6168af127b17bbc347d77d80"
+"@storefront/flux-capacitor@1.17.1":
+  version "1.17.1"
+  resolved "https://registry.yarnpkg.com/@storefront/flux-capacitor/-/flux-capacitor-1.17.1.tgz#577251d5e7d80a3a96565e0d5ada703e927e67ae"
   dependencies:
     "@manaflair/redux-batch" "^0.1.0"
     "@types/redux-logger" "^3.0.0"
