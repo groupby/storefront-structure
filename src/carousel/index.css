@@ -1,0 +1,25 @@
+gb-carousel.gb-ui,
+[data-is="gb-carousel"].gb-ui {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+gb-carousel.gb-ui > div,
+[data-is="gb-carousel"].gb-ui > div {
+  display: table-cell;
+}
+
+.gb-carousel__listwrapper {
+  position: relative;
+}
+
+.gb-carousel__viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+gb-carousel.gb-ui gb-list > ul {
+  display: flex;
+  flex-wrap: nowrap;
+}
