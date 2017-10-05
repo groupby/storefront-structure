@@ -8,7 +8,15 @@ class Icon {
 
   isImage: boolean;
 
+  onBeforeMount() {
+    this.checkImage();
+  }
+
   onUpdate() {
+    this.checkImage();
+  }
+
+  checkImage() {
     const { image } = this.props;
     this.isImage = IMAGE_PATTERN.test(image) || image.startsWith(DATA_URL_PREFIX);
   }
