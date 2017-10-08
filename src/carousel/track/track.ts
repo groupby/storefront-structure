@@ -1,5 +1,5 @@
 import { alias, tag, Tag } from '@storefront/core';
-import classnames from 'classnames';
+import * as classnames from 'classnames';
 
 @tag('gb-carousel-track', require('./track.html'), require('./track.css'))
 class Track {
@@ -10,10 +10,14 @@ class Track {
         styleThree: {},
     };
 
+    opts: Track.Props;
+
     activeStyle: any = {
         'border-width': '5px',
         'border-style': 'dashed'
     };
+
+    trackPos: number = 0;
 
     classOne: string = 'slide fade';
     // classTwo: any = {active: true};
@@ -37,9 +41,20 @@ class Track {
     onBeforeMount() {
         console.log('haadsad');
     }
+
+    onUpdated() {
+        const { currentSlide } = this.opts;
+        const pos = calcPos(currentSlide, 3);
+    }
 }
+
+function calcPos(currS: number, totalS: number): number {
+    return 0;
+}
+
 namespace Track {
     export interface Props {
+        currentSlide: number;
     }
     export interface State {
     }
@@ -48,33 +63,34 @@ namespace Track {
 }
 
 const getSlideClasses = (spec) => {
-    let slickActive;
-    let slickCenter;
-    let slickCloned;
-    let centerOffset;
+    let gbActive;
+    let gbCloned;
     let index;
 
-    if (spec.rtl) {
-      index = spec.slideCount - 1 - spec.index;
-    } else {
-      index = spec.index;
-    }
-    slickCloned = (index < 0) || (index >= spec.slideCount);
+    index = spec.index;
+    gbCloned = (index < 0) || (index >= spec.slideCount);
+    gbActive = (spec.currentSlide <= index) && (index < spec.currentSlide + spec.slidesToShow);
 
-    if (spec.centerMode) {
-      centerOffset = Math.floor(spec.slidesToShow / 2);
-      slickCenter = (index - spec.currentSlide) % spec.slideCount === 0;
-      if ((index > spec.currentSlide - centerOffset - 1) && (index <= spec.currentSlide + centerOffset)) {
-        slickActive = true;
-      }
-    } else {
-      slickActive = (spec.currentSlide <= index) && (index < spec.currentSlide + spec.slidesToShow);
-    }
-  
     return classnames({
-      'slick-slide': true,
-      'slick-active': slickActive,
-      'slick-center': slickCenter,
-      'slick-cloned': slickCloned
+        'gb-slide': true,
+        'gb-active': gbActive,
+        'gb-cloned': gbCloned
     });
-  };
+};
+
+const getSlideStyle = (spec) => {
+    let style = {};
+
+
+    // style = {width: 1211.5833740234375} width of the div, subject to screen width
+    return style;
+};
+
+const renderSlides = (spec) => {
+    let key;
+    let slides = [];
+    let preCloneSlides = [];
+    let postCloneSlides = [];
+    // let count = React.Children.count(spec.children);
+
+};

@@ -6,17 +6,23 @@ import './track/track';
 class Carousel {
   refs: {};
 
-  props: Carousel.Props = <any>{
+  // props: Carousel.Props = <any>{
 
-  };
+  // };
 
-  state: Carousel.State = <any>{
-    spec: {
-      left: 300
-    },
-    initialPositions: [{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 200, y: 0 }]
+  // state: Carousel.State = <any>{
+  //   spec: {
+  //     left: 300
+  //   },
+  //   initialPositions: [{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 200, y: 0 }]
 
-  };
+  // };
+  currentSlide: number = 0;
+  moveNext = () => {
+    // TODO: handle circular
+    this.currentSlide = this.currentSlide + 1;
+
+  }
 
   // this.imageClass = 'slide fade active';
 
