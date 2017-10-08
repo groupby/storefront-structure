@@ -1,59 +1,73 @@
 import { tag, utils, Tag } from '@storefront/core';
-import List from '../list';
+
+import './track/track';
 
 @tag('gb-carousel', require('./index.html'), require('./index.css'))
 class Carousel {
+  refs: {};
 
-  refs: {
-    listwrapper: HTMLDivElement,
-    viewport: HTMLDivElement
+  props: Carousel.Props = <any>{
+
   };
-  props: Carousel.Props = {
-    items: [],
-    prevIcon: '',
-    nextIcon: ''
+
+  state: Carousel.State = <any>{
+    spec: {
+      left: 300
+    },
+    initialPositions: [{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 200, y: 0 }]
+
   };
-  state: Carousel.State = {
-    offset: 0
-  };
-  maxOffset: number = 0;
-  pageSize: number = 0;
 
-  onMount() {
-    this.calculateAttributes();
-  }
+  // this.imageClass = 'slide fade active';
 
-  onUpdate() {
-    this.calculateAttributes();
-  }
+  // updateCurrentSlide = () => {
+  //   if (this.state.currentSlide > 3) {
+  //     this.state.currentSlide = 0;
+  //     return;
+  //   }
+  //   this.state.currentSlide += 1;
+  //   console.log('do I get a state', this.state.spec);
+  // }
 
-  calculateAttributes() {
-    const viewportWidth = parseFloat(utils.WINDOW().getComputedStyle(this.refs.viewport).width);
-    const itemWidth = parseFloat(utils.WINDOW().getComputedStyle(this.refs.listwrapper).width) / this.props.items.length;
-    this.pageSize = Math.floor(viewportWidth / itemWidth);
-    this.maxOffset = Math.max(0, Math.floor((this.props.items.length - 1) / this.pageSize)) * this.pageSize;
-  }
+  // getImagePositions() {
+  //   let currentSlidePosition = { x: 0, y: 0 };
+  // }
 
-  onClickPrev = () => {
-    this.set({ offset: Math.max(0, this.state.offset - this.pageSize) });
-  }
+  // generateStyle(images: Image[]) {
+  //   images.map((image) => {
+  //     const style = {
+  //       opacity: 1,
+  //       WebkitTransform: 'translate3d(' + this.state.spec.left + 'px, 0px, 0px)',
+  //       transform: 'translate3d(' + this.state.spec.left + 'px, 0px, 0px)',
+  //       transition: '',
+  //       WebkitTransition: '',
+  //       msTransform: 'translateX(' + this.state.spec.left + 'px)',
+  //     };
+  //     return style;
+  //   });
+  // }
 
-  onClickNext = () => {
-    this.set({ offset: Math.min(this.state.offset + this.pageSize, this.maxOffset) });
-  }
+  // moveNext = () => {
+  //   this.updateCurrentSlide();
+  //   console.log('ccc', this.state.currentSlide);
+  // }
 }
 
 interface Carousel extends Tag<Carousel.Props> { }
 namespace Carousel {
-  export interface Props {
-    items?: any[];
-    prevIcon?: string;
-    nextIcon?: string;
+  export interface Props extends Tag.Props {
   }
 
   export interface State {
-    offset: number;
+    images: Image[];
+    currentSlide: number;
+    spec: {
+      left: number
+    };
+    initialPositions: object[];
   }
 }
+
+export type Image = { url: string };
 
 export default Carousel;

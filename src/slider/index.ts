@@ -123,9 +123,13 @@ class Slider {
 
   setInput(percentage: number) {
     const input = Math.floor((((this.props.max - this.props.min) * percentage) / 100) + this.props.min);
+    console.log('input', input);
     if (this.state.isLower) {
+      console.log('prop', this.props);
+      
       this.props.onChange(input, this.props.high);
     } else {
+      console.log('prop', this.props);
       this.props.onChange(this.props.low, input);
     }
   }
