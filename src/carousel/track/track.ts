@@ -1,43 +1,38 @@
 import { alias, tag, Tag } from '@storefront/core';
+import classnames from 'classnames';
 
 @tag('gb-carousel-track', require('./track.html'), require('./track.css'))
 class Track {
 
-    // imageStyle: any = {
-    //     styleOne: {},
-    //     styleTwo: {},
-    //     styleThree: {},
-    // };
+    imageStyle: any = {
+        styleOne: {},
+        styleTwo: {},
+        styleThree: {},
+    };
 
-    // activeStyle: any = {
-    //     'border-width': '5px',
-    //     'border-style': 'dashed'
-    // };
+    activeStyle: any = {
+        'border-width': '5px',
+        'border-style': 'dashed'
+    };
 
-    // classOne: string = 'slide fade';
-    // // classTwo: any = {active: true};
-    // classTwo: string = this.classOne;
+    classOne: string = 'slide fade';
+    // classTwo: any = {active: true};
+    classTwo: string = this.classOne;
 
-    // classThree: string = 'slide fade active';
+    classThree: string = 'slide fade active';
 
-    // // classNames: any = [this.classOne, this.classTwo, this.classThree];
+    classNames: any = [this.classOne, this.classTwo, this.classThree];
 
-    // // classNames.map((className: any, index: number) => {
-    // //     className.subString('active') ? imageStyle[Object.keys[index]] = activeStyle : null
-    // // })
+    // why type can't be string??
+    getSlideClasses: any = () => {
+        const style = '';
+        return style;
+    }
 
-    // // why type can't be string??
-    // getSlideClasses: any = () => {
-    //     const style = '';
-    //     return style;
-    // }
-
-    // getSlideStyle: object = () => {
-    //     const style = {};
-    //     return style;
-    // }
-
-
+    getSlideStyle: object = () => {
+        const style = {};
+        return style;
+    }
 
     onBeforeMount() {
         console.log('haadsad');
@@ -51,3 +46,35 @@ namespace Track {
     export interface Event {
     }
 }
+
+const getSlideClasses = (spec) => {
+    let slickActive;
+    let slickCenter;
+    let slickCloned;
+    let centerOffset;
+    let index;
+
+    if (spec.rtl) {
+      index = spec.slideCount - 1 - spec.index;
+    } else {
+      index = spec.index;
+    }
+    slickCloned = (index < 0) || (index >= spec.slideCount);
+
+    if (spec.centerMode) {
+      centerOffset = Math.floor(spec.slidesToShow / 2);
+      slickCenter = (index - spec.currentSlide) % spec.slideCount === 0;
+      if ((index > spec.currentSlide - centerOffset - 1) && (index <= spec.currentSlide + centerOffset)) {
+        slickActive = true;
+      }
+    } else {
+      slickActive = (spec.currentSlide <= index) && (index < spec.currentSlide + spec.slidesToShow);
+    }
+  
+    return classnames({
+      'slick-slide': true,
+      'slick-active': slickActive,
+      'slick-center': slickCenter,
+      'slick-cloned': slickCloned
+    });
+  };
