@@ -25,6 +25,12 @@ class Track {
 
     classNames: any = [this.classOne, this.classTwo, this.classThree];
 
+    trackStyle: any = {
+        'max-height': '300px',
+        opacity: 1,
+        transform: 'translate3d(0px, 0px, 0px)'
+    };
+
     // why type can't be string??
     getSlideClasses: any = () => {
         const style = '';
@@ -43,13 +49,24 @@ class Track {
     onUpdated() {
         const { currentSlide } = this.props;
         const pos = calcPos(currentSlide, 300);
+        this.updateTrackPos(currentSlide, pos);
+    }
+
+    updateTrackPos: any = (currentSlide, newPosition) => {
+        const pos = calcPos(currentSlide, 300);
+        this.trackStyle.transform = `translate3d(${pos}px, 0px, 0px)`;
+        console.log('ttt', this.trackStyle);
+        console.log('currentSlide', currentSlide);
     }
 
 }
 
-function calcPos(currS: number, imageWidth: number): number {
+
+
+const calcPos = (currS: number, imageWidth: number): number => {
     return currS * imageWidth ;
-}
+};
+
 
 interface Track extends Tag<Track.Props> { }
 namespace Track {
