@@ -10,8 +10,6 @@ class Track {
         styleThree: {},
     };
 
-    opts: Track.Props;
-
     activeStyle: any = {
         'border-width': '5px',
         'border-style': 'dashed'
@@ -39,21 +37,23 @@ class Track {
     }
 
     onBeforeMount() {
-        console.log('haadsad');
+        // console.log('haadsad');
     }
 
     onUpdated() {
-        const { currentSlide } = this.opts;
-        const pos = calcPos(currentSlide, 3);
+        const { currentSlide } = this.props;
+        const pos = calcPos(currentSlide, 300);
     }
+
 }
 
-function calcPos(currS: number, totalS: number): number {
-    return 0;
+function calcPos(currS: number, imageWidth: number): number {
+    return currS * imageWidth ;
 }
 
+interface Track extends Tag<Track.Props> { }
 namespace Track {
-    export interface Props {
+    export interface Props extends Tag.Props  {
         currentSlide: number;
     }
     export interface State {
