@@ -31,6 +31,10 @@ class Track {
         transform: 'translate3d(0px, 0px, 0px)'
     };
 
+    slideStyle: any = {
+        width: `${window.innerWidth}px`
+    };
+
     // why type can't be string??
     getSlideClasses: any = () => {
         const style = '';
@@ -48,20 +52,17 @@ class Track {
 
     onUpdated() {
         const { currentSlide } = this.props;
-        const pos = calcPos(currentSlide, 300);
-        this.updateTrackPos(currentSlide, pos);
+        this.updateTrackPos(currentSlide, window.innerWidth);
     }
 
-    updateTrackPos: any = (currentSlide, newPosition) => {
-        const pos = calcPos(currentSlide, 300);
+    updateTrackPos: any = (currentSlide, moveDistance) => {
+        const pos = calcPos(currentSlide, moveDistance);
         this.trackStyle.transform = `translate3d(${pos}px, 0px, 0px)`;
         console.log('ttt', this.trackStyle);
         console.log('currentSlide', currentSlide);
     }
 
 }
-
-
 
 const calcPos = (currS: number, imageWidth: number): number => {
     return currS * imageWidth ;
