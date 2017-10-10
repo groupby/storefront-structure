@@ -13,6 +13,8 @@ class Carousel {
 
   currentSlide: number = 0;
 
+  slideCount: number = 3;
+
   moveNext = () => {
     this.currentSlide = (this.currentSlide + 1) % this.state.imgQuantity;
   }
