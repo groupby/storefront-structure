@@ -11,6 +11,10 @@ class Carousel {
     imgQuantity: 3,
   };
 
+  spec: Carousel.Spec = <any>{
+    settings: {}
+  };
+
   currentSlide: number = 0;
 
   slideCount: number = 3;
@@ -27,26 +31,14 @@ class Carousel {
     }
   }
 
-  
-      // else {
-      //   window.attachEvent('onresize', this.onWindowResized);
-      // }
+  onBeforeMount() {
+    this.update(this.spec.settings = this.props.settings);
+  }
 
-  // generateStyle(images: Image[]) {
-  //   images.map((image) => {
-  //     const style = {
-  //       opacity: 1,
-  //       WebkitTransform: 'translate3d(' + this.state.spec.left + 'px, 0px, 0px)',
-  //       transform: 'translate3d(' + this.state.spec.left + 'px, 0px, 0px)',
-  //       transition: '',
-  //       WebkitTransition: '',
-  //       msTransform: 'translateX(' + this.state.spec.left + 'px)',
-  //     };
-  //     return style;
-  //   });
-  // }
+  onMount() {
+    // console.log('carousel settings are', this.spec.settings);
+  }
 }
-
 
 const changeSlide = (currentSlide) => {
   const slidesToScroll = 1;
@@ -261,11 +253,16 @@ const changeSlide = (currentSlide) => {
 interface Carousel extends Tag<Carousel.Props> { }
 namespace Carousel {
   export interface Props extends Tag.Props {
+    settings: object;
   }
 
   export interface State {
     images: Image[];
     imgQuantity: number;
+  }
+
+  export interface Spec {
+    settings: any;
   }
 }
 
