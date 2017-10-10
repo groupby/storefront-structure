@@ -17,9 +17,13 @@ class Track {
     trackStyle: any = {
         'max-height': '300px',
         opacity: 1,
-        transform: `translate3d(${this.trackPos}px, 0px, 0px)`,
         // change to slideCount + 1 ? why + 1
-        width: `${ 4 * this.slideWidth}px` || '10000px'
+        width: `${ 4 * this.slideWidth}px` || '10000px',
+        transform: `translate3d(${this.trackPos}px, 0px, 0px)`,
+        WebkitTransform: `translate3d(${this.trackPos}px, 0px, 0px)`,
+        transition: '',
+        WebkitTransition: '',
+        msTransform: `translate3d(${this.trackPos}px, 0px, 0px)`
     };
 
     getTrackWidth: any = () => {
