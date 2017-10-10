@@ -32,7 +32,7 @@ class Track {
     };
 
     slideStyle: any = {
-        width: `${window.innerWidth}px`
+        width: `${ window.innerWidth }px`
     };
 
     // why type can't be string??
@@ -57,7 +57,7 @@ class Track {
 
     updateTrackPos: any = (currentSlide, moveDistance) => {
         const pos = calcPos(currentSlide, moveDistance);
-        this.trackStyle.transform = `translate3d(${pos}px, 0px, 0px)`;
+        this.trackStyle.transform = `translate3d(-${pos}px, 0px, 0px)`;
         console.log('ttt', this.trackStyle);
         console.log('currentSlide', currentSlide);
     }
