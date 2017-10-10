@@ -6,20 +6,16 @@ class Track {
 
     trackPos: number = 0;
 
-    classOne: string = 'slide fade';
-    // classTwo: any = {active: true};
-    classTwo: string = this.classOne;
-
-    classThree: string = 'slide fade active';
+    windowSize: number = window.innerWidth;
 
     trackStyle: any = {
         'max-height': '300px',
         opacity: 1,
-        transform: 'translate3d(0px, 0px, 0px)'
+        transform: `translate3d(${this.trackPos}px, 0px, 0px)`
     };
 
     slideStyle: any = {
-        width: `${ window.innerWidth }px`
+        width: `${window.innerWidth}px`
     };
 
     // why type can't be string??
@@ -34,32 +30,51 @@ class Track {
     }
 
     onBeforeMount() {
-        // console.log('haadsad');
+        if (!window) {
+            return;
+        }
+        if (window.addEventListener) {
+            window.addEventListener('resize', () => {
+                const { currentSlide } = this.props;
+                this.windowSize = window.innerWidth;
+                console.log('now width is', this.windowSize);
+                this.updateSlideWidth(this.windowSize);
+                this.update();
+            });
+        }
     }
 
     onUpdate() {
         const { currentSlide } = this.props;
-        this.updateTrackPos(currentSlide, window.innerWidth);
-        console.log('on update', currentSlide)
+
+        this.updateTrackPos(currentSlide, this.windowSize);
+        console.log('windowSize', this.windowSize);
     }
 
     updateTrackPos: any = (currentSlide, moveDistance) => {
         const pos = calcPos(currentSlide, moveDistance);
+        console.log('pos is', pos, 'window size is', moveDistance)
         console.log(`translate3d(-${pos}px, 0px, 0px)`)
         this.trackStyle.transform = `translate3d(-${pos}px, 0px, 0px)`;
         console.log('trackStyle updated', this.trackStyle)
     }
 
+    updateSlideWidth: any = (slideWidth: number) => {
+        this.slideStyle.width = `${slideWidth}px`;
+        console.log('slide width updated', this.slideStyle.width)
+    }
+
 }
 
 const calcPos = (currS: number, moveDistance: number): number => {
-    return ( currS ) * moveDistance ;
+    return (currS) * moveDistance;
 };
 
 interface Track extends Tag<Track.Props> { }
 namespace Track {
-    export interface Props extends Tag.Props  {
+    export interface Props extends Tag.Props {
         currentSlide: number;
+        windowSize: number;
     }
     export interface State {
     }
