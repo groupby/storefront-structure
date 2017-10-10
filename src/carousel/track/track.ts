@@ -4,17 +4,6 @@ import * as classnames from 'classnames';
 @tag('gb-carousel-track', require('./track.html'), require('./track.css'))
 class Track {
 
-    imageStyle: any = {
-        styleOne: {},
-        styleTwo: {},
-        styleThree: {},
-    };
-
-    activeStyle: any = {
-        'border-width': '5px',
-        'border-style': 'dashed'
-    };
-
     trackPos: number = 0;
 
     classOne: string = 'slide fade';
@@ -22,8 +11,6 @@ class Track {
     classTwo: string = this.classOne;
 
     classThree: string = 'slide fade active';
-
-    classNames: any = [this.classOne, this.classTwo, this.classThree];
 
     trackStyle: any = {
         'max-height': '300px',
@@ -50,24 +37,24 @@ class Track {
         // console.log('haadsad');
     }
 
-    onUpdated() {
+    onUpdate() {
         const { currentSlide } = this.props;
         this.updateTrackPos(currentSlide, window.innerWidth);
+        console.log('on update', currentSlide)
     }
 
     updateTrackPos: any = (currentSlide, moveDistance) => {
         const pos = calcPos(currentSlide, moveDistance);
+        console.log(`translate3d(-${pos}px, 0px, 0px)`)
         this.trackStyle.transform = `translate3d(-${pos}px, 0px, 0px)`;
-        console.log('ttt', this.trackStyle);
-        console.log('currentSlide', currentSlide);
+        console.log('trackStyle updated', this.trackStyle)
     }
 
 }
 
-const calcPos = (currS: number, imageWidth: number): number => {
-    return currS * imageWidth ;
+const calcPos = (currS: number, moveDistance: number): number => {
+    return ( currS ) * moveDistance ;
 };
-
 
 interface Track extends Tag<Track.Props> { }
 namespace Track {
