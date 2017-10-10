@@ -8,45 +8,27 @@ class Carousel {
   // };
 
   state: Carousel.State = <any>{
-    imgQuantity: 3
+    imgQuantity: 3,
   };
 
   currentSlide: number = 0;
+
   moveNext = () => {
-    this.currentSlide = ( this.currentSlide + 1 ) % 3;
+    this.currentSlide = (this.currentSlide + 1) % this.state.imgQuantity;
   }
 
   movePrevious = () => {
     if (this.currentSlide === 0) {
-       this.currentSlide = this.state.imgQuantity - 1;
+      this.currentSlide = this.state.imgQuantity - 1;
     } else {
       this.currentSlide -= 1;
     }
   }
 
-  // if (!window) {
-  //   return
-  // }
-  // if (window.addEventListener) {
-  //   window.addEventListener('resize', this.onWindowResized);
-  // } else {
-  //   window.attachEvent('onresize', this.onWindowResized);
-  // }
-
-  // this.imageClass = 'slide fade active';
-
-  // updateCurrentSlide = () => {
-  //   if (this.state.currentSlide > 3) {
-  //     this.state.currentSlide = 0;
-  //     return;
-  //   }
-  //   this.state.currentSlide += 1;
-  //   console.log('do I get a state', this.state.spec);
-  // }
-
-  // getImagePositions() {
-  //   let currentSlidePosition = { x: 0, y: 0 };
-  // }
+  
+      // else {
+      //   window.attachEvent('onresize', this.onWindowResized);
+      // }
 
   // generateStyle(images: Image[]) {
   //   images.map((image) => {
@@ -61,12 +43,8 @@ class Carousel {
   //     return style;
   //   });
   // }
-
-  // moveNext = () => {
-  //   this.updateCurrentSlide();
-  //   console.log('ccc', this.state.currentSlide);
-  // }
 }
+
 
 const changeSlide = (currentSlide) => {
   const slidesToScroll = 1;
@@ -122,7 +100,7 @@ const changeSlide = (currentSlide) => {
 
 //   //not fade
 //   if (this.props.fade) {
-//     currentSlide = this.state.currentSlide;
+//     currentSlide = this.currentSlide;
 
 //     // Don't change slide if it's not infite and current slide is the first or last slide.
 //     if(this.props.infinite === false &&
@@ -286,11 +264,6 @@ namespace Carousel {
   export interface State {
     images: Image[];
     imgQuantity: number;
-    currentSlide: number;
-    spec: {
-      left: number
-    };
-    initialPositions: object[];
   }
 }
 
