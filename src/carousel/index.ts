@@ -4,26 +4,24 @@ import './track/track';
 
 @tag('gb-carousel', require('./index.html'), require('./index.css'))
 class Carousel {
-  refs: {};
-
   // props: Carousel.Props = <any>{
-
   // };
 
-  // state: Carousel.State = <any>{
-  //   spec: {
-  //     left: 300
-  //   },
-  //   initialPositions: [{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 200, y: 0 }]
+  state: Carousel.State = <any>{
+    imgQuantity: 3
+  };
 
-  // };
   currentSlide: number = 0;
   moveNext = () => {
     this.currentSlide = ( this.currentSlide + 1 ) % 3;
   }
 
   movePrevious = () => {
-    this.currentSlide = ( 2 - this.currentSlide ) % 3;
+    if (this.currentSlide === 0) {
+       this.currentSlide = this.state.imgQuantity - 1;
+    } else {
+      this.currentSlide -= 1;
+    }
   }
 
   // if (!window) {
@@ -287,6 +285,7 @@ namespace Carousel {
 
   export interface State {
     images: Image[];
+    imgQuantity: number;
     currentSlide: number;
     spec: {
       left: number
