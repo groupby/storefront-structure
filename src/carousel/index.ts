@@ -26,6 +26,15 @@ class Carousel {
     this.currentSlide = ( 2 - this.currentSlide ) % 3;
   }
 
+  // if (!window) {
+  //   return
+  // }
+  // if (window.addEventListener) {
+  //   window.addEventListener('resize', this.onWindowResized);
+  // } else {
+  //   window.attachEvent('onresize', this.onWindowResized);
+  // }
+
   // this.imageClass = 'slide fade active';
 
   // updateCurrentSlide = () => {
