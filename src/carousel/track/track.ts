@@ -8,20 +8,22 @@ class Track {
 
     windowSize: number = window.innerWidth;
 
+    slideWidth: number = this.windowSize;
+
+    slideStyle: any = {
+        width: `${this.slideWidth}px`
+    };
+
     trackStyle: any = {
         'max-height': '300px',
         opacity: 1,
-        transform: `translate3d(${this.trackPos}px, 0px, 0px)`
+        transform: `translate3d(${this.trackPos}px, 0px, 0px)`,
+        // change to slideCount + 1 ? why + 1
+        width: `${ 4 * this.slideWidth}px` || '10000px'
     };
 
-    slideStyle: any = {
-        width: `${window.innerWidth}px`
-    };
-
-    // why type can't be string??
-    getSlideClasses: any = () => {
-        const style = '';
-        return style;
+    getTrackWidth: any = () => {
+        return this.props.slideCount * this.slideWidth;
     }
 
     getSlideStyle: object = () => {
@@ -37,7 +39,6 @@ class Track {
             window.addEventListener('resize', () => {
                 const { currentSlide } = this.props;
                 this.windowSize = window.innerWidth;
-                console.log('now width is', this.windowSize);
                 this.updateSlideWidth(this.windowSize);
                 this.update();
             });
@@ -61,8 +62,9 @@ class Track {
 
     updateSlideWidth: any = (slideWidth: number) => {
         this.slideStyle.width = `${slideWidth}px`;
-        console.log('slide width updated', this.slideStyle.width)
     }
+
+
 
 }
 
@@ -75,6 +77,7 @@ namespace Track {
     export interface Props extends Tag.Props {
         currentSlide: number;
         windowSize: number;
+        slideCount: number;
     }
     export interface State {
     }
