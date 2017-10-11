@@ -72,9 +72,28 @@ class Carousel {
     }
   }
 
+  onMount() {
+    console.log(this);
+    const track = this.refs.track as Element;
+    Array.from(track.children).forEach((c) => {
+      // dynamically adding expression attributes:
+      // https://github.com/riot/riot/issues/1752
+      // todo: write a test to make sure this function exists on riot and it will translate into style correctly.
+      
+      // return Object.keys(style).reduce(function (acc, prop) {
+      //   return (acc + " " + prop + ": " + (style[prop]) + ";")
+      // }, '')
+
+      c.setAttribute('style', (window as any).riot.util.dom.styleObjectToString(this.slideStyle));
+      c.setAttribute('class', 'slide fade');
+    });
+  }
+
   onUpdate() {
     this.updateTrackPos(this.currentSlide, this.windowSize);
     console.log('windowSize', this.windowSize);
+
+    // todo: add setAttribute again
   }
 
   updateTrackPos: any = (currentSlide, moveDistance) => {
@@ -102,36 +121,36 @@ const calcPos = (currS: number, moveDistance: number): number => {
 //   const slideOffset = -300;
 //   const targetLeft = -300 * currentSlide; // from trackHelper.js
 
-  // let unevenOffset = (slideCount % slidesToScroll !== 0);
-  // let indexOffset = unevenOffset ? 0 : (slideCount - currentSlide) % slidesToScroll;
+// let unevenOffset = (slideCount % slidesToScroll !== 0);
+// let indexOffset = unevenOffset ? 0 : (slideCount - currentSlide) % slidesToScroll;
 
-  // if (options.message === 'previous') {
-  //   let slideOffset = (indexOffset === 0) ? slidesToScroll : slidesToShow - indexOffset;
-  //   let targetSlide = currentSlide - slideOffset;
-  //   if (this.props.lazyLoad) {
-  //     let previousInt = currentSlide - slideOffset;
-  //     targetSlide = previousInt === -1 ? slideCount - 1 : previousInt;
-  //   }
-  // } else if (options.message === 'next') {
-  //   let slideOffset = (indexOffset === 0) ? slidesToScroll : indexOffset;
-  //   let targetSlide = currentSlide + slideOffset;
-  //   if (this.props.lazyLoad) {
-  //     targetSlide = ((currentSlide + slidesToScroll) % slideCount) + indexOffset;
-  //   }
-  // } else if (options.message === 'dots' || options.message === 'children') {
-  //   // click on dots
-  //   let targetSlide = options.index * options.slidesToScroll;
-  //   if (targetSlide === options.currentSlide) {
-  //     return;
-  //   }
-  // } else if (options.message === 'index') {
-  //   let targetSlide = Number(options.index);
-  //   if (targetSlide === options.currentSlide) {
-  //     return;
-  //   }
-  // }
+// if (options.message === 'previous') {
+//   let slideOffset = (indexOffset === 0) ? slidesToScroll : slidesToShow - indexOffset;
+//   let targetSlide = currentSlide - slideOffset;
+//   if (this.props.lazyLoad) {
+//     let previousInt = currentSlide - slideOffset;
+//     targetSlide = previousInt === -1 ? slideCount - 1 : previousInt;
+//   }
+// } else if (options.message === 'next') {
+//   let slideOffset = (indexOffset === 0) ? slidesToScroll : indexOffset;
+//   let targetSlide = currentSlide + slideOffset;
+//   if (this.props.lazyLoad) {
+//     targetSlide = ((currentSlide + slidesToScroll) % slideCount) + indexOffset;
+//   }
+// } else if (options.message === 'dots' || options.message === 'children') {
+//   // click on dots
+//   let targetSlide = options.index * options.slidesToScroll;
+//   if (targetSlide === options.currentSlide) {
+//     return;
+//   }
+// } else if (options.message === 'index') {
+//   let targetSlide = Number(options.index);
+//   if (targetSlide === options.currentSlide) {
+//     return;
+//   }
+// }
 
-  // slideHandler(targetSlide);
+// slideHandler(targetSlide);
 // };
 
 // const slideHandler = (index) => {
