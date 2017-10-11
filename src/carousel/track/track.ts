@@ -30,7 +30,6 @@ class Track {
         return this.props.slideCount * this.slideWidth;
     }
 
-
     onBeforeMount() {
         if (!window) {
             return;
