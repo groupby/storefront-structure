@@ -1,7 +1,7 @@
 <div class="list">
     <div class="track" ref="track" style="{ trackStyle }">
-        <div each="{url in this.opts.imageurls}">
-            <img src="{url}" />
+        <div each="{ item in this.props.items }">
+            <yield></yield>
         </div>
     </div>
     <a class="prev" onclick="{ movePrevious }">&#10094;</a>

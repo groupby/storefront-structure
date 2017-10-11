@@ -22,8 +22,6 @@ class Carousel {
 
   slideCount: number = 3;
 
-  trackPos: number = 0;
-
   windowSize: number = window.innerWidth;
 
   slideWidth: number = this.windowSize;
