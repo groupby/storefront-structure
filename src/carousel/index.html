@@ -1,17 +1,7 @@
 <div class="list">
-    <div class="track" style="{ trackStyle }">
-            <div class="slide fade" style="{ slideStyle }">
-                <yield from='imageOne'/>
-            </div>
-        
-            <div class="slide fade" style="{ slideStyle }">
-                <yield from='imageTwo'/>
-            </div>
-        
-            <div class="slide fade" style="{ slideStyle }">
-                <yield from='imageThree'/>
-            </div>
-        </div>
+    <div class="track" ref="track" style="{ trackStyle }">
+        <yield></yield>
+    </div>
 
 
     <a class="prev" onclick="{ movePrevious }">&#10094;</a>
