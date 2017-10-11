@@ -6,6 +6,9 @@ import './track/track';
 class Carousel {
   // props: Carousel.Props = <any>{
   // };
+  refs: {
+   track: HTMLDivElement,
+  };
 
   state: Carousel.State = <any>{
     imgQuantity: 3,
@@ -26,7 +29,8 @@ class Carousel {
   slideWidth: number = this.windowSize;
 
   slideStyle: any = {
-    width: `${this.slideWidth}px`
+    width: `${this.slideWidth}px`,
+    color: 'white'
   };
 
   trackStyle: any = {
@@ -73,20 +77,7 @@ class Carousel {
   }
 
   onMount() {
-    console.log(this);
-    const track = this.refs.track as Element;
-    Array.from(track.children).forEach((c) => {
-      // dynamically adding expression attributes:
-      // https://github.com/riot/riot/issues/1752
-      // todo: write a test to make sure this function exists on riot and it will translate into style correctly.
-      
-      // return Object.keys(style).reduce(function (acc, prop) {
-      //   return (acc + " " + prop + ": " + (style[prop]) + ";")
-      // }, '')
-
-      c.setAttribute('style', (window as any).riot.util.dom.styleObjectToString(this.slideStyle));
-      c.setAttribute('class', 'slide fade');
-    });
+    this.updateStyleToDom();
   }
 
   onUpdate() {
@@ -94,6 +85,23 @@ class Carousel {
     console.log('windowSize', this.windowSize);
 
     // todo: add setAttribute again
+  }
+
+  styleObjectToString: any = (style) => {
+    return Object.keys(style).reduce(function (acc: string, prop: string) {
+        return (acc + ' ' + prop + ': ' + (style[prop]) + ';');
+      }, '');
+  }
+
+  updateStyleToDom: any = () => {
+    const { track } = this.refs;
+    Array.from(track.children).forEach((c) => {
+      // dynamically adding expression attributes:
+      // https://github.com/riot/riot/issues/1752
+      // todo: write a test to make sure this function exists on riot and it will translate into style correctly.
+      c.setAttribute('style', this.styleObjectToString(this.slideStyle));
+      c.setAttribute('class', 'slide fade');
+    });
   }
 
   updateTrackPos: any = (currentSlide, moveDistance) => {
