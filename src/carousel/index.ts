@@ -37,11 +37,11 @@ class Carousel {
     opacity: 1,
     // change to slideCount + 1 ? why + 1
     width: `${4 * this.slideWidth}px` || '10000px',
-    transform: `translate3d(-${this.trackPos}px, 0px, 0px)`,
-    '-webkit-transform': `translate3d(-${this.trackPos}px, 0px, 0px)`,
+    transform: `translate3d(0px, 0px, 0px)`,
+    '-webkit-transform': `translate3d(0px, 0px, 0px)`,
     transition: '',
     '-webkit-transition': '',
-    '-ms-transform': `translate3d(-${this.trackPos}px, 0px, 0px)`
+    '-ms-transform': `translate3d(0px, 0px, 0px)`
   };
 
   getTrackWidth: any = () => {
@@ -50,9 +50,7 @@ class Carousel {
 
   moveNext = () => {
     this.currentSlide = (this.currentSlide + 1) % this.state.imgQuantity;
-
-    this.updateTrackPos(this.currentSlide, this.windowSize);
-    this.updateTrackStyle(this.slideWidth, this.trackPos);
+    this.updateTrackStyle(this.slideWidth, this.currentSlide);
   }
 
   movePrevious = () => {
@@ -62,14 +60,11 @@ class Carousel {
       this.currentSlide -= 1;
     }
 
-    this.updateTrackPos(this.currentSlide, this.windowSize);
-    this.updateTrackStyle(this.slideWidth, this.trackPos);
+    this.updateTrackStyle(this.slideWidth, this.currentSlide);
   }
 
   onBeforeMount() {
     this.update(this.spec.settings = this.props.settings);
-    // this.update(this.imageurls = this.props.imageurls);
-    // console.log('urls', this.imageurls);
 
     if (!window) {
       return;
@@ -85,13 +80,10 @@ class Carousel {
 
   onMount() {
     this.updateStyleToDom();
-    this.updateTrackPos(this.currentSlide, this.windowSize);
-    this.updateTrackStyle(this.slideWidth, this.trackPos);
+    this.updateTrackStyle(this.slideWidth, this.currentSlide);
   }
 
   onUpdate() {
-    console.log('windowSize', this.windowSize);
-
     // todo: add setAttribute again
   }
 
@@ -112,16 +104,13 @@ class Carousel {
     });
   }
 
-  updateTrackPos: any = (currentSlide, moveDistance) => {
-    const pos = calcPos(currentSlide, moveDistance);
-    this.update(this.trackPos = pos);
-  }
+  updateTrackStyle: any = (slideWidth, currentSlide) => {
+    const pos = calcPos(currentSlide, slideWidth);
 
-  updateTrackStyle: any = (slideWidth, trackPos) => {
     this.trackStyle.width = `${4 * slideWidth}px` || '10000px',
-    this.trackStyle.transform = `translate3d(-${trackPos}px, 0px, 0px)`;
-    this.trackStyle['-webkit-transform'] = `translate3d(-${trackPos}px, 0px, 0px)`;
-    this.trackStyle['-ms-transform'] = `translate3d(-${trackPos}px, 0px, 0px)`;
+    this.trackStyle.transform = `translate3d(-${pos}px, 0px, 0px)`;
+    this.trackStyle['-webkit-transform'] = `translate3d(-${pos}px, 0px, 0px)`;
+    this.trackStyle['-ms-transform'] = `translate3d(-${pos}px, 0px, 0px)`;
   }
 
   updateSlideWidth: any = (slideWidth: number) => {
