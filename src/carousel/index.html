@@ -1,6 +1,17 @@
 <div class="list">
-    <gb-carousel-track current-slide="{ currentSlide }" slide-count="{ slideCount }">
-    </gb-carousel-track>
+    <div class="track" style="{ trackStyle }">
+            <div class="slide fade" style="{ slideStyle }">
+                <yield from='imageOne'/>
+            </div>
+        
+            <div class="slide fade" style="{ slideStyle }">
+                <yield from='imageTwo'/>
+            </div>
+        
+            <div class="slide fade" style="{ slideStyle }">
+                <yield from='imageThree'/>
+            </div>
+        </div>
 
 
     <a class="prev" onclick="{ movePrevious }">&#10094;</a>

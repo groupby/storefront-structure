@@ -19,6 +19,32 @@ class Carousel {
 
   slideCount: number = 3;
 
+  trackPos: number = 0;
+
+  windowSize: number = window.innerWidth;
+
+  slideWidth: number = this.windowSize;
+
+  slideStyle: any = {
+    width: `${this.slideWidth}px`
+  };
+
+  trackStyle: any = {
+    'max-height': '300px',
+    opacity: 1,
+    // change to slideCount + 1 ? why + 1
+    width: `${4 * this.slideWidth}px` || '10000px',
+    transform: `translate3d(${this.trackPos}px, 0px, 0px)`,
+    'webkit-transform': `translate3d(${this.trackPos}px, 0px, 0px)`,
+    transition: '',
+    'webkit-transition': '',
+    'ms-transform': `translate3d(${this.trackPos}px, 0px, 0px)`
+  };
+
+  getTrackWidth: any = () => {
+    return this.slideCount * this.slideWidth;
+  }
+
   moveNext = () => {
     this.currentSlide = (this.currentSlide + 1) % this.state.imgQuantity;
   }
@@ -33,20 +59,48 @@ class Carousel {
 
   onBeforeMount() {
     this.update(this.spec.settings = this.props.settings);
+
+    if (!window) {
+      return;
+    }
+    if (window.addEventListener) {
+      window.addEventListener('resize', () => {
+        this.windowSize = window.innerWidth;
+        this.updateSlideWidth(this.windowSize);
+        this.update();
+      });
+    }
   }
 
-  onMount() {
-    // console.log('carousel settings are', this.spec.settings);
+  onUpdate() {
+    this.updateTrackPos(this.currentSlide, this.windowSize);
+    console.log('windowSize', this.windowSize);
+  }
+
+  updateTrackPos: any = (currentSlide, moveDistance) => {
+    const pos = calcPos(currentSlide, moveDistance);
+    console.log('pos is', pos, 'window size is', moveDistance)
+    console.log(`translate3d(-${pos}px, 0px, 0px)`)
+    this.trackStyle.transform = `translate3d(-${pos}px, 0px, 0px)`;
+    console.log('trackStyle updated', this.trackStyle)
+  }
+
+  updateSlideWidth: any = (slideWidth: number) => {
+    this.slideStyle.width = `${slideWidth}px`;
   }
 }
 
-const changeSlide = (currentSlide) => {
-  const slidesToScroll = 1;
-  const slidesToShow = 1;
+const calcPos = (currS: number, moveDistance: number): number => {
+  return (currS) * moveDistance;
+};
 
-  const slideCount = 3;
-  const slideOffset = -300;
-  const targetLeft = -300 * currentSlide; // from trackHelper.js
+// const changeSlide = (currentSlide) => {
+//   const slidesToScroll = 1;
+//   const slidesToShow = 1;
+
+//   const slideCount = 3;
+//   const slideOffset = -300;
+//   const targetLeft = -300 * currentSlide; // from trackHelper.js
 
   // let unevenOffset = (slideCount % slidesToScroll !== 0);
   // let indexOffset = unevenOffset ? 0 : (slideCount - currentSlide) % slidesToScroll;
@@ -78,7 +132,7 @@ const changeSlide = (currentSlide) => {
   // }
 
   // slideHandler(targetSlide);
-};
+// };
 
 // const slideHandler = (index) => {
 //   // Functionality of animateSlide and postSlide is merged into this function
