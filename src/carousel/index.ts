@@ -30,8 +30,14 @@ class Carousel {
 
   slideStyle: any = {
     width: `${this.slideWidth}px`,
-    color: 'white'
   };
+
+  // imageurls: string[] = [''];
+  imageurls: string[] = [
+    'https://goo.gl/KbXUxw',
+    'https://goo.gl/kYYJbs',
+    'https://goo.gl/BMkxa6'
+  ];
 
   trackStyle: any = {
     'max-height': '300px',
@@ -39,10 +45,10 @@ class Carousel {
     // change to slideCount + 1 ? why + 1
     width: `${4 * this.slideWidth}px` || '10000px',
     transform: `translate3d(${this.trackPos}px, 0px, 0px)`,
-    'webkit-transform': `translate3d(${this.trackPos}px, 0px, 0px)`,
+    '-webkit-transform': `translate3d(${this.trackPos}px, 0px, 0px)`,
     transition: '',
-    'webkit-transition': '',
-    'ms-transform': `translate3d(${this.trackPos}px, 0px, 0px)`
+    '-webkit-transition': '',
+    '-ms-transform': `translate3d(${this.trackPos}px, 0px, 0px)`
   };
 
   getTrackWidth: any = () => {
@@ -63,6 +69,8 @@ class Carousel {
 
   onBeforeMount() {
     this.update(this.spec.settings = this.props.settings);
+    // this.update(this.imageurls = this.props.imageurls);
+    console.log('urls', this.imageurls);
 
     if (!window) {
       return;
@@ -82,6 +90,7 @@ class Carousel {
 
   onUpdate() {
     this.updateTrackPos(this.currentSlide, this.windowSize);
+    this.updateTrackStyle(this.slideWidth, this.trackPos);
     console.log('windowSize', this.windowSize);
 
     // todo: add setAttribute again
@@ -106,10 +115,15 @@ class Carousel {
 
   updateTrackPos: any = (currentSlide, moveDistance) => {
     const pos = calcPos(currentSlide, moveDistance);
-    console.log('pos is', pos, 'window size is', moveDistance)
-    console.log(`translate3d(-${pos}px, 0px, 0px)`)
-    this.trackStyle.transform = `translate3d(-${pos}px, 0px, 0px)`;
-    console.log('trackStyle updated', this.trackStyle)
+    this.update(this.trackPos = pos);
+  }
+
+  updateTrackStyle: any = (slideWidth, trackPos) => {
+    this.trackStyle.width = `${4 * slideWidth}px` || '10000px',
+    this.trackStyle.transform = `translate3d(-${trackPos}px, 0px, 0px)`;
+    this.trackStyle['-webkit-transform'] = `translate3d(${trackPos}px, 0px, 0px)`;
+    this.trackStyle['-ms-transform'] = `translate3d(${trackPos}px, 0px, 0px)`;
+    this.update();
   }
 
   updateSlideWidth: any = (slideWidth: number) => {
@@ -335,6 +349,7 @@ interface Carousel extends Tag<Carousel.Props> { }
 namespace Carousel {
   export interface Props extends Tag.Props {
     settings: object;
+    imageurls: any;
   }
 
   export interface State {
