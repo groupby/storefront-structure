@@ -7,11 +7,10 @@ class Carousel {
   // props: Carousel.Props = <any>{
   // };
   refs: {
-   track: HTMLDivElement,
+    track: HTMLDivElement,
   };
 
   state: Carousel.State = <any>{
-    imgQuantity: 3,
   };
 
   props: Carousel.Props = <any>{
@@ -20,6 +19,8 @@ class Carousel {
     }
   };
 
+  slideCount: number;
+  slidesToShow: number;
   currentSlide: number = 0;
 
   // todo: link with parent div width
@@ -44,18 +45,23 @@ class Carousel {
   };
 
   moveNext = () => {
-    this.currentSlide = (this.currentSlide + 1) % this.state.imgQuantity;
-    this.updateTrackStyle(this.slideWidth, this.currentSlide);
+    let lastSlide = this.currentSlide + this.slidesToShow - 1;
+    if (lastSlide >= this.slideCount - 1 ) {
+      this.currentSlide = 0;
+    } else {
+      this.currentSlide = (this.currentSlide + 1) % this.slideCount;
+    }
+    this.updateTrackStyle(this.currentSlide);
   }
 
   movePrevious = () => {
     if (this.currentSlide === 0) {
-      this.currentSlide = this.state.imgQuantity - 1;
+      this.currentSlide = this.slideCount - 1;
     } else {
       this.currentSlide -= 1;
     }
 
-    this.updateTrackStyle(this.slideWidth, this.currentSlide);
+    this.updateTrackStyle(this.currentSlide);
   }
 
   onBeforeMount() {
@@ -74,22 +80,29 @@ class Carousel {
   }
 
   onMount() {
+    this.populateProps();
     this.updateSlideWidth(this.carouselWidth); // this function has this.update() at the end
-    // this.slideWidth still not updated
-    this.updateTrackStyle(this.slideWidth, this.currentSlide);
-    // this.slideWidth still not updated
+    this.updateTrackStyle(this.currentSlide);
     this.updateSlideStyleToDom();
-    setTimeout(() => console.log(this.slideWidth), 2000);// still not updated
+
   }
 
   onUpdate() {
     // todo: add setAttribute again
   }
 
+  populateProps: any = () => {
+    const { track } = this.refs;
+    const slideCount = track.children.length;
+    this.slidesToShow = this.props.settings.slidesToShow;
+    this.slideCount = slideCount;
+    console.log('count', slideCount)
+  }
+
   styleObjectToString: any = (style) => {
     return Object.keys(style).reduce(function (acc: string, prop: string) {
-        return (acc + ' ' + prop + ': ' + (style[prop]) + ';');
-      }, '');
+      return (acc + ' ' + prop + ': ' + (style[prop]) + ';');
+    }, '');
   }
 
   updateSlideStyleToDom: any = () => {
@@ -104,38 +117,40 @@ class Carousel {
   }
 
   // question: should I include updateSlideWidth in this function?
-  updateTrackStyle: any = (slideWidth, currentSlide) => {
+  updateTrackStyle: any = (currentSlide) => {
     const { track } = this.refs;
     const { settings } = this.props;
     const style = this.trackStyle;
     const slideCount = this.refs.track.children.length;
+    const slideWidth = this.slideWidth;
     let trackWidth;
 
     if (settings.slidesToShow && settings.slidesToShow > 1) {
       trackWidth = (slideCount + settings.slidesToShow) * slideWidth;
     } else {
-      trackWidth =  slideCount * slideWidth;
+      trackWidth = slideCount * slideWidth;
     }
-    Object.assign(style, { width: `${trackWidth}px`});
+    Object.assign(style, { width: `${trackWidth}px` });
 
     const pos = calcPos(currentSlide, slideWidth);
-    console.log('slide in updateTrackStyle is:', slideWidth);
+    console.log('track:', trackWidth);
 
     style.transform = `translate3d(-${pos}px, 0px, 0px)`;
     style['-webkit-transform'] = `translate3d(-${pos}px, 0px, 0px)`;
     style['-ms-transform'] = `translate3d(-${pos}px, 0px, 0px)`;
 
-    if ( settings.fade === true) {
+    if (settings.fade === true) {
       style.WebkitTransition = '-webkit-transform ' + settings.speed + 'ms ' + 'ease';
       style.transition = 'transform ' + settings.speed + 'ms ' + 'ease';
     }
+    this.update(this.trackStyle = style);
 
   }
 
   updateSlideWidth: any = (totalWidth: number) => {
     const { slidesToShow } = this.props.settings;
     const slideWidth = totalWidth / slidesToShow;
-    console.log('Math', slideWidth);
+    this.slideWidth = slideWidth;
     this.slideStyle.width = `${slideWidth}px`;
     this.update();
   }
@@ -363,16 +378,9 @@ namespace Carousel {
       speed?: number;
       fade?: boolean;
     };
-    imageurls: any;
   }
 
   export interface State {
-    images: Image[];
-    imgQuantity: number;
-  }
-
-  export interface Spec {
-    settings: any;
   }
 }
 
