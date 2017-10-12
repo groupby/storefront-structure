@@ -94,7 +94,7 @@ class Carousel {
     const slideCount = track.children.length;
     this.slidesToShow = this.props.settings.slidesToShow;
     this.slideCount = slideCount;
-    this.visibleWidth = document.getElementById('carousel').offsetWidth;
+    this.visibleWidth = document.getElementById('carousel-list').offsetWidth;
     console.log('count', slideCount)
   }
 
