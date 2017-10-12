@@ -22,9 +22,10 @@ class Carousel {
 
   currentSlide: number = 0;
 
-  windowSize: number = window.innerWidth;
+  // todo: link with parent div width
+  carouselWidth: number = window.innerWidth;
 
-  slideWidth: number = this.windowSize;
+  slideWidth: number = this.carouselWidth;
 
   slideStyle: any = {
     width: `${this.slideWidth}px`,
@@ -59,22 +60,26 @@ class Carousel {
 
   onBeforeMount() {
     // this.update(this.spec.settings = this.props.settings);
-
     if (!window) {
       return;
     }
     if (window.addEventListener) {
       window.addEventListener('resize', () => {
-        this.windowSize = window.innerWidth;
-        this.updateSlideWidth(this.windowSize);
-        this.update();
+        // todo: unlink window size, link parent div width
+        // this.windowSize = window.innerWidth;
+        // this.updateSlideWidth(this.windowSize);
+        // this.update();
       });
     }
   }
 
   onMount() {
-    this.updateStyleToDom();
+    this.updateSlideWidth(this.carouselWidth); // this function has this.update() at the end
+    // this.slideWidth still not updated
     this.updateTrackStyle(this.slideWidth, this.currentSlide);
+    // this.slideWidth still not updated
+    this.updateSlideStyleToDom();
+    setTimeout(() => console.log(this.slideWidth), 2000);// still not updated
   }
 
   onUpdate() {
@@ -87,7 +92,7 @@ class Carousel {
       }, '');
   }
 
-  updateStyleToDom: any = () => {
+  updateSlideStyleToDom: any = () => {
     const { track } = this.refs;
     Array.from(track.children).forEach((c) => {
       // dynamically adding expression attributes:
@@ -98,19 +103,23 @@ class Carousel {
     });
   }
 
+  // question: should I include updateSlideWidth in this function?
   updateTrackStyle: any = (slideWidth, currentSlide) => {
     const { track } = this.refs;
     const { settings } = this.props;
     const style = this.trackStyle;
     const slideCount = this.refs.track.children.length;
-    const pos = calcPos(currentSlide, slideWidth);
+    let trackWidth;
 
     if (settings.slidesToShow && settings.slidesToShow > 1) {
-      const trackWidth = `${ (slideCount + settings.slidesToShow) * slideWidth}px`;
-      Object.assign(style, { width: trackWidth});
+      trackWidth = (slideCount + settings.slidesToShow) * slideWidth;
     } else {
-      Object.assign(style, {width: `${ slideCount * slideWidth}px`});
+      trackWidth =  slideCount * slideWidth;
     }
+    Object.assign(style, { width: `${trackWidth}px`});
+
+    const pos = calcPos(currentSlide, slideWidth);
+    console.log('slide in updateTrackStyle is:', slideWidth);
 
     style.transform = `translate3d(-${pos}px, 0px, 0px)`;
     style['-webkit-transform'] = `translate3d(-${pos}px, 0px, 0px)`;
@@ -120,10 +129,15 @@ class Carousel {
       style.WebkitTransition = '-webkit-transform ' + settings.speed + 'ms ' + 'ease';
       style.transition = 'transform ' + settings.speed + 'ms ' + 'ease';
     }
+
   }
 
-  updateSlideWidth: any = (slideWidth: number) => {
+  updateSlideWidth: any = (totalWidth: number) => {
+    const { slidesToShow } = this.props.settings;
+    const slideWidth = totalWidth / slidesToShow;
+    console.log('Math', slideWidth);
     this.slideStyle.width = `${slideWidth}px`;
+    this.update();
   }
 }
 
