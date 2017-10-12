@@ -56,7 +56,7 @@ class Carousel {
 
   movePrevious = () => {
     if (this.currentSlide === 0) {
-      this.currentSlide = this.slideCount - 1;
+      this.currentSlide = this.slideCount - this.slidesToShow;
     } else {
       this.currentSlide -= 1;
     }
