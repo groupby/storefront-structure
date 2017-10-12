@@ -1,10 +1,14 @@
 
 * {box-sizing:border-box}
 
-/* Slideshow container */
+.wrap {
+  width: 80%;
+}
+
 .list {
-  /* max-width: 300px; */
   position: relative;
+  left: 10%;
+  right: 10%;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -19,7 +23,6 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
-  /* width: 10000px; */
 }
 
 .slide {
@@ -50,20 +53,20 @@
   width: auto;
   margin-top: -22px;
   padding: 16px;
-  color: blue;
+  color: grey;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 40px;
   transition: 0.6s ease;
   border-radius: 0 3px 3px 0;
 }
 
 .prev {
-  left: 10%;
+  left: 0;
 }
 
 /* Position the "next button" to the right */
 .next {
-  right: 10%;
+  right: 0;
   border-radius: 3px 0 0 3px;
 }
 
