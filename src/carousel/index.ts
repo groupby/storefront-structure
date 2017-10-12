@@ -14,8 +14,10 @@ class Carousel {
     imgQuantity: 3,
   };
 
-  spec: Carousel.Spec = <any>{
-    settings: {}
+  props: Carousel.Props = <any>{
+    settings: {
+      speed: 800,
+    }
   };
 
   currentSlide: number = 0;
@@ -98,13 +100,26 @@ class Carousel {
 
   updateTrackStyle: any = (slideWidth, currentSlide) => {
     const { track } = this.refs;
+    const { settings } = this.props;
+    const style = this.trackStyle;
     const slideCount = this.refs.track.children.length;
     const pos = calcPos(currentSlide, slideWidth);
 
-    this.trackStyle.width = `${slideCount * slideWidth}px`,
-    this.trackStyle.transform = `translate3d(-${pos}px, 0px, 0px)`;
-    this.trackStyle['-webkit-transform'] = `translate3d(-${pos}px, 0px, 0px)`;
-    this.trackStyle['-ms-transform'] = `translate3d(-${pos}px, 0px, 0px)`;
+    if (settings.slidesToShow && settings.slidesToShow > 1) {
+      const trackWidth = `${ (slideCount + settings.slidesToShow) * slideWidth}px`;
+      Object.assign(style, { width: trackWidth});
+    } else {
+      Object.assign(style, {width: `${ slideCount * slideWidth}px`});
+    }
+
+    style.transform = `translate3d(-${pos}px, 0px, 0px)`;
+    style['-webkit-transform'] = `translate3d(-${pos}px, 0px, 0px)`;
+    style['-ms-transform'] = `translate3d(-${pos}px, 0px, 0px)`;
+
+    if ( settings.fade === true) {
+      style.WebkitTransition = '-webkit-transform ' + settings.speed + 'ms ' + 'ease';
+      style.transition = 'transform ' + settings.speed + 'ms ' + 'ease';
+    }
   }
 
   updateSlideWidth: any = (slideWidth: number) => {
@@ -329,7 +344,11 @@ const calcPos = (currS: number, moveDistance: number): number => {
 interface Carousel extends Tag<Carousel.Props> { }
 namespace Carousel {
   export interface Props extends Tag.Props {
-    settings: object;
+    settings: {
+      slidesToShow?: number;
+      speed?: number;
+      fade?: boolean;
+    };
     imageurls: any;
   }
 
