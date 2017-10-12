@@ -20,8 +20,6 @@ class Carousel {
 
   currentSlide: number = 0;
 
-  slideCount: number = 3;
-
   windowSize: number = window.innerWidth;
 
   slideWidth: number = this.windowSize;
@@ -33,18 +31,14 @@ class Carousel {
   trackStyle: any = {
     'max-height': '300px',
     opacity: 1,
-    // change to slideCount + 1 ? why + 1
-    width: `${4 * this.slideWidth}px` || '10000px',
+    // what is a safe default value for track width??
+    width: '10000px',
     transform: `translate3d(0px, 0px, 0px)`,
     '-webkit-transform': `translate3d(0px, 0px, 0px)`,
     transition: '',
     '-webkit-transition': '',
     '-ms-transform': `translate3d(0px, 0px, 0px)`
   };
-
-  getTrackWidth: any = () => {
-    return this.slideCount * this.slideWidth;
-  }
 
   moveNext = () => {
     this.currentSlide = (this.currentSlide + 1) % this.state.imgQuantity;
@@ -62,7 +56,7 @@ class Carousel {
   }
 
   onBeforeMount() {
-    this.update(this.spec.settings = this.props.settings);
+    // this.update(this.spec.settings = this.props.settings);
 
     if (!window) {
       return;
@@ -103,9 +97,11 @@ class Carousel {
   }
 
   updateTrackStyle: any = (slideWidth, currentSlide) => {
+    const { track } = this.refs;
+    const slideCount = this.refs.track.children.length;
     const pos = calcPos(currentSlide, slideWidth);
 
-    this.trackStyle.width = `${4 * slideWidth}px` || '10000px',
+    this.trackStyle.width = `${slideCount * slideWidth}px`,
     this.trackStyle.transform = `translate3d(-${pos}px, 0px, 0px)`;
     this.trackStyle['-webkit-transform'] = `translate3d(-${pos}px, 0px, 0px)`;
     this.trackStyle['-ms-transform'] = `translate3d(-${pos}px, 0px, 0px)`;
