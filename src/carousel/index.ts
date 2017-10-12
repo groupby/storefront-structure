@@ -1,7 +1,5 @@
 import { tag, utils, Tag } from '@storefront/core';
 
-import './track/track';
-
 @tag('gb-carousel', require('./index.html'), require('./index.css'))
 class Carousel {
   // props: Carousel.Props = <any>{
@@ -23,10 +21,10 @@ class Carousel {
   slidesToShow: number;
   currentSlide: number = 0;
 
-  // todo: link with parent div width
-  carouselWidth: number = window.innerWidth;
+  // todo: what is the riot way to do it?
+  visibleWidth: number;
 
-  slideWidth: number = this.carouselWidth;
+  slideWidth: number = this.visibleWidth;
 
   slideStyle: any = {
     width: `${this.slideWidth}px`,
@@ -81,7 +79,7 @@ class Carousel {
 
   onMount() {
     this.populateProps();
-    this.updateSlideWidth(this.carouselWidth); // this function has this.update() at the end
+    this.updateSlideWidth(this.visibleWidth); // this function has this.update() at the end
     this.updateTrackStyle(this.currentSlide);
     this.updateSlideStyleToDom();
 
@@ -96,6 +94,7 @@ class Carousel {
     const slideCount = track.children.length;
     this.slidesToShow = this.props.settings.slidesToShow;
     this.slideCount = slideCount;
+    this.visibleWidth = document.getElementById('carousel').offsetWidth;
     console.log('count', slideCount)
   }
 
