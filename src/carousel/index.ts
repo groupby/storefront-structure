@@ -44,7 +44,7 @@ class Carousel {
 
   moveNext = () => {
     let lastSlide = this.currentSlide + this.slidesToShow - 1;
-    if (lastSlide >= this.slideCount - 1 ) {
+    if (lastSlide >= this.slideCount - 1) {
       this.currentSlide = 0;
     } else {
       this.currentSlide = (this.currentSlide + 1) % this.slideCount;
@@ -60,6 +60,42 @@ class Carousel {
     }
 
     this.updateTrackStyle(this.currentSlide);
+  }
+
+  swipeLeft = (event: MouseEvent & Carousel.Event | TouchEvent & Carousel.Event) => {
+    // event.preventDefault();
+    // event.stopPropagation();
+    // utils.WINDOW().document.addEventListener('mousemove', this.onMouseMove, true);
+    utils.WINDOW().document.addEventListener('touchstart', this.onTouchStart, true);
+    utils.WINDOW().document.addEventListener('touchmove', this.onTouchMove, true);
+    // utils.WINDOW().document.addEventListener('mouseup', this.onSwipeEnd, true);
+    utils.WINDOW().document.addEventListener('touchend', this.onSwipeEnd, true);
+  }
+
+  onMouseMove = (event: MouseEvent & Carousel.Event) => {
+    console.log('clientX', event);
+  }
+
+  onTouchStart = (event: TouchEvent & Carousel.Event) => {
+    console.log('touch start', event);
+  }
+
+  onTouchMove = (event: TouchEvent & Carousel.Event) => {
+    console.log('touch move', event);
+
+    // if (touchEvent.target === this.state.handle) {
+    //   this.redraw(touchEvent.clientX);
+    // }
+  }
+
+  onSwipeEnd = (event: TouchEvent & Carousel.Event) => {
+    console.log('swipe end', event);
+
+    // utils.WINDOW().document.removeEventListener('mousemove', this.onMouseMove);
+    utils.WINDOW().document.removeEventListener('touchstart', this.onTouchStart);
+    utils.WINDOW().document.removeEventListener('touchmove', this.onTouchMove);
+    // utils.WINDOW().document.removeEventListener('mouseup', this.onSwipeEnd);
+    utils.WINDOW().document.removeEventListener('touchend', this.onSwipeEnd);
   }
 
   onBeforeMount() {
@@ -95,7 +131,6 @@ class Carousel {
     this.slidesToShow = this.props.settings.slidesToShow;
     this.slideCount = slideCount;
     this.visibleWidth = document.getElementById('carousel-list').offsetWidth;
-    console.log('count', slideCount)
   }
 
   styleObjectToString: any = (style) => {
@@ -132,7 +167,6 @@ class Carousel {
     Object.assign(style, { width: `${trackWidth}px` });
 
     const pos = calcPos(currentSlide, slideWidth);
-    console.log('track:', trackWidth);
 
     style.transform = `translate3d(-${pos}px, 0px, 0px)`;
     style['-webkit-transform'] = `translate3d(-${pos}px, 0px, 0px)`;
@@ -153,6 +187,7 @@ class Carousel {
     this.slideStyle.width = `${slideWidth}px`;
     this.update();
   }
+
   swipeDirection: any = (touchObject) => {
     let xDist: any;
     let yDist: any;
@@ -165,14 +200,15 @@ class Carousel {
 
     swipeAngle = Math.round(r * 180 / Math.PI);
     if (swipeAngle < 0) {
-        swipeAngle = 360 - Math.abs(swipeAngle);
+      swipeAngle = 360 - Math.abs(swipeAngle);
     }
     if ((swipeAngle <= 45) && (swipeAngle >= 0) || (swipeAngle <= 360) && (swipeAngle >= 315)) {
-        return ('left');
+      return ('left');
     }
     if ((swipeAngle >= 135) && (swipeAngle <= 225)) {
-        return ('right');
+      return ('right');
     }
+  }
 }
 
 const calcPos = (currS: number, moveDistance: number): number => {
@@ -401,6 +437,8 @@ namespace Carousel {
 
   export interface State {
   }
+
+  export type Event = Tag.Event & { target: Element };
 }
 
 export type Image = { url: string };
