@@ -153,11 +153,31 @@ class Carousel {
     this.slideStyle.width = `${slideWidth}px`;
     this.update();
   }
+  swipeDirection: any = (touchObject) => {
+    let xDist: any;
+    let yDist: any;
+    let r: any;
+    let swipeAngle: any;
+
+    xDist = touchObject.startX - touchObject.curX;
+    yDist = touchObject.startY - touchObject.curY;
+    r = Math.atan2(yDist, xDist);
+
+    swipeAngle = Math.round(r * 180 / Math.PI);
+    if (swipeAngle < 0) {
+        swipeAngle = 360 - Math.abs(swipeAngle);
+    }
+    if ((swipeAngle <= 45) && (swipeAngle >= 0) || (swipeAngle <= 360) && (swipeAngle >= 315)) {
+        return ('left');
+    }
+    if ((swipeAngle >= 135) && (swipeAngle <= 225)) {
+        return ('right');
+    }
 }
 
 const calcPos = (currS: number, moveDistance: number): number => {
   return (currS) * moveDistance;
-};
+}
 
 // const changeSlide = (currentSlide) => {
 //   const slidesToScroll = 1;
