@@ -3,12 +3,11 @@
 
 .carousel-wrap {
   width: 80%;
+  margin: auto;
 }
 
 #carousel-list {
   position: relative;
-  left: 10%;
-  right: 10%;
   margin: 0;
   padding: 0;
   overflow: hidden;
