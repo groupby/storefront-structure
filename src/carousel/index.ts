@@ -149,7 +149,6 @@ class Carousel {
 
   updateSlideStyleToDom: any = (slideWidth) => {
     const { track } = this.refs;
-    console.log('update slide width', slideWidth);
     Array.from(track.children).forEach((c) => {
       // dynamically adding expression attributes:
       // https://github.com/riot/riot/issues/1752
@@ -212,7 +211,6 @@ class Carousel {
     const { settings: { slidesToShow = DEFAULT_SLIDES } = {} } = this.props;
     if (visibleWidth && slidesToShow) {
       const slideWidth = visibleWidth / slidesToShow;
-      console.log('slide w', slideWidth);
       return slideWidth;
     }
 

@@ -2,8 +2,11 @@
 * {box-sizing:border-box}
 
 .carousel-wrap {
-  width: 80%;
-  margin: auto;
+  margin: 30px auto 50px;
+  padding: 0;
+  position: relative;
+  display: block;
+  box-sizing: border-box;
 }
 
 #carousel-list {
@@ -32,10 +35,11 @@
 }
 
 .slide img {
-  width: 300px;
-  height: auto;
+  border: 5px solid #FFF;
   display: block;
-  margin: auto;  
+  margin: auto;
+  max-width: 100%;
+  height: auto;
   vertical-align: middle;
 }
 
@@ -92,8 +96,8 @@
 
 .carousel-dots li {
   cursor:pointer;
-  height: 10px;
-  width: 10px;
+  height: 8px;
+  width: 8px;
   margin: 0 2px;
   background-color:grey;
   border-radius: 50%;
