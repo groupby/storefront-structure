@@ -45,7 +45,8 @@ class Carousel {
     } else {
       this.currentSlide = (this.currentSlide + 1) % slideCount;
     }
-    this.updateTrackStyleWithTransition();
+    const slideWidth = this.getSlideWidth();
+    this.updateTrackStyleWithTransition(slideWidth);
   }
 
   movePrevious = () => {
@@ -57,8 +58,8 @@ class Carousel {
     } else {
       this.currentSlide -= 1;
     }
-
-    this.updateTrackStyleWithTransition();
+    const slideWidth = this.getSlideWidth();
+    this.updateTrackStyleWithTransition(slideWidth);
   }
 
   swipeLeft = (event: MouseEvent & Carousel.Event | TouchEvent & Carousel.Event) => {
@@ -118,13 +119,18 @@ class Carousel {
   }
 
   updateTrackAndSlideStyleWithTransition = () => {
-    this.updateSlideStyleToDom();
-    this.updateTrackStyleWithTransition();
+    // need same slideWidth for these two functions
+    const slideWidth = this.getSlideWidth();
+
+    this.updateSlideStyleToDom(slideWidth);
+    this.updateTrackStyleWithTransition(slideWidth);
   }
 
   updateTrackAndSlideStyleWithoutTransition = () => {
-    this.updateSlideStyleToDom();
-    this.updateTrackStyleWithoutTransition();
+    const slideWidth = this.getSlideWidth();
+
+    this.updateSlideStyleToDom(slideWidth);
+    this.updateTrackStyleWithoutTransition(slideWidth);
   }
   getDots: any = () => {
     const slideCount = this.refs.track.children.length;
@@ -141,9 +147,9 @@ class Carousel {
     }, '');
   }
 
-  updateSlideStyleToDom: any = () => {
+  updateSlideStyleToDom: any = (slideWidth) => {
     const { track } = this.refs;
-    const slideWidth = this.getSlideWidth();
+    console.log('update slide width', slideWidth);
     Array.from(track.children).forEach((c) => {
       // dynamically adding expression attributes:
       // https://github.com/riot/riot/issues/1752
@@ -154,10 +160,9 @@ class Carousel {
   }
 
   // question: should I include updateSlideWidth in this function?
-  getTrackStyle: any = () => {
+  getTrackStyle: any = (slideWidth) => {
     const { settings } = this.props;
     const slideCount = this.refs.track.children.length;
-    const slideWidth: number = this.getSlideWidth();
     let trackWidth;
 
     if (settings.slidesToShow && settings.slidesToShow > 1) {
@@ -188,14 +193,14 @@ class Carousel {
     return style;
   }
 
-  updateTrackStyleWithTransition = () => {
-    const style = this.getTrackStyle();
+  updateTrackStyleWithTransition = (slideWidth: number) => {
+    const style = this.getTrackStyle(slideWidth);
     this.trackStyle = style;
     this.update();
   }
 
-  updateTrackStyleWithoutTransition = () => {
-    const style = this.getTrackStyle();
+  updateTrackStyleWithoutTransition = (slideWidth: number) => {
+    const style = this.getTrackStyle(slideWidth);
     delete style['transition'];
     delete style['-webkit-transition'];
     this.trackStyle = style;
@@ -205,7 +210,6 @@ class Carousel {
   getSlideWidth = () => {
     const visibleWidth = this.getVisibleWidth();
     const { settings: { slidesToShow = DEFAULT_SLIDES } = {} } = this.props;
-    console.log('here')
     if (visibleWidth && slidesToShow) {
       const slideWidth = visibleWidth / slidesToShow;
       console.log('slide w', slideWidth);
