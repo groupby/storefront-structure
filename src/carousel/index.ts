@@ -1,5 +1,18 @@
 import { tag, utils, Tag } from '@storefront/core';
 
+const DEFAULT_SLIDES = 1;
+const DEFAULT_TRACK_STYLE = {
+  'max-height': '300px',
+  opacity: 1,
+  // what is a safe default value for track width??
+  width: '10000px',
+  transform: `translate3d(0px, 0px, 0px)`,
+  '-webkit-transform': `translate3d(0px, 0px, 0px)`,
+  transition: '',
+  '-webkit-transition': '',
+  '-ms-transform': `translate3d(0px, 0px, 0px)`
+};
+
 @tag('gb-carousel', require('./index.html'), require('./index.css'))
 class Carousel {
   // props: Carousel.Props = <any>{
@@ -17,51 +30,35 @@ class Carousel {
     }
   };
 
-  slideCount: number;
-  slidesToShow: number;
-  slidesToScroll: number;
   currentSlide: number = 0;
-  dots: string [];
-
-  // todo: what is the riot way to do it?
-  visibleWidth: number;
-
-  slideWidth: number = this.visibleWidth;
-
-  slideStyle: any = {
-    width: `${this.slideWidth}px`,
-  };
-
-  trackStyle: any = {
-    'max-height': '300px',
-    opacity: 1,
-    // what is a safe default value for track width??
-    width: '10000px',
-    transform: `translate3d(0px, 0px, 0px)`,
-    '-webkit-transform': `translate3d(0px, 0px, 0px)`,
-    transition: '',
-    '-webkit-transition': '',
-    '-ms-transform': `translate3d(0px, 0px, 0px)`
-  };
+  dots: string[];
+  trackStyle: any;
 
   moveNext = () => {
-    let lastSlide = this.currentSlide + this.slidesToShow - 1;
-    if (lastSlide >= this.slideCount - 1) {
+    const { settings: { slidesToShow = DEFAULT_SLIDES } = {} } = this.props;
+    // todo: check slideCount
+    const slideCount = this.refs.track.children.length;
+
+    let lastSlide = this.currentSlide + slidesToShow - 1;
+    if (lastSlide >= slideCount - 1) {
       this.currentSlide = 0;
     } else {
-      this.currentSlide = (this.currentSlide + 1) % this.slideCount;
+      this.currentSlide = (this.currentSlide + 1) % slideCount;
     }
-    this.updateTrackStyle(this.currentSlide);
+    this.updateTrackStyle();
   }
 
   movePrevious = () => {
+    const { settings: { slidesToShow = DEFAULT_SLIDES } = {} } = this.props;
+    const slideCount = this.refs.track.children.length;
+
     if (this.currentSlide === 0) {
-      this.currentSlide = this.slideCount - this.slidesToShow;
+      this.currentSlide = slideCount - slidesToShow;
     } else {
       this.currentSlide -= 1;
     }
 
-    this.updateTrackStyle(this.currentSlide);
+    this.updateTrackStyle();
   }
 
   swipeLeft = (event: MouseEvent & Carousel.Event | TouchEvent & Carousel.Event) => {
@@ -116,9 +113,8 @@ class Carousel {
   }
 
   onMount() {
-    this.populateProps();
-    this.updateSlideWidth(this.visibleWidth); // this function has this.update() at the end
-    this.updateTrackStyle(this.currentSlide);
+    this.getDots();
+    this.updateTrackStyle();
     this.updateSlideStyleToDom();
 
   }
@@ -127,15 +123,12 @@ class Carousel {
     // todo: add setAttribute again
   }
 
-  populateProps: any = () => {
-    const { track } = this.refs;
-    const slideCount = track.children.length;
-    this.slidesToShow = this.props.settings.slidesToShow;
-    this.slidesToScroll = this.props.settings.slidesToScroll;
-    this.slideCount = slideCount;
-    this.visibleWidth = document.getElementById('carousel-list').offsetWidth;
+  getDots: any = () => {
+    const slideCount = this.refs.track.children.length;
+    const { slidesToShow } = this.props.settings;
+    const { slidesToScroll } = this.props.settings;
 
-    const dotCount = Math.ceil(( this.slideCount - this.slidesToShow ) / this.slidesToScroll + 1 );
+    const dotCount = Math.ceil((slideCount - slidesToShow) / slidesToScroll + 1);
     this.dots = Array(dotCount).fill('dot');
   }
 
@@ -147,22 +140,21 @@ class Carousel {
 
   updateSlideStyleToDom: any = () => {
     const { track } = this.refs;
+    const slideWidth = this.getSlideWidth();
     Array.from(track.children).forEach((c) => {
       // dynamically adding expression attributes:
       // https://github.com/riot/riot/issues/1752
       // todo: write a test to make sure this function exists on riot and it will translate into style correctly.
-      c.setAttribute('style', this.styleObjectToString(this.slideStyle));
+      c.setAttribute('style', this.styleObjectToString({ width: `${ slideWidth }px` }));
       c.setAttribute('class', 'slide fade');
     });
   }
 
   // question: should I include updateSlideWidth in this function?
-  updateTrackStyle: any = (currentSlide) => {
-    const { track } = this.refs;
+  updateTrackStyle: any = () => {
     const { settings } = this.props;
-    const style = this.trackStyle;
     const slideCount = this.refs.track.children.length;
-    const slideWidth = this.slideWidth;
+    const slideWidth: number = this.getSlideWidth();
     let trackWidth;
 
     if (settings.slidesToShow && settings.slidesToShow > 1) {
@@ -170,29 +162,46 @@ class Carousel {
     } else {
       trackWidth = slideCount * slideWidth;
     }
-    Object.assign(style, { width: `${trackWidth}px` });
+    const pos = calcPos(this.currentSlide, slideWidth);
+    const tfm = `translate3d(-${pos}px, 0px, 0px)`;
 
-    const pos = calcPos(currentSlide, slideWidth);
+    const transformStyles = {
+      transform: tfm,
+      '-webkit-transform': tfm,
+      '-ms-transform': tfm,
+    };
 
-    style.transform = `translate3d(-${pos}px, 0px, 0px)`;
-    style['-webkit-transform'] = `translate3d(-${pos}px, 0px, 0px)`;
-    style['-ms-transform'] = `translate3d(-${pos}px, 0px, 0px)`;
+    const transition = settings.speed + 'ms ' + 'ease';
+    const transitionStyles = settings.fade === true ? {
+      '-webkit-transition': transition,
+      transition
+    } : {};
 
-    if (settings.fade === true) {
-      style.WebkitTransition = '-webkit-transform ' + settings.speed + 'ms ' + 'ease';
-      style.transition = 'transform ' + settings.speed + 'ms ' + 'ease';
-    }
-    this.update(this.trackStyle = style);
+    const style = Object.assign({}, DEFAULT_TRACK_STYLE, {
+      width: `${trackWidth}px`,
+    },
+      transformStyles,
+      transitionStyles);
 
-  }
-
-  updateSlideWidth: any = (totalWidth: number) => {
-    const { slidesToShow } = this.props.settings;
-    const slideWidth = totalWidth / slidesToShow;
-    this.slideWidth = slideWidth;
-    this.slideStyle.width = `${slideWidth}px`;
+    this.trackStyle = style;
     this.update();
+
   }
+
+  getSlideWidth = () => {
+    const totalWidth = this.getVisibleWidth();
+    const { settings: { slidesToShow = DEFAULT_SLIDES } = {} } = this.props;
+
+    if (totalWidth && slidesToShow) {
+      const slideWidth = totalWidth / slidesToShow;
+      return slideWidth;
+    }
+
+    // todo: handle edge cases?
+
+  }
+
+  getVisibleWidth = () => 500; // this.parent.offsetWidth;
 
   swipeDirection: any = (touchObject) => {
     let xDist: any;
