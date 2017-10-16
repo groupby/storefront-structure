@@ -18,6 +18,7 @@ class Carousel {
   // props: Carousel.Props = <any>{
   // };
   refs: {
+    carouselwrap: HTMLDivElement,
     track: HTMLDivElement,
   };
 
@@ -104,10 +105,8 @@ class Carousel {
     }
     if (window.addEventListener) {
       window.addEventListener('resize', () => {
-        // todo: unlink window size, link parent div width
-        // this.windowSize = window.innerWidth;
-        // this.updateSlideWidth(this.windowSize);
-        // this.update();
+        this.updateTrackStyle();
+        this.updateSlideStyleToDom();
       });
     }
   }
@@ -185,7 +184,6 @@ class Carousel {
 
     this.trackStyle = style;
     this.update();
-
   }
 
   getSlideWidth = () => {
@@ -201,7 +199,7 @@ class Carousel {
 
   }
 
-  getVisibleWidth = () => 500; // this.parent.offsetWidth;
+  getVisibleWidth = () => this.refs.carouselwrap.offsetWidth;
 
   swipeDirection: any = (touchObject) => {
     let xDist: any;
