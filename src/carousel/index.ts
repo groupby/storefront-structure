@@ -2,7 +2,6 @@ import { tag, utils, Tag } from '@storefront/core';
 
 const DEFAULT_SLIDES = 1;
 const DEFAULT_TRACK_STYLE = {
-  'max-height': '300px',
   opacity: 1,
   // what is a safe default value for track width??
   width: '10000px',
@@ -98,28 +97,29 @@ class Carousel {
     utils.WINDOW().document.removeEventListener('touchend', this.onSwipeEnd);
   }
 
-  onBeforeMount() {
-    // this.update(this.spec.settings = this.props.settings);
-    if (!window) {
-      return;
-    }
-    if (window.addEventListener) {
-      window.addEventListener('resize', () => {
-        this.updateTrackStyle();
-        this.updateSlideStyleToDom();
-      });
-    }
-  }
-
   onMount() {
-    this.getDots();
-    this.updateTrackStyle();
-    this.updateSlideStyleToDom();
+    // onMount or beforeMount?
+    if (utils.WINDOW().addEventListener) {
+      utils.WINDOW().addEventListener('resize', this.updateTrackAndSlideStyle);
+    }
 
+    this.getDots();
+    this.updateTrackAndSlideStyle();
   }
 
   onUpdate() {
     // todo: add setAttribute again
+  }
+
+  onUnMount() {
+    if (window.addEventListener) {
+      window.removeEventListener('resize', this.updateTrackAndSlideStyle);
+    }
+  }
+
+  updateTrackAndSlideStyle = () => {
+    this.updateTrackStyle();
+    this.updateSlideStyleToDom();
   }
 
   getDots: any = () => {
@@ -144,7 +144,7 @@ class Carousel {
       // dynamically adding expression attributes:
       // https://github.com/riot/riot/issues/1752
       // todo: write a test to make sure this function exists on riot and it will translate into style correctly.
-      c.setAttribute('style', this.styleObjectToString({ width: `${ slideWidth }px` }));
+      c.setAttribute('style', this.styleObjectToString({ width: `${slideWidth}px` }));
       c.setAttribute('class', 'slide fade');
     });
   }
@@ -187,11 +187,11 @@ class Carousel {
   }
 
   getSlideWidth = () => {
-    const totalWidth = this.getVisibleWidth();
+    const visibleWidth = this.getVisibleWidth();
     const { settings: { slidesToShow = DEFAULT_SLIDES } = {} } = this.props;
 
-    if (totalWidth && slidesToShow) {
-      const slideWidth = totalWidth / slidesToShow;
+    if (visibleWidth && slidesToShow) {
+      const slideWidth = visibleWidth / slidesToShow;
       return slideWidth;
     }
 

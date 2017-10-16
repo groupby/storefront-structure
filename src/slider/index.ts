@@ -44,7 +44,6 @@ class Slider {
   }
 
   onDragStart = (event: MouseEvent & Slider.Event | TouchEvent & Slider.Event) => {
-    console.log('event', event);
     event.preventDefault();
     event.stopPropagation();
     this.setup(event.target);
