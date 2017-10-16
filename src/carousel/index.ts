@@ -100,7 +100,7 @@ class Carousel {
   onMount() {
     // onMount or beforeMount?
     if (utils.WINDOW().addEventListener) {
-      utils.WINDOW().addEventListener('resize', this.updateTrackAndSlideStyle);
+      utils.WINDOW().addEventListener('resize', this.updateTrackStyleWithoutTransition);
     }
 
     this.getDots();
@@ -113,13 +113,13 @@ class Carousel {
 
   onUnMount() {
     if (window.addEventListener) {
-      window.removeEventListener('resize', this.updateTrackAndSlideStyle);
+      window.removeEventListener('resize', this.updateTrackStyleWithoutTransition);
     }
   }
 
   updateTrackAndSlideStyle = () => {
-    this.updateTrackStyle();
     this.updateSlideStyleToDom();
+    this.updateTrackStyleWithTransition();
   }
 
   getDots: any = () => {
@@ -150,7 +150,7 @@ class Carousel {
   }
 
   // question: should I include updateSlideWidth in this function?
-  updateTrackStyle: any = () => {
+  getTrackStyle: any = () => {
     const { settings } = this.props;
     const slideCount = this.refs.track.children.length;
     const slideWidth: number = this.getSlideWidth();
@@ -181,7 +181,19 @@ class Carousel {
     },
       transformStyles,
       transitionStyles);
+    return style;
+  }
 
+  updateTrackStyleWithTransition = () => {
+    const style = this.getTrackStyle();
+    this.trackStyle = style;
+    this.update();
+  }
+
+  updateTrackStyleWithoutTransition = () => {
+    const style = this.getTrackStyle();
+    delete style['transition'];
+    delete style['-webkit-transition'];
     this.trackStyle = style;
     this.update();
   }
