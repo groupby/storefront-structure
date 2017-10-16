@@ -45,7 +45,7 @@ class Carousel {
     } else {
       this.currentSlide = (this.currentSlide + 1) % slideCount;
     }
-    this.updateTrackStyle();
+    this.updateTrackStyleWithTransition();
   }
 
   movePrevious = () => {
@@ -58,7 +58,7 @@ class Carousel {
       this.currentSlide -= 1;
     }
 
-    this.updateTrackStyle();
+    this.updateTrackStyleWithTransition();
   }
 
   swipeLeft = (event: MouseEvent & Carousel.Event | TouchEvent & Carousel.Event) => {
@@ -100,11 +100,11 @@ class Carousel {
   onMount() {
     // onMount or beforeMount?
     if (utils.WINDOW().addEventListener) {
-      utils.WINDOW().addEventListener('resize', this.updateTrackStyleWithoutTransition);
+      utils.WINDOW().addEventListener('resize', this.updateTrackAndSlideStyleWithoutTransition);
     }
 
     this.getDots();
-    this.updateTrackAndSlideStyle();
+    this.updateTrackAndSlideStyleWithTransition();
   }
 
   onUpdate() {
@@ -113,15 +113,19 @@ class Carousel {
 
   onUnMount() {
     if (window.addEventListener) {
-      window.removeEventListener('resize', this.updateTrackStyleWithoutTransition);
+      window.removeEventListener('resize', this.updateTrackAndSlideStyleWithoutTransition);
     }
   }
 
-  updateTrackAndSlideStyle = () => {
+  updateTrackAndSlideStyleWithTransition = () => {
     this.updateSlideStyleToDom();
     this.updateTrackStyleWithTransition();
   }
 
+  updateTrackAndSlideStyleWithoutTransition = () => {
+    this.updateSlideStyleToDom();
+    this.updateTrackStyleWithoutTransition();
+  }
   getDots: any = () => {
     const slideCount = this.refs.track.children.length;
     const { slidesToShow } = this.props.settings;
@@ -201,9 +205,10 @@ class Carousel {
   getSlideWidth = () => {
     const visibleWidth = this.getVisibleWidth();
     const { settings: { slidesToShow = DEFAULT_SLIDES } = {} } = this.props;
-
+    console.log('here')
     if (visibleWidth && slidesToShow) {
       const slideWidth = visibleWidth / slidesToShow;
+      console.log('slide w', slideWidth);
       return slideWidth;
     }
 
