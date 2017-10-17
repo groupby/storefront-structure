@@ -17,17 +17,21 @@ class Carousel {
   // props: Carousel.Props = <any>{
   // };
   refs: {
-    carouselwrap: HTMLDivElement,
+    carouselwrap: HTMLElement,
     track: HTMLDivElement,
-  };
-
-  state: Carousel.State = <any>{
   };
 
   props: Carousel.Props = <any>{
     settings: {
       speed: 800,
     }
+  };
+
+  touchObject: {
+    startX: number,
+    startY: number,
+    curX: number,
+    curY: number
   };
 
   currentSlide: number = 0;
@@ -40,11 +44,15 @@ class Carousel {
     const slideCount = this.refs.track.children.length;
 
     let lastSlide = this.currentSlide + slidesToShow - 1;
+
+    // if (lastSlide)
+
     if (lastSlide >= slideCount - 1) {
       this.currentSlide = 0;
     } else {
       this.currentSlide = (this.currentSlide + 1) % slideCount;
     }
+
     const slideWidth = this.getSlideWidth();
     this.updateTrackStyleWithTransition(slideWidth);
   }
@@ -63,49 +71,58 @@ class Carousel {
   }
 
   swipeLeft = (event: MouseEvent & Carousel.Event | TouchEvent & Carousel.Event) => {
-    // event.preventDefault();
-    // event.stopPropagation();
+    event.preventDefault();
+    event.stopPropagation();
     // utils.WINDOW().document.addEventListener('mousemove', this.onMouseMove, true);
-    utils.WINDOW().document.addEventListener('touchstart', this.onTouchStart, true);
-    utils.WINDOW().document.addEventListener('touchmove', this.onTouchMove, true);
-    // utils.WINDOW().document.addEventListener('mouseup', this.onSwipeEnd, true);
-    utils.WINDOW().document.addEventListener('touchend', this.onSwipeEnd, true);
-  }
-
-  onMouseMove = (event: MouseEvent & Carousel.Event) => {
-    console.log('clientX', event);
+    // this.refs.carouselwrap.addEventListener('mouseup', this.onSwipeEnd, true);
+    // this.refs.carouselwrap.addEventListener('touch', this.onSwipeEnd, true);
+    // this.refs.carouselwrap.addEventListener('touchend', this.onSwipeEnd, false);
   }
 
   onTouchStart = (event: TouchEvent & Carousel.Event) => {
-    console.log('touch start', event);
+    event.preventDefault();
+    event.stopPropagation();
+
+    console.log('first touch', event.changedTouches[0].clientX);
+    const posX = event.touches[0].pageX;
+    const posY = event.touches[0].pageY;
+
+    // doesn't allow event.clientX
+    // const posX = (event.touches !== undefined) ? event.touches[0].pageX : event.clientX;
+    // const posY = (event.touches !== undefined) ? event.touches[0].pageY : event.clientY;
+
+    this.touchObject = {
+      startX: posX,
+      startY: posY,
+      curX: posX,
+      curY: posY
+    };
+    this.refs.carouselwrap.addEventListener('touchend', this.onTouchEnd);
   }
 
-  onTouchMove = (event: TouchEvent & Carousel.Event) => {
-    console.log('touch move', event);
+  onTouchEnd = (event: TouchEvent & Carousel.Event) => {
+    console.log('swipe end', event.changedTouches[0].clientX);
 
-    // if (touchEvent.target === this.state.handle) {
-    //   this.redraw(touchEvent.clientX);
-    // }
-  }
+    this.touchObject.curX = event.touches[0].pageX;
+    this.touchObject.curY = event.touches[0].pageY;
 
-  onSwipeEnd = (event: TouchEvent & Carousel.Event) => {
-    console.log('swipe end', event);
+    // this.touchObject.curX = (event.touches) ? event.touches[0].pageX : event.clientX;
+    // this.touchObject.curY = (event.touches) ? event.touches[0].pageY : event.clientY;
 
-    // utils.WINDOW().document.removeEventListener('mousemove', this.onMouseMove);
-    utils.WINDOW().document.removeEventListener('touchstart', this.onTouchStart);
-    utils.WINDOW().document.removeEventListener('touchmove', this.onTouchMove);
-    // utils.WINDOW().document.removeEventListener('mouseup', this.onSwipeEnd);
-    utils.WINDOW().document.removeEventListener('touchend', this.onSwipeEnd);
+    calSwipeDirection(this.touchObject);
+    this.refs.carouselwrap.removeEventListener('touchstart', this.onTouchStart);
+    this.refs.carouselwrap.removeEventListener('touchend', this.onTouchEnd);
   }
 
   onMount() {
     // onMount or beforeMount?
-    if (utils.WINDOW().addEventListener) {
-      utils.WINDOW().addEventListener('resize', this.updateTrackAndSlideStyleWithoutTransition);
+    if (this.refs.carouselwrap.addEventListener) {
+      utils.WINDOW().addEventListener('resize', this.updateTrackAndSlideStyleWithoutTransition, true);
     }
 
     this.getDots();
     this.updateTrackAndSlideStyleWithTransition();
+    this.cloneFirstAndLastSlides();
   }
 
   onUpdate() {
@@ -149,13 +166,24 @@ class Carousel {
 
   updateSlideStyleToDom: any = (slideWidth) => {
     const { track } = this.refs;
-    Array.from(track.children).forEach((c) => {
+    Array.from(track.children).forEach((c, index) => {
       // dynamically adding expression attributes:
       // https://github.com/riot/riot/issues/1752
       // todo: write a test to make sure this function exists on riot and it will translate into style correctly.
       c.setAttribute('style', this.styleObjectToString({ width: `${slideWidth}px` }));
       c.setAttribute('class', 'slide fade');
+      c.setAttribute('key', index.toString());
     });
+
+  }
+
+  cloneFirstAndLastSlides = () => {
+    const { track } = this.refs;
+    const clonedHead = track.children[0].cloneNode(true);
+    const clonedTail = track.children[6].cloneNode(true);
+
+    track.appendChild(clonedHead);
+    // track.children[0].insertBefore(clonedTail);
   }
 
   // question: should I include updateSlideWidth in this function?
@@ -185,7 +213,8 @@ class Carousel {
     } : {};
 
     const style = Object.assign({}, DEFAULT_TRACK_STYLE, {
-      width: `${trackWidth}px`,
+      // width: `${trackWidth}px`,
+      width: `10000px`,
     },
       transformStyles,
       transitionStyles);
@@ -193,6 +222,7 @@ class Carousel {
   }
 
   updateTrackStyleWithTransition = (slideWidth: number) => {
+    // todo: explore debounce
     const style = this.getTrackStyle(slideWidth);
     this.trackStyle = style;
     this.update();
@@ -245,6 +275,22 @@ class Carousel {
 
 const calcPos = (currS: number, moveDistance: number): number => {
   return (currS) * moveDistance;
+};
+
+const calSwipeDirection = (touchObj: { startX: number, startY: number, curX: number, curY: number }): string => {
+  const xDist = touchObj.startX - touchObj.curX;
+  const yDist = touchObj.startY - touchObj.curY;
+  const r = Math.atan2(yDist, xDist);
+
+  let swipeAngle = Math.round(r * 180 / Math.PI);
+  if (swipeAngle < 0) {
+    swipeAngle = 360 - Math.abs(swipeAngle);
+  }
+  if (swipeAngle <= 45 && swipeAngle >= 0 || swipeAngle <= 360 && swipeAngle >= 315) {
+    return 'left';
+  } else {
+    return 'right';
+  }
 };
 
 interface Carousel extends Tag<Carousel.Props> { }
