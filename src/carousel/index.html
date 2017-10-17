@@ -1,6 +1,6 @@
-<div class="carousel-wrap" ref="carouselwrap">
+<div class="carousel-wrap" ref="carouselwrap" mousedown="{ swipeLeft }" touchstart="{ onTouchStart }">
     <div id="carousel-list">
-        <div class="track" ref="track" style="{ trackStyle }" mousedown="{ swipeLeft }" touchstart="{ swipeLeft }">
+        <div class="track" ref="track" style="{ trackStyle }" >
             <yield></yield>
         </div>
     </div>
