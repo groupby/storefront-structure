@@ -27,6 +27,7 @@ class Carousel {
   refs: {
     carouselwrap: HTMLElement,
     track: HTMLDivElement,
+    dots: HTMLDivElement
   };
 
   props: Carousel.Props = <any>DEFAULT_SETTINGS;
@@ -60,6 +61,9 @@ class Carousel {
 
     const slideWidth = this.getSlideWidth();
     this.updateTrackStyleWithTransition(slideWidth);
+
+    this.addClassToDot();
+
   }
 
   movePrevious = () => {
@@ -73,6 +77,8 @@ class Carousel {
     }
     const slideWidth = this.getSlideWidth();
     this.updateTrackStyleWithTransition(slideWidth);
+
+    this.addClassToDot();
   }
 
   onTouchStart = (event: TouchEvent & Carousel.Event) => {
@@ -114,7 +120,8 @@ class Carousel {
       utils.WINDOW().addEventListener('resize', this.updateTrackAndSlideStyleWithoutTransition, true);
     }
 
-    this.getDots();
+    const count = this.getDotsCount();
+    this.populateDots(count);
     this.updateTrackAndSlideStyleWithTransition();
     // this.cloneFirstAndLastSlides();
   }
@@ -144,14 +151,39 @@ class Carousel {
     this.updateTrackStyleWithoutTransition(slideWidth);
   }
 
-  getDots: any = () => {
+  getDotsCount: any = () => {
     const slideCount = this.refs.track.children.length;
     const { slidesToShow } = this.props.settings;
     const { slidesToScroll } = this.props.settings;
 
     const dotCount = Math.ceil((slideCount - slidesToShow) / slidesToScroll + 1);
-    this.dots = Array(dotCount).fill('dot');
+    return dotCount;
   }
+
+  populateDots: any = (count) => {
+    this.dots = Array(count).fill('dot');
+  }
+
+  getCurrentDot: any = () => {
+    const slidesToShow = this.getSlidesToShow();
+    const count = this.refs.track.children.length;
+    if (this.currentSlide <= count - slidesToShow) {
+      return this.currentSlide;
+    } else {
+      return 0;
+    }
+  }
+
+  addClassToDot: any = () => {
+    const currentDot = this.getCurrentDot();
+
+    const { dots } = this.refs;
+    Array.from(dots.children).forEach((child, index) => {
+      index === currentDot ? child.className += 'active' : child.className = child.className.replace('active', '');
+    });
+  }
+
+  getSlidesToShow = () => this.props.settings.slidesToShow;
 
   styleObjectToString: any = (style) => {
     return Object.keys(style).reduce(function (acc: string, prop: string) {
@@ -177,23 +209,25 @@ class Carousel {
       child.setAttribute('class', 'carousel-slide');
       child.setAttribute('key', index.toString());
 
-      const infiniteCount = slidesToShow;
+      // const infiniteCount = slidesToShow;
 
-      if (index >= (count - infiniteCount)) {
-        const key = -(count - index);
-        // now clonedChild is a node which can't be set attribute
-        const clonedChild = child.cloneNode(true);
+      // if (index >= (count - infiniteCount)) {
+      //   const key = -(count - index);
+      //   // now clonedChild is a node which can't be set attribute
+      //   const clonedChild = child.cloneNode(true);
+      //   clonedChild.setA;
+      //   console.log('child', this.refs);
 
-       track.appendChild(clonedChild);
-        // cannot set keys and classes
-      } else if (index < infiniteCount) {
-        const clonedChild = child.cloneNode(true);
+      //  track.appendChild(clonedChild);
+      //   // cannot set keys and classes
+      // } else if (index < infiniteCount) {
+      //   const clonedChild = child.cloneNode(true);
 
-        track.insertBefore(clonedChild, track.children[index]);
-      }
+      //   track.insertBefore(clonedChild, track.children[index]);
+      // }
     });
 
-    console.log('track', track);
+    console.log('track');
 
     // track.appendChild(preCloneSlides);
     // track.insertBefore(postCloneSlides, track.children[0]);

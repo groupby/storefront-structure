@@ -25,7 +25,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
     it('should update slide width', () => {
       carousel.onMount();
 
-      expect(carousel.getDots).to.be.called;
+      expect(carousel.getDotsCount).to.be.called;
     });
   });
 
