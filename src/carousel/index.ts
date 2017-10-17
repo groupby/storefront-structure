@@ -11,6 +11,16 @@ const DEFAULT_TRACK_STYLE = {
   '-ms-transform': `translate3d(0px, 0px, 0px)`
 };
 
+const DEFAULT_SETTINGS = {
+  fade: true,
+  dots: true,
+  infinite: true,
+  speed: 800,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  initialSlide: 0
+};
+
 @tag('gb-carousel', require('./index.html'), require('./index.css'))
 class Carousel {
   // props: Carousel.Props = <any>{
@@ -20,11 +30,7 @@ class Carousel {
     track: HTMLDivElement,
   };
 
-  props: Carousel.Props = <any>{
-    settings: {
-      speed: 800,
-    }
-  };
+  props: Carousel.Props = <any>DEFAULT_SETTINGS;
 
   touchObject: {
     startX: number,
@@ -38,11 +44,12 @@ class Carousel {
   trackStyle: any;
 
   moveNext = () => {
-    const { settings: { slidesToShow = DEFAULT_SLIDES } = {} } = this.props;
+    // best practice to get default settings?
+    const { settings = DEFAULT_SETTINGS } = this.props;
     // todo: check slideCount
     const slideCount = this.refs.track.children.length;
 
-    let lastSlide = this.currentSlide + slidesToShow - 1;
+    let lastSlide = this.currentSlide + settings.slidesToShow - 1;
 
     // if (lastSlide)
 
@@ -57,11 +64,11 @@ class Carousel {
   }
 
   movePrevious = () => {
-    const { settings: { slidesToShow = DEFAULT_SLIDES } = {} } = this.props;
+    const { settings = DEFAULT_SETTINGS } = this.props;
     const slideCount = this.refs.track.children.length;
 
     if (this.currentSlide === 0) {
-      this.currentSlide = slideCount - slidesToShow;
+      this.currentSlide = slideCount - settings.slidesToShow;
     } else {
       this.currentSlide -= 1;
     }
@@ -69,20 +76,10 @@ class Carousel {
     this.updateTrackStyleWithTransition(slideWidth);
   }
 
-  swipeLeft = (event: MouseEvent & Carousel.Event | TouchEvent & Carousel.Event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    // utils.WINDOW().document.addEventListener('mousemove', this.onMouseMove, true);
-    // this.refs.carouselwrap.addEventListener('mouseup', this.onSwipeEnd, true);
-    // this.refs.carouselwrap.addEventListener('touch', this.onSwipeEnd, true);
-    // this.refs.carouselwrap.addEventListener('touchend', this.onSwipeEnd, false);
-  }
-
   onTouchStart = (event: TouchEvent & Carousel.Event) => {
     event.preventDefault();
     event.stopPropagation();
 
-    console.log('first touch', event.changedTouches[0]);
     const posX = event.touches[0].pageX;
     const posY = event.touches[0].pageY;
 
@@ -100,7 +97,6 @@ class Carousel {
   }
 
   onTouchEnd = (event: TouchEvent & Carousel.Event) => {
-    console.log('swipe end', event.changedTouches[0]);
 
     this.touchObject.curX = event.changedTouches[0].pageX;
     this.touchObject.curY = event.changedTouches[0].pageY;
@@ -108,7 +104,7 @@ class Carousel {
     // this.touchObject.curX = (event.touches) ? event.touches[0].pageX : event.clientX;
     // this.touchObject.curY = (event.touches) ? event.touches[0].pageY : event.clientY;
 
-    this.onSwipe(this.touchObject);
+    this.swipeSlides(this.touchObject);
     this.refs.carouselwrap.removeEventListener('touchstart', this.onTouchStart);
     this.refs.carouselwrap.removeEventListener('touchend', this.onTouchEnd);
   }
@@ -237,7 +233,7 @@ class Carousel {
     this.update();
   }
 
-  onSwipe = (touchObj: { startX: number, startY: number, curX: number, curY: number }) => {
+  swipeSlides = (touchObj: { startX: number, startY: number, curX: number, curY: number }) => {
     const direction: string = calSwipeDirection(touchObj);
 
     if (direction) {
