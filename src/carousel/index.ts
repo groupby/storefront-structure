@@ -82,7 +82,7 @@ class Carousel {
     event.preventDefault();
     event.stopPropagation();
 
-    console.log('first touch', event.changedTouches[0].clientX);
+    console.log('first touch', event.changedTouches[0]);
     const posX = event.touches[0].pageX;
     const posY = event.touches[0].pageY;
 
@@ -100,15 +100,15 @@ class Carousel {
   }
 
   onTouchEnd = (event: TouchEvent & Carousel.Event) => {
-    console.log('swipe end', event.changedTouches[0].clientX);
+    console.log('swipe end', event.changedTouches[0]);
 
-    this.touchObject.curX = event.touches[0].pageX;
-    this.touchObject.curY = event.touches[0].pageY;
+    this.touchObject.curX = event.changedTouches[0].pageX;
+    this.touchObject.curY = event.changedTouches[0].pageY;
 
     // this.touchObject.curX = (event.touches) ? event.touches[0].pageX : event.clientX;
     // this.touchObject.curY = (event.touches) ? event.touches[0].pageY : event.clientY;
 
-    calSwipeDirection(this.touchObject);
+    this.onSwipe(this.touchObject);
     this.refs.carouselwrap.removeEventListener('touchstart', this.onTouchStart);
     this.refs.carouselwrap.removeEventListener('touchend', this.onTouchEnd);
   }
@@ -148,6 +148,7 @@ class Carousel {
     this.updateSlideStyleToDom(slideWidth);
     this.updateTrackStyleWithoutTransition(slideWidth);
   }
+
   getDots: any = () => {
     const slideCount = this.refs.track.children.length;
     const { slidesToShow } = this.props.settings;
@@ -236,6 +237,14 @@ class Carousel {
     this.update();
   }
 
+  onSwipe = (touchObj: { startX: number, startY: number, curX: number, curY: number }) => {
+    const direction: string = calSwipeDirection(touchObj);
+
+    if (direction) {
+      direction === 'left' ? this.moveNext() : this.movePrevious();
+    }
+  }
+
   getSlideWidth = () => {
     const visibleWidth = this.getVisibleWidth();
     const { settings: { slidesToShow = DEFAULT_SLIDES } = {} } = this.props;
@@ -250,27 +259,6 @@ class Carousel {
 
   getVisibleWidth = () => this.refs.carouselwrap.offsetWidth;
 
-  swipeDirection: any = (touchObject) => {
-    let xDist: any;
-    let yDist: any;
-    let r: any;
-    let swipeAngle: any;
-
-    xDist = touchObject.startX - touchObject.curX;
-    yDist = touchObject.startY - touchObject.curY;
-    r = Math.atan2(yDist, xDist);
-
-    swipeAngle = Math.round(r * 180 / Math.PI);
-    if (swipeAngle < 0) {
-      swipeAngle = 360 - Math.abs(swipeAngle);
-    }
-    if ((swipeAngle <= 45) && (swipeAngle >= 0) || (swipeAngle <= 360) && (swipeAngle >= 315)) {
-      return ('left');
-    }
-    if ((swipeAngle >= 135) && (swipeAngle <= 225)) {
-      return ('right');
-    }
-  }
 }
 
 const calcPos = (currS: number, moveDistance: number): number => {
@@ -283,13 +271,16 @@ const calSwipeDirection = (touchObj: { startX: number, startY: number, curX: num
   const r = Math.atan2(yDist, xDist);
 
   let swipeAngle = Math.round(r * 180 / Math.PI);
+
   if (swipeAngle < 0) {
     swipeAngle = 360 - Math.abs(swipeAngle);
   }
-  if (swipeAngle <= 45 && swipeAngle >= 0 || swipeAngle <= 360 && swipeAngle >= 315) {
+  // swipeAngle between 45 and 135, between 225 and 315 is ignored; 
+  if (swipeAngle <= 45 && swipeAngle > 0 || swipeAngle <= 360 && swipeAngle >= 315) {
     return 'left';
-  } else {
-    return 'right';
+  }
+  if ((swipeAngle >= 135) && (swipeAngle <= 225)) {
+    return ('right');
   }
 };
 
