@@ -4,7 +4,6 @@ const DEFAULT_SLIDES = 1;
 const DEFAULT_TRACK_STYLE = {
   opacity: 1,
   // what is a safe default value for track width??
-  width: '10000px',
   transform: `translate3d(0px, 0px, 0px)`,
   '-webkit-transform': `translate3d(0px, 0px, 0px)`,
   transition: '',
@@ -183,7 +182,7 @@ class Carousel {
     const clonedTail = track.children[6].cloneNode(true);
 
     track.appendChild(clonedHead);
-    // track.children[0].insertBefore(clonedTail);
+    track.insertBefore(clonedTail, track.children[0]);
   }
 
   // question: should I include updateSlideWidth in this function?
@@ -192,10 +191,12 @@ class Carousel {
     const slideCount = this.refs.track.children.length;
     let trackWidth;
 
-    if (settings.slidesToShow && settings.slidesToShow > 1) {
-      trackWidth = (slideCount + settings.slidesToShow) * slideWidth;
+    if (settings.slidesToShow) {
+      // trackWidth = (slideCount + settings.slidesToShow) * slideWidth;
+      trackWidth = (slideCount + 2 * settings.slidesToShow) * slideWidth;
     } else {
-      trackWidth = slideCount * slideWidth;
+      // trackWidth = slideCount * slideWidth;
+      trackWidth = (slideCount + 2) * slideWidth;
     }
     const pos = calcPos(this.currentSlide, slideWidth);
     const tfm = `translate3d(-${pos}px, 0px, 0px)`;
@@ -213,8 +214,7 @@ class Carousel {
     } : {};
 
     const style = Object.assign({}, DEFAULT_TRACK_STYLE, {
-      // width: `${trackWidth}px`,
-      width: `10000px`,
+      width: `${trackWidth}px`,
     },
       transformStyles,
       transitionStyles);
