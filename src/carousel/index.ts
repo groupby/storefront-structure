@@ -3,7 +3,6 @@ import { tag, utils, Tag } from '@storefront/core';
 const DEFAULT_SLIDES = 1;
 const DEFAULT_TRACK_STYLE = {
   opacity: 1,
-  // what is a safe default value for track width??
   transform: `translate3d(0px, 0px, 0px)`,
   '-webkit-transform': `translate3d(0px, 0px, 0px)`,
   transition: '',
@@ -117,7 +116,7 @@ class Carousel {
 
     this.getDots();
     this.updateTrackAndSlideStyleWithTransition();
-    this.cloneFirstAndLastSlides();
+    // this.cloneFirstAndLastSlides();
   }
 
   onUpdate() {
@@ -161,15 +160,43 @@ class Carousel {
   }
 
   updateSlideStyleToDom: any = (slideWidth) => {
+    let preCloneSlides = [];
+    let postCloneSlides = [];
+    const count = this.refs.track.children.length;
+    const { slidesToShow } = this.props.settings;
+
     const { track } = this.refs;
-    Array.from(track.children).forEach((c, index) => {
+    Array.from(track.children).forEach((child, index) => {
       // dynamically adding expression attributes:
       // https://github.com/riot/riot/issues/1752
       // todo: write a test to make sure this function exists on riot and it will translate into style correctly.
-      c.setAttribute('style', this.styleObjectToString({ width: `${slideWidth}px` }));
-      c.setAttribute('class', 'slide fade');
-      c.setAttribute('key', index.toString());
+      child.setAttribute('style', this.styleObjectToString({
+        width: `${slideWidth}px`,
+        outline: 'none',
+      }));
+      child.setAttribute('class', 'carousel-slide');
+      child.setAttribute('key', index.toString());
+
+      const infiniteCount = slidesToShow;
+
+      if (index >= (count - infiniteCount)) {
+        const key = -(count - index);
+        // now clonedChild is a node which can't be set attribute
+        const clonedChild = child.cloneNode(true);
+
+       track.appendChild(clonedChild);
+        // cannot set keys and classes
+      } else if (index < infiniteCount) {
+        const clonedChild = child.cloneNode(true);
+
+        track.insertBefore(clonedChild, track.children[index]);
+      }
     });
+
+    console.log('track', track);
+
+    // track.appendChild(preCloneSlides);
+    // track.insertBefore(postCloneSlides, track.children[0]);
 
   }
 
@@ -180,6 +207,7 @@ class Carousel {
 
     track.appendChild(clonedHead);
     track.insertBefore(clonedTail, track.children[0]);
+
   }
 
   // question: should I include updateSlideWidth in this function?
@@ -271,7 +299,7 @@ const calSwipeDirection = (touchObj: { startX: number, startY: number, curX: num
   if (swipeAngle < 0) {
     swipeAngle = 360 - Math.abs(swipeAngle);
   }
-  // swipeAngle between 45 and 135, between 225 and 315 is ignored; 
+  // swipeAngle between 45 and 135, between 225 and 315 is ignored;
   if (swipeAngle <= 45 && swipeAngle > 0 || swipeAngle <= 360 && swipeAngle >= 315) {
     return 'left';
   }
