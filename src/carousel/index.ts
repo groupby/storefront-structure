@@ -101,6 +101,8 @@ class Carousel {
     this.populateDots(count);
     // this.addClassToDot();
     this.updateTrackAndSlideStyleWithTransition();
+    this.addClassToDot();
+
     // this.cloneFirstAndLastSlides();
   }
 
@@ -193,21 +195,31 @@ class Carousel {
 
     const { dots } = this.refs;
     const { slidesToScroll } = this.props.settings;
+    const { slidesToShow } = this.props.settings;
+    const count = this.refs.track.children.length;
+    const addClass = (i) => {
+      i.className = i.className.replace('active', '');
+      i.className += 'active';
+    };
+    const removeClass = (i) => i.className = i.className.replace('active', '');
 
     // const dotCount = this.getDotsCount();
 
     Array.from(dots.children).forEach((child, i) => {
       let leftBound = (i * slidesToScroll);
-      let rightBound = (i * slidesToScroll) + (slidesToScroll - 1);
+      let rightBound = i * slidesToScroll + slidesToShow - 1;
 
-      if (this.currentSlide >= leftBound && this.currentSlide <= rightBound) {
-        child.className = child.className.replace('active', '');
-        child.className += 'active';
+      let lastSlide = this.currentSlide + slidesToShow - 1;
+
+      if (this.currentSlide + slidesToScroll + slidesToShow - 1 > count) {
+        i === dots.children.length - 1 ? addClass(child) : removeClass(child);
+
+      } else if (this.currentSlide >= leftBound && this.currentSlide <= rightBound) {
+        addClass(child);
       } else {
-        child.className = child.className.replace('active', '');
+        removeClass(child);
       }
 
-      console.log('index', i, currentDot)
     });
   }
 
