@@ -97,18 +97,17 @@ class Carousel {
       utils.WINDOW().addEventListener('resize', this.updateTrackAndSlideStyleWithoutTransition, true);
     }
 
-    // const count = this.getDotsCount();
-    // this.populateDots(count);
-    // this.addClassToDot();
+    const count = this.getDotsCount();
+    this.populateDots(count);
     this.updateTrackAndSlideStyleWithTransition();
-    // this.addClassToDot();
+    this.addClassToDot();
 
     // this.cloneFirstAndLastSlides();
   }
 
   onUpdate() {
     // todo: add setAttribute again
-    // this.addClassToDot();
+    this.addClassToDot();
   }
 
   onUnMount() {
@@ -205,21 +204,25 @@ class Carousel {
 
     // const dotCount = this.getDotsCount();
 
-    Array.from(dots.children).forEach((child, i) => {
-      let leftBound = (i * slidesToScroll);
-      let rightBound = i * slidesToScroll + slidesToShow - 1;
+    // Array.from(dots.children).forEach((child, i) => {
+    //   let leftBound = (i * slidesToScroll);
+    //   let rightBound = i * slidesToScroll + slidesToShow - 1;
 
-      let lastSlide = this.currentSlide + slidesToShow - 1;
+    //   let lastSlide = this.currentSlide + slidesToShow - 1;
 
-      if (this.currentSlide + slidesToScroll + slidesToShow - 1 > count) {
-        i === dots.children.length - 1 ? addClass(child) : removeClass(child);
+    //   if (this.currentSlide + slidesToScroll + slidesToShow - 1 > count) {
+    //     i === dots.children.length - 1 ? addClass(child) : removeClass(child);
 
-      } else if (this.currentSlide >= leftBound && this.currentSlide <= rightBound) {
-        addClass(child);
-      } else {
-        removeClass(child);
-      }
+    //   } else if (this.currentSlide >= leftBound && this.currentSlide <= rightBound) {
+    //     addClass(child);
+    //   } else {
+    //     removeClass(child);
+    //   }
 
+    // });
+
+    Array.from(dots.children).forEach((c, i) => {
+      i === currentDot ? addClass(c) : removeClass(c);
     });
   }
 
