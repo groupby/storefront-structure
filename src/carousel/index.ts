@@ -101,6 +101,7 @@ class Carousel {
     this.populateDots(count);
     this.updateTrackAndSlideStyleWithTransition();
     this.addClassToDot();
+    console.log('products in ca', this.props.items)
 
     // this.cloneFirstAndLastSlides();
   }
@@ -390,6 +391,7 @@ namespace Carousel {
       slidesToScroll?: number;
       speed?: number;
       fade?: boolean;
+      items: any;
     };
   }
 
