@@ -35,7 +35,7 @@
 }
 
 .carousel-slide img {
-  border: 5px solid #FFF;
+  box-shadow: 5px solid #FFF;
   display: block;
   margin: auto;
   max-width: 100%;

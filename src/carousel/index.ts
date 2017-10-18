@@ -44,41 +44,18 @@ class Carousel {
   trackStyle: any;
 
   moveNext = () => {
-    // best practice to get default settings?
-    const { settings = DEFAULT_SETTINGS } = this.props;
-    // todo: check slideCount
-    const slideCount = this.refs.track.children.length;
-
-    let lastSlide = this.currentSlide + settings.slidesToShow - 1;
-
-    // if (lastSlide)
-
-    if (lastSlide >= slideCount - 1) {
-      this.currentSlide = 0;
-    } else {
-      this.currentSlide = (this.currentSlide + 1) % slideCount;
-    }
+    this.getCurrentSlideOnNext();
 
     const slideWidth = this.getSlideWidth();
     this.updateTrackStyleWithTransition(slideWidth);
-
-    this.addClassToDot();
 
   }
 
   movePrevious = () => {
-    const { settings = DEFAULT_SETTINGS } = this.props;
-    const slideCount = this.refs.track.children.length;
-
-    if (this.currentSlide === 0) {
-      this.currentSlide = slideCount - settings.slidesToShow;
-    } else {
-      this.currentSlide -= 1;
-    }
+    this.getCurrentSlideOnPrev();
     const slideWidth = this.getSlideWidth();
     this.updateTrackStyleWithTransition(slideWidth);
 
-    this.addClassToDot();
   }
 
   onTouchStart = (event: TouchEvent & Carousel.Event) => {
@@ -122,17 +99,52 @@ class Carousel {
 
     const count = this.getDotsCount();
     this.populateDots(count);
+    // this.addClassToDot();
     this.updateTrackAndSlideStyleWithTransition();
     // this.cloneFirstAndLastSlides();
   }
 
   onUpdate() {
     // todo: add setAttribute again
+    this.addClassToDot();
   }
 
   onUnMount() {
     if (window.addEventListener) {
       window.removeEventListener('resize', this.updateTrackAndSlideStyleWithoutTransition);
+    }
+  }
+
+  getCurrentSlideOnNext = () => {
+    // best practice to get default settings?
+    const { settings = DEFAULT_SETTINGS } = this.props;
+    // todo: check slideCount
+    const slideCount = this.refs.track.children.length;
+
+    let lastSlide = this.currentSlide + settings.slidesToShow - 1;
+
+    if (lastSlide >= slideCount - 1) {
+      this.currentSlide = 0;
+    } else {
+      const newSlide = (this.currentSlide + settings.slidesToScroll) % slideCount;
+      if (slideCount - newSlide < settings.slidesToShow) {
+        this.currentSlide = slideCount - settings.slidesToShow;
+      } else {
+        this.currentSlide = newSlide;
+      }
+    }
+  }
+
+  getCurrentSlideOnPrev = () => {
+    const { settings = DEFAULT_SETTINGS } = this.props;
+    const slideCount = this.refs.track.children.length;
+
+    if (this.currentSlide === 0) {
+      this.currentSlide = slideCount - settings.slidesToShow;
+    } else if (this.currentSlide < settings.slidesToScroll) {
+      this.currentSlide = 0;
+    } else {
+      this.currentSlide -= settings.slidesToScroll;
     }
   }
 
@@ -165,6 +177,8 @@ class Carousel {
   }
 
   getCurrentDot: any = () => {
+
+    // todo: refactor this
     const slidesToShow = this.getSlidesToShow();
     const count = this.refs.track.children.length;
     if (this.currentSlide <= count - slidesToShow) {
@@ -178,8 +192,22 @@ class Carousel {
     const currentDot = this.getCurrentDot();
 
     const { dots } = this.refs;
-    Array.from(dots.children).forEach((child, index) => {
-      index === currentDot ? child.className += 'active' : child.className = child.className.replace('active', '');
+    const { slidesToScroll } = this.props.settings;
+
+    // const dotCount = this.getDotsCount();
+
+    Array.from(dots.children).forEach((child, i) => {
+      let leftBound = (i * slidesToScroll);
+      let rightBound = (i * slidesToScroll) + (slidesToScroll - 1);
+
+      if (this.currentSlide >= leftBound && this.currentSlide <= rightBound) {
+        child.className = child.className.replace('active', '');
+        child.className += 'active';
+      } else {
+        child.className = child.className.replace('active', '');
+      }
+
+      console.log('index', i, currentDot)
     });
   }
 
@@ -202,6 +230,7 @@ class Carousel {
       // dynamically adding expression attributes:
       // https://github.com/riot/riot/issues/1752
       // todo: write a test to make sure this function exists on riot and it will translate into style correctly.
+      console.log('slide slide width', slideWidth)
       child.setAttribute('style', this.styleObjectToString({
         width: `${slideWidth}px`,
         outline: 'none',
@@ -227,8 +256,6 @@ class Carousel {
       // }
     });
 
-    console.log('track');
-
     // track.appendChild(preCloneSlides);
     // track.insertBefore(postCloneSlides, track.children[0]);
 
@@ -251,10 +278,8 @@ class Carousel {
     let trackWidth;
 
     if (settings.slidesToShow) {
-      // trackWidth = (slideCount + settings.slidesToShow) * slideWidth;
       trackWidth = (slideCount + 2 * settings.slidesToShow) * slideWidth;
     } else {
-      // trackWidth = slideCount * slideWidth;
       trackWidth = (slideCount + 2) * slideWidth;
     }
     const pos = calcPos(this.currentSlide, slideWidth);
