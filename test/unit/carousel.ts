@@ -68,7 +68,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
       expect(touchStartStub).not.to.have.been.called;
 
-      carousel.swipeLeft({} as any);
+      carousel.onTouchStart({} as any);
       expect(touchStartHandler).to.be.ok;
       expect(touchMoveHandler).to.be.ok;
       expect(touchEndHandler).to.be.ok;
