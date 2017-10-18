@@ -97,18 +97,18 @@ class Carousel {
       utils.WINDOW().addEventListener('resize', this.updateTrackAndSlideStyleWithoutTransition, true);
     }
 
-    const count = this.getDotsCount();
-    this.populateDots(count);
+    // const count = this.getDotsCount();
+    // this.populateDots(count);
     // this.addClassToDot();
     this.updateTrackAndSlideStyleWithTransition();
-    this.addClassToDot();
+    // this.addClassToDot();
 
     // this.cloneFirstAndLastSlides();
   }
 
   onUpdate() {
     // todo: add setAttribute again
-    this.addClassToDot();
+    // this.addClassToDot();
   }
 
   onUnMount() {
