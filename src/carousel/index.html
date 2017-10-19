@@ -2,7 +2,7 @@
     <a class="prev" onclick="{ movePrevious }"  touchstart="{ movePrevious }">&#10094;</a>
     <div class="carousel-list">
         <div class="track" ref="track" style="{ trackStyle }" >
-            <div class="carousel-slide" each="{ product, i in this.props.items }" style="{ slideStyle }" key="{ i }">
+            <div class="carousel-slide" each="{ product, i in this.updatedItems || this.props.items }" style="{ slideStyle }">
                 <yield></yield>
             </div>
         </div>

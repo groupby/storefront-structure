@@ -20,6 +20,8 @@ const DEFAULT_SETTINGS = {
   initialSlide: 0
 };
 
+let UPDATE_ONCE = true;
+
 @tag('gb-carousel', require('./index.html'), require('./index.css'))
 class Carousel {
   // props: Carousel.Props = <any>{
@@ -40,7 +42,7 @@ class Carousel {
     curY: number
   };
 
-  currentSlide: number = 0;
+  currentSlide: number;
   dots: string[];
   trackStyle: any;
   slideStyle: any;
@@ -100,12 +102,48 @@ class Carousel {
       utils.WINDOW().addEventListener('resize', this.updateTrackAndSlideStyleWithoutTransition, true);
     }
 
-    // this.cloneFirstAndLastSlides();
+
   }
 
   onUpdate() {
-    // todo: add setAttribute again
+    
+    if (UPDATE_ONCE && this.props.items) {
+      // these 2 will have racing condition
+      this.cloneHeadAndTailData();
+      this.getInitialSlide();
+      console.log('cucc', this.currentSlide)
+      if (this.updatedItems) {
+        console.log('fff')
+        const slideWidth = this.getSlideWidth();
+        this.updateSlideStyleToDom(slideWidth);
+        const style = this.getTrackStyle(slideWidth);
+        this.trackStyle = style;
+      }
 
+      UPDATE_ONCE = false;
+    }
+
+
+
+
+
+    const count = this.getDotsCount();
+    this.populateDots(count);
+    this.addClassToDot();
+
+  }
+
+  onUnMount() {
+    if (window.addEventListener) {
+      window.removeEventListener('resize', this.updateTrackAndSlideStyleWithoutTransition);
+    }
+  }
+
+  getInitialSlide = () => {
+    this.currentSlide = this.props.settings.slidesToShow;
+  }
+
+  cloneHeadAndTailData = () => {
     if (this.props.items) {
       const infiniteCount = this.props.settings.slidesToShow;
       let itemCount = this.props.items.length;
@@ -113,15 +151,19 @@ class Carousel {
       let postCloneSlides = [];
 
       this.props.items.forEach((data, index) => {
+        data['data-index'] = index;
 
         if (index >= (itemCount - infiniteCount)) {
+          console.log('in pre', index)
           let key = -(itemCount - index);
-          preCloneSlides.push(Object.assign(data, {
+          preCloneSlides.push(Object.assign(utils.clone(data), {
             'data-index': key,
           }));
         } else if (index < infiniteCount) {
+          console.log('in post', index)
+          
           let key = itemCount + index;
-          postCloneSlides.push(Object.assign(data, {
+          postCloneSlides.push(Object.assign(utils.clone(data), {
             'data-index': key,
           }));
         }
@@ -129,23 +171,6 @@ class Carousel {
 
       this.updatedItems = preCloneSlides.concat(this.props.items, postCloneSlides);
       console.log('items', this.updatedItems);
-
-      const slideWidth = this.getSlideWidth();
-
-      this.updateSlideStyleToDom(slideWidth);
-      const style = this.getTrackStyle(slideWidth);
-      this.trackStyle = style;
-
-      const count = this.getDotsCount();
-      this.populateDots(count);
-      this.addClassToDot();
-    }
-
-  }
-
-  onUnMount() {
-    if (window.addEventListener) {
-      window.removeEventListener('resize', this.updateTrackAndSlideStyleWithoutTransition);
     }
   }
 
@@ -237,7 +262,7 @@ class Carousel {
 
     // const dotCount = this.getDotsCount();
 
-    // Array.from(dots.children).forEach((child, i) => {
+    // array.from(dots.children).forEach((child, i) => {
     //   let leftBound = (i * slidesToScroll);
     //   let rightBound = i * slidesToScroll + slidesToShow - 1;
 
@@ -268,13 +293,6 @@ class Carousel {
   }
 
   updateSlideStyleToDom: any = (slideWidth) => {
-    let preCloneSlides = [];
-    let postCloneSlides = [];
-    const count = this.props.items.length;
-    const { slidesToShow } = this.props.settings;
-
-    const { track } = this.refs;
-
     this.slideStyle = {
       width: `${slideWidth}px`,
       outline: 'none',
@@ -284,7 +302,7 @@ class Carousel {
   // question: should I include updateSlideWidth in this function?
   getTrackStyle = (slideWidth: number) => {
     const { settings } = this.props;
-    const slideCount = this.props.items.length;
+    const slideCount = this.updatedItems.length;
     let trackWidth;
 
     if (settings.slidesToShow) {
