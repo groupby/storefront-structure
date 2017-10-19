@@ -101,7 +101,7 @@ class Carousel {
     this.populateDots(count);
     this.updateTrackAndSlideStyleWithTransition();
     this.addClassToDot();
-    console.log('products in ca', this.props.items)
+    // console.log('products in ca', this.props.items)
 
     // this.cloneFirstAndLastSlides();
   }
