@@ -1,14 +1,6 @@
 import { tag, utils, Tag } from '@storefront/core';
 
 const DEFAULT_SLIDES = 1;
-const DEFAULT_TRACK_STYLE = {
-  opacity: 1,
-  transform: `translate3d(0px, 0px, 0px)`,
-  '-webkit-transform': `translate3d(0px, 0px, 0px)`,
-  transition: '',
-  '-webkit-transition': '',
-  '-ms-transform': `translate3d(0px, 0px, 0px)`
-};
 
 const DEFAULT_SETTINGS = {
   fade: true,
@@ -24,8 +16,6 @@ let UPDATE_ONCE = true;
 
 @tag('gb-carousel', require('./index.html'), require('./index.css'))
 class Carousel {
-  // props: Carousel.Props = <any>{
-  // };
   refs: {
     carouselwrap: HTMLElement,
     track: HTMLDivElement,
@@ -42,7 +32,7 @@ class Carousel {
     curY: number
   };
 
-  currentSlide: number;
+  currentSlide: number = 0;
   dots: string[];
   trackStyle: any;
   slideStyle: any;
@@ -101,22 +91,20 @@ class Carousel {
     if (this.refs.carouselwrap.addEventListener) {
       utils.WINDOW().addEventListener('resize', this.updateTrackAndSlideStyleWithoutTransition, true);
     }
-
-
   }
 
   onUpdate() {
-    
     if (UPDATE_ONCE && this.props.items) {
       // these 2 will have racing condition
       this.cloneHeadAndTailData();
-      this.getInitialSlide();
-      console.log('cucc', this.currentSlide)
+      console.log('cucc', this.currentSlide);
       if (this.updatedItems) {
         console.log('fff')
         const slideWidth = this.getSlideWidth();
         this.updateSlideStyleToDom(slideWidth);
         const style = this.getTrackStyle(slideWidth);
+        delete style['transition'];
+        delete style['-webkit-transition'];
         this.trackStyle = style;
       }
 
@@ -137,10 +125,6 @@ class Carousel {
     if (window.addEventListener) {
       window.removeEventListener('resize', this.updateTrackAndSlideStyleWithoutTransition);
     }
-  }
-
-  getInitialSlide = () => {
-    this.currentSlide = this.props.settings.slidesToShow;
   }
 
   cloneHeadAndTailData = () => {
@@ -324,7 +308,7 @@ class Carousel {
       transition
     } : {};
 
-    const style = Object.assign({}, DEFAULT_TRACK_STYLE, {
+    const style = Object.assign({}, {
       width: `${trackWidth}px`,
     },
       transformStyles,
@@ -372,7 +356,8 @@ class Carousel {
 }
 
 const calcPos = (currS: number, moveDistance: number): number => {
-  return (currS) * moveDistance;
+  // needs slidesToShow
+  return (currS + 1) * moveDistance;
 };
 
 const calSwipeDirection = (touchObj: { startX: number, startY: number, curX: number, curY: number }): string => {
