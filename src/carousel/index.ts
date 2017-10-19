@@ -30,7 +30,7 @@ class Carousel {
     dots: HTMLDivElement
   };
 
-  props: Carousel.Props = <any>DEFAULT_SETTINGS;
+  props: Carousel.Props = <any>{ settings: DEFAULT_SETTINGS };
 
   touchObject: {
     startX: number,
@@ -97,18 +97,28 @@ class Carousel {
       utils.WINDOW().addEventListener('resize', this.updateTrackAndSlideStyleWithoutTransition, true);
     }
 
-    const count = this.getDotsCount();
-    this.populateDots(count);
-    this.updateTrackAndSlideStyleWithTransition();
-    this.addClassToDot();
-    console.log('products in ca', this.props.items)
-
     // this.cloneFirstAndLastSlides();
   }
 
   onUpdate() {
     // todo: add setAttribute again
-    this.addClassToDot();
+    
+    if (this.props.items) {
+
+      const slideWidth = this.getSlideWidth();
+
+      this.updateSlideStyleToDom(slideWidth);
+      const style = this.getTrackStyle(slideWidth);
+      this.trackStyle = style;
+      
+      const count = this.getDotsCount();
+      this.populateDots(count);
+      this.addClassToDot();
+  
+
+      console.log('products in ca', this.props.items);
+    }
+
   }
 
   onUnMount() {
@@ -121,7 +131,7 @@ class Carousel {
     // best practice to get default settings?
     const { settings = DEFAULT_SETTINGS } = this.props;
     // todo: check slideCount
-    const slideCount = this.refs.track.children.length;
+    const slideCount = this.props.items.length;
 
     let lastSlide = this.currentSlide + settings.slidesToShow - 1;
 
@@ -139,7 +149,7 @@ class Carousel {
 
   getCurrentSlideOnPrev = () => {
     const { settings = DEFAULT_SETTINGS } = this.props;
-    const slideCount = this.refs.track.children.length;
+    const slideCount = this.props.items.length;
 
     if (this.currentSlide === 0) {
       this.currentSlide = slideCount - settings.slidesToShow;
@@ -166,7 +176,7 @@ class Carousel {
   }
 
   getDotsCount: any = () => {
-    const slideCount = this.refs.track.children.length;
+    const slideCount = this.props.items.length;
     const { slidesToShow } = this.props.settings;
     const { slidesToScroll } = this.props.settings;
 
@@ -288,9 +298,9 @@ class Carousel {
   }
 
   // question: should I include updateSlideWidth in this function?
-  getTrackStyle: any = (slideWidth) => {
+  getTrackStyle = (slideWidth: number) => {
     const { settings } = this.props;
-    const slideCount = this.refs.track.children.length;
+    const slideCount = this.props.items.length;
     let trackWidth;
 
     if (settings.slidesToShow) {
@@ -300,7 +310,8 @@ class Carousel {
     }
     const pos = calcPos(this.currentSlide, slideWidth);
     const tfm = `translate3d(-${pos}px, 0px, 0px)`;
-
+    console.log('slideCount', slideCount, 'track width is', trackWidth, 'slide width', slideWidth);
+    // console.log('slideCount', slideCount, this.props.items);
     const transformStyles = {
       transform: tfm,
       '-webkit-transform': tfm,
@@ -391,8 +402,8 @@ namespace Carousel {
       slidesToScroll?: number;
       speed?: number;
       fade?: boolean;
-      items: any;
     };
+    items: any[];
   }
 
   export interface State {

@@ -2,7 +2,6 @@
     <a class="prev" onclick="{ movePrevious }"  touchstart="{ movePrevious }">&#10094;</a>
     <div class="carousel-list">
         <div class="track" ref="track" style="{ trackStyle }" >
-            {console.log('in here', this.props.items)}
             <div each="{ i in this.props.items }">
                 <img src="{i.pdpData.imageUrl}" alt="{ i.title }">
             </div>
