@@ -2,8 +2,8 @@
     <a class="prev" onclick="{ movePrevious }"  touchstart="{ movePrevious }">&#10094;</a>
     <div class="carousel-list">
         <div class="track" ref="track" style="{ trackStyle }" >
-            <div each="{ i in this.props.items }">
-                <img src="{i.pdpData.imageUrl}" alt="{ i.title }">
+            <div class="carousel-slide" each="{ product, i in this.props.items }" style="{ slideStyle }" key="{ i }">
+                <yield></yield>
             </div>
         </div>
     </div>

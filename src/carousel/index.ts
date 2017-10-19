@@ -27,7 +27,8 @@ class Carousel {
   refs: {
     carouselwrap: HTMLElement,
     track: HTMLDivElement,
-    dots: HTMLDivElement
+    dots: HTMLDivElement,
+    slide: HTMLDivElement
   };
 
   props: Carousel.Props = <any>{ settings: DEFAULT_SETTINGS };
@@ -42,6 +43,8 @@ class Carousel {
   currentSlide: number = 0;
   dots: string[];
   trackStyle: any;
+  slideStyle: any;
+  updatedItems: any[];
 
   moveNext = () => {
     this.getCurrentSlideOnNext();
@@ -102,21 +105,40 @@ class Carousel {
 
   onUpdate() {
     // todo: add setAttribute again
-    
+
     if (this.props.items) {
+      const infiniteCount = this.props.settings.slidesToShow;
+      let itemCount = this.props.items.length;
+      let preCloneSlides = [];
+      let postCloneSlides = [];
+
+      this.props.items.forEach((data, index) => {
+
+        if (index >= (itemCount - infiniteCount)) {
+          let key = -(itemCount - index);
+          preCloneSlides.push(Object.assign(data, {
+            'data-index': key,
+          }));
+        } else if (index < infiniteCount) {
+          let key = itemCount + index;
+          postCloneSlides.push(Object.assign(data, {
+            'data-index': key,
+          }));
+        }
+      });
+
+      this.updatedItems = preCloneSlides.concat(this.props.items, postCloneSlides);
+      console.log('items', this.updatedItems);
 
       const slideWidth = this.getSlideWidth();
 
       this.updateSlideStyleToDom(slideWidth);
       const style = this.getTrackStyle(slideWidth);
       this.trackStyle = style;
-      
+
       const count = this.getDotsCount();
       this.populateDots(count);
       this.addClassToDot();
-  
-
-      console.log('products in ca', this.props.items);
     }
 
   }
@@ -248,53 +270,15 @@ class Carousel {
   updateSlideStyleToDom: any = (slideWidth) => {
     let preCloneSlides = [];
     let postCloneSlides = [];
-    const count = this.refs.track.children.length;
+    const count = this.props.items.length;
     const { slidesToShow } = this.props.settings;
 
     const { track } = this.refs;
-    Array.from(track.children).forEach((child, index) => {
-      // dynamically adding expression attributes:
-      // https://github.com/riot/riot/issues/1752
-      // todo: write a test to make sure this function exists on riot and it will translate into style correctly.
-      console.log('slide slide width', slideWidth)
-      child.setAttribute('style', this.styleObjectToString({
-        width: `${slideWidth}px`,
-        outline: 'none',
-      }));
-      child.setAttribute('class', 'carousel-slide');
-      child.setAttribute('key', index.toString());
 
-      // const infiniteCount = slidesToShow;
-
-      // if (index >= (count - infiniteCount)) {
-      //   const key = -(count - index);
-      //   // now clonedChild is a node which can't be set attribute
-      //   const clonedChild = child.cloneNode(true);
-      //   clonedChild.setA;
-      //   console.log('child', this.refs);
-
-      //  track.appendChild(clonedChild);
-      //   // cannot set keys and classes
-      // } else if (index < infiniteCount) {
-      //   const clonedChild = child.cloneNode(true);
-
-      //   track.insertBefore(clonedChild, track.children[index]);
-      // }
-    });
-
-    // track.appendChild(preCloneSlides);
-    // track.insertBefore(postCloneSlides, track.children[0]);
-
-  }
-
-  cloneFirstAndLastSlides = () => {
-    const { track } = this.refs;
-    const clonedHead = track.children[0].cloneNode(true);
-    const clonedTail = track.children[6].cloneNode(true);
-
-    track.appendChild(clonedHead);
-    track.insertBefore(clonedTail, track.children[0]);
-
+    this.slideStyle = {
+      width: `${slideWidth}px`,
+      outline: 'none',
+    };
   }
 
   // question: should I include updateSlideWidth in this function?
@@ -310,8 +294,6 @@ class Carousel {
     }
     const pos = calcPos(this.currentSlide, slideWidth);
     const tfm = `translate3d(-${pos}px, 0px, 0px)`;
-    console.log('slideCount', slideCount, 'track width is', trackWidth, 'slide width', slideWidth);
-    // console.log('slideCount', slideCount, this.props.items);
     const transformStyles = {
       transform: tfm,
       '-webkit-transform': tfm,
