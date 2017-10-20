@@ -36,7 +36,8 @@ class Carousel {
   dots: string[];
   trackStyle: any;
   slideStyle: any;
-  updatedItems: any[];
+  // updatedItems: any[];
+
 
   moveNext = () => {
     this.getCurrentSlideOnNext();
@@ -50,8 +51,9 @@ class Carousel {
     this.getCurrentSlideOnPrev();
     const slideWidth = this.getSlideWidth();
     this.updateTrackStyleWithTransition(slideWidth);
-
   }
+
+  dummy = () => 1;
 
   onTouchStart = (event: TouchEvent & Carousel.Event) => {
     event.preventDefault();
@@ -94,22 +96,21 @@ class Carousel {
   }
 
   onUpdate() {
-    if (UPDATE_ONCE && this.props.items) {
-      // these 2 will have racing condition
-      this.cloneHeadAndTailData();
-      console.log('cucc', this.currentSlide);
-      if (this.updatedItems) {
-        console.log('fff')
-        const slideWidth = this.getSlideWidth();
-        this.updateSlideStyleToDom(slideWidth);
-        const style = this.getTrackStyle(slideWidth);
-        delete style['transition'];
-        delete style['-webkit-transition'];
-        this.trackStyle = style;
-      }
+    // if (UPDATE_ONCE && this.props.items) {
+    //   // these 2 will have racing condition
+    //   console.log('cucc', this.currentSlide);
+    //   if (this.updatedItems) {
+    //     console.log('fff')
+    //     const slideWidth = this.getSlideWidth();
+    //     this.updateSlideStyleToDom(slideWidth);
+    //     const style = this.getTrackStyle(slideWidth);
+    //     delete style['transition'];
+    //     delete style['-webkit-transition'];
+    //     this.trackStyle = style;
+    //   }
 
-      UPDATE_ONCE = false;
-    }
+    //   UPDATE_ONCE = false;
+    // }
 
 
 
@@ -127,7 +128,7 @@ class Carousel {
     }
   }
 
-  cloneHeadAndTailData = () => {
+  getUpdatedItems = () => {
     if (this.props.items) {
       const infiniteCount = this.props.settings.slidesToShow;
       let itemCount = this.props.items.length;
@@ -152,10 +153,8 @@ class Carousel {
           }));
         }
       });
-
-      this.updatedItems = preCloneSlides.concat(this.props.items, postCloneSlides);
-      console.log('items', this.updatedItems);
-    }
+      return  preCloneSlides.concat(this.props.items, postCloneSlides);
+    } 
   }
 
   getCurrentSlideOnNext = () => {
@@ -244,24 +243,24 @@ class Carousel {
     };
     const removeClass = (i) => i.className = i.className.replace('active', '');
 
-    // const dotCount = this.getDotsCount();
+    const dotCount = this.getDotsCount();
 
-    // array.from(dots.children).forEach((child, i) => {
-    //   let leftBound = (i * slidesToScroll);
-    //   let rightBound = i * slidesToScroll + slidesToShow - 1;
+    Array.from(dots.children).forEach((child, i) => {
+      let leftBound = (i * slidesToScroll);
+      let rightBound = i * slidesToScroll + slidesToShow - 1;
 
-    //   let lastSlide = this.currentSlide + slidesToShow - 1;
+      let lastSlide = this.currentSlide + slidesToShow - 1;
 
-    //   if (this.currentSlide + slidesToScroll + slidesToShow - 1 > count) {
-    //     i === dots.children.length - 1 ? addClass(child) : removeClass(child);
+      if (this.currentSlide + slidesToScroll + slidesToShow - 1 > count) {
+        i === dots.children.length - 1 ? addClass(child) : removeClass(child);
 
-    //   } else if (this.currentSlide >= leftBound && this.currentSlide <= rightBound) {
-    //     addClass(child);
-    //   } else {
-    //     removeClass(child);
-    //   }
+      } else if (this.currentSlide >= leftBound && this.currentSlide <= rightBound) {
+        addClass(child);
+      } else {
+        removeClass(child);
+      }
 
-    // });
+    });
 
     Array.from(dots.children).forEach((c, i) => {
       i === currentDot ? addClass(c) : removeClass(c);
@@ -286,7 +285,7 @@ class Carousel {
   // question: should I include updateSlideWidth in this function?
   getTrackStyle = (slideWidth: number) => {
     const { settings } = this.props;
-    const slideCount = this.updatedItems.length;
+    const slideCount = this.getUpdatedItems().length;
     let trackWidth;
 
     if (settings.slidesToShow) {
