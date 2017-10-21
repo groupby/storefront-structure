@@ -1,8 +1,8 @@
 <div class="carousel-wrap" ref="carouselwrap" touchstart="{ onTouchStart }">
     <a class="prev" onclick="{ movePrevious }"  touchstart="{ movePrevious }">&#10094;</a>
     <div class="carousel-list">
-        <div class="track" ref="track" style="{ trackStyle() }" >
-            <div class="carousel-slide" each="{ getUpdatedItems() }" style="{ slideStyle }">
+        <div class="track" ref="track" style="{ undefined || getTrackStyle() }" >
+            <div class="carousel-slide" each="{ product in getUpdatedItems() }" style="{ undefined || getSlideStyle() }">
                 <yield></yield>
             </div>
         </div>

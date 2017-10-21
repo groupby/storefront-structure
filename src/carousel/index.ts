@@ -34,26 +34,21 @@ class Carousel {
 
   currentSlide: number = 0;
   dots: string[];
-  trackStyle: any;
-  slideStyle: any;
-  // updatedItems: any[];
 
 
   moveNext = () => {
     this.getCurrentSlideOnNext();
 
-    const slideWidth = this.getSlideWidth();
-    this.updateTrackStyleWithTransition(slideWidth);
+    // const slideWidth = this.getSlideWidth();
+    // this.updateTrackStyleWithTransition(slideWidth);
 
   }
 
   movePrevious = () => {
     this.getCurrentSlideOnPrev();
-    const slideWidth = this.getSlideWidth();
-    this.updateTrackStyleWithTransition(slideWidth);
+    // const slideWidth = this.getSlideWidth();
+    // this.updateTrackStyleWithTransition(slideWidth);
   }
-
-  dummy = () => 1;
 
   onTouchStart = (event: TouchEvent & Carousel.Event) => {
     event.preventDefault();
@@ -96,21 +91,21 @@ class Carousel {
   }
 
   onUpdate() {
-    // if (UPDATE_ONCE && this.props.items) {
-    //   // these 2 will have racing condition
-    //   console.log('cucc', this.currentSlide);
-    //   if (this.updatedItems) {
-    //     console.log('fff')
-    //     const slideWidth = this.getSlideWidth();
-    //     this.updateSlideStyleToDom(slideWidth);
-    //     const style = this.getTrackStyle(slideWidth);
-    //     delete style['transition'];
-    //     delete style['-webkit-transition'];
-    //     this.trackStyle = style;
-    //   }
+    console.log('on update')
 
-    //   UPDATE_ONCE = false;
-    // }
+    if (UPDATE_ONCE && this.props.items) {
+      // these 2 will have racing condition
+      console.log('cucc', this.currentSlide);
+      // if (this.updatedItems) {
+      //   console.log('fff')
+      //   const style = this.getTrackStyle(slideWidth);
+      //   delete style['transition'];
+      //   delete style['-webkit-transition'];
+      //   this.trackStyle = style;
+      // }
+
+      // UPDATE_ONCE = false;
+    }
 
 
 
@@ -139,13 +134,11 @@ class Carousel {
         data['data-index'] = index;
 
         if (index >= (itemCount - infiniteCount)) {
-          console.log('in pre', index)
           let key = -(itemCount - index);
           preCloneSlides.push(Object.assign(utils.clone(data), {
             'data-index': key,
           }));
         } else if (index < infiniteCount) {
-          console.log('in post', index)
           
           let key = itemCount + index;
           postCloneSlides.push(Object.assign(utils.clone(data), {
@@ -154,7 +147,9 @@ class Carousel {
         }
       });
       return  preCloneSlides.concat(this.props.items, postCloneSlides);
-    } 
+    } else {
+      return [];
+    }
   }
 
   getCurrentSlideOnNext = () => {
@@ -194,15 +189,13 @@ class Carousel {
     // need same slideWidth for these two functions
     const slideWidth = this.getSlideWidth();
 
-    this.updateSlideStyleToDom(slideWidth);
-    this.updateTrackStyleWithTransition(slideWidth);
+    this.updateTrackStyleWithTransition();
   }
 
   updateTrackAndSlideStyleWithoutTransition = () => {
     const slideWidth = this.getSlideWidth();
 
-    this.updateSlideStyleToDom(slideWidth);
-    this.updateTrackStyleWithoutTransition(slideWidth);
+    this.updateTrackStyleWithoutTransition();
   }
 
   getDotsCount: any = () => {
@@ -269,21 +262,17 @@ class Carousel {
 
   getSlidesToShow = () => this.props.settings.slidesToShow;
 
-  styleObjectToString: any = (style) => {
-    return Object.keys(style).reduce(function (acc: string, prop: string) {
-      return (acc + ' ' + prop + ': ' + (style[prop]) + ';');
-    }, '');
-  }
-
-  updateSlideStyleToDom: any = (slideWidth) => {
-    this.slideStyle = {
+  getSlideStyle = () => {
+    const slideWidth = this.getSlideWidth();
+    return {
       width: `${slideWidth}px`,
       outline: 'none',
     };
   }
 
   // question: should I include updateSlideWidth in this function?
-  getTrackStyle = (slideWidth: number) => {
+  getTrackStyle = () => {
+    const slideWidth = this.getSlideWidth();
     const { settings } = this.props;
     const slideCount = this.getUpdatedItems().length;
     let trackWidth;
@@ -315,15 +304,16 @@ class Carousel {
     return style;
   }
 
-  updateTrackStyleWithTransition = (slideWidth: number) => {
+  updateTrackStyleWithTransition = () => {
     // todo: explore debounce
-    const style = this.getTrackStyle(slideWidth);
+    
+    const style = this.getTrackStyle();
     this.trackStyle = style;
     this.update();
   }
 
-  updateTrackStyleWithoutTransition = (slideWidth: number) => {
-    const style = this.getTrackStyle(slideWidth);
+  updateTrackStyleWithoutTransition = () => {
+    const style = this.getTrackStyle();
     delete style['transition'];
     delete style['-webkit-transition'];
     this.trackStyle = style;
@@ -340,7 +330,8 @@ class Carousel {
 
   getSlideWidth = () => {
     const visibleWidth = this.getVisibleWidth();
-    const { settings: { slidesToShow = DEFAULT_SLIDES } = {} } = this.props;
+    const { settings = DEFAULT_SETTINGS } = this.props;
+    const { slidesToShow } = settings
     if (visibleWidth && slidesToShow) {
       const slideWidth = visibleWidth / slidesToShow;
       return slideWidth;
