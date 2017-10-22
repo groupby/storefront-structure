@@ -79,12 +79,7 @@ class Carousel {
   }
 
   onUpdate() {
-    const count = this.getDotsCount();
-    this.populateDots(count);
-    this.addClassToDot();
-
     console.log('curr slide', this.currentSlide);
-
   }
 
   onUnMount() {
@@ -135,7 +130,7 @@ class Carousel {
 
     const slideCount = this.props.items.length;
     const rightBound = this.currentSlide + settings.slidesToShow;
-    if (rightBound >= slideCount) {
+    if (rightBound > slideCount) {
       this.refs.track.addEventListener('transitionend', listener);  
     }   
   }
@@ -221,8 +216,9 @@ class Carousel {
     return dotCount;
   }
 
-  populateDots: any = (count) => {
-    this.dots = Array(count).fill('dot');
+  getDots: any = () => {
+    const count = this.getDotsCount();
+    return Array(count).fill('dot');
   }
 
   getCurrentDot: any = () => {
@@ -237,41 +233,18 @@ class Carousel {
     }
   }
 
-  addClassToDot: any = () => {
-    const currentDot = this.getCurrentDot();
-
-    const { dots } = this.refs;
+  getDotStyle: any = (i) => {
     const { slidesToScroll } = this.props.settings;
     const { slidesToShow } = this.props.settings;
-    const count = this.refs.track.children.length;
-    const addClass = (i) => {
-      i.className = i.className.replace('active', '');
-      i.className += 'active';
-    };
-    const removeClass = (i) => i.className = i.className.replace('active', '');
 
-    const dotCount = this.getDotsCount();
+    let leftBound = i * slidesToScroll;
+    let rightBound = i * slidesToScroll + slidesToShow - 1;
 
-    Array.from(dots.children).forEach((child, i) => {
-      let leftBound = (i * slidesToScroll);
-      let rightBound = i * slidesToScroll + slidesToShow - 1;
-
-      let lastSlide = this.currentSlide + slidesToShow - 1;
-
-      if (this.currentSlide + slidesToScroll + slidesToShow - 1 > count) {
-        i === dots.children.length - 1 ? addClass(child) : removeClass(child);
-
-      } else if (this.currentSlide >= leftBound && this.currentSlide <= rightBound) {
-        addClass(child);
-      } else {
-        removeClass(child);
-      }
-
-    });
-
-    Array.from(dots.children).forEach((c, i) => {
-      i === currentDot ? addClass(c) : removeClass(c);
-    });
+    if (this.currentSlide >= leftBound && this.currentSlide <= rightBound) {
+      return { 'background-color': 'black' }
+    } else {
+      return {}
+    }
   }
 
   getSlidesToShow = () => this.props.settings.slidesToShow;
