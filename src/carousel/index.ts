@@ -36,7 +36,6 @@ class Carousel {
   dots: string[];
   secret: boolean = true;
 
-
   moveNext = () => {
     this.getCurrentSlideOnNext();
   }
@@ -49,12 +48,9 @@ class Carousel {
     event.preventDefault();
     event.stopPropagation();
 
+    // IE browsers have different properties on event
     const posX = event.touches[0].pageX;
     const posY = event.touches[0].pageY;
-
-    // doesn't allow event.clientX
-    // const posX = (event.touches !== undefined) ? event.touches[0].pageX : event.clientX;
-    // const posY = (event.touches !== undefined) ? event.touches[0].pageY : event.clientY;
 
     this.touchObject = {
       startX: posX,
@@ -70,9 +66,6 @@ class Carousel {
     this.touchObject.curX = event.changedTouches[0].pageX;
     this.touchObject.curY = event.changedTouches[0].pageY;
 
-    // this.touchObject.curX = (event.touches) ? event.touches[0].pageX : event.clientX;
-    // this.touchObject.curY = (event.touches) ? event.touches[0].pageY : event.clientY;
-
     this.swipeSlides(this.touchObject);
     this.refs.carouselwrap.removeEventListener('touchstart', this.onTouchStart);
     this.refs.carouselwrap.removeEventListener('touchend', this.onTouchEnd);
@@ -81,7 +74,7 @@ class Carousel {
   onMount() {
     // onMount or beforeMount?
     if (this.refs.carouselwrap.addEventListener) {
-      utils.WINDOW().addEventListener('resize', this.updateTrackAndSlideStyleWithoutTransition, true);
+      // utils.WINDOW().addEventListener('resize', this.update);
     }
   }
 
@@ -96,7 +89,7 @@ class Carousel {
 
   onUnMount() {
     if (window.addEventListener) {
-      window.removeEventListener('resize', this.updateTrackAndSlideStyleWithoutTransition);
+      // window.removeEventListener('resize', this.update);
     }
   }
 
@@ -165,18 +158,59 @@ class Carousel {
     }
   }
 
-  updateTrackAndSlideStyleWithTransition = () => {
-    // need same slideWidth for these two functions
+  getSlideStyle = () => {
     const slideWidth = this.getSlideWidth();
-
-    this.updateTrackStyleWithTransition();
+    return {
+      width: `${slideWidth}px`,
+      outline: 'none',
+    };
   }
 
-  updateTrackAndSlideStyleWithoutTransition = () => {
+  // question: should I include updateSlideWidth in this function?
+  getTrackStyle = () => {
     const slideWidth = this.getSlideWidth();
+    const { settings } = this.props;
+    const slideCount = this.getUpdatedItems().length;
+    let trackWidth;
 
-    // this.updateTrackStyleWithoutTransition();
+    if (settings.slidesToShow) {
+      trackWidth = (slideCount + 2 * settings.slidesToShow) * slideWidth;
+    } else {
+      trackWidth = (slideCount + 2) * slideWidth;
+    }
+    const pos = this.calcPos(this.currentSlide, slideWidth);
+    const tfm = `translate3d(-${pos}px, 0px, 0px)`;
+
+    const transformStyles = {
+      transform: tfm,
+      '-webkit-transform': tfm,
+      '-ms-transform': tfm,
+    };
+
+    const transition = settings.speed + 'ms ' + 'ease';
+    const transitionStyles = settings.fade === true ? {
+      '-webkit-transition': transition,
+      transition
+    } : {};
+
+    const style = Object.assign({}, {
+      width: `${trackWidth}px`,
+    },
+      transformStyles,
+      transitionStyles);
+
+    const threshold = this.props.items.length;
+    const { slidesToShow } = this.props.settings;
+    const leftBound = this.currentSlide;
+    const rightBound = this.currentSlide + slidesToShow;
+    if (this.secret) {
+      delete style['transition'];
+      delete style['-webkit-transition'];
+      this.secret = !this.secret;
+    }  
+    return style;
   }
+
 
   getDotsCount: any = () => {
     const slideCount = this.props.items.length;
@@ -242,95 +276,6 @@ class Carousel {
 
   getSlidesToShow = () => this.props.settings.slidesToShow;
 
-  getSlideStyle = () => {
-    const slideWidth = this.getSlideWidth();
-    return {
-      width: `${slideWidth}px`,
-      outline: 'none',
-    };
-  }
-
-  // question: should I include updateSlideWidth in this function?
-  getTrackStyle = () => {
-    const slideWidth = this.getSlideWidth();
-    const { settings } = this.props;
-    const slideCount = this.getUpdatedItems().length;
-    let trackWidth;
-
-    if (settings.slidesToShow) {
-      trackWidth = (slideCount + 2 * settings.slidesToShow) * slideWidth;
-    } else {
-      trackWidth = (slideCount + 2) * slideWidth;
-    }
-    const pos = this.calcPos(this.currentSlide, slideWidth);
-    const tfm = `translate3d(-${pos}px, 0px, 0px)`;
-
-    const transformStyles = {
-      transform: tfm,
-      '-webkit-transform': tfm,
-      '-ms-transform': tfm,
-    };
-
-    const transition = settings.speed + 'ms ' + 'ease';
-    const transitionStyles = settings.fade === true ? {
-      '-webkit-transition': transition,
-      transition
-    } : {};
-
-    const style = Object.assign({}, {
-      width: `${trackWidth}px`,
-    },
-      transformStyles,
-      transitionStyles);
-
-    const threshold = this.props.items.length;
-    const { slidesToShow } = this.props.settings;
-    const leftBound = this.currentSlide;
-    const rightBound = this.currentSlide + slidesToShow;
-    if (this.secret) {
-      delete style['transition'];
-      delete style['-webkit-transition'];
-      this.secret = !this.secret;
-    }
-   
-    return style;
-  }
-
-  updateTrackStyleWithTransition = () => {
-    // todo: explore debounce
-    
-    // const style = this.getTrackStyle();
-    // this.trackStyle = style;
-    // this.update();
-  }
-
-  secretTransition = () => {
-    const slideWidth = this.getSlideWidth();
-    const { settings } = this.props;
-    const slideCount = this.getUpdatedItems().length;
-    let trackWidth;
-
-    if (settings.slidesToShow) {
-      trackWidth = (slideCount + 2 * settings.slidesToShow) * slideWidth;
-    } else {
-      trackWidth = (slideCount + 2) * slideWidth;
-    }
-    const pos = this.calcPos(this.currentSlide, slideWidth);
-    const tfm = `translate3d(-${pos}px, 0px, 0px)`;
-    const transformStyles = {
-      transform: tfm,
-      '-webkit-transform': tfm,
-      '-ms-transform': tfm,
-    };
-    console.log('secret is called')
-
-    return Object.assign({}, {
-      width: `${trackWidth}px`,
-    },
-      transformStyles,
-      );
-  }
-
   swipeSlides = (touchObj: { startX: number, startY: number, curX: number, curY: number }) => {
     const direction: string = calSwipeDirection(touchObj);
 
@@ -347,9 +292,6 @@ class Carousel {
       const slideWidth = visibleWidth / slidesToShow;
       return slideWidth;
     }
-
-    // todo: handle edge cases?
-
   }
 
   getVisibleWidth = () => this.refs.carouselwrap.offsetWidth;
