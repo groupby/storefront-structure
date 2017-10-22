@@ -38,6 +38,17 @@ class Carousel {
 
   moveNext = () => {
     this.getCurrentSlideOnNext();
+    const listener = () => {
+      this.currentSlide = 0;
+      this.refs.track.removeEventListener('transitionend', listener);
+      this.update();
+      console.log('transition end', this.currentSlide)
+    };
+
+    const threshold = this.getUpdatedItems().length;
+    if (this.currentSlide === threshold) {
+      this.refs.track.addEventListener('transitionend', listener);  
+    }
 
     // const slideWidth = this.getSlideWidth();
     // this.updateTrackStyleWithTransition(slideWidth);
@@ -91,26 +102,6 @@ class Carousel {
   }
 
   onUpdate() {
-    console.log('on update')
-
-    if (UPDATE_ONCE && this.props.items) {
-      // these 2 will have racing condition
-      console.log('cucc', this.currentSlide);
-      // if (this.updatedItems) {
-      //   console.log('fff')
-      //   const style = this.getTrackStyle(slideWidth);
-      //   delete style['transition'];
-      //   delete style['-webkit-transition'];
-      //   this.trackStyle = style;
-      // }
-
-      // UPDATE_ONCE = false;
-    }
-
-
-
-
-
     const count = this.getDotsCount();
     this.populateDots(count);
     this.addClassToDot();
@@ -160,15 +151,21 @@ class Carousel {
 
     let lastSlide = this.currentSlide + settings.slidesToShow - 1;
 
-    if (lastSlide >= slideCount - 1) {
-      this.currentSlide = 0;
+    if (lastSlide = slideCount + settings.slidesToShow - 1 ) {
+      console.log('coming to the first one')
+      this.currentSlide += settings.slidesToScroll;
+      console.log('looping starts', this.currentSlide)
+      
+      
+      
     } else {
-      const newSlide = (this.currentSlide + settings.slidesToScroll) % slideCount;
-      if (slideCount - newSlide < settings.slidesToShow) {
-        this.currentSlide = slideCount - settings.slidesToShow;
-      } else {
-        this.currentSlide = newSlide;
-      }
+      this.currentSlide += settings.slidesToScroll;
+      // const newSlide = (this.currentSlide + settings.slidesToScroll) % slideCount;
+      // if (slideCount - newSlide < settings.slidesToShow) {
+      //   this.currentSlide = slideCount - settings.slidesToShow;
+      // } else {
+      //   this.currentSlide = newSlide;
+      // }
     }
   }
 
@@ -195,7 +192,7 @@ class Carousel {
   updateTrackAndSlideStyleWithoutTransition = () => {
     const slideWidth = this.getSlideWidth();
 
-    this.updateTrackStyleWithoutTransition();
+    // this.updateTrackStyleWithoutTransition();
   }
 
   getDotsCount: any = () => {
@@ -282,8 +279,9 @@ class Carousel {
     } else {
       trackWidth = (slideCount + 2) * slideWidth;
     }
-    const pos = calcPos(this.currentSlide, slideWidth);
+    const pos = this.calcPos(this.currentSlide, slideWidth);
     const tfm = `translate3d(-${pos}px, 0px, 0px)`;
+
     const transformStyles = {
       transform: tfm,
       '-webkit-transform': tfm,
@@ -301,23 +299,48 @@ class Carousel {
     },
       transformStyles,
       transitionStyles);
+      console.log('track style called')
+    if(this.currentSlide === 0) {
+      delete style['transition'];
+      delete style['-webkit-transition'];
+      
+    }
     return style;
   }
 
   updateTrackStyleWithTransition = () => {
     // todo: explore debounce
     
-    const style = this.getTrackStyle();
-    this.trackStyle = style;
-    this.update();
+    // const style = this.getTrackStyle();
+    // this.trackStyle = style;
+    // this.update();
   }
 
-  updateTrackStyleWithoutTransition = () => {
-    const style = this.getTrackStyle();
-    delete style['transition'];
-    delete style['-webkit-transition'];
-    this.trackStyle = style;
-    this.update();
+  secretTransition = () => {
+    const slideWidth = this.getSlideWidth();
+    const { settings } = this.props;
+    const slideCount = this.getUpdatedItems().length;
+    let trackWidth;
+
+    if (settings.slidesToShow) {
+      trackWidth = (slideCount + 2 * settings.slidesToShow) * slideWidth;
+    } else {
+      trackWidth = (slideCount + 2) * slideWidth;
+    }
+    const pos = this.calcPos(this.currentSlide, slideWidth);
+    const tfm = `translate3d(-${pos}px, 0px, 0px)`;
+    const transformStyles = {
+      transform: tfm,
+      '-webkit-transform': tfm,
+      '-ms-transform': tfm,
+    };
+    console.log('secret is called')
+
+    return Object.assign({}, {
+      width: `${trackWidth}px`,
+    },
+      transformStyles,
+      );
   }
 
   swipeSlides = (touchObj: { startX: number, startY: number, curX: number, curY: number }) => {
@@ -342,13 +365,13 @@ class Carousel {
   }
 
   getVisibleWidth = () => this.refs.carouselwrap.offsetWidth;
-
+  
+  calcPos = (currS: number, moveDistance: number): number => {
+    // needs slidesToShow
+    return (currS + 1) * moveDistance;
+  };
 }
 
-const calcPos = (currS: number, moveDistance: number): number => {
-  // needs slidesToShow
-  return (currS + 1) * moveDistance;
-};
 
 const calSwipeDirection = (touchObj: { startX: number, startY: number, curX: number, curY: number }): string => {
   const xDist = touchObj.startX - touchObj.curX;
