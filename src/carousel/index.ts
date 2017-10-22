@@ -34,21 +34,15 @@ class Carousel {
 
   currentSlide: number = 0;
   dots: string[];
-  secret: boolean = false;
+  secret: boolean = true;
 
 
   moveNext = () => {
     this.getCurrentSlideOnNext();
-
-    // const slideWidth = this.getSlideWidth();
-    // this.updateTrackStyleWithTransition(slideWidth);
-
   }
 
   movePrevious = () => {
     this.getCurrentSlideOnPrev();
-    // const slideWidth = this.getSlideWidth();
-    // this.updateTrackStyleWithTransition(slideWidth);
   }
 
   onTouchStart = (event: TouchEvent & Carousel.Event) => {
@@ -140,17 +134,15 @@ class Carousel {
     this.currentSlide += settings.slidesToScroll;
 
     const listener = () => {
-      this.currentSlide = this.currentSlide - threshold;
+      this.currentSlide = this.currentSlide - slideCount;
       this.refs.track.removeEventListener('transitionend', listener);
       this.secret = true;
       this.update();
     };
 
-    const threshold = this.props.items.length;
-    const { slidesToShow } = this.props.settings;
-    const leftBound = this.currentSlide;
-    const rightBound = this.currentSlide + slidesToShow;
-    if (rightBound >= threshold) {
+    const slideCount = this.props.items.length;
+    const rightBound = this.currentSlide + settings.slidesToShow;
+    if (rightBound >= slideCount) {
       this.refs.track.addEventListener('transitionend', listener);  
     }   
   }
@@ -159,12 +151,17 @@ class Carousel {
     const { settings = DEFAULT_SETTINGS } = this.props;
     const slideCount = this.props.items.length;
 
-    if (this.currentSlide === 0) {
-      this.currentSlide = slideCount - settings.slidesToShow;
-    } else if (this.currentSlide < settings.slidesToScroll) {
-      this.currentSlide = 0;
-    } else {
-      this.currentSlide -= settings.slidesToScroll;
+    this.currentSlide -= settings.slidesToScroll;
+    
+    const listener = () => {
+      this.currentSlide = this.currentSlide + slideCount;
+      this.refs.track.removeEventListener('transitionend', listener);
+      this.secret = true;
+      this.update();
+    };
+
+    if (this.currentSlide < 0) {
+      this.refs.track.addEventListener('transitionend', listener);  
     }
   }
 
