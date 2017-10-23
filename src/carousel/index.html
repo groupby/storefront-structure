@@ -2,7 +2,7 @@
     <a class="prev" onclick="{ movePrevious }"  touchstart="{ movePrevious }">&#10094;</a>
     <div class="carousel-list">
         <div class="track" ref="track" style="{ getTrackStyle() }" >
-            <div class="carousel-slide" each="{ product in getUpdatedItems() }" style="{ getSlideStyle() }">
+            <div class="carousel-slide" each="{ product in cloneItems() }" style="{ getSlideStyle() }">
                 <yield></yield>
             </div>
         </div>
@@ -10,11 +10,11 @@
     <a class="next" onclick="{ moveNext }" touchstart="{ moveNext }">&#10095;</a>
     <ul class="carousel-dots" ref="dots" if="{ props.settings.dots }">
         <li 
-            each="{ item, index in getDots() }" 
+            each="{ item, index in getDots() }"
             key="{ index }"
             data-index-to-go="{ index }" 
             style="{ getDotStyle(index) }"
-            onclick="{ goto }" >
+            onclick="{ goToDot }" >
             
         </li>
     </ul>
