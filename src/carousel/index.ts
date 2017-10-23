@@ -1,5 +1,4 @@
 import { tag, utils, Tag } from '@storefront/core';
-const DEFAULT_SLIDES = 1;
 
 const DEFAULT_SETTINGS = {
   fade: false,
@@ -8,8 +7,6 @@ const DEFAULT_SETTINGS = {
   slidesToShow: 1,
   slidesToScroll: 1,
 };
-
-let UPDATE_ONCE = true;
 
 @tag('gb-carousel', require('./index.html'), require('./index.css'))
 class Carousel {
