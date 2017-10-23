@@ -1,7 +1,7 @@
 import { tag, utils, Tag } from '@storefront/core';
 
 const DEFAULT_SETTINGS = {
-  fade: false,
+  transition: true,
   infinite: true,
   speed: 800,
   slidesToShow: 1,
@@ -33,6 +33,10 @@ class Carousel {
     if (this.refs.carouselwrap.addEventListener) {
       utils.WINDOW().addEventListener('resize', this.updateWindow);
     }
+  }
+
+  onUpdate() {
+    console.log('ccc', this.currentSlide)
   }
 
   onUnMount() {
@@ -97,15 +101,15 @@ class Carousel {
 
       if (index >= (itemCount - slidesToShow)) {
         let key = -(itemCount - index);
-        preCloneSlides.push(Object.assign(utils.clone(data), {
+        preCloneSlides.push({...data,
           'data-index': key,
-        }));
+        });
       } else if (index < slidesToShow) {
 
         let key = itemCount + index;
-        postCloneSlides.push(Object.assign(utils.clone(data), {
+        postCloneSlides.push({...data,
           'data-index': key,
-        }));
+        });
       }
     });
 
@@ -122,20 +126,34 @@ class Carousel {
 
     const threshold = this.props.items.length;
     const rightBound = this.currentSlide + slidesToShow - 1;
-    if (rightBound >= threshold || this.currentSlide < 0) {
-      const listener = () => {
-        if (from < to) {
-          this.currentSlide = this.currentSlide - threshold;
-        } else {
-          this.currentSlide = this.currentSlide + threshold;
-        }
-        this.refs.track.removeEventListener('transitionend', listener);
-        this.noTransition = true;
-        this.update();
-      };
 
+    const listener = () => {
+      if (from < to) {
+        this.currentSlide = this.currentSlide - threshold;
+      } else {
+        this.currentSlide = this.currentSlide + threshold;
+      }
+      this.refs.track.removeEventListener('transitionend', listener);
+      this.noTransition = true;
+      this.update();
+    };
+
+    if (rightBound >= threshold || this.currentSlide < 0) {
       this.refs.track.addEventListener('transitionend', listener);
     }
+  }
+
+  createListener = (from: number, to: number, threshold: number) => {
+    return () => {
+      if (from < to) {
+        this.currentSlide = this.currentSlide - threshold;
+      } else {
+        this.currentSlide = this.currentSlide + threshold;
+      }
+      // this.refs.track.removeEventListener('transitionend', listener);
+      this.noTransition = true;
+      this.update();
+    };
   }
 
   goToDot = (e: MouseEvent | TouchEvent) => {
@@ -161,7 +179,7 @@ class Carousel {
     const slideWidth = this.getSlideWidth();
     const slideCount = this.cloneItems().length;
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
-    const fade = this.props.settings.fade || DEFAULT_SETTINGS.fade;
+    const transition = this.props.settings.transition || DEFAULT_SETTINGS.transition;
     const speed = this.props.settings.speed || DEFAULT_SETTINGS.speed;
 
     const trackWidth = (slideCount + 2 * slidesToShow) * slideWidth;
@@ -174,10 +192,10 @@ class Carousel {
       '-ms-transform': tfm,
     };
 
-    const transition = speed + 'ms ' + 'ease';
-    const transitionStyles = fade === true ? {
-      '-webkit-transition': transition,
-      transition
+    const trsition = speed + 'ms ' + 'ease';
+    const transitionStyles = transition === true ? {
+      '-webkit-transition': trsition,
+      transition: trsition
     } : {};
 
     const style = Object.assign({}, {
@@ -275,7 +293,7 @@ namespace Carousel {
       slidesToShow?: number;
       slidesToScroll?: number;
       speed?: number;
-      fade?: boolean;
+      transition?: boolean;
     };
     items: any[];
   }
