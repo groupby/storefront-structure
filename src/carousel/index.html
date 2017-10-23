@@ -7,7 +7,9 @@
             </div>
         </div>
     </div>
-    <a class="next" onclick="{ moveNext }" touchstart="{ moveNext }">&#10095;</a>
+    <a class="next" 
+        onclick="{ moveNext }" touchstart="{ moveNext }"
+    >&#10095;</a>
     <ul class="carousel-dots" ref="dots">
         <li 
             each="{ item, index in getDots() }" 

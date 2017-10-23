@@ -36,11 +36,14 @@ class Carousel {
   noTransition: boolean = true;
 
   moveNext = () => {
-    this.getCurrentSlideOnNext();
+    this.gotoSlide(this.currentSlide + (this.props.settings.slidesToScroll || 1));
+    // this.getCurrentSlideOnNext();
   }
 
   movePrevious = () => {
-    this.getCurrentSlideOnPrev();
+    this.getCurrentSlide(false);
+    this.gotoSlide(this.currentSlide);
+    // this.getCurrentSlideOnPrev();
   }
 
   onTouchStart = (event: TouchEvent & Carousel.Event) => {
@@ -156,9 +159,16 @@ class Carousel {
     }
   }
 
-  goto = (e: MouseEvent | TouchEvent) => {
-    e.preventDefault();
-    const slide = parseInt((e.target as HTMLElement).getAttribute('data-index-to-go'));
+  getCurrentSlide = (isNext: boolean) => {
+    const { settings = DEFAULT_SETTINGS } = this.props;
+    if (isNext) {
+      this.currentSlide += settings.slidesToScroll;    
+    } else {
+      this.currentSlide -= settings.slidesToScroll;
+    }
+  }
+
+  private gotoSlide = (slide: number) => {
     const { settings = DEFAULT_SETTINGS } = this.props;
     const from = this.currentSlide, to = slide;
 
@@ -166,14 +176,14 @@ class Carousel {
     this.currentSlide = slide;    
 
     const slideCount = this.props.items.length;
-    const rightBound = this.currentSlide + settings.slidesToShow;
-    if (rightBound > slideCount || this.currentSlide < 0) {
-      
+    const rightBound = this.currentSlide + settings.slidesToShow - 1;
+    if (rightBound >= slideCount || this.currentSlide < 0) {
+      console.log('not here')
       const listener = () => {
-        if(from > to) {
+        if(from < to) {
           this.currentSlide = this.currentSlide - slideCount;        
         } else {
-          this.currentSlide -= settings.slidesToScroll;
+          this.currentSlide = this.currentSlide + slideCount;;
         }
         this.refs.track.removeEventListener('transitionend', listener);
         this.noTransition = true;
@@ -181,7 +191,13 @@ class Carousel {
       };  
 
       this.refs.track.addEventListener('transitionend', listener);        
-    }   
+    }
+  }
+
+  goto = (e: MouseEvent | TouchEvent) => {
+    e.preventDefault();
+    const slide = parseInt((e.target as HTMLElement).getAttribute('data-index-to-go'));
+    this.gotoSlide(slide);
   }
   
   getSlideStyle = () => {
