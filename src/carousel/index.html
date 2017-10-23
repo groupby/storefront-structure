@@ -9,6 +9,6 @@
     </div>
     <a class="next" onclick="{ moveNext }" touchstart="{ moveNext }">&#10095;</a>
     <ul class="carousel-dots" ref="dots">
-        <li each="{ item, index in getDots() }" key="{ index }" style="{ getDotStyle(index) }"></li>
+        <li each="{ item, index in getDots() }" key="{ index }" style="{ getDotStyle(index) }" onclick="{ moveSlide(index) }"></li>
     </ul>
 </div>

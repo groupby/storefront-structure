@@ -71,6 +71,10 @@ class Carousel {
     this.refs.carouselwrap.removeEventListener('touchend', this.onTouchEnd);
   }
 
+  moveSlide = () => {
+    return;
+  }
+
   onMount() {
     // onMount or beforeMount?
     if (this.refs.carouselwrap.addEventListener) {
@@ -161,7 +165,6 @@ class Carousel {
     };
   }
 
-  // question: should I include updateSlideWidth in this function?
   getTrackStyle = () => {
     const slideWidth = this.getSlideWidth();
     const { settings } = this.props;
@@ -206,31 +209,14 @@ class Carousel {
     return style;
   }
 
-
-  getDotsCount: any = () => {
+  getDots: any = () => {
     const slideCount = this.props.items.length;
     const { slidesToShow } = this.props.settings;
     const { slidesToScroll } = this.props.settings;
 
     const dotCount = Math.ceil((slideCount - slidesToShow) / slidesToScroll + 1);
-    return dotCount;
-  }
-
-  getDots: any = () => {
-    const count = this.getDotsCount();
-    return Array(count).fill('dot');
-  }
-
-  getCurrentDot: any = () => {
-
-    // todo: refactor this
-    const slidesToShow = this.getSlidesToShow();
-    const count = this.refs.track.children.length;
-    if (this.currentSlide <= count - slidesToShow) {
-      return this.currentSlide;
-    } else {
-      return 0;
-    }
+     
+    return Array(dotCount).fill('dot');
   }
 
   getDotStyle: any = (i) => {
@@ -258,7 +244,7 @@ class Carousel {
   }
 
   getSlideWidth = () => {
-    const visibleWidth = this.getVisibleWidth();
+    const visibleWidth = this.refs.carouselwrap.offsetWidth;
     const { settings = DEFAULT_SETTINGS } = this.props;
     const { slidesToShow } = settings
     if (visibleWidth && slidesToShow) {
@@ -267,8 +253,6 @@ class Carousel {
     }
   }
 
-  getVisibleWidth = () => this.refs.carouselwrap.offsetWidth;
-  
   calcPos = (currS: number, moveDistance: number): number => {
     const { slidesToShow } = this.props.settings;
     return (currS + slidesToShow) * moveDistance;
