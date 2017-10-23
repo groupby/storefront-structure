@@ -7,19 +7,15 @@
             </div>
         </div>
     </div>
-    <a class="next" 
-        onclick="{ moveNext }" touchstart="{ moveNext }"
-    >&#10095;</a>
-    <ul class="carousel-dots" ref="dots">
+    <a class="next" onclick="{ moveNext }" touchstart="{ moveNext }">&#10095;</a>
+    <ul class="carousel-dots" ref="dots" if="{ props.settings.dots }">
         <li 
             each="{ item, index in getDots() }" 
-            key="{ dotIndex(index) }" 
-            style="{ getDotStyle(dotIndex(index)) }" >
-            <a href=""
-                data-index-to-go="{ index }"
-                onclick="{ goto }">
-                A
-            </a>
+            key="{ index }"
+            data-index-to-go="{ index }" 
+            style="{ getDotStyle(index) }"
+            onclick="{ goto }" >
+            
         </li>
     </ul>
 </div>

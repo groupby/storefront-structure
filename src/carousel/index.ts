@@ -32,18 +32,14 @@ class Carousel {
   };
 
   currentSlide: number = 0;
-  dots: string[];
   noTransition: boolean = true;
 
   moveNext = () => {
     this.gotoSlide(this.currentSlide + (this.props.settings.slidesToScroll || 1));
-    // this.getCurrentSlideOnNext();
   }
 
   movePrevious = () => {
-    this.getCurrentSlide(false);
-    this.gotoSlide(this.currentSlide);
-    // this.getCurrentSlideOnPrev();
+    this.gotoSlide(this.currentSlide - (this.props.settings.slidesToScroll || 1));
   }
 
   onTouchStart = (event: TouchEvent & Carousel.Event) => {
@@ -73,14 +69,9 @@ class Carousel {
     this.refs.carouselwrap.removeEventListener('touchend', this.onTouchEnd);
   }
 
-  moveSlide = () => {
-    return;
-  }
-
   onMount() {
-    // onMount or beforeMount?
     if (this.refs.carouselwrap.addEventListener) {
-      // utils.WINDOW().addEventListener('resize', this.update);
+      utils.WINDOW().addEventListener('resize', this.update);
     }
   }
 
@@ -90,13 +81,15 @@ class Carousel {
 
   onUnMount() {
     if (window.addEventListener) {
-      // window.removeEventListener('resize', this.update);
+      window.removeEventListener('resize', this.update);
     }
   }
 
   getUpdatedItems = () => {
     if (this.props.items) {
-      const infiniteCount = this.props.settings.slidesToShow;
+      const { settings = DEFAULT_SETTINGS } = this.props;
+    
+      const infiniteCount = settings.slidesToShow;
       let itemCount = this.props.items.length;
       let preCloneSlides = [];
       let postCloneSlides = [];
@@ -123,51 +116,6 @@ class Carousel {
     }
   }
 
-  getCurrentSlideOnNext = () => {
-    const { settings = DEFAULT_SETTINGS } = this.props;
-    this.currentSlide += settings.slidesToScroll;
-
-    const listener = () => {
-      this.currentSlide = this.currentSlide - slideCount;
-      this.refs.track.removeEventListener('transitionend', listener);
-      this.noTransition = true;
-      this.update();
-    };
-
-    const slideCount = this.props.items.length;
-    const rightBound = this.currentSlide + settings.slidesToShow;
-    if (rightBound > slideCount) {
-      this.refs.track.addEventListener('transitionend', listener);  
-    }   
-  }
-
-  getCurrentSlideOnPrev = () => {
-    const { settings = DEFAULT_SETTINGS } = this.props;
-    const slideCount = this.props.items.length;
-
-    this.currentSlide -= settings.slidesToScroll;
-    
-    const listener = () => {
-      this.currentSlide = this.currentSlide + slideCount;
-      this.refs.track.removeEventListener('transitionend', listener);
-      this.noTransition = true;
-      this.update();
-    };
-
-    if (this.currentSlide < 0) {
-      this.refs.track.addEventListener('transitionend', listener);  
-    }
-  }
-
-  getCurrentSlide = (isNext: boolean) => {
-    const { settings = DEFAULT_SETTINGS } = this.props;
-    if (isNext) {
-      this.currentSlide += settings.slidesToScroll;    
-    } else {
-      this.currentSlide -= settings.slidesToScroll;
-    }
-  }
-
   private gotoSlide = (slide: number) => {
     const { settings = DEFAULT_SETTINGS } = this.props;
     const from = this.currentSlide, to = slide;
@@ -175,15 +123,15 @@ class Carousel {
     // make the transition
     this.currentSlide = slide;    
 
-    const slideCount = this.props.items.length;
+    const threshold = this.props.items.length;
     const rightBound = this.currentSlide + settings.slidesToShow - 1;
-    if (rightBound >= slideCount || this.currentSlide < 0) {
+    if (rightBound >= threshold || this.currentSlide < 0) {
       console.log('not here')
       const listener = () => {
         if(from < to) {
-          this.currentSlide = this.currentSlide - slideCount;        
+          this.currentSlide = this.currentSlide - threshold;        
         } else {
-          this.currentSlide = this.currentSlide + slideCount;;
+          this.currentSlide = this.currentSlide + threshold;;
         }
         this.refs.track.removeEventListener('transitionend', listener);
         this.noTransition = true;
@@ -196,7 +144,8 @@ class Carousel {
 
   goto = (e: MouseEvent | TouchEvent) => {
     e.preventDefault();
-    const slide = parseInt((e.target as HTMLElement).getAttribute('data-index-to-go'));
+    const { settings = DEFAULT_SETTINGS } = this.props;
+    const slide = parseInt((e.target as HTMLElement).getAttribute('data-index-to-go')) * settings.slidesToShow;
     this.gotoSlide(slide);
   }
   
@@ -210,15 +159,10 @@ class Carousel {
 
   getTrackStyle = () => {
     const slideWidth = this.getSlideWidth();
-    const { settings } = this.props;
     const slideCount = this.getUpdatedItems().length;
-    let trackWidth;
+    const { settings = DEFAULT_SETTINGS } = this.props;
 
-    if (settings.slidesToShow) {
-      trackWidth = (slideCount + 2 * settings.slidesToShow) * slideWidth;
-    } else {
-      trackWidth = (slideCount + 2) * slideWidth;
-    }
+    const trackWidth = (slideCount + 2 * settings.slidesToShow) * slideWidth;
     const pos = this.calcPos(this.currentSlide, slideWidth);
     const tfm = `translate3d(-${pos}px, 0px, 0px)`;
 
@@ -241,9 +185,8 @@ class Carousel {
       transitionStyles);
 
     const threshold = this.props.items.length;
-    const { slidesToShow } = this.props.settings;
     const leftBound = this.currentSlide;
-    const rightBound = this.currentSlide + slidesToShow;
+    const rightBound = this.currentSlide + settings.slidesToShow;
     if (this.noTransition) {
       delete style['transition'];
       delete style['-webkit-transition'];
@@ -254,29 +197,19 @@ class Carousel {
 
   getDots = () => {
     const slideCount = this.props.items.length;
-    const { slidesToShow } = this.props.settings;
-    const { slidesToScroll } = this.props.settings;
+    const { settings = DEFAULT_SETTINGS } = this.props;
 
-    const dotCount = Math.ceil((slideCount - slidesToShow) / slidesToScroll + 1);
+    const dotCount = Math.ceil((slideCount - settings.slidesToShow) / settings.slidesToScroll + 1);
      
     return Array(dotCount).fill('dot');
   }
 
-  dotIndex(idx: number) {
-    // if(idx === this.getUpdatedItems().length - 1) {
-    //   return 0;
-    // } else {
-    //   return idx;
-    // }
-    return idx;
-  }
-
   getDotStyle: any = (i) => {
-    const { slidesToScroll } = this.props.settings;
-    const { slidesToShow } = this.props.settings;
+    const { settings = DEFAULT_SETTINGS } = this.props;
+    const { slidesToShow } = settings
 
-    let leftBound = i * slidesToScroll;
-    let rightBound = i * slidesToScroll + slidesToShow - 1;
+    let leftBound = i * settings.slidesToScroll;
+    let rightBound = i * settings.slidesToScroll + settings.slidesToShow - 1;
 
     if (this.currentSlide >= leftBound && this.currentSlide <= rightBound) {
       return { 'background-color': 'black' }
@@ -284,8 +217,6 @@ class Carousel {
       return {}
     }
   }
-
-  getSlidesToShow = () => this.props.settings.slidesToShow;
 
   swipeSlides = (touchObj: { startX: number, startY: number, curX: number, curY: number }) => {
     const direction: string = calSwipeDirection(touchObj);
@@ -306,7 +237,8 @@ class Carousel {
   }
 
   calcPos = (currS: number, moveDistance: number): number => {
-    const { slidesToShow } = this.props.settings;
+    const { settings = DEFAULT_SETTINGS } = this.props;
+    const { slidesToShow } = settings
     return (currS + slidesToShow) * moveDistance;
   };
 }
