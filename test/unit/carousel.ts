@@ -120,17 +120,22 @@ suite('Carousel', ({ expect, spy, stub }) => {
       //   carousel.currentSlide = carousel.currentSlide - threshold;
       //   console.log('ccc', carousel.currentSlide);
       // };
-
+      let listener;
       const track = {
-        addEventListener: spy(),
-        removeEventlistener: spy()
+        addEventListener: spy((name: string, lsnr: Function) => {
+          listener = lsnr;
+        }),
+        removeEventListener: spy()
       };
       carousel.refs = <any>{ track };
+      carousel.update = () => null;
 
       carousel.goToSlide(slide);
-      // expect(carousel.currentSlide).to.be.equal(0);
+      listener();
+
+      expect(carousel.currentSlide).to.be.equal(0);
       expect(carousel.refs.track.addEventListener).to.have.been.called;
-      // expect(carousel.refs.track.removeEventListener).to.have.been.called;
+      expect(carousel.refs.track.removeEventListener).to.have.been.called;
     });
 
     it('should go to specific slide and reset current slide when threshold is hit as moving previous', () => {
@@ -186,21 +191,16 @@ suite('Carousel', ({ expect, spy, stub }) => {
   });
 
   describe('goToDot()', () => {
-    // it('should call event prentdefault function', {
 
-    // })
-
-    it.only('should call goToSlide function', () => {
-      // const target: HTMLElement = <any>{ getAttribute };
-      let e;
-      // let target: HTMLElement;
-      // e.target = target;
-      const getAttribute = stub(e, 'target.getAttribute').returns(2);
-
-      carousel.goToSlide = spy();
+    it('should call goToSlide function', () => {
+      const fakeLi = document.createElement('li');
+      spy(fakeLi, 'getAttribute');
+      const e: any = { target: fakeLi, preventDefault: stub() };
+      spy(carousel, 'goToSlide');
       carousel.goToDot(e);
-      expect(getAttribute).to.have.been.calledWith('data-index-to-go');
-      expect(carousel.goToDot).to.have.been.calledWith(2);
+
+      expect(fakeLi.getAttribute).to.have.been.called;
+      expect(carousel.goToSlide).to.have.been.called;
     });
 
   });

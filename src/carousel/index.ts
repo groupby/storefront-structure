@@ -143,19 +143,6 @@ class Carousel {
     }
   }
 
-  createListener = (from: number, to: number, threshold: number) => {
-    return () => {
-      if (from < to) {
-        this.currentSlide = this.currentSlide - threshold;
-      } else {
-        this.currentSlide = this.currentSlide + threshold;
-      }
-      // this.refs.track.removeEventListener('transitionend', listener);
-      this.noTransition = true;
-      this.update();
-    };
-  }
-
   goToDot = (e: MouseEvent | TouchEvent) => {
     e.preventDefault();
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
