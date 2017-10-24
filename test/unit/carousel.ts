@@ -6,370 +6,545 @@ suite('Carousel', ({ expect, spy, stub }) => {
   let carousel: Carousel;
   let DEFAULT_SETTINGS;
 
-  beforeEach(() => {
-    carousel = new Carousel();
-    DEFAULT_SETTINGS = {
-      transition: true,
-      infinite: true,
-      speed: 800,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-    };
-    carousel.props.items = [{ content: 'test' }, { content: 'test' }, { content: 'test' }];
-  });
-
-  describe('onMount()', () => {
-
-    // it('should update slide width', () => {
-    //   carousel.onMount();
-
-    //   // expect(carousel.getDotsCount).to.be.called;
-    // });
-  });
-
-  describe.skip('swipeLeft', () => {
-    let touchStartHandler: () => void;
-    let touchMoveHandler: () => void;
-    let touchEndHandler: () => void;
-
-    let touchStartStub: sinon.SinonStub;
-
-    let s: sinon.SinonStub;
-
-    beforeEach(() => {
-      s = stub(utils, 'WINDOW', () => ({
-        document: {
-          addEventListener: (name: string, handler: () => void, useCapture: boolean) => {
-            switch (name) {
-              case 'touchstart':
-                touchStartHandler = handler; break;
-              case 'touchmove':
-                touchMoveHandler = handler; break;
-              case 'touchend':
-                touchEndHandler = handler; break;
-            }
-          }
-        }
-      }));
-
-      touchStartStub = stub(carousel, 'onTouchStart');
+  describe('settings', () => {
+    before(() => {
+      carousel = new Carousel();
+      DEFAULT_SETTINGS = {
+        infinite: true,
+        speed: 800,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+      };
     });
-
-    afterEach(() => {
-      s.restore();
-    });
-
-    it('should add listener', () => {
-      expect(touchStartHandler).not.to.be.ok;
-      expect(touchMoveHandler).not.to.be.ok;
-      expect(touchEndHandler).not.to.be.ok;
-
-      expect(touchStartStub).not.to.have.been.called;
-
-      carousel.onTouchStart({} as any);
-      expect(touchStartHandler).to.be.ok;
-      expect(touchMoveHandler).to.be.ok;
-      expect(touchEndHandler).to.be.ok;
-
-      // simulate user touch event
-      touchStartHandler();
-
-      expect(touchStartStub).to.have.been.called;
-
-    });
-  });
-
-  describe('it should set default settings', () => {
 
     it('should default to default settings if no settings are passed in', () => {
-
       expect(carousel.props.settings).to.deep.equal(DEFAULT_SETTINGS);
     });
   });
 
-  describe('goToSlide()', () => {
-
+  describe('functions', () => {
     beforeEach(() => {
-      const slidesToShow = 1;
-      carousel.props.items = ['', '', ''];
-    });
-
-    it('should go to the specific slide when threshold is not hit ', () => {
-      carousel.currentSlide = 0;
-      const slide = 1;
-
-      const track = {
-        addEventListener: spy(),
-        removeEventListener: spy()
+      carousel = new Carousel();
+      DEFAULT_SETTINGS = {
+        transition: true,
+        infinite: true,
+        speed: 800,
+        slidesToShow: 1,
+        slidesToScroll: 1,
       };
-      carousel.refs = <any>{ track };
-
-      carousel.goToSlide(slide);
-      expect(carousel.currentSlide).to.be.equal(slide);
-      expect(carousel.refs.track.addEventListener).to.not.have.been.called;
-      expect(carousel.refs.track.removeEventListener).to.not.have.been.called;
-    });
-
-    it('should go to specific slide and reset current slide when threshold is hit as moving next', () => {
-      carousel.currentSlide = 2;
-      const slide = 3;
-      const threshold = carousel.props.items.length;
-      // let resetCurrentSlide = () => {
-      //   carousel.currentSlide = carousel.currentSlide - threshold;
-      //   console.log('ccc', carousel.currentSlide);
-      // };
-      let listener;
-      const track = {
-        addEventListener: spy((name: string, lsnr: Function) => {
-          listener = lsnr;
-        }),
-        removeEventListener: spy()
+      carousel.props.items = [{ content: 'test' }, { content: 'test' }, { content: 'test' }];
+      carousel.props.settings = {
+        speed: 500
       };
-      carousel.refs = <any>{ track };
-      carousel.update = () => undefined;
-
-      carousel.goToSlide(slide);
-      listener();
-
-      expect(carousel.currentSlide).to.be.equal(0);
-      expect(carousel.refs.track.addEventListener).to.have.been.called;
-      expect(carousel.refs.track.removeEventListener).to.have.been.called;
     });
 
-    it('should go to specific slide and reset current slide when threshold is hit as moving previous', () => {
-      carousel.currentSlide = 0;
-      const slide = -1;
-      const threshold = carousel.props.items.length;
-      // let resetCurrentSlide = () => {
-      //   carousel.currentSlide = carousel.currentSlide - threshold;
-      //   console.log('ccc', carousel.currentSlide);
-      // };
+    describe('onMount()', () => {
 
-      const track = {
-        addEventListener: spy(),
-        removeEventlistener: spy()
-      };
-      carousel.refs = <any>{ track };
+      it('should add event listener for window resize', () => {
+        const addEventListener = spy();
+        stub(utils, 'WINDOW').returns({ addEventListener });
 
-      carousel.goToSlide(slide);
-      // expect(carousel.currentSlide).to.be.equal(0);
-      expect(carousel.refs.track.addEventListener).to.have.been.called;
-    });
-  });
+        carousel.onMount();
 
-  describe('cloneItems()', () => {
-
-    it('should return if no items are passed from porps', () => {
-      carousel.props.items = undefined;
-      carousel.cloneItems();
-
-      const slidesToShow = spy();
-
-      expect(slidesToShow).to.not.have.been.called;
+        expect(addEventListener).to.have.been.calledWithExactly('resize', carousel.updateWindow);
+      });
     });
 
-    it('should clone items', () => {
-      const originalData = { ...DEFAULT_SETTINGS[0] };
+    describe('onUnMount()', () => {
 
-      const items = carousel.cloneItems();
-      expect(items.length).to.be.equal(5);
-      expect(items[0]).to.include(originalData);
-      expect(items[1]).to.include(originalData);
-      expect(items[2]).to.include(originalData);
-      expect(items[3]).to.include(originalData);
-      expect(items[4]).to.include(originalData);
+      it('should add event listener for window resize', () => {
+        const removeEventListener = spy();
+        stub(utils, 'WINDOW').returns({ removeEventListener });
 
-      expect(items[0]['data-index']).to.be.equal(-1);
-      expect(items[1]['data-index']).to.be.equal(0);
-      expect(items[2]['data-index']).to.be.equal(1);
-      expect(items[3]['data-index']).to.be.equal(2);
-      expect(items[4]['data-index']).to.be.equal(3);
+        carousel.onUnMount();
+
+        expect(removeEventListener).to.have.been.calledWithExactly('resize', carousel.updateWindow);
+      });
     });
 
-  });
+    describe('updateWindow', () => {
 
-  describe('goToDot()', () => {
+      it('should update window', () => {
+        carousel.temporaryNoTransition = false;
+        carousel.update = spy();
 
-    it('should call goToSlide function', () => {
-      const fakeLi = document.createElement('li');
-      spy(fakeLi, 'getAttribute');
-      const e: any = { target: fakeLi, preventDefault: stub() };
-      spy(carousel, 'goToSlide');
-      carousel.goToDot(e);
-
-      expect(fakeLi.getAttribute).to.have.been.calledWith('data-index-to-go');
-      expect(carousel.goToSlide).to.have.been.called;
+        carousel.updateWindow();
+        expect(carousel.temporaryNoTransition).to.be.equal(true);
+        expect(carousel.update).to.have.been.called;
+      });
     });
 
-  });
+    describe('moveNext', () => {
 
-  describe('getSlideStyle()', () => {
+      it('should call goToSlide function with correct slide number', () => {
+        carousel.currentSlide = 0;
+        carousel.goToSlide = spy();
 
-    it('should return slide sty(le', () => {
-      const width = 100;
-      stub(carousel, 'getSlideWidth').returns(width);
+        carousel.moveNext();
 
-      const style = carousel.getSlideStyle();
-      const result = {
-        width: `${width}px`,
-        outline: 'none',
-      };
-      expect(style).to.deep.equal(result);
-    });
-  });
-
-  describe('getTrackStyle', () => {
-
-    it('should return when clone items function returns nothing', () => {
-      stub(carousel, 'cloneItems').returns(undefined);
-      spy(carousel, 'getSlideWidth');
-      carousel.getTrackStyle();
-
-      expect(carousel.getSlideWidth).to.not.have.been.called;
+        expect(carousel.goToSlide).to.have.been.calledWithExactly(1);
+      });
     });
 
-    it('should return when items are not passed in from props', () => {
-      carousel.props.items = undefined;
-      stub(carousel, 'cloneItems').returns({ content: 'test' });
+    describe('movePrevious', () => {
 
-      spy(carousel, 'getSlideWidth');
-      carousel.getTrackStyle();
+      it('should call goToSlide function with correct slide number', () => {
+        carousel.currentSlide = 0;
+        carousel.goToSlide = spy();
 
-      expect(carousel.getSlideWidth).to.not.have.been.called;
+        carousel.movePrevious();
+
+        expect(carousel.goToSlide).to.have.been.calledWithExactly(-1);
+      });
     });
 
-    it('should return style with transition when transition is allowed', () => {
-      const { items } = carousel.props;
-      const clonedItems = [items[2], ...items, items[0]];
-      const width = 100;
-      const trackWidth = 700;
-      const pos = 500;
-      const tfm = `translate3d(-${pos}px, 0px, 0px)`;
-      const trsition = DEFAULT_SETTINGS.speed + 'ms ' + 'ease';
+    describe('onTouchStart', () => {
 
-      carousel.temporaryNoTransition = false;
+      it('should add listener', () => {
+        carousel.touchObject;
+        const event = {
+          preventDefault: spy(),
+          stopPropagation: spy(),
+          touches: [{
+            pageX: 0,
+            pageY: 5
+          }]
+        };
+        const carouselwrap = {
+          addEventListener: spy(),
+        };
+        carousel.refs = <any>{ carouselwrap };
 
-      stub(carousel, 'cloneItems').returns(clonedItems);
-      stub(carousel, 'getSlideWidth').returns(width);
-      stub(carousel, 'calcPos').returns(500);
+        const result = {
+          startX: 0,
+          startY: 5,
+          curX: 0,
+          curY: 5
+        };
 
-      const result = {
-        transform: tfm,
-        '-webkit-transform': tfm,
-        '-ms-transform': tfm,
-        '-webkit-transition': trsition,
-        transition: trsition,
-        width: `${trackWidth}px`,
-      };
+        expect(carouselwrap.addEventListener).to.not.have.been.called;
 
-      const style = carousel.getTrackStyle();
+        carousel.onTouchStart(event as any);
 
-      expect(style).to.deep.equal(result);
+        expect(event.preventDefault).to.have.been.called;
+        expect(event.stopPropagation).to.have.been.called;
+        expect(carousel.touchObject).to.deep.equal(result);
+        expect(carouselwrap.addEventListener).to.have.been.calledWithExactly('touchend', carousel.onTouchEnd);
+      });
     });
 
-    it('should return style with no transition when transition is not allowed temporarily', () => {
-      const { items } = carousel.props;
-      const clonedItems = [items[2], ...items, items[0]];
-      const width = 100;
-      const trackWidth = 700;
-      const pos = 500;
-      const tfm = `translate3d(-${pos}px, 0px, 0px)`;
+    describe('onTouchEnd()', () => {
 
-      carousel.temporaryNoTransition = true;
+      it('should remove listener', () => {
+        carousel.touchObject = {
+          startX: 0,
+          startY: 5,
+          curX: 0,
+          curY: 5
+        };
 
-      stub(carousel, 'cloneItems').returns(clonedItems);
-      stub(carousel, 'getSlideWidth').returns(width);
-      stub(carousel, 'calcPos').returns(500);
+        const event = {
+          changedTouches: [{
+            pageX: 10,
+            pageY: 15
+          }]
+        };
 
-      const result = {
-        transform: tfm,
-        '-webkit-transform': tfm,
-        '-ms-transform': tfm,
-        width: `${trackWidth}px`,
-      };
+        carousel.swipeSlides = spy();
+        const carouselwrap = {
+          removeEventListener: spy()
+        };
+        carousel.refs = <any>{ carouselwrap };
+        const result = {
+          startX: 0,
+          startY: 5,
+          curX: 10,
+          curY: 15
+        };
 
-      const style = carousel.getTrackStyle();
+        carousel.onTouchEnd(event as any);
 
-      expect(style).to.deep.equal(result);
+        expect(carousel.swipeSlides).to.have.been.calledWithExactly(result);
+        expect(carouselwrap.removeEventListener).to.have.been.calledWithExactly('touchstart', carousel.onTouchStart);
+        expect(carouselwrap.removeEventListener).to.have.been.calledWithExactly('touchend', carousel.onTouchEnd);
+      });
     });
-  });
 
-  describe('getDots()', () => {
+    describe('goToSlide()', () => {
 
-    it('should return when no items are passed down', () => {
-      carousel.props.items = undefined;
+      it('should go to the specific slide when threshold is not hit ', () => {
+        carousel.currentSlide = 0;
+        const slide = 1;
 
-      const result = carousel.getDots();
+        const track = {
+          addEventListener: spy(),
+          removeEventListener: spy()
+        };
+        carousel.refs = <any>{ track };
 
-      expect(result).to.be.equal(undefined);
+        carousel.goToSlide(slide);
+        expect(carousel.currentSlide).to.be.equal(slide);
+        expect(carousel.refs.track.addEventListener).to.not.have.been.called;
+        expect(carousel.refs.track.removeEventListener).to.not.have.been.called;
+      });
+
+      it('should go to specific slide and reset current slide when threshold is hit as moving next', () => {
+        carousel.currentSlide = 2;
+        const slide = 3;
+        const threshold = carousel.props.items.length;
+        let listener;
+        const track = {
+          addEventListener: spy((name: string, lsnr: Function) => {
+            listener = lsnr;
+          }),
+          removeEventListener: spy()
+        };
+        carousel.refs = <any>{ track };
+        carousel.update = () => undefined;
+
+        carousel.goToSlide(slide);
+        listener();
+
+        expect(carousel.currentSlide).to.be.equal(0);
+        expect(carousel.refs.track.addEventListener).to.have.been.called;
+        expect(carousel.refs.track.removeEventListener).to.have.been.called;
+      });
+
+      it('should go to specific slide and reset current slide when threshold is hit as moving previous', () => {
+        carousel.currentSlide = 0;
+        const slide = -1;
+        const threshold = carousel.props.items.length;
+        let listener;
+        const track = {
+          addEventListener: spy((name: string, lsnr: Function) => {
+            listener = lsnr;
+          }),
+          removeEventListener: spy()
+        };
+        carousel.refs = <any>{ track };
+        carousel.update = () => undefined;
+
+        carousel.goToSlide(slide);
+        listener();
+        expect(carousel.currentSlide).to.be.equal(2);
+        expect(carousel.refs.track.addEventListener).to.have.been.called;
+        expect(carousel.refs.track.removeEventListener).to.have.been.called;
+      });
     });
 
-    it('should get correct number of dots', () => {
-      const dots = ['dot', 'dot', 'dot'];
-      const results = carousel.getDots();
+    describe('cloneItems()', () => {
 
-      expect(results).to.deep.equal(dots);
+      it('should return if no items are passed from porps', () => {
+        carousel.props.items = undefined;
+        carousel.cloneItems();
+
+        const slidesToShow = spy();
+
+        expect(slidesToShow).to.not.have.been.called;
+      });
+
+      it('should clone items', () => {
+        const originalData = { content: 'test' };
+
+        const items = carousel.cloneItems();
+        expect(items.length).to.be.equal(5);
+        expect(items[0]).to.include(originalData);
+        expect(items[1]).to.include(originalData);
+        expect(items[2]).to.include(originalData);
+        expect(items[3]).to.include(originalData);
+        expect(items[4]).to.include(originalData);
+
+        expect(items[0]['data-index']).to.be.equal(-1);
+        expect(items[1]['data-index']).to.be.equal(0);
+        expect(items[2]['data-index']).to.be.equal(1);
+        expect(items[3]['data-index']).to.be.equal(2);
+        expect(items[4]['data-index']).to.be.equal(3);
+      });
+
     });
-  });
 
-  describe('getDotStyle()', () => {
+    describe('goToDot()', () => {
 
-    it('should return active style when dot is active', () => {
-      carousel.currentSlide = 0;
-      const active = { 'background-color': 'black' };
-      const inactive = {};
+      it('should call goToSlide function', () => {
+        const fakeLi = document.createElement('li');
+        spy(fakeLi, 'getAttribute');
+        const e: any = { target: fakeLi, preventDefault: stub() };
+        spy(carousel, 'goToSlide');
+        carousel.goToDot(e);
 
-      const style = carousel.getDotStyle(0);
-      expect(style).to.deep.equal(active);
-      const style1 = carousel.getDotStyle(1);
-      expect(style1).to.deep.equal(inactive);
-      const style2 = carousel.getDotStyle(2);
-      expect(style2).to.deep.equal(inactive);
+        expect(fakeLi.getAttribute).to.have.been.calledWith('data-index-to-go');
+        expect(carousel.goToSlide).to.have.been.called;
+      });
+
     });
-  });
 
-  describe('swipeSlides()', () => {
+    describe('getSlideStyle()', () => {
 
-    it('should move next when swiping left', () => {
-      spy(carousel, 'moveNext');
-      spy(carousel, 'movePrevious');
-  
-      const touchObj = {startX: 0, startY: 0, curX: -20, curY: 4};
-      carousel.swipeSlides(touchObj);
-      expect(carousel.moveNext).to.have.been.called;
-      expect(carousel.movePrevious).to.not.have.been.called;
-    })
+      it('should return slide sty(le', () => {
+        const width = 100;
+        stub(carousel, 'getSlideWidth').returns(width);
 
-    it.skip('should move previous when swiping right', () => {
-      spy(carousel, 'moveNext');
-      spy(carousel, 'movePrevious');
-  
-      const touchObj = {startX: 0, startY: 0, curX: 20, curY: 4};
-      carousel.swipeSlides(touchObj);
-      expect(carousel.moveNext).to.not.have.been.called;
-      expect(carousel.movePrevious).to.have.been.called;
+        const style = carousel.getSlideStyle();
+        const result = {
+          width: `${width}px`,
+          outline: 'none',
+        };
+        expect(style).to.deep.equal(result);
+      });
     });
-  });
 
-  describe('getSlideWidth()' , () => {
-   it('should return slide width', () => {
-    const width = 500;
-    const carouselwrap = document.createElement('div');
-    stub(carouselwrap, 'offsetWidth').returns(width);
-    const track = document.createElement('div');
-    const dots = document.createElement('div');
-    const slide = document.createElement('div');
-    
-    carousel.refs = {
-      carouselwrap,
-      track,
-      dots,
-      slide
-    };
-    // stub(carousel.refs.carouselwrap, 'offsetWidth').returns(width);
+    describe('getTrackStyle', () => {
 
-    const result = carousel.getSlideWidth();
-    expect(result).to.be.equal(width);
-   })
+      it('should return when clone items function returns nothing', () => {
+        stub(carousel, 'cloneItems').returns(undefined);
+        spy(carousel, 'getSlideWidth');
+        carousel.getTrackStyle();
+
+        expect(carousel.getSlideWidth).to.not.have.been.called;
+      });
+
+      it('should return when items are not passed in from props', () => {
+        carousel.props.items = undefined;
+        stub(carousel, 'cloneItems').returns({ content: 'test' });
+
+        spy(carousel, 'getSlideWidth');
+        carousel.getTrackStyle();
+
+        expect(carousel.getSlideWidth).to.not.have.been.called;
+      });
+
+      it('should use default speed if no speed is provided from settings', () => {
+        delete carousel.props.settings.speed;
+        const { items } = carousel.props;
+        const clonedItems = [items[2], ...items, items[0]];
+        const width = 100;
+        const trackWidth = 700;
+        const pos = 500;
+        const tfm = `translate3d(-${pos}px, 0px, 0px)`;
+        const trsition = DEFAULT_SETTINGS.speed + 'ms ' + 'ease';
+
+        carousel.temporaryNoTransition = false;
+
+        stub(carousel, 'cloneItems').returns(clonedItems);
+        stub(carousel, 'getSlideWidth').returns(width);
+        stub(carousel, 'calcPos').returns(500);
+
+        const result = {
+          transform: tfm,
+          '-webkit-transform': tfm,
+          '-ms-transform': tfm,
+          '-webkit-transition': trsition,
+          transition: trsition,
+          width: `${trackWidth}px`,
+        };
+
+        const style = carousel.getTrackStyle();
+
+        expect(style).to.deep.equal(result);
+      });
+
+      it('should use speed from settings for transition when transition is allowed', () => {
+        const { items } = carousel.props;
+        const clonedItems = [items[2], ...items, items[0]];
+        const width = 100;
+        const trackWidth = 700;
+        const pos = 500;
+        const tfm = `translate3d(-${pos}px, 0px, 0px)`;
+        const trsition = carousel.props.settings.speed + 'ms ' + 'ease';
+
+        carousel.temporaryNoTransition = false;
+
+        stub(carousel, 'cloneItems').returns(clonedItems);
+        stub(carousel, 'getSlideWidth').returns(width);
+        stub(carousel, 'calcPos').returns(500);
+
+        const result = {
+          transform: tfm,
+          '-webkit-transform': tfm,
+          '-ms-transform': tfm,
+          '-webkit-transition': trsition,
+          transition: trsition,
+          width: `${trackWidth}px`,
+        };
+
+        const style = carousel.getTrackStyle();
+
+        expect(style).to.deep.equal(result);
+      });
+
+      it('should return style with no transition when transition is not allowed temporarily', () => {
+        const { items } = carousel.props;
+        const clonedItems = [items[2], ...items, items[0]];
+        const width = 100;
+        const trackWidth = 700;
+        const pos = 500;
+        const tfm = `translate3d(-${pos}px, 0px, 0px)`;
+
+        carousel.temporaryNoTransition = true;
+
+        stub(carousel, 'cloneItems').returns(clonedItems);
+        stub(carousel, 'getSlideWidth').returns(width);
+        stub(carousel, 'calcPos').returns(500);
+
+        const result = {
+          transform: tfm,
+          '-webkit-transform': tfm,
+          '-ms-transform': tfm,
+          width: `${trackWidth}px`,
+        };
+
+        const style = carousel.getTrackStyle();
+
+        expect(style).to.deep.equal(result);
+      });
+
+      it.only('should not return style with transition if transition is set to false', () => {
+
+        const { items } = carousel.props;
+        const clonedItems = [items[2], ...items, items[0]];
+        const width = 100;
+        const trackWidth = 700;
+        const pos = 500;
+        const tfm = `translate3d(-${pos}px, 0px, 0px)`;
+
+        stub(carousel, 'cloneItems').returns(clonedItems);
+        stub(carousel, 'getSlideWidth').returns(width);
+        stub(carousel, 'calcPos').returns(500);
+
+        const result = {
+          transform: tfm,
+          '-webkit-transform': tfm,
+          '-ms-transform': tfm,
+          width: `${trackWidth}px`,
+        };
+
+        const style = carousel.getTrackStyle();
+
+        expect(style).to.deep.equal(result);
+
+      });
+
+    });
+
+    describe('getDots()', () => {
+
+      it('should return when no items are passed down', () => {
+        carousel.props.items = undefined;
+
+        const result = carousel.getDots();
+
+        expect(result).to.be.equal(undefined);
+      });
+
+      it('should get correct number of dots', () => {
+        const dots = ['dot', 'dot', 'dot'];
+        const results = carousel.getDots();
+
+        expect(results).to.deep.equal(dots);
+      });
+    });
+
+    describe('getDotStyle()', () => {
+
+      it('should return active style when dot is active', () => {
+        carousel.currentSlide = 0;
+        const active = { 'background-color': 'black' };
+        const inactive = {};
+
+        const style = carousel.getDotStyle(0);
+        expect(style).to.deep.equal(active);
+        const style1 = carousel.getDotStyle(1);
+        expect(style1).to.deep.equal(inactive);
+        const style2 = carousel.getDotStyle(2);
+        expect(style2).to.deep.equal(inactive);
+      });
+    });
+
+    describe('swipeSlides()', () => {
+
+      it('should move next when swiping left with an angle between 315 and 360', () => {
+        spy(carousel, 'moveNext');
+        spy(carousel, 'movePrevious');
+
+        const touchObj = { startX: 0, startY: 0, curX: -20, curY: 4 };
+        const direction = calSwipeDirection(touchObj);
+        expect(direction).to.be.equal('left');
+
+        carousel.swipeSlides(touchObj);
+        expect(carousel.moveNext).to.have.been.called;
+        expect(carousel.movePrevious).to.not.have.been.called;
+      });
+
+      it('should move next when swiping left with an angle between 0 and 45', () => {
+        spy(carousel, 'moveNext');
+        spy(carousel, 'movePrevious');
+
+        const touchObj2 = { startX: 0, startY: 0, curX: -20, curY: -10 };
+        const direction = calSwipeDirection(touchObj2);
+        expect(direction).to.be.equal('left');
+
+        carousel.swipeSlides(touchObj2);
+        expect(carousel.moveNext).to.have.been.called;
+        expect(carousel.movePrevious).to.not.have.been.called;
+      });
+
+      it('should move previous when swiping right with an angle between 135 and 225', () => {
+        spy(carousel, 'moveNext');
+        spy(carousel, 'movePrevious');
+
+        const touchObj = { startX: 0, startY: 0, curX: 20, curY: 10 };
+        const direction = calSwipeDirection(touchObj);
+        expect(direction).to.be.equal('right');
+
+        // carousel.swipeSlides(touchObj);
+        // expect(carousel.moveNext).to.not.have.been.called;
+        // expect(carousel.movePrevious).to.have.been.called;
+      });
+    });
+
+    describe('getSlideWidth()', () => {
+      it('should return slide width', () => {
+        const width = 500;
+        let carouselwrap: any = { offsetWidth: width };
+        let track: any;
+        let dots: any;
+        let slide: any;
+
+        carousel.refs = {
+          carouselwrap,
+          track,
+          dots,
+          slide
+        };
+
+        const result = carousel.getSlideWidth();
+        expect(result).to.be.equal(width);
+      });
+    });
+
+    describe('calcPos()', () => {
+
+      it('should return correct position value', () => {
+        const currentSlide = 2;
+        const moveDistance = 100;
+        const pos = carousel.calcPos(currentSlide, moveDistance);
+
+        expect(pos).to.be.equal(300);
+      });
+    });
+
+    describe('calSwipeDirection()', () => {
+
+      it('should return correct direction', () => {
+        const touchObj1 = { startX: 0, startY: 0, curX: 20, curY: 4 };
+        const touchObj2 = { startX: 0, startY: 0, curX: -20, curY: 4 };
+
+        const result1 = calSwipeDirection(touchObj1);
+        expect(result1).to.be.equal('right');
+
+        const result2 = calSwipeDirection(touchObj2);
+        expect(result2).to.be.equal('left');
+      });
+    });
   });
 });

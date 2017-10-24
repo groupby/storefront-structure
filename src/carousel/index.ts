@@ -30,19 +30,11 @@ class Carousel {
   temporaryNoTransition: boolean = true;
 
   onMount() {
-    if (this.refs.carouselwrap.addEventListener) {
-      utils.WINDOW().addEventListener('resize', this.updateWindow);
-    }
-  }
-
-  onUpdate() {
-    console.log('ccc', this.currentSlide)
+    utils.WINDOW().addEventListener('resize', this.updateWindow);
   }
 
   onUnMount() {
-    if (window.addEventListener) {
-      window.removeEventListener('resize', this.updateWindow);
-    }
+      utils.WINDOW().removeEventListener('resize', this.updateWindow);
   }
 
   updateWindow = () => {
@@ -101,13 +93,15 @@ class Carousel {
 
       if (index >= (itemCount - slidesToShow)) {
         let key = -(itemCount - index);
-        preCloneSlides.push({...data,
+        preCloneSlides.push({
+          ...data,
           'data-index': key,
         });
       } else if (index < slidesToShow) {
 
         let key = itemCount + index;
-        postCloneSlides.push({...data,
+        postCloneSlides.push({
+          ...data,
           'data-index': key,
         });
       }
@@ -179,6 +173,8 @@ class Carousel {
       '-ms-transform': tfm,
     };
 
+    console.log(transition, this.props.settings.transition, DEFAULT_SETTINGS.transition)
+
     const trsition = speed + 'ms ' + 'ease';
     const transitionStyles = transition === true ? {
       '-webkit-transition': trsition,
@@ -227,7 +223,6 @@ class Carousel {
   }
 
   swipeSlides = (touchObj: { startX: number, startY: number, curX: number, curY: number }) => {
-    console.log('direction')
     const direction: string = calSwipeDirection(touchObj);
 
     if (direction) {
@@ -263,7 +258,7 @@ const calSwipeDirection = (touchObj: { startX: number, startY: number, curX: num
     swipeAngle = 360 - Math.abs(swipeAngle);
   }
   // swipeAngle between 45 and 135, between 225 and 315 is ignored;
-  if (swipeAngle <= 45 && swipeAngle > 0 || swipeAngle <= 360 && swipeAngle >= 315) {
+  if (swipeAngle <= 45 && swipeAngle >= 0 || swipeAngle <= 360 && swipeAngle >= 315) {
     return 'left';
   }
   if ((swipeAngle >= 135) && (swipeAngle <= 225)) {
