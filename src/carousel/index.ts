@@ -11,7 +11,7 @@ const DEFAULT_SETTINGS = {
 @tag('gb-carousel', require('./index.html'), require('./index.css'))
 class Carousel {
   refs: {
-    carouselwrap: HTMLElement,
+    carouselwrap: HTMLDivElement,
     track: HTMLDivElement,
     dots: HTMLDivElement,
     slide: HTMLDivElement
@@ -27,7 +27,7 @@ class Carousel {
   };
 
   currentSlide: number = 0;
-  noTransition: boolean = true;
+  temporaryNoTransition: boolean = true;
 
   onMount() {
     if (this.refs.carouselwrap.addEventListener) {
@@ -46,7 +46,7 @@ class Carousel {
   }
 
   updateWindow = () => {
-    this.noTransition = true;
+    this.temporaryNoTransition = true;
     this.update();
   }
 
@@ -134,7 +134,7 @@ class Carousel {
         this.currentSlide = this.currentSlide + threshold;
       }
       this.refs.track.removeEventListener('transitionend', listener);
-      this.noTransition = true;
+      this.temporaryNoTransition = true;
       this.update();
     };
 
@@ -191,13 +191,10 @@ class Carousel {
       transformStyles,
       transitionStyles);
 
-    const threshold = this.props.items.length;
-    const leftBound = this.currentSlide;
-    const rightBound = this.currentSlide + slidesToShow;
-    if (this.noTransition) {
+    if (this.temporaryNoTransition) {
       delete style['transition'];
       delete style['-webkit-transition'];
-      this.noTransition = !this.noTransition;
+      this.temporaryNoTransition = !this.temporaryNoTransition;
     }
     return style;
   }
@@ -230,6 +227,7 @@ class Carousel {
   }
 
   swipeSlides = (touchObj: { startX: number, startY: number, curX: number, curY: number }) => {
+    console.log('direction')
     const direction: string = calSwipeDirection(touchObj);
 
     if (direction) {
@@ -241,7 +239,7 @@ class Carousel {
     const visibleWidth = this.refs.carouselwrap.offsetWidth;
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
 
-    if (visibleWidth && slidesToShow) {
+    if (visibleWidth) {
       const slideWidth = visibleWidth / slidesToShow;
       return slideWidth;
     }
@@ -269,9 +267,11 @@ const calSwipeDirection = (touchObj: { startX: number, startY: number, curX: num
     return 'left';
   }
   if ((swipeAngle >= 135) && (swipeAngle <= 225)) {
-    return ('right');
+    return 'right';
   }
 };
+
+export { calSwipeDirection };
 
 interface Carousel extends Tag<Carousel.Props> { }
 namespace Carousel {
