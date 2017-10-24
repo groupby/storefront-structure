@@ -16,6 +16,25 @@ suite('NativeSelect', ({ expect, spy }) => {
 
       expect(selector.selectedIndex).to.eq(2);
     });
+
+    it('should not set selectedIndex if selectedIndex did not change', () => {
+      nativeSelect.refs = <any>{
+        selector: {
+          set selectedIndex(param: any) {
+            expect.fail();
+          }
+        }
+      };
+      nativeSelect.$select = <any>{
+        options: {
+          findIndex() {
+            return nativeSelect.refs.selector.selectedIndex;
+          }
+        }
+      };
+
+      nativeSelect.onUpdated();
+    });
   });
 
   describe('updateSelection()', () => {
