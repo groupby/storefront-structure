@@ -10,6 +10,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
     before(() => {
       carousel = new Carousel();
       DEFAULT_SETTINGS = {
+        transition: true,
         infinite: true,
         speed: 800,
         slidesToShow: 1,
@@ -398,8 +399,8 @@ suite('Carousel', ({ expect, spy, stub }) => {
         expect(style).to.deep.equal(result);
       });
 
-      it.only('should not return style with transition if transition is set to false', () => {
-
+      it('should not return style with transition if transition is set to false', () => {
+        carousel.props.settings.transition = false;
         const { items } = carousel.props;
         const clonedItems = [items[2], ...items, items[0]];
         const width = 100;
@@ -463,8 +464,8 @@ suite('Carousel', ({ expect, spy, stub }) => {
     describe('swipeSlides()', () => {
 
       it('should move next when swiping left with an angle between 315 and 360', () => {
-        spy(carousel, 'moveNext');
-        spy(carousel, 'movePrevious');
+        stub(carousel, 'moveNext');
+        stub(carousel, 'movePrevious');
 
         const touchObj = { startX: 0, startY: 0, curX: -20, curY: 4 };
         const direction = calSwipeDirection(touchObj);
@@ -476,8 +477,8 @@ suite('Carousel', ({ expect, spy, stub }) => {
       });
 
       it('should move next when swiping left with an angle between 0 and 45', () => {
-        spy(carousel, 'moveNext');
-        spy(carousel, 'movePrevious');
+        stub(carousel, 'moveNext');
+        stub(carousel, 'movePrevious');
 
         const touchObj2 = { startX: 0, startY: 0, curX: -20, curY: -10 };
         const direction = calSwipeDirection(touchObj2);
@@ -489,16 +490,16 @@ suite('Carousel', ({ expect, spy, stub }) => {
       });
 
       it('should move previous when swiping right with an angle between 135 and 225', () => {
-        spy(carousel, 'moveNext');
-        spy(carousel, 'movePrevious');
+        stub(carousel, 'moveNext');
+        stub(carousel, 'movePrevious');
 
         const touchObj = { startX: 0, startY: 0, curX: 20, curY: 10 };
         const direction = calSwipeDirection(touchObj);
         expect(direction).to.be.equal('right');
 
-        // carousel.swipeSlides(touchObj);
-        // expect(carousel.moveNext).to.not.have.been.called;
-        // expect(carousel.movePrevious).to.have.been.called;
+        carousel.swipeSlides(touchObj);
+        expect(carousel.moveNext).to.not.have.been.called;
+        expect(carousel.movePrevious).to.have.been.called;
       });
     });
 
