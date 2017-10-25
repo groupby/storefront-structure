@@ -11,7 +11,6 @@ suite('Carousel', ({ expect, spy, stub }) => {
       carousel = new Carousel();
       DEFAULT_SETTINGS = {
         transition: true,
-        infinite: true,
         speed: 800,
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -28,7 +27,6 @@ suite('Carousel', ({ expect, spy, stub }) => {
       carousel = new Carousel();
       DEFAULT_SETTINGS = {
         transition: true,
-        infinite: true,
         speed: 800,
         slidesToShow: 1,
         slidesToScroll: 1,

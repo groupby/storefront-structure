@@ -2,7 +2,6 @@ import { tag, utils, Tag } from '@storefront/core';
 
 const DEFAULT_SETTINGS = {
   transition: true,
-  infinite: true,
   speed: 800,
   slidesToShow: 1,
   slidesToScroll: 1,
