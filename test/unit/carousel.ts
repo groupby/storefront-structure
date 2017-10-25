@@ -506,14 +506,10 @@ suite('Carousel', ({ expect, spy, stub }) => {
         const width = 500;
         let carouselwrap: any = { offsetWidth: width };
         let track: any;
-        let dots: any;
-        let slide: any;
 
         carousel.refs = {
           carouselwrap,
           track,
-          dots,
-          slide
         };
 
         const result = carousel.getSlideWidth();
