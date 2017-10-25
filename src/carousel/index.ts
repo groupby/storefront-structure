@@ -12,8 +12,6 @@ class Carousel {
   refs: {
     carouselwrap: HTMLDivElement,
     track: HTMLDivElement,
-    dots: HTMLDivElement,
-    slide: HTMLDivElement
   };
 
   props: Carousel.Props = <any>{ settings: DEFAULT_SETTINGS };
@@ -224,7 +222,7 @@ class Carousel {
     const direction: string = calSwipeDirection(touchObj);
 
     if (direction === 'left') {
-      this.moveNext() 
+      this.moveNext();
     } else if (direction === 'right') {
       this.movePrevious();
     }
@@ -266,8 +264,6 @@ const calSwipeDirection = (touchObj: { startX: number, startY: number, curX: num
   }
 };
 
-export { calSwipeDirection };
-
 interface Carousel extends Tag<Carousel.Props> { }
 namespace Carousel {
   export interface Props extends Tag.Props {
@@ -280,12 +276,8 @@ namespace Carousel {
     items: any[];
   }
 
-  export interface State {
-  }
-
   export type Event = Tag.Event & { target: Element };
 }
 
-export type Image = { url: string };
-
 export default Carousel;
+export { calSwipeDirection };
