@@ -28,6 +28,23 @@ class Carousel {
 
   onMount() {
     utils.WINDOW().addEventListener('resize', this.updateWindow);
+    this.temporaryNoTransition = true;
+
+    // const slideWidth = this.getSlideWidth();
+    // const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
+
+    // const trackWidth = (this.props.items.length + 2 * slidesToShow) * slideWidth;
+    // console.log('on mount', trackWidth);
+  }
+
+  onUpdate() {
+    console.log('on update', this.props.items.length);
+    this.temporaryNoTransition = false;
+  }
+
+  onUpdated() {
+    console.log('on updat ED', this.props.items.length);
+    this.temporaryNoTransition = true;
   }
 
   onUnMount() {
@@ -68,6 +85,10 @@ class Carousel {
 
     this.touchObject.curX = e.changedTouches[0].pageX;
     this.touchObject.curY = e.changedTouches[0].pageY;
+
+    if (Math.abs(this.touchObject.curX - this.touchObject.startX) < 20) {
+      return;
+    }
 
     this.swipeSlides(this.touchObject);
     this.refs.carouselwrap.removeEventListener('touchstart', this.onTouchStart);
@@ -114,6 +135,7 @@ class Carousel {
 
     // make the transition
     this.currentSlide = slide;
+    this.update();
 
     const threshold = this.props.items.length;
     const rightBound = this.currentSlide + slidesToShow - 1;
@@ -155,9 +177,9 @@ class Carousel {
       return;
     }
     const slideWidth = this.getSlideWidth();
-    const slideCount = this.cloneItems().length;
+    const slideCount = this.props.items.length;
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
-    const transition = typeof this.props.settings.transition === 'boolean' ? 
+    const transition = typeof this.props.settings.transition === 'boolean' ?
       this.props.settings.transition : DEFAULT_SETTINGS.transition;
     const speed = this.props.settings.speed || DEFAULT_SETTINGS.speed;
 
@@ -183,6 +205,7 @@ class Carousel {
       transformStyles,
       transitionStyles);
 
+      console.log('djflafsdfdsfj', trackWidth);
     if (this.temporaryNoTransition) {
       delete style['transition'];
       delete style['-webkit-transition'];
@@ -220,7 +243,6 @@ class Carousel {
 
   swipeSlides = (touchObj: { startX: number, startY: number, curX: number, curY: number }) => {
     const direction: string = calSwipeDirection(touchObj);
-
     if (direction === 'left') {
       this.moveNext();
     } else if (direction === 'right') {
@@ -248,6 +270,7 @@ class Carousel {
 const calSwipeDirection = (touchObj: { startX: number, startY: number, curX: number, curY: number }): string => {
   const xDist = touchObj.startX - touchObj.curX;
   const yDist = touchObj.startY - touchObj.curY;
+ 
   const r = Math.atan2(yDist, xDist);
 
   let swipeAngle = Math.round(r * 180 / Math.PI);
