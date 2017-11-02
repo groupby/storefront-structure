@@ -2,47 +2,51 @@
 
 
 .carousel-wrap {
-  /* width: 50%; */
-  margin: 30px auto 50px;
-  padding: 0;
-  position: relative;
+  /* margin: 30px auto 50px;
+  padding: 0; */
+  /* position: relative;
   display: block;
-  box-sizing: border-box;
+  box-sizing: border-box; */
 }
 
 .carousel-list {
-  position: relative;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  display: block;
+  /* position: relative; */
+  /* margin: 0;
+  padding: 0; */
+  /* overflow: hidden;
+  display: block; */
 }
 
 .track {
-  position: relative;
-  left: 0;
-  top: 0;
-  display: block;
+  /* position: relative; */
+  /* left: 0;
+  top: 0; */
+  /* display: block;
   margin-left: auto;
-  margin-right: auto;
+  margin-right: auto; */
 }
 
 .carousel-slide {
-  outline: none;
+  /* outline: none;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
   height: 100%;
-  min-height: 1px;
-  display: block;
-  float: left;
+  /* min-height: 1px; */
+  display: inline-block;
+  /* float: left; */
 }
 
-.carousel-slide img {
+/* .carousel-slide img {
   border: 5px solid #FFF;
   display: block;
-  margin: auto;
-  max-width: 60%;
-  max-height: 60%;
-  vertical-align: middle;
-}
+  /* margin: auto; */
+  /* width: 100%;
+  height: auto; */
+  /* max-width: 60%;
+  max-height: 60%; */
+  /* vertical-align: middle;
+} */
 
 /* Next & previous buttons */
 .prev, .next {
