@@ -23,28 +23,27 @@ class Carousel {
     curY: number
   };
 
-  currentSlide: number = 0;
+  currentSlide: number;
   temporaryNoTransition: boolean = true;
 
+  beforeMount() {
+    // console.log('before', this.currentSlide)
+  }
+  
   onMount() {
     utils.WINDOW().addEventListener('resize', this.updateWindow);
     this.temporaryNoTransition = true;
-
-    // const slideWidth = this.getSlideWidth();
-    // const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
-
-    // const trackWidth = (this.props.items.length + 2 * slidesToShow) * slideWidth;
-    // console.log('on mount', trackWidth);
+    this.currentSlide = 0;
   }
 
   onUpdate() {
     console.log('on update', this.currentSlide);
-    // this.temporaryNoTransition = false;
+    // this.temporaryNoTransition = true;
   }
 
   onUpdated() {
     console.log('on updat ED', this.props.items.length);
-    // this.temporaryNoTransition = true;
+    // this.temporaryNoTransition = false;
   }
 
   onUnMount() {
@@ -205,7 +204,6 @@ class Carousel {
       transformStyles,
       transitionStyles);
 
-      console.log('djflafsdfdsfj', trackWidth);
     if (this.temporaryNoTransition) {
       delete style['transition'];
       delete style['-webkit-transition'];

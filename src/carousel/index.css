@@ -1,56 +1,26 @@
-* {box-sizing:border-box}
-
-
-.carousel-wrap {
-  margin: 30px auto 50px;
-  padding: 0;
+.carousel {
   position: relative;
   display: block;
   box-sizing: border-box;
 }
 
-.carousel-list {
-  position: relative;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  display: block;
+.carousel__track {
+  display: flex;
+  justify-content: center;
 }
 
-.track {
-  position: relative;
-  left: 0;
-  top: 0;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.carousel-slide {
-  outline: none;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  height: 100%;
-  min-height: 1px;
-  /* keep the following line */
+.carousel__slide {
+  background-color: yellow;
   display: inline-block;
-  float: left;
 }
 
-.carousel-slide img {
-  /* border: 5px solid #FFF; */
+.carousel__slide img {
   display: block;
   margin: auto;
-  /* width: 60%; */
- /* height: auto; */
-  /* max-width: 60%;
-  max-height: 60%; */
-  /* vertical-align: middle; */
 }
 
 /* Next & previous buttons */
-.prev, .next {
+.carousel__prev, .carousel__next {
   cursor: pointer;
   position: absolute;
   top: 50%;
@@ -64,22 +34,22 @@
   background-color: rgba(77, 77, 77, 0.8);
 }
 
-.prev {
+.carousel__prev {
   left: 0;
   z-index: 1;
 }
 
-.next {
+.carousel__next {
   right: 0;
 }
 
-.carousel-dots {
+.carousel__dots {
   display: block;
   text-align: center;
   padding: 0;
 }
 
-.carousel-dots li {
+.carousel__dot {
   cursor:pointer;
   height: 8px;
   width: 8px;
