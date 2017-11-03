@@ -2,51 +2,52 @@
 
 
 .carousel-wrap {
-  /* margin: 30px auto 50px;
-  padding: 0; */
-  /* position: relative;
+  margin: 30px auto 50px;
+  padding: 0;
+  position: relative;
   display: block;
-  box-sizing: border-box; */
+  box-sizing: border-box;
 }
 
 .carousel-list {
-  /* position: relative; */
-  /* margin: 0;
-  padding: 0; */
-  /* overflow: hidden;
-  display: block; */
+  position: relative;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: block;
 }
 
 .track {
-  /* position: relative; */
-  /* left: 0;
-  top: 0; */
-  /* display: block;
+  position: relative;
+  left: 0;
+  top: 0;
+  display: block;
   margin-left: auto;
-  margin-right: auto; */
+  margin-right: auto;
 }
 
 .carousel-slide {
-  /* outline: none;
+  outline: none;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
   height: 100%;
-  /* min-height: 1px; */
+  min-height: 1px;
+  /* keep the following line */
   display: inline-block;
-  /* float: left; */
+  float: left;
 }
 
-/* .carousel-slide img {
-  border: 5px solid #FFF;
+.carousel-slide img {
+  /* border: 5px solid #FFF; */
   display: block;
-  /* margin: auto; */
-  /* width: 100%;
-  height: auto; */
+  margin: auto;
+  /* width: 60%; */
+ /* height: auto; */
   /* max-width: 60%;
   max-height: 60%; */
-  /* vertical-align: middle;
-} */
+  /* vertical-align: middle; */
+}
 
 /* Next & previous buttons */
 .prev, .next {

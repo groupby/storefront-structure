@@ -38,13 +38,13 @@ class Carousel {
   }
 
   onUpdate() {
-    console.log('on update', this.props.items.length);
-    this.temporaryNoTransition = false;
+    console.log('on update', this.currentSlide);
+    // this.temporaryNoTransition = false;
   }
 
   onUpdated() {
     console.log('on updat ED', this.props.items.length);
-    this.temporaryNoTransition = true;
+    // this.temporaryNoTransition = true;
   }
 
   onUnMount() {
