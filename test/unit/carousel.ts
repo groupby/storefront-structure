@@ -64,11 +64,11 @@ suite('Carousel', ({ expect, spy, stub }) => {
     describe('updateWindow', () => {
 
       it('should update window', () => {
-        carousel.transition = false;
+        carousel.transitioning = false;
         carousel.update = spy();
 
         carousel.updateWindow();
-        expect(carousel.transition).to.be.equal(true);
+        expect(carousel.transitioning).to.be.equal(true);
         expect(carousel.update).to.have.been.called;
       });
     });
@@ -322,7 +322,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         const tfm = `translate3d(-${pos}px, 0px, 0px)`;
         const trsition = DEFAULT_SETTINGS.speed + 'ms ' + 'ease';
 
-        carousel.transition = false;
+        carousel.transitioning = false;
 
         stub(carousel, 'cloneItems').returns(clonedItems);
         stub(carousel, 'getSlideWidth').returns(width);
@@ -351,7 +351,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         const tfm = `translate3d(-${pos}px, 0px, 0px)`;
         const trsition = carousel.props.settings.speed + 'ms ' + 'ease';
 
-        carousel.transition = false;
+        carousel.transitioning = false;
 
         stub(carousel, 'cloneItems').returns(clonedItems);
         stub(carousel, 'getSlideWidth').returns(width);
@@ -379,7 +379,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         const pos = 500;
         const tfm = `translate3d(-${pos}px, 0px, 0px)`;
 
-        carousel.transition = true;
+        carousel.transitioning = true;
 
         stub(carousel, 'cloneItems').returns(clonedItems);
         stub(carousel, 'getSlideWidth').returns(width);

@@ -24,11 +24,12 @@ class Carousel {
   };
 
   currentSlide: number;
-  transition: boolean = true;
+  transitioning: boolean = true;
+  animationEndCallback: any;
 
   onMount() {
     utils.WINDOW().addEventListener('resize', this.updateWindow);
-    this.transition = false;
+    this.transitioning = false;
     this.currentSlide = 0;
   }
 
@@ -116,15 +117,22 @@ class Carousel {
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
     const from = this.currentSlide;
     const to = slide;
-    
-    // make the transition
-    this.currentSlide = slide;
-    this.transition = true;
-    this.update();
-
     const threshold = this.props.items.length;
-    const rightBound = this.currentSlide + slidesToShow - 1;
+    const rightBound = slide + slidesToShow - 1;
+    const onEdge = rightBound >= threshold || this.currentSlide < 0;
 
+    const resetToRealSlide = () => {
+      // this.setState(nextStateChanges);
+      this.transitioning = false;
+      fromCloneToNonClone();
+      this.update(); 
+      delete this.animationEndCallback;
+    };
+    const disableTransition = () => {
+      this.refs.track.removeEventListener('transitionend', disableTransition);
+      this.transitioning = false;
+      this.update();
+    }
     const fromCloneToNonClone = () => {
       if (from < to) {
         this.currentSlide = this.currentSlide - threshold;
@@ -133,27 +141,20 @@ class Carousel {
       }
     }
     
-    const specialListener = () => {
-      fromCloneToNonClone();
-      
-      this.refs.track.removeEventListener('transitionend', specialListener);
-      this.transition = false;
+    if(!(this.transitioning && onEdge)) {
+      // make the transition
+      this.currentSlide = slide;
+      this.transitioning = true;
       this.update();
-    };
-    
-    const listener = () => {
-      this.refs.track.removeEventListener('transitionend', listener);
-      this.transition = false;
-      this.update();
-    }
 
-    if (rightBound >= threshold || this.currentSlide < 0) {
-      // if the target slide is cloned slide, change it to its corresponding non-cloned slide
-      // alse set transition to false after it is done
-      this.refs.track.addEventListener('transitionend', specialListener);
-    } else {
-      // if not, only set transition to false after it is done
-      this.refs.track.addEventListener('transitionend', listener);
+      if (onEdge) {
+        // if the target slide is cloned slide, change it to its corresponding non-cloned slide
+        // also set transition to false after it is done
+        this.animationEndCallback = setTimeout(resetToRealSlide, this.props.settings.speed);
+      } else {
+        // if not, only set transition to false after it is done
+        this.refs.track.addEventListener('transitionend', disableTransition);
+      }
     }
   }
 
@@ -177,17 +178,15 @@ class Carousel {
     const slideWidth = this.getSlideWidth();
     const slideCount = this.props.items.length;
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
-
     const trackWidth = (slideCount + 2 * slidesToShow) * slideWidth;
+
     const pos = this.calcPos(this.currentSlide, slideWidth);
     const tfm = `translate3d(-${pos}px, 0px, 0px)`;
-
     const transformStyles = {
       transform: tfm,
       '-webkit-transform': tfm,
       '-ms-transform': tfm,
     };
-    
 
     const style = Object.assign({}, {
       width: `${trackWidth}px`,
@@ -204,8 +203,7 @@ class Carousel {
 
     let transitionStyles;
 
-    if (this.transition) {
-
+    if (this.transitioning) {
       const transition = typeof this.props.settings.transition === 'boolean' ?
         this.props.settings.transition : DEFAULT_SETTINGS.transition;
       const speed = this.props.settings.speed || DEFAULT_SETTINGS.speed;
@@ -216,7 +214,6 @@ class Carousel {
         'ms-transition': tsVal
       } : {};
     } else {
-      
       transitionStyles = {
         '-webkit-transition': '',
         transition: '',
