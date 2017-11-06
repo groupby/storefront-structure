@@ -64,11 +64,11 @@ suite('Carousel', ({ expect, spy, stub }) => {
     describe('updateWindow', () => {
 
       it('should update window', () => {
-        carousel.temporaryNoTransition = false;
+        carousel.transition = false;
         carousel.update = spy();
 
         carousel.updateWindow();
-        expect(carousel.temporaryNoTransition).to.be.equal(true);
+        expect(carousel.transition).to.be.equal(true);
         expect(carousel.update).to.have.been.called;
       });
     });
@@ -297,7 +297,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
       it('should return when clone items function returns nothing', () => {
         stub(carousel, 'cloneItems').returns(undefined);
         spy(carousel, 'getSlideWidth');
-        carousel.getTrackStyle();
+        carousel.getStaticTrackStyle();
 
         expect(carousel.getSlideWidth).to.not.have.been.called;
       });
@@ -307,7 +307,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         stub(carousel, 'cloneItems').returns({ content: 'test' });
 
         spy(carousel, 'getSlideWidth');
-        carousel.getTrackStyle();
+        carousel.getStaticTrackStyle();
 
         expect(carousel.getSlideWidth).to.not.have.been.called;
       });
@@ -322,7 +322,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         const tfm = `translate3d(-${pos}px, 0px, 0px)`;
         const trsition = DEFAULT_SETTINGS.speed + 'ms ' + 'ease';
 
-        carousel.temporaryNoTransition = false;
+        carousel.transition = false;
 
         stub(carousel, 'cloneItems').returns(clonedItems);
         stub(carousel, 'getSlideWidth').returns(width);
@@ -337,7 +337,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
           width: `${trackWidth}px`,
         };
 
-        const style = carousel.getTrackStyle();
+        const style = carousel.getStaticTrackStyle();
 
         expect(style).to.deep.equal(result);
       });
@@ -351,7 +351,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         const tfm = `translate3d(-${pos}px, 0px, 0px)`;
         const trsition = carousel.props.settings.speed + 'ms ' + 'ease';
 
-        carousel.temporaryNoTransition = false;
+        carousel.transition = false;
 
         stub(carousel, 'cloneItems').returns(clonedItems);
         stub(carousel, 'getSlideWidth').returns(width);
@@ -366,7 +366,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
           width: `${trackWidth}px`,
         };
 
-        const style = carousel.getTrackStyle();
+        const style = carousel.getStaticTrackStyle();
 
         expect(style).to.deep.equal(result);
       });
@@ -379,7 +379,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         const pos = 500;
         const tfm = `translate3d(-${pos}px, 0px, 0px)`;
 
-        carousel.temporaryNoTransition = true;
+        carousel.transition = true;
 
         stub(carousel, 'cloneItems').returns(clonedItems);
         stub(carousel, 'getSlideWidth').returns(width);
@@ -392,7 +392,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
           width: `${trackWidth}px`,
         };
 
-        const style = carousel.getTrackStyle();
+        const style = carousel.getStaticTrackStyle();
 
         expect(style).to.deep.equal(result);
       });
@@ -417,7 +417,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
           width: `${trackWidth}px`,
         };
 
-        const style = carousel.getTrackStyle();
+        const style = carousel.getStaticTrackStyle();
 
         expect(style).to.deep.equal(result);
 

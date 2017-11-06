@@ -24,26 +24,12 @@ class Carousel {
   };
 
   currentSlide: number;
-  temporaryNoTransition: boolean = true;
+  transition: boolean = true;
 
-  beforeMount() {
-    // console.log('before', this.currentSlide)
-  }
-  
   onMount() {
     utils.WINDOW().addEventListener('resize', this.updateWindow);
-    this.temporaryNoTransition = true;
+    this.transition = false;
     this.currentSlide = 0;
-  }
-
-  onUpdate() {
-    console.log('on update', this.currentSlide);
-    // this.temporaryNoTransition = true;
-  }
-
-  onUpdated() {
-    console.log('on updat ED', this.props.items.length);
-    // this.temporaryNoTransition = false;
   }
 
   onUnMount() {
@@ -51,7 +37,6 @@ class Carousel {
   }
 
   updateWindow = () => {
-    this.temporaryNoTransition = true;
     this.update();
   }
 
@@ -131,26 +116,43 @@ class Carousel {
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
     const from = this.currentSlide;
     const to = slide;
-
+    
     // make the transition
     this.currentSlide = slide;
+    this.transition = true;
     this.update();
 
     const threshold = this.props.items.length;
     const rightBound = this.currentSlide + slidesToShow - 1;
 
-    const listener = () => {
+    const fromCloneToNonClone = () => {
       if (from < to) {
         this.currentSlide = this.currentSlide - threshold;
       } else {
         this.currentSlide = this.currentSlide + threshold;
       }
-      this.refs.track.removeEventListener('transitionend', listener);
-      this.temporaryNoTransition = true;
+    }
+    
+    const specialListener = () => {
+      fromCloneToNonClone();
+      
+      this.refs.track.removeEventListener('transitionend', specialListener);
+      this.transition = false;
       this.update();
     };
+    
+    const listener = () => {
+      this.refs.track.removeEventListener('transitionend', listener);
+      this.transition = false;
+      this.update();
+    }
 
     if (rightBound >= threshold || this.currentSlide < 0) {
+      // if the target slide is cloned slide, change it to its corresponding non-cloned slide
+      // alse set transition to false after it is done
+      this.refs.track.addEventListener('transitionend', specialListener);
+    } else {
+      // if not, only set transition to false after it is done
       this.refs.track.addEventListener('transitionend', listener);
     }
   }
@@ -171,16 +173,10 @@ class Carousel {
     };
   }
 
-  getTrackStyle = () => {
-    if (!(this.cloneItems() && this.props.items)) {
-      return;
-    }
+  getStaticTrackStyle = () => {
     const slideWidth = this.getSlideWidth();
     const slideCount = this.props.items.length;
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
-    const transition = typeof this.props.settings.transition === 'boolean' ?
-      this.props.settings.transition : DEFAULT_SETTINGS.transition;
-    const speed = this.props.settings.speed || DEFAULT_SETTINGS.speed;
 
     const trackWidth = (slideCount + 2 * slidesToShow) * slideWidth;
     const pos = this.calcPos(this.currentSlide, slideWidth);
@@ -191,26 +187,46 @@ class Carousel {
       '-webkit-transform': tfm,
       '-ms-transform': tfm,
     };
-
-    const tsVal = speed + 'ms ' + 'ease';
-    const transitionStyles = transition === true ? {
-      '-webkit-transition': tsVal,
-      transition: tsVal
-    } : {};
+    
 
     const style = Object.assign({}, {
       width: `${trackWidth}px`,
     },
-      transformStyles,
-      transitionStyles);
+      transformStyles);
 
-    if (this.temporaryNoTransition) {
-      delete style['transition'];
-      delete style['-webkit-transition'];
-      this.temporaryNoTransition = !this.temporaryNoTransition;
-    }
     return style;
   }
+
+  getTrackStyle = () => {
+    if (!(this.cloneItems() && this.props.items)) {
+      return;
+    }
+
+    let transitionStyles;
+
+    if (this.transition) {
+
+      const transition = typeof this.props.settings.transition === 'boolean' ?
+        this.props.settings.transition : DEFAULT_SETTINGS.transition;
+      const speed = this.props.settings.speed || DEFAULT_SETTINGS.speed;
+      const tsVal = speed + 'ms ' + 'ease';
+      transitionStyles = transition === true ? {
+        '-webkit-transition': tsVal,
+        transition: tsVal,
+        'ms-transition': tsVal
+      } : {};
+    } else {
+      
+      transitionStyles = {
+        '-webkit-transition': '',
+        transition: '',
+        'ms-transition': ''
+      }
+    };
+
+    const style = Object.assign(this.getStaticTrackStyle(), transitionStyles);
+    return style;
+  };
 
   getDots = () => {
     if (!this.props.items) {
