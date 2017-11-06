@@ -10,7 +10,6 @@
 }
 
 .carousel__slide {
-  background-color: yellow;
   display: inline-block;
 }
 
@@ -25,7 +24,7 @@
   position: absolute;
   top: 50%;
   width: auto;
-  margin-top: -22px;
+  vertical-align: middle;
   padding: 8px;
   color: rgb(253, 253, 246);
   font-weight: bold;

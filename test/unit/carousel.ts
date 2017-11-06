@@ -77,11 +77,11 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
       it('should call goToSlide function with correct slide number', () => {
         carousel.currentSlide = 0;
-        carousel.goToSlide = spy();
+        carousel.slideHandler = spy();
 
         carousel.moveNext();
 
-        expect(carousel.goToSlide).to.have.been.calledWithExactly(1);
+        expect(carousel.slideHandler).to.have.been.calledWithExactly(1);
       });
     });
 
@@ -89,11 +89,11 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
       it('should call goToSlide function with correct slide number', () => {
         carousel.currentSlide = 0;
-        carousel.goToSlide = spy();
+        carousel.slideHandler = spy();
 
         carousel.movePrevious();
 
-        expect(carousel.goToSlide).to.have.been.calledWithExactly(-1);
+        expect(carousel.slideHandler).to.have.been.calledWithExactly(-1);
       });
     });
 
@@ -181,7 +181,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         };
         carousel.refs = <any>{ track };
 
-        carousel.goToSlide(slide);
+        carousel.slideHandler(slide);
         expect(carousel.currentSlide).to.be.equal(slide);
         expect(carousel.refs.track.addEventListener).to.not.have.been.called;
         expect(carousel.refs.track.removeEventListener).to.not.have.been.called;
@@ -201,7 +201,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         carousel.refs = <any>{ track };
         carousel.update = () => undefined;
 
-        carousel.goToSlide(slide);
+        carousel.slideHandler(slide);
         listener();
 
         expect(carousel.currentSlide).to.be.equal(0);
@@ -223,7 +223,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         carousel.refs = <any>{ track };
         carousel.update = () => undefined;
 
-        carousel.goToSlide(slide);
+        carousel.slideHandler(slide);
         listener();
         expect(carousel.currentSlide).to.be.equal(2);
         expect(carousel.refs.track.addEventListener).to.have.been.called;
@@ -269,10 +269,10 @@ suite('Carousel', ({ expect, spy, stub }) => {
         spy(fakeLi, 'getAttribute');
         const e: any = { target: fakeLi, preventDefault: stub() };
         spy(carousel, 'goToSlide');
-        carousel.goToDot(e);
+        carousel.dotHandler(e);
 
         expect(fakeLi.getAttribute).to.have.been.calledWith('data-index-to-go');
-        expect(carousel.goToSlide).to.have.been.called;
+        expect(carousel.slideHandler).to.have.been.called;
       });
 
     });
@@ -283,7 +283,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         const width = 100;
         stub(carousel, 'getSlideWidth').returns(width);
 
-        const style = carousel.getSlideStyle();
+        const style = carousel.slideStyle();
         const result = {
           width: `${width}px`,
           outline: 'none',
