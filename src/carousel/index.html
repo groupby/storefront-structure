@@ -6,7 +6,7 @@
             </div>
         </div>
     <a class="carousel__next" onclick="{ moveNext }" touchstart="{ moveNext }">&#10095;</a>
-    <ul class="carousel__dots" ref="dots" if="{ props.settings.dots }">
+    <ul class="carousel__dots" ref="dots" if="{ (props.settings.dots && props.settings.slidesToShow === 1 && props.settings.slidesToShow === 1) }">
         <li 
             class="carousel__dot"
             each="{ item, index in getDots() }"
@@ -14,7 +14,6 @@
             data-index-to-go="{ index }" 
             style="{ getDotStyle(index) }"
             onclick="{ goToDot }" >
-            
         </li>
     </ul>
 </div>
