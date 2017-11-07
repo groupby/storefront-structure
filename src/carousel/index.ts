@@ -35,9 +35,6 @@ class Carousel {
     utils.WINDOW().removeEventListener('resize', this.updateWindow);
   }
 
-  onUpdate() {
-  }
-
   updateWindow = () => {
     this.update();
   }
@@ -143,14 +140,12 @@ class Carousel {
     };
 
     if (!(this.transitioning && onEdge)) {
-      console.log('nnn')
       // make the transition
       this.currentSlide = slide;
       this.transitioning = true;
       this.update();
 
       if (onEdge) {
-        console.log('on edge')
         // if the target slide is cloned slide, change it to its corresponding non-cloned slide
         // also set transition to false after it is done
         this.animationEndCallback = setTimeout(resetToRealSlide, this.props.settings.speed);
