@@ -1,33 +1,20 @@
 <div class="carousel" ref="carouselwrap" touchstart="{ onTouchStart }">
-    <a 
-      if="{ this.props.items.length > 0 }"
-      class="carousel__prev" 
-      onclick="{ movePrevious }"  
-      touchstart="{ movePrevious }"
-    >
-      &#10094;
-    </a>
-        <div class="carousel__track" ref="track" style="{ trackStyle() }" >
-            <div class="carousel__slide" each="{ product in cloneItems() }" style="{ slideStyle() }">
-                <yield></yield>
-            </div>
-        </div>
-    <a 
-      if="{ this.props.items.length > 0 }"
-      class="carousel__next" 
-      onclick="{ moveNext }" 
-      touchstart="{ moveNext }"
-    >
-      &#10095;
-    </a>
-    <ul class="carousel__dots" ref="dots" if="{ (props.settings.dots && props.settings.slidesToShow === 1 && props.settings.slidesToShow === 1) }">
-        <li 
-            class="carousel__dot"
-            each="{ item, index in getDots() }"
-            key="{ index }"
-            data-index-to-go="{ index }" 
-            style="{ dotStyle(index) }"
-            onclick="{ dotHandler }" >
-        </li>
-    </ul>
+  <div class="carousel__list">
+    <div class="carousel__track" ref="track" style="{ trackStyle() }">
+      <div class="carousel__slide" each="{ product in cloneItems() }" style="{ slideStyle() }">
+        <yield></yield>
+      </div>
+    </div>
+  </div>
+  <a if="{ this.props.items.length > 0 }" class="carousel__prev" onclick="{ movePrevious }" touchstart="{ movePrevious }">
+    &#10094;
+  </a>
+  <a if="{ this.props.items.length > 0 }" class="carousel__next" onclick="{ moveNext }" touchstart="{ moveNext }">
+    &#10095;
+  </a>
+  <ul class="carousel__dots" ref="dots" if="{ (props.settings.dots && props.settings.slidesToShow === 1 && props.settings.slidesToShow === 1) }">
+    <li class="carousel__dot" each="{ item, index in getDots() }" key="{ index }" data-index-to-go="{ index }" style="{ dotStyle(index) }"
+      onclick="{ dotHandler }">
+    </li>
+  </ul>
 </div>

@@ -217,8 +217,8 @@ class Carousel {
         '-webkit-transition': '',
         transition: '',
         'ms-transition': ''
-      }
-    };
+      };
+    }
 
     const style = Object.assign(this.getStaticTrackStyle(), transitionStyles);
     return style;

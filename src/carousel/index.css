@@ -2,11 +2,20 @@
   position: relative;
   display: block;
   box-sizing: border-box;
+  width: 30%;
 }
 
 .carousel__track {
   display: flex;
   justify-content: center;
+}
+
+.carousel__list {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  margin: 0;
+  padding: 0;
 }
 
 .carousel__slide {
@@ -35,7 +44,6 @@
 
 .carousel__prev {
   left: 0;
-  z-index: 1;
 }
 
 .carousel__next {
