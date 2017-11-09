@@ -312,7 +312,7 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
         expect(carousel.getSlideWidth).to.not.have.been.called;
       });
 
-      it.only('should use default speed if no speed is provided from settings', () => {
+      it('should use default speed if no speed is provided from settings', () => {
         delete carousel.props.settings.speed;
         const { items } = carousel.props;
         const clonedItems = [items[2], ...items, items[0]];

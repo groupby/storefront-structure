@@ -35,6 +35,10 @@ class Carousel {
     utils.WINDOW().removeEventListener('resize', this.updateWindow);
   }
 
+  onUpdate() {
+    console.log(this.currentSlide)
+  }
+
   updateWindow = () => {
     this.update();
   }
@@ -48,9 +52,8 @@ class Carousel {
   }
 
   onTouchStart = (e: TouchEvent & Carousel.Event) => {
-    e.preventDefault();
+    // e.preventDefault();
     e.stopPropagation();
-
     // ie browsers have different properties on event
     const posX = e.touches[0].pageX;
     const posY = e.touches[0].pageY;
@@ -261,8 +264,10 @@ class Carousel {
     const visibleWidth = this.refs.carouselwrap.offsetWidth;
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
 
+    
     if (visibleWidth) {
       const slideWidth = visibleWidth / slidesToShow;
+      console.log('slide with', slideWidth, visibleWidth)
       return slideWidth;
     }
   }
