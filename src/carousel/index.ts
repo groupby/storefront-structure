@@ -102,7 +102,7 @@ class Carousel {
           ...data,
           'data-index': key,
         });
-      } else if (index < slidesToShow) {
+      } else if (index <= slidesToShow) {
 
         let key = itemCount + index;
         postCloneSlides.push({
@@ -111,6 +111,8 @@ class Carousel {
         });
       }
     });
+    console.log('pre', preCloneSlides);
+    console.log('post', postCloneSlides);
 
     return preCloneSlides.concat(this.props.items, postCloneSlides);
   }
@@ -274,7 +276,7 @@ class Carousel {
 
   calcPos = (currS: number, moveDistance: number): number => {
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
-
+    console.log('slidesToSnlkjlhow', currS, slidesToShow, moveDistance);
     return (currS + slidesToShow) * moveDistance;
   }
 }
