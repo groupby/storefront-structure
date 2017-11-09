@@ -36,7 +36,7 @@ class Carousel {
   }
 
   onUpdate() {
-    console.log(this.currentSlide)
+    console.log(this.currentSlide, 'klfadfajkdfjadgddd');
   }
 
   updateWindow = () => {
@@ -102,7 +102,7 @@ class Carousel {
           ...data,
           'data-index': key,
         });
-      } else if (index <= slidesToShow) {
+      } else if (index < slidesToShow) {
 
         let key = itemCount + index;
         postCloneSlides.push({
@@ -111,7 +111,7 @@ class Carousel {
         });
       }
     });
-    console.log('pre', preCloneSlides);
+    console.log('ffadfadfdldfadfadkjde', preCloneSlides);
     console.log('post', postCloneSlides);
 
     return preCloneSlides.concat(this.props.items, postCloneSlides);
