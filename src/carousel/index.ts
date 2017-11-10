@@ -26,6 +26,7 @@ class Carousel {
   currentSlide: number = 0;
   transitioning: boolean = false;
   animationEndCallback: any;
+  alreadyOnEdge: boolean;
 
   onMount() {
     utils.WINDOW().addEventListener('resize', this.updateWindow);
@@ -36,7 +37,7 @@ class Carousel {
   }
 
   onUpdate() {
-    console.log(this.currentSlide, 'klfadfajkdfjadgddd');
+    console.log(this.currentSlide);
   }
 
   updateWindow = () => {
@@ -74,6 +75,8 @@ class Carousel {
 
     // swipe distance needs to be more than 20
     if (Math.abs(this.touchObject.curX - this.touchObject.startX) < 20) {
+      this.refs.carouselwrap.removeEventListener('touchstart', this.onTouchStart);
+      this.refs.carouselwrap.removeEventListener('touchend', this.onTouchEnd);
       return;
     }
 
@@ -102,8 +105,9 @@ class Carousel {
           ...data,
           'data-index': key,
         });
-      } else if (index < slidesToShow) {
+      }
 
+      if (index < slidesToShow) {
         let key = itemCount + index;
         postCloneSlides.push({
           ...data,
@@ -111,7 +115,6 @@ class Carousel {
         });
       }
     });
-    console.log('post', postCloneSlides);
 
     return preCloneSlides.concat(this.props.items, postCloneSlides);
   }
@@ -121,8 +124,12 @@ class Carousel {
     const from = this.currentSlide;
     const to = slide;
     const threshold = this.props.items.length;
-    const rightBound = slide + slidesToShow - 1;
-    const onEdge = rightBound >= threshold || slide < 0;
+    const onEdge = (s) => s + slidesToShow - 1 >= threshold || s < 0;
+    const isOnEdge = onEdge(slide);
+
+    // check if it has just been reset to another on edge case
+    // todo: this will break when alternate direction of on edge is hit
+    const alreadyReset = onEdge(this.currentSlide);
 
     const resetToRealSlide = () => {
       this.transitioning = false;
@@ -138,18 +145,18 @@ class Carousel {
     const resetCurrentSlideNum = () => {
       if (from < to) {
         this.currentSlide = this.currentSlide - threshold;
-      } else {
+      } else if (from > to) {
         this.currentSlide = this.currentSlide + threshold;
       }
     };
 
-    if (!(this.transitioning && onEdge)) {
+    if (!(this.transitioning && isOnEdge)) {
       // make the transition
       this.currentSlide = slide;
       this.transitioning = true;
       this.update();
 
-      if (onEdge) {
+      if (isOnEdge && !alreadyReset) {
         // if the target slide is cloned slide, change it to its corresponding non-cloned slide
         // also set transition to false after it is done
         this.animationEndCallback = setTimeout(resetToRealSlide, this.props.settings.speed);
@@ -265,17 +272,14 @@ class Carousel {
     const visibleWidth = this.refs.carouselwrap.offsetWidth;
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
 
-    
     if (visibleWidth) {
       const slideWidth = visibleWidth / slidesToShow;
-      console.log('slide with', slideWidth, visibleWidth)
       return slideWidth;
     }
   }
 
   calcPos = (currS: number, moveDistance: number): number => {
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
-    console.log('slidesToSnlkjlhow', currS, slidesToShow, moveDistance);
     return (currS + slidesToShow) * moveDistance;
   }
 }
