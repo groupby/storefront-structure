@@ -111,7 +111,6 @@ class Carousel {
         });
       }
     });
-    console.log('ffadfadfdldfadfadkjde', preCloneSlides);
     console.log('post', postCloneSlides);
 
     return preCloneSlides.concat(this.props.items, postCloneSlides);

@@ -1,69 +1,74 @@
-import { utils } from '@storefront/core';
-import Carousel, { calSwipeDirection } from '../../src/carousel';
-import suite from './_suite';
+import { utils } from "@storefront/core";
+import Carousel, { calSwipeDirection } from "../../src/carousel";
+import suite from "./_suite";
 
-suite.only('Carousel', ({ expect, spy, stub }) => {
+suite.only("Carousel", ({ expect, spy, stub, useFakeTimers }) => {
   let carousel: Carousel;
   let DEFAULT_SETTINGS;
 
-  describe('settings', () => {
-    before(() => {
+  describe("settings", () => {
+    it("should default to default settings if no settings are passed in", () => {
       carousel = new Carousel();
       DEFAULT_SETTINGS = {
         transition: true,
         speed: 800,
         slidesToShow: 1,
-        slidesToScroll: 1,
+        slidesToScroll: 1
       };
-    });
 
-    it('should default to default settings if no settings are passed in', () => {
       expect(carousel.props.settings).to.deep.eq(DEFAULT_SETTINGS);
     });
   });
 
-  describe('functions', () => {
+  describe("functions", () => {
     beforeEach(() => {
       carousel = new Carousel();
       DEFAULT_SETTINGS = {
         transition: true,
         speed: 800,
         slidesToShow: 1,
-        slidesToScroll: 1,
+        slidesToScroll: 1
       };
-      carousel.props.items = [{ content: 'test' }, { content: 'test' }, { content: 'test' }];
+      carousel.props.items = [
+        { content: "test" },
+        { content: "test" },
+        { content: "test" }
+      ];
       carousel.props.settings = {
         speed: 500
       };
     });
 
-    describe('onMount()', () => {
-
-      it('should add event listener for window resize', () => {
+    describe("onMount()", () => {
+      it("should add event listener for window resize", () => {
         const addEventListener = spy();
-        stub(utils, 'WINDOW').returns({ addEventListener });
+        stub(utils, "WINDOW").returns({ addEventListener });
 
         carousel.onMount();
 
-        expect(addEventListener).to.have.been.calledWithExactly('resize', carousel.updateWindow);
+        expect(addEventListener).to.have.been.calledWithExactly(
+          "resize",
+          carousel.updateWindow
+        );
       });
     });
 
-    describe('onUnMount()', () => {
-
-      it('should add event listener for window resize', () => {
+    describe("onUnMount()", () => {
+      it("should add event listener for window resize", () => {
         const removeEventListener = spy();
-        stub(utils, 'WINDOW').returns({ removeEventListener });
+        stub(utils, "WINDOW").returns({ removeEventListener });
 
         carousel.onUnMount();
 
-        expect(removeEventListener).to.have.been.calledWithExactly('resize', carousel.updateWindow);
+        expect(removeEventListener).to.have.been.calledWithExactly(
+          "resize",
+          carousel.updateWindow
+        );
       });
     });
 
-    describe('updateWindow', () => {
-
-      it('should update window', () => {
+    describe("updateWindow", () => {
+      it("should update window", () => {
         carousel.transitioning = false;
         carousel.update = spy();
 
@@ -73,9 +78,8 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
       });
     });
 
-    describe('moveNext', () => {
-
-      it('should call slideHandler function with correct slide number', () => {
+    describe("moveNext", () => {
+      it("should call slideHandler function with correct slide number", () => {
         carousel.currentSlide = 0;
         carousel.slideHandler = spy();
 
@@ -85,9 +89,8 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
       });
     });
 
-    describe('movePrevious', () => {
-
-      it('should call slideHandler function with correct slide number', () => {
+    describe("movePrevious", () => {
+      it("should call slideHandler function with correct slide number", () => {
         carousel.currentSlide = 0;
         carousel.slideHandler = spy();
 
@@ -97,20 +100,21 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
       });
     });
 
-    describe('onTouchStart', () => {
-
-      it('should add listener', () => {
+    describe("onTouchStart", () => {
+      it("should add listener", () => {
         carousel.touchObject;
         const event = {
           preventDefault: spy(),
           stopPropagation: spy(),
-          touches: [{
-            pageX: 0,
-            pageY: 5
-          }]
+          touches: [
+            {
+              pageX: 0,
+              pageY: 5
+            }
+          ]
         };
         const carouselwrap = {
-          addEventListener: spy(),
+          addEventListener: spy()
         };
         carousel.refs = <any>{ carouselwrap };
 
@@ -128,13 +132,15 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
         // expect(event.preventDefault).to.have.been.called;
         expect(event.stopPropagation).to.have.been.called;
         expect(carousel.touchObject).to.deep.eq(result);
-        expect(carouselwrap.addEventListener).to.have.been.calledWithExactly('touchend', carousel.onTouchEnd);
+        expect(carouselwrap.addEventListener).to.have.been.calledWithExactly(
+          "touchend",
+          carousel.onTouchEnd
+        );
       });
     });
 
-    describe('onTouchEnd()', () => {
-
-      it.skip('should remove listener', () => {
+    describe("onTouchEnd()", () => {
+      it.skip("should remove listener", () => {
         carousel.touchObject = {
           startX: 0,
           startY: 5,
@@ -143,10 +149,12 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
         };
 
         const event = {
-          changedTouches: [{
-            pageX: 10,
-            pageY: 15
-          }]
+          changedTouches: [
+            {
+              pageX: 10,
+              pageY: 15
+            }
+          ]
         };
 
         carousel.swipeSlides = spy();
@@ -164,23 +172,33 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
         carousel.onTouchEnd(event as any);
 
         expect(carousel.swipeSlides).to.have.been.calledWithExactly(result);
-        expect(carouselwrap.removeEventListener).to.have.been.calledWithExactly('touchstart', carousel.onTouchStart);
-        expect(carouselwrap.removeEventListener).to.have.been.calledWithExactly('touchend', carousel.onTouchEnd);
+        expect(carouselwrap.removeEventListener).to.have.been.calledWithExactly(
+          "touchstart",
+          carousel.onTouchStart
+        );
+        expect(carouselwrap.removeEventListener).to.have.been.calledWithExactly(
+          "touchend",
+          carousel.onTouchEnd
+        );
       });
     });
 
-    describe('slideHandler()', () => {
-
-      it('should go to the specific slide when threshold is not hit ', () => {
+    describe("slideHandler()", () => {
+      let clock;
+      beforeEach(() => {
+        clock = sinon.useFakeTimers();
+      });
+      it("should go to the specific slide when threshold is not hit ", () => {
         carousel.currentSlide = 0;
+        carousel.transitioning = false;
         const slide = 1;
         let listener;
         // TODOchange
         const track = {
-          addEventListener: spy(),
-          removeEventListener: () => {
-            listener = spy();
-          }
+          addEventListener: spy((name: string, lsnr: Function) => {
+            listener = lsnr;
+          }),
+          removeEventListener: spy()
         };
         carousel.update = spy();
         carousel.refs = <any>{ track };
@@ -197,29 +215,32 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
         expect(carousel.refs.track.removeEventListener).to.have.been.called;
       });
 
-      it('should go to specific slide and reset current slide when threshold is hit as moving next', () => {
+      it.only("should go to specific slide and reset current slide when threshold is hit as moving next", () => {
         carousel.currentSlide = 2;
+        carousel.transitioning = false;
         const slide = 3;
         const threshold = carousel.props.items.length;
         let listener;
-        const track = {
-          addEventListener: spy((name: string, lsnr: Function) => {
-            listener = lsnr;
-          }),
-          removeEventListener: spy()
-        };
-        carousel.refs = <any>{ track };
-        carousel.update = () => undefined;
+        // const track = {
+        //   addEventListener: spy((name: string, lsnr: Function) => {
+        //     listener = lsnr;
+        //   }),
+        //   removeEventListener: spy()
+        // };
+        // carousel.refs = <any>{ track };
+        carousel.update = () => spy();
 
         carousel.slideHandler(slide);
-        listener();
+        // listener();
 
-        expect(carousel.currentSlide).to.eq(0);
+        // expect(carousel.currentSlide).to.eq(0);
+        expect(carousel.transitioning).to.eq(false);
         expect(carousel.refs.track.addEventListener).to.have.been.called;
         expect(carousel.refs.track.removeEventListener).to.have.been.called;
+        expect(carousel.update).to.be.calledTwice;
       });
 
-      it('should go to specific slide and reset current slide when threshold is hit as moving previous', () => {
+      it("should go to specific slide and reset current slide when threshold is hit as moving previous", () => {
         carousel.currentSlide = 0;
         const slide = -1;
         const threshold = carousel.props.items.length;
@@ -241,9 +262,8 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
       });
     });
 
-    describe('cloneItems()', () => {
-
-      it('should return if no items are passed from porps', () => {
+    describe("cloneItems()", () => {
+      it("should return if no items are passed from porps", () => {
         carousel.props.items = undefined;
         carousel.cloneItems();
 
@@ -252,8 +272,8 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
         expect(slidesToShow).to.not.have.been.called;
       });
 
-      it('should clone items', () => {
-        const originalData = { content: 'test' };
+      it("should clone items", () => {
+        const originalData = { content: "test" };
 
         const items = carousel.cloneItems();
         expect(items.length).to.eq(5);
@@ -263,48 +283,45 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
         expect(items[3]).to.include(originalData);
         expect(items[4]).to.include(originalData);
 
-        expect(items[0]['data-index']).to.eq(-1);
-        expect(items[1]['data-index']).to.eq(0);
-        expect(items[2]['data-index']).to.eq(1);
-        expect(items[3]['data-index']).to.eq(2);
-        expect(items[4]['data-index']).to.eq(3);
+        expect(items[0]["data-index"]).to.eq(-1);
+        expect(items[1]["data-index"]).to.eq(0);
+        expect(items[2]["data-index"]).to.eq(1);
+        expect(items[3]["data-index"]).to.eq(2);
+        expect(items[4]["data-index"]).to.eq(3);
       });
-
     });
 
-    describe('dotHandler()', () => {
-
-      it('should call slideHandler function', () => {
-        const fakeLi = document.createElement('li');
-        spy(fakeLi, 'getAttribute');
+    describe("dotHandler()", () => {
+      it("should call slideHandler function", () => {
+        const fakeLi = document.createElement("li");
+        spy(fakeLi, "getAttribute");
         const e: any = { target: fakeLi, preventDefault: stub() };
-        spy(carousel, 'slideHandler');
+        spy(carousel, "slideHandler");
         carousel.dotHandler(e);
 
-        expect(fakeLi.getAttribute).to.have.been.calledWith('data-index-to-go');
+        expect(fakeLi.getAttribute).to.have.been.calledWith("data-index-to-go");
         expect(carousel.slideHandler).to.have.been.called;
       });
-
     });
 
-    describe('getSlideStyle()', () => {
-      it('should return slide sty(le', () => {
+    describe("getSlideStyle()", () => {
+      it("should return slide sty(le", () => {
         const width = 100;
-        stub(carousel, 'getSlideWidth').returns(width);
+        stub(carousel, "getSlideWidth").returns(width);
 
         const style = carousel.slideStyle();
         const result = {
           width: `${width}px`,
-          outline: 'none',
+          outline: "none"
         };
         expect(style).to.deep.eq(result);
       });
     });
 
-    describe('trackStyle()', () => {
-      it('should return when clone items function returns nothing', () => {
-        carousel.props.items = ['a'];
-        stub(carousel, 'cloneItems').returns(undefined);
+    describe("trackStyle()", () => {
+      it("should return when clone items function returns nothing", () => {
+        carousel.props.items = ["a"];
+        stub(carousel, "cloneItems").returns(undefined);
         carousel.getStaticTrackStyle = spy();
 
         carousel.trackStyle();
@@ -312,9 +329,9 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
         expect(carousel.getStaticTrackStyle).to.not.have.been.called;
       });
 
-      it('should return when items are not passed in from props', () => {
+      it("should return when items are not passed in from props", () => {
         carousel.props.items = undefined;
-        stub(carousel, 'cloneItems').returns({ content: 'test' });
+        stub(carousel, "cloneItems").returns({ content: "test" });
         carousel.getStaticTrackStyle = spy();
 
         carousel.trackStyle();
@@ -322,24 +339,40 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
         expect(carousel.getStaticTrackStyle).to.not.have.been.called;
       });
 
-      it('should not allow transition when it is set to false', () => {
+      it("should not allow transition when it is set to false", () => {
         carousel.transitioning = false;
-        stub(carousel, 'getStaticTrackStyle').returns({a: 'b'});
+        stub(carousel, "cloneItems").returns({ content: "test" });
+        stub(carousel, "getStaticTrackStyle").returns({ a: "b" });
 
         const result = carousel.trackStyle();
 
         expect(result).to.deep.eq({
-          a: 'b',
-          '-webkit-transition': '',
-          transition: '',
-          'ms-transition': ''
+          a: "b",
+          "-webkit-transition": "",
+          transition: "",
+          "ms-transition": ""
         });
       });
 
+      it("should return transition style if transition is allowed", () => {
+        carousel.transitioning = true;
+        const style = {
+          a: "b",
+          "-webkit-transition": "500ms ease",
+          transition: "500ms ease",
+          "ms-transition": "500ms ease"
+        };
+        stub(carousel, "cloneItems").returns({ content: "test" });
+        stub(carousel, "getStaticTrackStyle").returns({ a: "b" });
+
+        const result = carousel.trackStyle();
+
+        expect(result).to.eq(style);
+      });
     });
 
-    describe('getStaticTrackStyle', () => {
-      it('should return style', () => {
+    describe("getStaticTrackStyle", () => {
+      it("should return style", () => {
         const { items } = carousel.props;
         const clonedItems = [items[2], ...items, items[0]];
         const width = 100;
@@ -348,14 +381,14 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
         const tfm = `translate3d(-${pos}px, 0px, 0px)`;
         const result = {
           transform: tfm,
-          '-webkit-transform': tfm,
-          '-ms-transform': tfm,
-          width: `${trackWidth}px`,
+          "-webkit-transform": tfm,
+          "-ms-transform": tfm,
+          width: `${trackWidth}px`
         };
 
-        stub(carousel, 'cloneItems').returns(clonedItems);
-        stub(carousel, 'getSlideWidth').returns(width);
-        stub(carousel, 'calcPos').returns(500);
+        stub(carousel, "cloneItems").returns(clonedItems);
+        stub(carousel, "getSlideWidth").returns(width);
+        stub(carousel, "calcPos").returns(500);
 
         const style = carousel.getStaticTrackStyle();
 
@@ -389,9 +422,8 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
       // });
     });
 
-    describe('getDots()', () => {
-
-      it('should return when no items are passed down', () => {
+    describe("getDots()", () => {
+      it("should return when no items are passed down", () => {
         carousel.props.items = undefined;
 
         const result = carousel.getDots();
@@ -399,19 +431,18 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
         expect(result).to.eq(undefined);
       });
 
-      it('should get correct number of dots', () => {
-        const dots = ['dot', 'dot', 'dot'];
+      it("should get correct number of dots", () => {
+        const dots = ["dot", "dot", "dot"];
         const results = carousel.getDots();
 
         expect(results).to.deep.eq(dots);
       });
     });
 
-    describe('dotStyle()', () => {
-
-      it('should return active style when dot is active', () => {
+    describe("dotStyle()", () => {
+      it("should return active style when dot is active", () => {
         carousel.currentSlide = 0;
-        const active = { 'background-color': 'black' };
+        const active = { "background-color": "black" };
         const inactive = {};
 
         const style = carousel.dotStyle(0);
@@ -423,41 +454,40 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
       });
     });
 
-    describe('swipeSlides()', () => {
-
-      it('should move next when swiping left with an angle between 315 and 360', () => {
-        stub(carousel, 'moveNext');
-        stub(carousel, 'movePrevious');
+    describe("swipeSlides()", () => {
+      it("should move next when swiping left with an angle between 315 and 360", () => {
+        stub(carousel, "moveNext");
+        stub(carousel, "movePrevious");
 
         const touchObj = { startX: 0, startY: 0, curX: -20, curY: 4 };
         const direction = calSwipeDirection(touchObj);
-        expect(direction).to.eq('left');
+        expect(direction).to.eq("left");
 
         carousel.swipeSlides(touchObj);
         expect(carousel.moveNext).to.have.been.called;
         expect(carousel.movePrevious).to.not.have.been.called;
       });
 
-      it('should move next when swiping left with an angle between 0 and 45', () => {
-        stub(carousel, 'moveNext');
-        stub(carousel, 'movePrevious');
+      it("should move next when swiping left with an angle between 0 and 45", () => {
+        stub(carousel, "moveNext");
+        stub(carousel, "movePrevious");
 
         const touchObj2 = { startX: 0, startY: 0, curX: -20, curY: -10 };
         const direction = calSwipeDirection(touchObj2);
-        expect(direction).to.eq('left');
+        expect(direction).to.eq("left");
 
         carousel.swipeSlides(touchObj2);
         expect(carousel.moveNext).to.have.been.called;
         expect(carousel.movePrevious).to.not.have.been.called;
       });
 
-      it('should move previous when swiping right with an angle between 135 and 225', () => {
-        stub(carousel, 'moveNext');
-        stub(carousel, 'movePrevious');
+      it("should move previous when swiping right with an angle between 135 and 225", () => {
+        stub(carousel, "moveNext");
+        stub(carousel, "movePrevious");
 
         const touchObj = { startX: 0, startY: 0, curX: 20, curY: 10 };
         const direction = calSwipeDirection(touchObj);
-        expect(direction).to.eq('right');
+        expect(direction).to.eq("right");
 
         carousel.swipeSlides(touchObj);
         expect(carousel.moveNext).to.not.have.been.called;
@@ -465,15 +495,15 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
       });
     });
 
-    describe('getSlideWidth()', () => {
-      it('should return slide width', () => {
+    describe("getSlideWidth()", () => {
+      it("should return slide width", () => {
         const width = 500;
         let carouselwrap: any = { offsetWidth: width };
         let track: any;
 
         carousel.refs = {
           carouselwrap,
-          track,
+          track
         };
 
         const result = carousel.getSlideWidth();
@@ -481,9 +511,8 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
       });
     });
 
-    describe('calcPos()', () => {
-
-      it('should return correct position value', () => {
+    describe("calcPos()", () => {
+      it("should return correct position value", () => {
         const currentSlide = 2;
         const moveDistance = 100;
         const pos = carousel.calcPos(currentSlide, moveDistance);
@@ -492,17 +521,16 @@ suite.only('Carousel', ({ expect, spy, stub }) => {
       });
     });
 
-    describe('calSwipeDirection()', () => {
-
-      it('should return correct direction', () => {
+    describe("calSwipeDirection()", () => {
+      it("should return correct direction", () => {
         const touchObj1 = { startX: 0, startY: 0, curX: 20, curY: 4 };
         const touchObj2 = { startX: 0, startY: 0, curX: -20, curY: 4 };
 
         const result1 = calSwipeDirection(touchObj1);
-        expect(result1).to.eq('right');
+        expect(result1).to.eq("right");
 
         const result2 = calSwipeDirection(touchObj2);
-        expect(result2).to.eq('left');
+        expect(result2).to.eq("left");
       });
     });
   });
