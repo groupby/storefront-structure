@@ -33,10 +33,10 @@
   top: 50%;
   width: auto;
   vertical-align: middle;
-  padding: 8px;
+  padding: 12px;
   color: rgb(253, 253, 246);
   font-weight: bold;
-  font-size: 20px;
+  font-size: 40px;
   border-radius: 3px;
   background-color: rgba(77, 77, 77, 0.8);
 }

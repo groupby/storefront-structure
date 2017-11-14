@@ -26,10 +26,14 @@ class Carousel {
   currentSlide: number = 0;
   transitioning: boolean = false;
   animationEndCallback: any;
-  alreadyOnEdge: boolean;
+  alreadyReset: boolean;
+  state: Carousel.State = {
+    message: ''
+  };
 
   onMount() {
     utils.WINDOW().addEventListener('resize', this.updateWindow);
+    console.log('mounting')
   }
 
   onUnMount() {
@@ -45,11 +49,14 @@ class Carousel {
   }
 
   moveNext = () => {
-    this.slideHandler(this.currentSlide + (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll));
+    // tslint:disable-next-line:max-line-length
+    this.slideHandler(this.currentSlide + (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll), 'next');
+    this.set({ message: 'next' });
   }
 
   movePrevious = () => {
-    this.slideHandler(this.currentSlide - (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll));
+    // tslint:disable-next-line:max-line-length
+    this.slideHandler(this.currentSlide - (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll), 'previous');
   }
 
   onTouchStart = (e: TouchEvent & Carousel.Event) => {
@@ -119,17 +126,20 @@ class Carousel {
     return preCloneSlides.concat(this.props.items, postCloneSlides);
   }
 
-  slideHandler = (slide: number) => {
+  slideHandler = (slide: number, direction: string) => {
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
     const from = this.currentSlide;
     const to = slide;
     const threshold = this.props.items.length;
+    const rightbound = slide + slidesToShow - 1;
     const onEdge = (s) => s + slidesToShow - 1 >= threshold || s < 0;
     const isOnEdge = onEdge(slide);
 
+    const regroup = (s) => (s + slidesToShow - 1 >= threshold && s < threshold) || s < 0 && s > -threshold;
     // check if it has just been reset to another on edge case
     // todo: this will break when alternate direction of on edge is hit
-    const alreadyReset = onEdge(this.currentSlide);
+    // this.alreadyReset = onEdge(this.currentSlide);
+    // console.log('already reset', this.alreadyReset);
 
     const resetToRealSlide = () => {
       this.transitioning = false;
@@ -143,20 +153,53 @@ class Carousel {
       this.update();
     };
     const resetCurrentSlideNum = () => {
-      if (from < to) {
+      switch (direction) {
+        case 'next':
         this.currentSlide = this.currentSlide - threshold;
-      } else if (from > to) {
+          break;
+        case 'previous':
         this.currentSlide = this.currentSlide + threshold;
+          break;
+        default:
+          console.error((e) => 'message should be next or previous');
+          break;
       }
     };
 
+    const outsideCloned = (s: number) => s < -slidesToShow || s >= threshold + slidesToShow;
+
     if (!(this.transitioning && isOnEdge)) {
       // make the transition
-      this.currentSlide = slide;
+      // tslint:disable-next-line:max-line-length
+      if (regroup(slide)) {
+        console.log('regroup')
+        // regroup the set of tiles before entering cloned area
+        switch (direction) {
+          case 'next':
+            this.currentSlide = threshold - slidesToShow;
+            break;
+          case 'previous':
+            this.currentSlide === 0 ? this.currentSlide = slide : this.currentSlide = 0;
+            break;
+          default:
+            console.error((e) => 'message should be next or previous');
+            break;
+        }
+        // this.alreadyReset = true;
+      } else {
+        this.currentSlide = slide;
+        // this.alreadyReset = false;
+      }
+      console.log('this.cu', this.currentSlide)
+      if (outsideCloned(this.currentSlide)) {
+        console.log('outside clone', this.currentSlide);
+        resetCurrentSlideNum();
+        console.log('after reset', this.currentSlide);
+      }
       this.transitioning = true;
       this.update();
 
-      if (isOnEdge && !alreadyReset) {
+      if (isOnEdge) {
         // if the target slide is cloned slide, change it to its corresponding non-cloned slide
         // also set transition to false after it is done
         this.animationEndCallback = setTimeout(resetToRealSlide, this.props.settings.speed);
@@ -171,7 +214,7 @@ class Carousel {
     e.preventDefault();
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
     const slide = parseInt((e.target as HTMLElement).getAttribute('data-index-to-go')) * slidesToShow;
-    this.slideHandler(slide);
+    this.slideHandler(slide, 'dot');
   }
 
   slideStyle = () => {
@@ -270,6 +313,7 @@ class Carousel {
 
   getSlideWidth = () => {
     const visibleWidth = this.refs.carouselwrap.offsetWidth;
+    console.log('visible', visibleWidth)
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
 
     if (visibleWidth) {
@@ -287,6 +331,7 @@ class Carousel {
 const calSwipeDirection = (touchObj: { startX: number, startY: number, curX: number, curY: number }): string => {
   const xDist = touchObj.startX - touchObj.curX;
   const yDist = touchObj.startY - touchObj.curY;
+  console.log('touch', touchObj)
 
   const r = Math.atan2(yDist, xDist);
 
@@ -314,6 +359,10 @@ namespace Carousel {
       transition?: boolean;
     };
     items: any[];
+  }
+
+  export interface State {
+    message: string;
   }
 
   export type Event = Tag.Event & { target: Element };
