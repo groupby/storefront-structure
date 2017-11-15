@@ -15,16 +15,17 @@ class Carousel {
 
   props: Carousel.Props = <any>{ settings: DEFAULT_SETTINGS };
 
-  touchObject: {
-    startX: number,
-    startY: number,
-    curX: number,
-    curY: number
-  };
-
-  currentSlide: number = 0;
-  transitioning: boolean = false;
-  animationEndCallback: any;
+  state: Carousel.State = {
+    currentSlide: 0,
+    transitioning: false,
+    animationEndCallback: undefined,
+    touchObject: {
+      startX: undefined,
+      startY: undefined,
+      curX: undefined,
+      curY: undefined
+    }
+  }
 
   onMount() {
     utils.WINDOW().addEventListener('resize', this.updateWindow);
@@ -39,11 +40,11 @@ class Carousel {
   }
 
   moveNext = () => {
-    this.slideHandler(this.currentSlide + (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll));
+    this.slideHandler(this.state.currentSlide + (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll));
   }
 
   movePrevious = () => {
-    this.slideHandler(this.currentSlide - (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll));
+    this.slideHandler(this.state.currentSlide - (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll));
   }
 
   onTouchStart = (e: TouchEvent & Carousel.Event) => {
@@ -52,7 +53,7 @@ class Carousel {
     const posX = e.touches[0].pageX;
     const posY = e.touches[0].pageY;
 
-    this.touchObject = {
+    this.state.touchObject = {
       startX: posX,
       startY: posY,
       curX: posX,
@@ -63,17 +64,17 @@ class Carousel {
 
   onTouchEnd = (e: TouchEvent & Carousel.Event) => {
 
-    this.touchObject.curX = e.changedTouches[0].pageX;
-    this.touchObject.curY = e.changedTouches[0].pageY;
+    this.state.touchObject.curX = e.changedTouches[0].pageX;
+    this.state.touchObject.curY = e.changedTouches[0].pageY;
 
     // swipe distance needs to be more than 20
-    if (Math.abs(this.touchObject.curX - this.touchObject.startX) < 20) {
+    if (Math.abs(this.state.touchObject.curX - this.state.touchObject.startX) < 20) {
       this.refs.carouselwrap.removeEventListener('touchstart', this.onTouchStart);
       this.refs.carouselwrap.removeEventListener('touchend', this.onTouchEnd);
       return;
     }
 
-    this.swipeSlides(this.touchObject);
+    this.swipeSlides(this.state.touchObject);
     this.refs.carouselwrap.removeEventListener('touchstart', this.onTouchStart);
     this.refs.carouselwrap.removeEventListener('touchend', this.onTouchEnd);
   }
@@ -99,39 +100,39 @@ class Carousel {
 
   slideHandler = (slide: number) => {
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
-    const from = this.currentSlide;
+    const from = this.state.currentSlide;
     const to = slide;
     const len = this.props.items.length;
     const onEdge = to >= len || to <= 0;
     
     const resetToRealSlide = () => {
-      this.transitioning = false;
+      this.state.transitioning = false;
       resetCurrentSlideNum();
       this.update();
-      delete this.animationEndCallback;
+      delete this.state.animationEndCallback;
     };
     const resetCurrentSlideNum = () => {
       if (from < to) {
-        this.currentSlide = to % len;
+        this.state.currentSlide = to % len;
       } else {
-        this.currentSlide = (to % len + len) % len;
+        this.state.currentSlide = (to % len + len) % len;
       }
     };
     const disableTransition = () => {
       this.refs.track.removeEventListener('transitionend', disableTransition);
-      this.transitioning = false;
+      this.state.transitioning = false;
       this.update();
     };
 
-    if (!(this.transitioning && onEdge)) {
+    if (!(this.state.transitioning && onEdge)) {
       // make the transition
-      this.currentSlide = slide;
-      this.transitioning = true;
+      this.state.currentSlide = slide;
+      this.state.transitioning = true;
       this.update();
 
       if (onEdge) {
         // reset to non-cloned slide
-        this.animationEndCallback = setTimeout(resetToRealSlide, this.props.settings.speed);
+        this.state.animationEndCallback = setTimeout(resetToRealSlide, this.props.settings.speed);
       } else {
         this.refs.track.addEventListener('transitionend', disableTransition);
       }
@@ -158,7 +159,7 @@ class Carousel {
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
     const trackWidth = (slideCount + 4 * slidesToShow - 2) * slideWidth;
 
-    const pos = this.calcPos(this.currentSlide, slideWidth);
+    const pos = this.calcPos(this.state.currentSlide, slideWidth);
     const tfm = `translate3d(-${pos}px, 0px, 0px)`;
     const transformStyles = {
       transform: tfm,
@@ -180,7 +181,7 @@ class Carousel {
     }
 
     let transitionStyles;
-    if (this.transitioning) {
+    if (this.state.transitioning) {
       const speed = this.props.settings.speed || DEFAULT_SETTINGS.speed;
       const tsVal = speed + 'ms ' + 'ease';
       transitionStyles = {
@@ -213,17 +214,17 @@ class Carousel {
     return Array(dotCount).fill('dot');
   }
 
-  dotStyle = (i: number) => {
+  dotClassName = (i: number) => {
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
     const slidesToScroll = this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll;
 
     let leftBound = i * slidesToScroll;
     let rightBound = i * slidesToScroll + slidesToShow - 1;
 
-    if (this.currentSlide >= leftBound && this.currentSlide <= rightBound) {
-      return { 'background-color': 'black' };
+    if (this.state.currentSlide >= leftBound && this.state.currentSlide <= rightBound) {
+      return "active";
     } else {
-      return {};
+      return "inactive";
     }
   }
 
@@ -283,6 +284,18 @@ namespace Carousel {
       speed?: number;
     };
     items: any[];
+  }
+
+  export interface State {
+    currentSlide: number;
+    transitioning: boolean;
+    animationEndCallback: any;
+    touchObject: {
+      startX: number,
+      startY: number,
+      curX: number,
+      curY: number
+    }
   }
 
   export type Event = Tag.Event & { target: Element };

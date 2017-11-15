@@ -13,8 +13,7 @@
     &#10095;
   </a>
   <ul class="carousel__dots" ref="dots" if="{ (props.settings.dots && props.settings.slidesToShow === 1 && props.settings.slidesToShow === 1) }">
-    <li class="carousel__dot" each="{ item, index in getDots() }" key="{ index }" data-index-to-go="{ index }" style="{ dotStyle(index) }"
-      onclick="{ dotHandler }">
+    <li class="carousel__dot {dotClassName(index)}" each="{ item, index in getDots() }" key="{ index }" data-index-to-go="{ index }" onclick="{ dotHandler }">
     </li>
   </ul>
 </div>

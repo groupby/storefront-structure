@@ -75,18 +75,18 @@ suite("Carousel", ({ expect, spy, stub }) => {
 
     describe('updateWindow', () => {
       it('should update window', () => {
-        carousel.transitioning = false;
+        carousel.state.transitioning = false;
         carousel.update = spy();
 
         carousel.updateWindow();
-        expect(carousel.transitioning).to.eq(false);
+        expect(carousel.state.transitioning).to.eq(false);
         expect(carousel.update).to.have.been.called;
       });
     });
 
     describe('moveNext', () => {
       it('should call slideHandler function with correct slide number', () => {
-        carousel.currentSlide = 0;
+        carousel.state.currentSlide = 0;
         carousel.slideHandler = spy();
 
         carousel.moveNext();
@@ -97,7 +97,7 @@ suite("Carousel", ({ expect, spy, stub }) => {
 
     describe('movePrevious', () => {
       it('should call slideHandler function with correct slide number', () => {
-        carousel.currentSlide = 0;
+        carousel.state.currentSlide = 0;
         carousel.slideHandler = spy();
 
         carousel.movePrevious();
@@ -108,7 +108,7 @@ suite("Carousel", ({ expect, spy, stub }) => {
 
     describe('onTouchStart', () => {
       it('should add listener', () => {
-        carousel.touchObject;
+        carousel.state.touchObject;
         const event = {
           preventDefault: spy(),
           stopPropagation: spy(),
@@ -137,7 +137,7 @@ suite("Carousel", ({ expect, spy, stub }) => {
 
         // expect(event.preventDefault).to.have.been.called;
         expect(event.stopPropagation).to.have.been.called;
-        expect(carousel.touchObject).to.deep.eq(result);
+        expect(carousel.state.touchObject).to.deep.eq(result);
         expect(carouselwrap.addEventListener).to.have.been.calledWithExactly(
           'touchend',
           carousel.onTouchEnd
@@ -147,7 +147,7 @@ suite("Carousel", ({ expect, spy, stub }) => {
 
     describe('onTouchEnd()', () => {
       beforeEach(() => {
-        carousel.touchObject = {
+        carousel.state.touchObject = {
           startX: 0,
           startY: 5,
           curX: 0,
@@ -226,8 +226,8 @@ suite("Carousel", ({ expect, spy, stub }) => {
 
     describe('slideHandler()', () => {
       it('should go to the specific slide when threshold is not hit ', () => {
-        carousel.currentSlide = 0;
-        carousel.transitioning = false;
+        carousel.state.currentSlide = 0;
+        carousel.state.transitioning = false;
         const slide = 1;
         const track = <any>{ addEventListener: spy(), removeEventListener: spy()};
         carousel.refs = <any>{ track };
@@ -235,20 +235,20 @@ suite("Carousel", ({ expect, spy, stub }) => {
 
         carousel.slideHandler(slide);
 
-        expect(carousel.currentSlide).to.eq(slide);
-        expect(carousel.transitioning).to.eq(true);
+        expect(carousel.state.currentSlide).to.eq(slide);
+        expect(carousel.state.transitioning).to.eq(true);
         expect(carousel.update).to.be.calledOnce;
         track.addEventListener.args[0][1]();
         expect(track.addEventListener).to.have.been.calledWith('transitionend');
         expect(track.removeEventListener).to.have.been.calledWith('transitionend');
-        expect(carousel.transitioning).to.eq(false);
+        expect(carousel.state.transitioning).to.eq(false);
         expect(carousel.update).to.be.calledTwice;
       });
 
       describe('should reset to non-cloned slide when cloned slides are visible', () => {
         let clock, track;
         beforeEach(() => {
-          carousel.transitioning = false;
+          carousel.state.transitioning = false;
           carousel.props.settings.slidesToShow = undefined;
           carousel.props.settings.slidesToScroll = undefined;
           const track = <any>{ addEventListener: spy()};
@@ -264,83 +264,83 @@ suite("Carousel", ({ expect, spy, stub }) => {
         it('should reset slide when scrolling one slide to the next', () => {
           carousel.props.settings.slidesToShow = 3;
           carousel.props.settings.slidesToScroll = 1;
-          carousel.currentSlide = 9;
+          carousel.state.currentSlide = 9;
           const slide = 10;
   
           carousel.slideHandler(slide);
   
-          expect(carousel.transitioning).to.eq(true);
-          expect(carousel.animationEndCallback).to.exist;
+          expect(carousel.state.transitioning).to.eq(true);
+          expect(carousel.state.animationEndCallback).to.exist;
           expect(carousel.update).to.be.calledOnce;
-          expect(carousel.currentSlide).to.eq(10);
+          expect(carousel.state.currentSlide).to.eq(10);
           clock.tick(500);
-          expect(carousel.transitioning).to.eq(false);
-          expect(carousel.currentSlide).to.eq(0);
+          expect(carousel.state.transitioning).to.eq(false);
+          expect(carousel.state.currentSlide).to.eq(0);
           expect(carousel.update).to.be.calledTwice;
-          expect(carousel.animationEndCallback).does.not.exist;
+          expect(carousel.state.animationEndCallback).does.not.exist;
         });
 
         it('should reset slide when scrolling three slides to the next', () => {
           carousel.props.settings.slidesToShow = 3;
           carousel.props.settings.slidesToScroll = 3;
-          carousel.currentSlide = 9;
+          carousel.state.currentSlide = 9;
           const slide = 12;
   
           carousel.slideHandler(slide);
   
-          expect(carousel.transitioning).to.eq(true);
-          expect(carousel.animationEndCallback).to.exist;
+          expect(carousel.state.transitioning).to.eq(true);
+          expect(carousel.state.animationEndCallback).to.exist;
           expect(carousel.update).to.be.calledOnce;
-          expect(carousel.currentSlide).to.eq(12);
+          expect(carousel.state.currentSlide).to.eq(12);
           clock.tick(500);
-          expect(carousel.transitioning).to.eq(false);
-          expect(carousel.currentSlide).to.eq(2);
+          expect(carousel.state.transitioning).to.eq(false);
+          expect(carousel.state.currentSlide).to.eq(2);
           expect(carousel.update).to.be.calledTwice;
-          expect(carousel.animationEndCallback).does.not.exist;
+          expect(carousel.state.animationEndCallback).does.not.exist;
         });
 
         it('should reset slide when scrolling one slide to previous', () => {
           carousel.props.settings.slidesToShow = 3;
           carousel.props.settings.slidesToScroll = 1;
-          carousel.currentSlide = 0;
+          carousel.state.currentSlide = 0;
           const slide = -1;
   
           carousel.slideHandler(slide);
   
-          expect(carousel.transitioning).to.eq(true);
-          expect(carousel.animationEndCallback).to.exist;
-          expect(carousel.currentSlide).to.eq(-1);
+          expect(carousel.state.transitioning).to.eq(true);
+          expect(carousel.state.animationEndCallback).to.exist;
+          expect(carousel.state.currentSlide).to.eq(-1);
           expect(carousel.update).to.be.calledOnce;
           clock.tick(500);
-          expect(carousel.transitioning).to.eq(false);
-          expect(carousel.currentSlide).to.eq(9);
+          expect(carousel.state.transitioning).to.eq(false);
+          expect(carousel.state.currentSlide).to.eq(9);
           expect(carousel.update).to.be.calledTwice;
-          expect(carousel.animationEndCallback).does.not.exist;
+          expect(carousel.state.animationEndCallback).does.not.exist;
         });
 
         it('should reset slide when scrolling three slides to previous', () => {
           carousel.props.settings.slidesToShow = 3;
           carousel.props.settings.slidesToScroll = 3;
-          carousel.currentSlide = 1;
+          carousel.state.currentSlide = 1;
           const slide = -2;
   
           carousel.slideHandler(slide);
   
-          expect(carousel.transitioning).to.eq(true);
-          expect(carousel.animationEndCallback).to.exist;
-          expect(carousel.currentSlide).to.eq(-2);
+          expect(carousel.state.transitioning).to.eq(true);
+          expect(carousel.state.animationEndCallback).to.exist;
+          expect(carousel.state.currentSlide).to.eq(-2);
           expect(carousel.update).to.be.calledOnce;
           clock.tick(500);
-          expect(carousel.transitioning).to.eq(false);
-          expect(carousel.currentSlide).to.eq(8);
+          expect(carousel.state.transitioning).to.eq(false);
+          expect(carousel.state.currentSlide).to.eq(8);
           expect(carousel.update).to.be.calledTwice;
-          expect(carousel.animationEndCallback).does.not.exist;
+          expect(carousel.state.animationEndCallback).does.not.exist;
         });
 
         it('should reset slide correctly when scrolling back and forth across threshold', () => {
           carousel.props.settings.slidesToShow = 3;
           carousel.props.settings.slidesToScroll = 3;
-          carousel.currentSlide = 1;
+          carousel.state.currentSlide = 1;
           const slide1 = -2;
           const slide2 = 11;
           const slide3 = 4;
@@ -349,41 +349,41 @@ suite("Carousel", ({ expect, spy, stub }) => {
           
           carousel.slideHandler(slide1);
   
-          expect(carousel.transitioning).to.eq(true);
-          expect(carousel.animationEndCallback).to.exist;
-          expect(carousel.currentSlide).to.eq(-2);
+          expect(carousel.state.transitioning).to.eq(true);
+          expect(carousel.state.animationEndCallback).to.exist;
+          expect(carousel.state.currentSlide).to.eq(-2);
           expect(carousel.update).to.be.calledOnce;
           clock.tick(500);
-          expect(carousel.transitioning).to.eq(false);
-          expect(carousel.currentSlide).to.eq(8);
+          expect(carousel.state.transitioning).to.eq(false);
+          expect(carousel.state.currentSlide).to.eq(8);
           expect(carousel.update).to.be.calledTwice;
-          expect(carousel.animationEndCallback).does.not.exist;
+          expect(carousel.state.animationEndCallback).does.not.exist;
 
           carousel.slideHandler(slide2);
 
-          expect(carousel.currentSlide).to.eq(11);
+          expect(carousel.state.currentSlide).to.eq(11);
           clock.tick(500);
-          expect(carousel.currentSlide).to.eq(1);
+          expect(carousel.state.currentSlide).to.eq(1);
 
           carousel.slideHandler(slide3);
           
           const timeout1 = setTimeout(() => {
-            expect(carousel.currentSlide).to.eq(4);
+            expect(carousel.state.currentSlide).to.eq(4);
           }, 500)
           clearTimeout(timeout1);
 
           carousel.slideHandler(slide4);
 
           const timeout2 = setTimeout(() => {
-            expect(carousel.currentSlide).to.eq(7);
+            expect(carousel.state.currentSlide).to.eq(7);
           }, 500)
           clearTimeout(timeout2);
 
           carousel.slideHandler(slide5);
 
           const timeout3 = setTimeout(() => {
-            expect(carousel.currentSlide).to.eq(10);
-            expect(carousel.currentSlide).to.eq(0);
+            expect(carousel.state.currentSlide).to.eq(10);
+            expect(carousel.state.currentSlide).to.eq(0);
           }, 500)
           clearTimeout(timeout3);
         });
@@ -465,7 +465,7 @@ suite("Carousel", ({ expect, spy, stub }) => {
       });
 
       it('should not allow transition when it is set to false', () => {
-        carousel.transitioning = false;
+        carousel.state.transitioning = false;
         stub(carousel, 'cloneItems').returns({ content: 'test' });
         stub(carousel, 'getStaticTrackStyle').returns({ a: 'b' });
 
@@ -480,7 +480,7 @@ suite("Carousel", ({ expect, spy, stub }) => {
       });
 
       it('should return transition style if transition is allowed', () => {
-        carousel.transitioning = true;
+        carousel.state.transitioning = true;
         const style = {
           a: 'b',
           '-webkit-transition': '500ms ease',
@@ -497,7 +497,7 @@ suite("Carousel", ({ expect, spy, stub }) => {
 
       it('should fall back to default settings if no speed is provided', () => {
         delete carousel.props.settings.speed;
-        carousel.transitioning = true;
+        carousel.state.transitioning = true;
         const style = {
           a: 'b',
           '-webkit-transition': '800ms ease',
@@ -555,17 +555,17 @@ suite("Carousel", ({ expect, spy, stub }) => {
       });
     });
 
-    describe('dotStyle()', () => {
+    describe('dotClassName()', () => {
       it('should return active style when dot is active', () => {
-        carousel.currentSlide = 0;
-        const active = { 'background-color': 'black' };
-        const inactive = {};
+        carousel.state.currentSlide = 0;
+        const active = 'active';
+        const inactive = 'inactive';
 
-        const style = carousel.dotStyle(0);
+        const style = carousel.dotClassName(0);
         expect(style).to.deep.eq(active);
-        const style1 = carousel.dotStyle(1);
+        const style1 = carousel.dotClassName(1);
         expect(style1).to.deep.eq(inactive);
-        const style2 = carousel.dotStyle(2);
+        const style2 = carousel.dotClassName(2);
         expect(style2).to.deep.eq(inactive);
       });
     });
