@@ -8,7 +8,6 @@ class Link {
     event.preventDefault();
     if (this.props.onClick) {
       this.props.onClick();
-      console.log('hello')
     }
   }
 }
