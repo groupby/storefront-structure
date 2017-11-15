@@ -134,7 +134,7 @@ class Carousel {
         // reset to non-cloned slide
         this.state.animationEndCallback = setTimeout(resetToRealSlide, this.props.settings.speed);
       } else {
-        this.refs.track.addEventListener('transitionend', disableTransition);
+        this.refs.track.addEventListener('transitionend', disableTransition, false);
       }
     }
   }
@@ -202,14 +202,14 @@ class Carousel {
   }
 
   getDots = () => {
-    if (!this.props.items) {
-      return;
+    if (!this.props.items || this.props.items.length < 1) {
+      return [];
     }
     const slideCount = this.props.items.length;
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
     const slidesToScroll = this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll;
 
-    const dotCount = Math.ceil((slideCount - slidesToShow) / slidesToScroll + 1);
+    const dotCount = Math.ceil((slideCount - slidesToScroll) / slidesToScroll + 1);
 
     return Array(dotCount).fill('dot');
   }
@@ -221,7 +221,7 @@ class Carousel {
     let leftBound = i * slidesToScroll;
     let rightBound = i * slidesToScroll + slidesToShow - 1;
 
-    if (this.state.currentSlide >= leftBound && this.state.currentSlide <= rightBound) {
+    if (this.state.currentSlide === leftBound && this.state.currentSlide <= rightBound) {
       return "active";
     } else {
       return "inactive";

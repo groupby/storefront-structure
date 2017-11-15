@@ -544,7 +544,15 @@ suite("Carousel", ({ expect, spy, stub }) => {
 
         const result = carousel.getDots();
 
-        expect(result).to.eq(undefined);
+        expect(result).to.deep.eq([]);
+      });
+
+      it('should return when items is empty array', () => {
+        carousel.props.items = [];
+
+        const result = carousel.getDots();
+
+        expect(result).to.deep.eq([]);
       });
 
       it('should get correct number of dots', () => {
@@ -553,19 +561,69 @@ suite("Carousel", ({ expect, spy, stub }) => {
 
         expect(results).to.deep.eq(dots);
       });
+
+      it('should get correct number of dots when slides to scroll and to show are more than one', () => {
+        carousel.props.settings.slidesToScroll = 4;
+        carousel.props.settings.slidesToShow = 4;
+        
+        const dots = Array(3).fill('dot');
+        const results = carousel.getDots();
+
+        expect(results).to.deep.eq(dots);
+      });
+
+      it('should get correct number of dots when slides to show are more than one', () => {
+        carousel.props.settings.slidesToScroll = 1;
+        carousel.props.settings.slidesToShow = 3;
+        
+        const dots = Array(10).fill('dot');
+        const results = carousel.getDots();
+
+        expect(results).to.deep.eq(dots);
+      });
     });
 
     describe('dotClassName()', () => {
-      it('should return active style when dot is active', () => {
-        carousel.state.currentSlide = 0;
+      it('should return active class name when dot is active', () => {
+        carousel.state.currentSlide = 1;
         const active = 'active';
         const inactive = 'inactive';
 
         const style = carousel.dotClassName(0);
-        expect(style).to.deep.eq(active);
+        expect(style).to.deep.eq(inactive);
         const style1 = carousel.dotClassName(1);
-        expect(style1).to.deep.eq(inactive);
+        expect(style1).to.deep.eq(active);
         const style2 = carousel.dotClassName(2);
+        expect(style2).to.deep.eq(inactive);
+      });
+
+      it('should return correct class names when slides to show and to scroll are more than one', () => {
+        carousel.props.settings.slidesToScroll = 3;
+        carousel.props.settings.slidesToShow = 3;
+        carousel.state.currentSlide = 3;
+        const active = 'active';
+        const inactive = 'inactive';
+
+        const style = carousel.dotClassName(0);
+        expect(style).to.deep.eq(inactive);
+        const style1 = carousel.dotClassName(1);
+        expect(style1).to.deep.eq(active);
+        const style2 = carousel.dotClassName(2);
+        expect(style2).to.deep.eq(inactive);
+      });
+
+      it('should return correct class names when slides to show are more than one', () => {
+        carousel.props.settings.slidesToScroll = 1;
+        carousel.props.settings.slidesToShow = 3;
+        carousel.state.currentSlide = 3;
+        const active = 'active';
+        const inactive = 'inactive';
+
+        const style = carousel.dotClassName(2);
+        expect(style).to.deep.eq(inactive);
+        const style1 = carousel.dotClassName(3);
+        expect(style1).to.deep.eq(active);
+        const style2 = carousel.dotClassName(4);
         expect(style2).to.deep.eq(inactive);
       });
     });
