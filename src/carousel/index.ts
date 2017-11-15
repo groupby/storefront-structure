@@ -1,7 +1,6 @@
 import { tag, utils, Tag } from '@storefront/core';
 
 const DEFAULT_SETTINGS = {
-  transition: true,
   speed: 800,
   slidesToShow: 1,
   slidesToScroll: 1,
@@ -26,22 +25,13 @@ class Carousel {
   currentSlide: number = 0;
   transitioning: boolean = false;
   animationEndCallback: any;
-  alreadyReset: boolean;
-  state: Carousel.State = {
-    message: ''
-  };
 
   onMount() {
     utils.WINDOW().addEventListener('resize', this.updateWindow);
-    console.log('mounting')
   }
 
   onUnMount() {
     utils.WINDOW().removeEventListener('resize', this.updateWindow);
-  }
-
-  onUpdate() {
-    console.log(this.currentSlide);
   }
 
   updateWindow = () => {
@@ -49,20 +39,16 @@ class Carousel {
   }
 
   moveNext = () => {
-    // tslint:disable-next-line:max-line-length
-    this.slideHandler(this.currentSlide + (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll), 'next');
-    this.set({ message: 'next' });
+    this.slideHandler(this.currentSlide + (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll));
   }
 
   movePrevious = () => {
-    // tslint:disable-next-line:max-line-length
-    this.slideHandler(this.currentSlide - (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll), 'previous');
+    this.slideHandler(this.currentSlide - (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll));
   }
 
   onTouchStart = (e: TouchEvent & Carousel.Event) => {
-    // e.preventDefault();
     e.stopPropagation();
-    // ie browsers have different properties on event
+
     const posX = e.touches[0].pageX;
     const posY = e.touches[0].pageY;
 
@@ -96,115 +82,57 @@ class Carousel {
     if (!this.props.items) {
       return;
     }
-
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
-
+    
     let itemCount = this.props.items.length;
     let preCloneSlides = [];
     let postCloneSlides = [];
-
-    this.props.items.forEach((data, index) => {
-      data['data-index'] = index;
-
-      if (index >= (itemCount - slidesToShow)) {
-        let key = -(itemCount - index);
-        preCloneSlides.push({
-          ...data,
-          'data-index': key,
-        });
-      }
-
-      if (index < slidesToShow) {
-        let key = itemCount + index;
-        postCloneSlides.push({
-          ...data,
-          'data-index': key,
-        });
-      }
-    });
-
-    return preCloneSlides.concat(this.props.items, postCloneSlides);
+    
+    const numCloned = slidesToShow * 2 - 1;
+    const len = this.props.items.length;
+    const prior = this.props.items.slice(-numCloned).map((d, i) => ({ ...d, "data-index": len - numCloned + i }));
+    const posterior = this.props.items.slice(0, numCloned).map((d, i) => ({ ...d, "data-index": i }));
+    const originalItems = this.props.items.map((d, i) => ({ ...d, "data-index": i }));
+    const newSlides = prior.concat(originalItems).concat(posterior);
+    return newSlides;
   }
 
-  slideHandler = (slide: number, direction: string) => {
+  slideHandler = (slide: number) => {
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
     const from = this.currentSlide;
     const to = slide;
-    const threshold = this.props.items.length;
-    const rightbound = slide + slidesToShow - 1;
-    const onEdge = (s) => s + slidesToShow - 1 >= threshold || s < 0;
-    const isOnEdge = onEdge(slide);
-
-    const regroup = (s) => (s + slidesToShow - 1 >= threshold && s < threshold) || s < 0 && s > -threshold;
-    // check if it has just been reset to another on edge case
-    // todo: this will break when alternate direction of on edge is hit
-    // this.alreadyReset = onEdge(this.currentSlide);
-    // console.log('already reset', this.alreadyReset);
-
+    const len = this.props.items.length;
+    const onEdge = to >= len || to <= 0;
+    
     const resetToRealSlide = () => {
       this.transitioning = false;
       resetCurrentSlideNum();
       this.update();
       delete this.animationEndCallback;
     };
+    const resetCurrentSlideNum = () => {
+      if (from < to) {
+        this.currentSlide = to % len;
+      } else {
+        this.currentSlide = (to % len + len) % len;
+      }
+    };
     const disableTransition = () => {
       this.refs.track.removeEventListener('transitionend', disableTransition);
       this.transitioning = false;
       this.update();
     };
-    const resetCurrentSlideNum = () => {
-      switch (direction) {
-        case 'next':
-        this.currentSlide = this.currentSlide - threshold;
-          break;
-        case 'previous':
-        this.currentSlide = this.currentSlide + threshold;
-          break;
-        default:
-          console.error((e) => 'message should be next or previous');
-          break;
-      }
-    };
 
-    const outsideCloned = (s: number) => s < -slidesToShow || s >= threshold + slidesToShow;
-
-    if (!(this.transitioning && isOnEdge)) {
+    if (!(this.transitioning && onEdge)) {
       // make the transition
-      // tslint:disable-next-line:max-line-length
-      if (regroup(slide)) {
-        console.log('regroup')
-        // regroup the set of tiles before entering cloned area
-        switch (direction) {
-          case 'next':
-            this.currentSlide = threshold - slidesToShow;
-            break;
-          case 'previous':
-            this.currentSlide === 0 ? this.currentSlide = slide : this.currentSlide = 0;
-            break;
-          default:
-            console.error((e) => 'message should be next or previous');
-            break;
-        }
-        // this.alreadyReset = true;
-      } else {
-        this.currentSlide = slide;
-        // this.alreadyReset = false;
-      }
-      console.log('this.cu', this.currentSlide)
-      if (outsideCloned(this.currentSlide)) {
-        console.log('outside clone', this.currentSlide);
-        resetCurrentSlideNum();
-        console.log('after reset', this.currentSlide);
-      }
+      this.currentSlide = slide;
       this.transitioning = true;
       this.update();
 
-      if (isOnEdge) {
-        // if the target slide is cloned slide, change it to its corresponding non-cloned slide
-        // also set transition to false after it is done
+      if (onEdge) {
+        // reset to non-cloned slide
         this.animationEndCallback = setTimeout(resetToRealSlide, this.props.settings.speed);
       } else {
-        // if not, only set transition to false after it is done
         this.refs.track.addEventListener('transitionend', disableTransition);
       }
     }
@@ -214,7 +142,7 @@ class Carousel {
     e.preventDefault();
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
     const slide = parseInt((e.target as HTMLElement).getAttribute('data-index-to-go')) * slidesToShow;
-    this.slideHandler(slide, 'dot');
+    this.slideHandler(slide);
   }
 
   slideStyle = () => {
@@ -228,7 +156,7 @@ class Carousel {
     const slideWidth = this.getSlideWidth();
     const slideCount = this.props.items.length;
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
-    const trackWidth = (slideCount + 2 * slidesToShow) * slideWidth;
+    const trackWidth = (slideCount + 4 * slidesToShow - 2) * slideWidth;
 
     const pos = this.calcPos(this.currentSlide, slideWidth);
     const tfm = `translate3d(-${pos}px, 0px, 0px)`;
@@ -252,17 +180,14 @@ class Carousel {
     }
 
     let transitionStyles;
-
     if (this.transitioning) {
-      const transition = typeof this.props.settings.transition === 'boolean' ?
-        this.props.settings.transition : DEFAULT_SETTINGS.transition;
       const speed = this.props.settings.speed || DEFAULT_SETTINGS.speed;
       const tsVal = speed + 'ms ' + 'ease';
-      transitionStyles = transition === true ? {
+      transitionStyles = {
         '-webkit-transition': tsVal,
         transition: tsVal,
         'ms-transition': tsVal
-      } : {};
+      };
     } else {
       transitionStyles = {
         '-webkit-transition': '',
@@ -306,14 +231,15 @@ class Carousel {
     const direction: string = calSwipeDirection(touchObj);
     if (direction === 'left') {
       this.moveNext();
-    } else if (direction === 'right') {
+    } 
+    
+    if (direction === 'right') {
       this.movePrevious();
     }
   }
 
   getSlideWidth = () => {
     const visibleWidth = this.refs.carouselwrap.offsetWidth;
-    console.log('visible', visibleWidth)
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
 
     if (visibleWidth) {
@@ -324,14 +250,13 @@ class Carousel {
 
   calcPos = (currS: number, moveDistance: number): number => {
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
-    return (currS + slidesToShow) * moveDistance;
+    return (currS + slidesToShow * 2 - 1) * moveDistance;
   }
 }
 
 const calSwipeDirection = (touchObj: { startX: number, startY: number, curX: number, curY: number }): string => {
   const xDist = touchObj.startX - touchObj.curX;
   const yDist = touchObj.startY - touchObj.curY;
-  console.log('touch', touchObj)
 
   const r = Math.atan2(yDist, xDist);
 
@@ -356,13 +281,8 @@ namespace Carousel {
       slidesToShow?: number;
       slidesToScroll?: number;
       speed?: number;
-      transition?: boolean;
     };
     items: any[];
-  }
-
-  export interface State {
-    message: string;
   }
 
   export type Event = Tag.Event & { target: Element };
