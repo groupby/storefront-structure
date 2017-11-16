@@ -73,7 +73,7 @@ class Carousel {
 
   onTouchEnd = (e: TouchEvent & Carousel.Event) => {
     console.log('end')
-    
+
     this.state.touchObject.curX = e.changedTouches[0].pageX;
     this.state.touchObject.curY = e.changedTouches[0].pageY;
 
@@ -93,6 +93,7 @@ class Carousel {
     if (!this.props.items) {
       return;
     }
+
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
 
     let itemCount = this.props.items.length;
@@ -118,7 +119,6 @@ class Carousel {
     const resetToRealSlide = () => {
       this.state.transitioning = false;
       resetCurrentSlideNum();
-      this.update();
       delete this.state.animationEndCallback;
     };
     const resetCurrentSlideNum = () => {
@@ -127,12 +127,18 @@ class Carousel {
       } else {
         this.state.currentSlide = (to % len + len) % len;
       }
+      this.update();
     };
     const disableTransition = () => {
       this.refs.track.removeEventListener('transitionend', disableTransition);
       this.state.transitioning = false;
       this.update();
     };
+
+    if (this.props.settings.speed === 0) {
+      resetCurrentSlideNum();
+      return;
+    }
 
     if (!(this.state.transitioning && onEdge)) {
       // make the transition
@@ -305,7 +311,7 @@ namespace Carousel {
       startY: number,
       curX: number,
       curY: number
-    }
+    };
   }
 
   export type Event = Tag.Event & { target: Element };
