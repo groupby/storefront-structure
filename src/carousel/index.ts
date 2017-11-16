@@ -25,7 +25,7 @@ class Carousel {
       curX: undefined,
       curY: undefined
     }
-  }
+  };
 
   onMount() {
     utils.WINDOW().addEventListener('resize', this.updateWindow);
@@ -35,15 +35,21 @@ class Carousel {
     utils.WINDOW().removeEventListener('resize', this.updateWindow);
   }
 
+  onUpdate() {
+    console.log('currentSlide', this.state.currentSlide);
+  }
+
   updateWindow = () => {
     this.update();
   }
 
   moveNext = () => {
+    // tslint:disable-next-line:max-line-length
     this.slideHandler(this.state.currentSlide + (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll));
   }
 
   movePrevious = () => {
+    // tslint:disable-next-line:max-line-length
     this.slideHandler(this.state.currentSlide - (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll));
   }
 
@@ -53,17 +59,21 @@ class Carousel {
     const posX = e.touches[0].pageX;
     const posY = e.touches[0].pageY;
 
-    this.state.touchObject = {
-      startX: posX,
-      startY: posY,
-      curX: posX,
-      curY: posY
-    };
+    this.set({
+      touchObject: {
+        startX: posX,
+        startY: posY,
+        curX: posX,
+        curY: posY
+      }
+    });
+    console.log('start', this.state.touchObject)
     this.refs.carouselwrap.addEventListener('touchend', this.onTouchEnd);
   }
 
   onTouchEnd = (e: TouchEvent & Carousel.Event) => {
-
+    console.log('end')
+    
     this.state.touchObject.curX = e.changedTouches[0].pageX;
     this.state.touchObject.curY = e.changedTouches[0].pageY;
 
@@ -84,16 +94,16 @@ class Carousel {
       return;
     }
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
-    
+
     let itemCount = this.props.items.length;
     let preCloneSlides = [];
     let postCloneSlides = [];
-    
+
     const numCloned = slidesToShow * 2 - 1;
     const len = this.props.items.length;
-    const prior = this.props.items.slice(-numCloned).map((d, i) => ({ ...d, "data-index": len - numCloned + i }));
-    const posterior = this.props.items.slice(0, numCloned).map((d, i) => ({ ...d, "data-index": i }));
-    const originalItems = this.props.items.map((d, i) => ({ ...d, "data-index": i }));
+    const prior = this.props.items.slice(-numCloned).map((d, i) => ({ ...d, 'data-index': len - numCloned + i }));
+    const posterior = this.props.items.slice(0, numCloned).map((d, i) => ({ ...d, 'data-index': i }));
+    const originalItems = this.props.items.map((d, i) => ({ ...d, 'data-index': i }));
     const newSlides = prior.concat(originalItems).concat(posterior);
     return newSlides;
   }
@@ -104,7 +114,7 @@ class Carousel {
     const to = slide;
     const len = this.props.items.length;
     const onEdge = to >= len || to <= 0;
-    
+
     const resetToRealSlide = () => {
       this.state.transitioning = false;
       resetCurrentSlideNum();
@@ -222,9 +232,9 @@ class Carousel {
     let rightBound = i * slidesToScroll + slidesToShow - 1;
 
     if (this.state.currentSlide === leftBound && this.state.currentSlide <= rightBound) {
-      return "active";
+      return 'active';
     } else {
-      return "inactive";
+      return 'inactive';
     }
   }
 
@@ -232,8 +242,8 @@ class Carousel {
     const direction: string = calSwipeDirection(touchObj);
     if (direction === 'left') {
       this.moveNext();
-    } 
-    
+    }
+
     if (direction === 'right') {
       this.movePrevious();
     }
