@@ -17,6 +17,11 @@ class Carousel {
   animationEndCallback: NodeJS.Timer | null = null;
 
   state: Carousel.State = {
+    settings: {
+      speed: props.settings.speed || 0,
+      slidesToShow: props.settings.slidesToShow || 1,
+      slidesToScroll: props.settings.slidesToScroll || 1
+    },
     currentSlide: 0,
     transitioning: false,
     touchObject: {
@@ -313,27 +318,23 @@ const calSwipeDirection = (touchObj: {
 interface Carousel extends Tag<Carousel.Props> { }
 namespace Carousel {
   export interface Props extends Tag.Props {
-    settings: {
+    settings?: {
+      speed?: number;
       slidesToShow?: number;
       slidesToScroll?: number;
-      speed?: number;
     };
     items: any[];
   }
 
   export interface State {
+    settings: {
+      speed: number;
+      slidesToShow: number;
+      slidesToScroll: number;
+    };
     currentSlide: number;
     transitioning: boolean;
     touchObject: {
-      startX: number;
-      startY: number;
-      curX: number;
-      curY: number;
-    };
-  }
-
-  export namespace State {
-    export type touchObject = {
       startX: number;
       startY: number;
       curX: number;
