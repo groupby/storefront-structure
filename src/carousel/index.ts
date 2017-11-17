@@ -37,27 +37,28 @@ class Carousel {
 
   onUpdate() {
     console.log('currentSlide', this.state.currentSlide);
+    console.log(this.props.items)
   }
 
   updateWindow = () => {
     this.update();
-  };
+  }
 
   moveNext = () => {
     // tslint:disable-next-line:max-line-length
     this.slideHandler(
       this.state.currentSlide +
-        (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll)
+      (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll)
     );
-  };
+  }
 
   movePrevious = () => {
     // tslint:disable-next-line:max-line-length
     this.slideHandler(
       this.state.currentSlide -
-        (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll)
+      (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll)
     );
-  };
+  }
 
   onTouchStart = (e: TouchEvent & Carousel.Event) => {
     e.stopPropagation();
@@ -73,9 +74,9 @@ class Carousel {
         curY: posY
       }
     });
-    console.log('start', this.state.touchObject);
+    console.log('start');
     this.refs.carouselwrap.addEventListener('touchend', this.onTouchEnd);
-  };
+  }
 
   onTouchEnd = (e: TouchEvent & Carousel.Event) => {
     console.log('end');
@@ -98,7 +99,7 @@ class Carousel {
     this.swipeSlides(this.state.touchObject);
     this.refs.carouselwrap.removeEventListener('touchstart', this.onTouchStart);
     this.refs.carouselwrap.removeEventListener('touchend', this.onTouchEnd);
-  };
+  }
 
   cloneItems = () => {
     if (!this.props.items) {
@@ -116,16 +117,20 @@ class Carousel {
     const posterior = this.props.items
       .slice(0, numCloned)
       .map((d, i) => ({ ...d, 'data-index': i }));
+
+    // the following will make mobile swipe work
+    this.props.items.forEach((d, i) => (d['data-index'] = i));
+    const newSlides = prior.concat(this.props.items).concat(posterior);
+
+    // the following will break mobile swipe: touchend event won't be fired
     // const originalItems = this.props.items.map((d, i) => ({
     //   ...d,
     //   'data-index': i
     // }));
-    // this.props.items.forEach((d, i) => (d['data-index'] = i));
-    const newSlides = prior.concat(this.props.items).concat(posterior);
     // const newSlides = prior.concat(originalItems).concat(posterior);
 
     return newSlides;
-  };
+  }
 
   slideHandler = (slide: number) => {
     const slidesToShow =
@@ -179,7 +184,7 @@ class Carousel {
         );
       }
     }
-  };
+  }
 
   dotHandler = (e: MouseEvent | TouchEvent) => {
     e.preventDefault();
@@ -189,14 +194,14 @@ class Carousel {
       parseInt((e.target as HTMLElement).getAttribute('data-index-to-go')) *
       slidesToShow;
     this.slideHandler(slide);
-  };
+  }
 
   slideStyle = () => {
     const slideWidth = this.getSlideWidth();
     return {
       width: `${slideWidth}px`
     };
-  };
+  }
 
   getStaticTrackStyle = () => {
     const slideWidth = this.getSlideWidth();
@@ -222,7 +227,7 @@ class Carousel {
     );
 
     return style;
-  };
+  }
 
   trackStyle = () => {
     if (!this.props.items) {
@@ -248,7 +253,7 @@ class Carousel {
 
     const style = Object.assign(this.getStaticTrackStyle(), transitionStyles);
     return style;
-  };
+  }
 
   getDots = () => {
     if (!this.props.items || this.props.items.length < 1) {
@@ -265,7 +270,7 @@ class Carousel {
     );
 
     return Array(dotCount).fill('dot');
-  };
+  }
 
   dotClassName = (i: number) => {
     const slidesToShow =
@@ -284,7 +289,7 @@ class Carousel {
     } else {
       return 'inactive';
     }
-  };
+  }
 
   swipeSlides = (touchObj: {
     startX: number;
@@ -300,7 +305,7 @@ class Carousel {
     if (direction === 'right') {
       this.movePrevious();
     }
-  };
+  }
 
   getSlideWidth = () => {
     const visibleWidth = this.refs.carouselwrap.offsetWidth;
@@ -311,13 +316,13 @@ class Carousel {
       const slideWidth = visibleWidth / slidesToShow;
       return slideWidth;
     }
-  };
+  }
 
   calcPos = (currS: number, moveDistance: number): number => {
     const slidesToShow =
       this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
     return (currS + slidesToShow * 2 - 1) * moveDistance;
-  };
+  }
 }
 
 const calSwipeDirection = (touchObj: {
@@ -348,7 +353,7 @@ const calSwipeDirection = (touchObj: {
   }
 };
 
-interface Carousel extends Tag<Carousel.Props> {}
+interface Carousel extends Tag<Carousel.Props> { }
 namespace Carousel {
   export interface Props extends Tag.Props {
     settings: {
