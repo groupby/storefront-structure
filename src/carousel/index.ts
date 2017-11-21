@@ -68,7 +68,7 @@ class Carousel {
     const posX = e.touches[0].pageX;
     const posY = e.touches[0].pageY;
 
-    this.set({ touchObject: { startX: posX, startY: posY, curX: posX, curY: posY } });
+    this.set({ touchObject: { startX: posX, startY: posY } });
     this.refs.wrapper.addEventListener('touchend', this.onTouchEnd);
   }
 
@@ -77,13 +77,10 @@ class Carousel {
     this.state.touchObject.curY = e.changedTouches[0].pageY;
 
     // swipe distance needs to be more than 20
-    if (Math.abs(this.state.touchObject.curX - this.state.touchObject.startX) < 20) {
-      this.refs.wrapper.removeEventListener('touchstart', this.onTouchStart);
-      this.refs.wrapper.removeEventListener('touchend', this.onTouchEnd);
-      return;
+    if (Math.abs(this.state.touchObject.curX - this.state.touchObject.startX) > 20) {
+      this.swipeSlides(this.state.touchObject);
     }
 
-    this.swipeSlides(this.state.touchObject);
     this.refs.wrapper.removeEventListener('touchstart', this.onTouchStart);
     this.refs.wrapper.removeEventListener('touchend', this.onTouchEnd);
   }
