@@ -1,6 +1,5 @@
 .carousel {
   position: relative;
-  display: block;
   box-sizing: border-box;
 }
 
@@ -10,11 +9,7 @@
 }
 
 .carousel__list {
-  position: relative;
   overflow: hidden;
-  display: block;
-  margin: 0;
-  padding: 0;
 }
 
 .carousel__slide {
@@ -29,16 +24,10 @@
 /* Next & previous buttons */
 .carousel__prev, .carousel__next {
   cursor: pointer;
-  position: absolute;
   top: 50%;
   width: auto;
-  vertical-align: middle;
-  padding: 12px;
-  color: rgb(253, 253, 246);
-  font-weight: bold;
-  font-size: 40px;
-  border-radius: 3px;
-  background-color: rgba(77, 77, 77, 0.8);
+  transform: translateY(-50%);
+  position: absolute;
 }
 
 .carousel__prev {

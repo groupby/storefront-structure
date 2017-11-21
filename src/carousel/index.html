@@ -1,7 +1,7 @@
 <div class="carousel" ref="wrapper" touchstart="{ onTouchStart }">
   <div class="carousel__list">
     <div class="carousel__track" ref="track" style="{ trackStyle() }">
-      <div class="carousel__slide" each="{ product in cloneItems() }" style="width: { getSlideWidth() }px">
+      <div class="carousel__slide" each="{ product in $carousel.products }" style="width: { getSlideWidth() }px">
         <yield/>
       </div>
     </div>

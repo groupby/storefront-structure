@@ -1,20 +1,13 @@
-import { tag, utils, Tag } from '@storefront/core';
+import { alias, tag, utils, Tag } from '@storefront/core';
 
-const DEFAULT_SETTINGS = {
-  speed: 0,
-  slidesToShow: 1,
-  slidesToScroll: 1
-};
-
+@alias('carousel')
 @tag('gb-carousel', require('./index.html'), require('./index.css'))
 class Carousel {
   refs: {
     wrapper: HTMLDivElement,
     track: HTMLDivElement
   };
-
-  props: Carousel.Props = <any>{ setting: {}, items: [] };
-  animationEndCallback: NodeJS.Timer | null = null;
+  props: Carousel.Props = { items: [] };
 
   state: Carousel.State = {
     settings: {
@@ -27,17 +20,18 @@ class Carousel {
     products: []
   };
 
+  animationEndCallback: NodeJS.Timer | null = null;
+
+  init() {
+    this.state.settings = { ...this.state.settings, ...this.props.settings };
+  }
+
   onMount() {
     utils.WINDOW().addEventListener('resize', this.updateWindow);
   }
 
   onUpdate() {
-    // this.state.products = this.cloneItems();
-    this.state.settings = {
-      speed: this.props.settings.speed || 0,
-      slidesToShow: this.props.settings.slidesToShow || 1,
-      slidesToScroll: this.props.settings.slidesToScroll || 1
-    };
+    this.state.products = this.cloneItems();
   }
 
   onUnMount() {
@@ -59,16 +53,12 @@ class Carousel {
   onTouchStart = (e: TouchEvent & Carousel.Event) => {
     e.stopPropagation();
 
-    const posX = e.touches[0].pageX;
-    const posY = e.touches[0].pageY;
-
-    // this.set({ touchObject: { startX: posX, startY: posY } });
     this.state.touchObject = {
-      startX: posX,
-      startY: posY
+      startX: e.touches[0].pageX,
+      startY: e.touches[0].pageY
     };
 
-    this.refs.wrapper.addEventListener('touchend', this.onTouchEnd);
+    this.refs.wrapper.addEventListener('touchmove', this.onTouchEnd);
   }
 
   onTouchEnd = (e: TouchEvent & Carousel.Event) => {
@@ -76,18 +66,14 @@ class Carousel {
     const curY = e.changedTouches[0].pageY;
     // swipe distance needs to be more than 20
     if (Math.abs(curX - this.state.touchObject.startX) > 20) {
-      isSwipeToNext({ ...this.state.touchObject, curX, curY }) ? this.moveNext() : this.movePrevious();
+      Carousel.isSwipeToNext({ ...this.state.touchObject }, curX, curY) ? this.moveNext() : this.movePrevious();
     }
 
     this.refs.wrapper.removeEventListener('touchstart', this.onTouchStart);
-    this.refs.wrapper.removeEventListener('touchend', this.onTouchEnd);
+    this.refs.wrapper.removeEventListener('touchmove', this.onTouchEnd);
   }
 
   cloneItems = () => {
-    if (!this.props.items) {
-      return [];
-    }
-
     const slidesToShow = this.state.settings.slidesToShow;
     const numCloned = slidesToShow * 2 - 1;
     const length = this.props.items.length;
@@ -108,7 +94,7 @@ class Carousel {
     const length = this.props.items.length;
     const onEdge = slide >= length || slide <= 0;
 
-    // turn off transition if speed is 0;
+    // only reset slide number if speed is 0;
     if (!this.state.settings.speed) {
       this.resetCurrentSlideNum(from, slide, length);
       return;
@@ -168,7 +154,7 @@ class Carousel {
     const trackWidth = (slideCount + 4 * slidesToShow - 2) * slideWidth;
 
     const pos = this.calculatePosition(this.state.currentSlide, slideWidth);
-    const tfm = `translate3d(-${pos}px, 0px, 0px)`;
+    const tfm = `translateX(-${pos}px)`;
     const transformStyles = {
       transform: tfm,
       '-webkit-transform': tfm,
@@ -198,16 +184,13 @@ class Carousel {
   }
 
   getDots = () => {
-    if (!this.props.items || this.props.items.length < 1) {
-      return [];
-    }
     const slideCount = this.props.items.length;
     const slidesToShow = this.state.settings.slidesToShow;
     const slidesToScroll = this.state.settings.slidesToScroll;
 
-    const dotCount = Math.ceil(
+    const dotCount = Math.max(Math.ceil(
       (slideCount - slidesToScroll) / slidesToScroll + 1
-    );
+    ), 0);
 
     return Array(dotCount).fill('dot');
   }
@@ -239,29 +222,29 @@ class Carousel {
 
   // tslint:disable-next-line:max-line-length
   calculatePosition = (currentSlide: number, moveDistance: number): number => (currentSlide + this.state.settings.slidesToShow * 2 - 1) * moveDistance;
+
+  static isSwipeToNext = (touchObj: Carousel.TouchObject, curX: number, curY: number): boolean => {
+    const xDist = touchObj.startX - curX;
+    const yDist = touchObj.startY - curY;
+
+    const r = Math.atan2(yDist, xDist);
+
+    let swipeAngle = Math.round(r * 180 / Math.PI);
+
+    if (swipeAngle < 0) {
+      swipeAngle = 360 - Math.abs(swipeAngle);
+    }
+    // swipeAngle between 45 and 135, between 225 and 315 is ignored;
+    if (
+      (swipeAngle <= 45 && swipeAngle >= 0) ||
+      (swipeAngle <= 360 && swipeAngle >= 315)
+    ) {
+      return true;
+    } else if (swipeAngle >= 135 && swipeAngle <= 225) {
+      return false;
+    }
+  }
 }
-
-const isSwipeToNext = (touchObj: Carousel.TouchObject): boolean => {
-  const xDist = touchObj.startX - touchObj.curX;
-  const yDist = touchObj.startY - touchObj.curY;
-
-  const r = Math.atan2(yDist, xDist);
-
-  let swipeAngle = Math.round(r * 180 / Math.PI);
-
-  if (swipeAngle < 0) {
-    swipeAngle = 360 - Math.abs(swipeAngle);
-  }
-  // swipeAngle between 45 and 135, between 225 and 315 is ignored;
-  if (
-    (swipeAngle <= 45 && swipeAngle >= 0) ||
-    (swipeAngle <= 360 && swipeAngle >= 315)
-  ) {
-    return true;
-  } else if (swipeAngle >= 135 && swipeAngle <= 225) {
-    return false;
-  }
-};
 
 interface Carousel extends Tag<Carousel.Props> { }
 namespace Carousel {
@@ -283,19 +266,15 @@ namespace Carousel {
     currentSlide: number;
     transitioning: boolean;
     touchObject?: TouchObject;
-    // tODO: change type
-    products: any;
+    products: any[];
   }
 
   export interface TouchObject {
     startX: number;
     startY: number;
-    curX?: number;
-    curY?: number;
   }
 
   export type Event = Tag.Event & { target: Element };
 }
 
 export default Carousel;
-export { isSwipeToNext };
