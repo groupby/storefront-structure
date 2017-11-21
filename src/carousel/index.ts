@@ -100,16 +100,9 @@ class Carousel {
       .slice(0, numCloned)
       .map((d, i) => ({ ...d, 'data-index': i }));
 
-    // the following will make mobile swipe work
     this.props.items.forEach((d, i) => (d['data-index'] = i));
     const newSlides = prior.concat(this.props.items).concat(posterior);
 
-    // the following will break mobile swipe: touchend event won't be fired
-    // const originalItems = this.props.items.map((d, i) => ({
-    //   ...d,
-    //   'data-index': i
-    // }));
-    // const newSlides = prior.concat(originalItems).concat(posterior);
     return newSlides;
   }
 
