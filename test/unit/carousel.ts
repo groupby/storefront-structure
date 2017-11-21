@@ -1,6 +1,6 @@
 import { utils } from '@storefront/core';
 import * as sinon from 'sinon';
-import Carousel, { calSwipeDirection } from '../../src/carousel';
+import Carousel, { isSwipeToNext } from '../../src/carousel';
 import suite from './_suite';
 
 suite('Carousel', ({ expect, spy, stub }) => {
@@ -611,7 +611,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         stub(carousel, 'moveNext');
         stub(carousel, 'movePrevious');
 
-        const direction = calSwipeDirection(touchObj);
+        const direction = isSwipeToNext(touchObj);
         expect(direction).to.eq('left');
 
         carousel.swipeSlides(touchObj);
@@ -625,7 +625,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         stub(carousel, 'movePrevious');
 
         const touchObj2 = { startX: 0, startY: 0, curX: -20, curY: -10 };
-        const direction = calSwipeDirection(touchObj2);
+        const direction = isSwipeToNext(touchObj2);
         expect(direction).to.eq('left');
 
         carousel.swipeSlides(touchObj2);
@@ -638,7 +638,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         stub(carousel, 'movePrevious');
 
         const touchObj = { startX: 0, startY: 0, curX: 20, curY: 10 };
-        const direction = calSwipeDirection(touchObj);
+        const direction = isSwipeToNext(touchObj);
         expect(direction).to.eq('right');
 
         carousel.swipeSlides(touchObj);
@@ -673,7 +673,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         const currentSlide = 2;
         const moveDistance = 100;
 
-        const pos = carousel.calcPos(currentSlide, moveDistance);
+        const pos = carousel.calculatePosition(currentSlide, moveDistance);
 
         expect(pos).to.eq(300);
       });
@@ -685,9 +685,9 @@ suite('Carousel', ({ expect, spy, stub }) => {
         const touchObj2 = { startX: 0, startY: 0, curX: -20, curY: 4 };
         const touchObj3 = { startX: 0, startY: 0, curX: 0, curY: 40 };
 
-        const result1 = calSwipeDirection(touchObj1);
-        const result2 = calSwipeDirection(touchObj2);
-        const result3 = calSwipeDirection(touchObj3);
+        const result1 = isSwipeToNext(touchObj1);
+        const result2 = isSwipeToNext(touchObj2);
+        const result3 = isSwipeToNext(touchObj3);
 
         expect(result1).to.eq('right');
         expect(result2).to.eq('left');

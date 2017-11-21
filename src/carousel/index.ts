@@ -24,12 +24,6 @@ class Carousel {
     },
     currentSlide: 0,
     transitioning: false,
-    touchObject: {
-      startX: null,
-      startY: null,
-      curX: null,
-      curY: null,
-    },
     products: []
   };
 
@@ -38,7 +32,7 @@ class Carousel {
   }
 
   onUpdate() {
-    this.state.products = this.cloneItems();
+    // this.state.products = this.cloneItems();
     this.state.settings = {
       speed: this.props.settings.speed || 0,
       slidesToShow: this.props.settings.slidesToShow || 1,
@@ -68,17 +62,21 @@ class Carousel {
     const posX = e.touches[0].pageX;
     const posY = e.touches[0].pageY;
 
-    this.set({ touchObject: { startX: posX, startY: posY } });
+    // this.set({ touchObject: { startX: posX, startY: posY } });
+    this.state.touchObject = {
+      startX: posX,
+      startY: posY
+    };
+
     this.refs.wrapper.addEventListener('touchend', this.onTouchEnd);
   }
 
   onTouchEnd = (e: TouchEvent & Carousel.Event) => {
-    this.state.touchObject.curX = e.changedTouches[0].pageX;
-    this.state.touchObject.curY = e.changedTouches[0].pageY;
-
+    const curX = e.changedTouches[0].pageX;
+    const curY = e.changedTouches[0].pageY;
     // swipe distance needs to be more than 20
-    if (Math.abs(this.state.touchObject.curX - this.state.touchObject.startX) > 20) {
-      this.swipeSlides(this.state.touchObject);
+    if (Math.abs(curX - this.state.touchObject.startX) > 20) {
+      isSwipeToNext({ ...this.state.touchObject, curX, curY }) ? this.moveNext() : this.movePrevious();
     }
 
     this.refs.wrapper.removeEventListener('touchstart', this.onTouchStart);
@@ -169,7 +167,7 @@ class Carousel {
     const slidesToShow = this.state.settings.slidesToShow;
     const trackWidth = (slideCount + 4 * slidesToShow - 2) * slideWidth;
 
-    const pos = this.calcPos(this.state.currentSlide, slideWidth);
+    const pos = this.calculatePosition(this.state.currentSlide, slideWidth);
     const tfm = `translate3d(-${pos}px, 0px, 0px)`;
     const transformStyles = {
       transform: tfm,
@@ -231,39 +229,19 @@ class Carousel {
     }
   }
 
-  swipeSlides = (touchObj: Carousel.TouchObject) => {
-    const direction: string = calSwipeDirection(touchObj);
-    if (direction === 'left') {
-      this.moveNext();
-    }
-
-    if (direction === 'right') {
-      this.movePrevious();
-    }
-  }
-
   getSlideWidth = () => {
     const visibleWidth = this.refs.wrapper.offsetWidth;
-    const slidesToShow = this.state.settings.slidesToShow;
 
     if (visibleWidth) {
-      const slideWidth = visibleWidth / slidesToShow;
-      return slideWidth;
+      return visibleWidth / this.state.settings.slidesToShow;
     }
   }
 
-  calcPos = (currS: number, moveDistance: number): number => {
-    const slidesToShow = this.state.settings.slidesToShow;
-    return (currS + slidesToShow * 2 - 1) * moveDistance;
-  }
+  // tslint:disable-next-line:max-line-length
+  calculatePosition = (currentSlide: number, moveDistance: number): number => (currentSlide + this.state.settings.slidesToShow * 2 - 1) * moveDistance;
 }
 
-const calSwipeDirection = (touchObj: {
-  startX: number;
-  startY: number;
-  curX: number;
-  curY: number;
-}): string => {
+const isSwipeToNext = (touchObj: Carousel.TouchObject): boolean => {
   const xDist = touchObj.startX - touchObj.curX;
   const yDist = touchObj.startY - touchObj.curY;
 
@@ -279,10 +257,9 @@ const calSwipeDirection = (touchObj: {
     (swipeAngle <= 45 && swipeAngle >= 0) ||
     (swipeAngle <= 360 && swipeAngle >= 315)
   ) {
-    return 'left';
-  }
-  if (swipeAngle >= 135 && swipeAngle <= 225) {
-    return 'right';
+    return true;
+  } else if (swipeAngle >= 135 && swipeAngle <= 225) {
+    return false;
   }
 };
 
@@ -305,7 +282,7 @@ namespace Carousel {
     };
     currentSlide: number;
     transitioning: boolean;
-    touchObject: TouchObject;
+    touchObject?: TouchObject;
     // tODO: change type
     products: any;
   }
@@ -313,12 +290,12 @@ namespace Carousel {
   export interface TouchObject {
     startX: number;
     startY: number;
-    curX: number;
-    curY: number;
+    curX?: number;
+    curY?: number;
   }
 
   export type Event = Tag.Event & { target: Element };
 }
 
 export default Carousel;
-export { calSwipeDirection };
+export { isSwipeToNext };
