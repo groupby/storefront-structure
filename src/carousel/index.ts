@@ -17,11 +17,11 @@ class Carousel {
   animationEndCallback: NodeJS.Timer | null = null;
 
   state: Carousel.State = {
-    // settings: {
-    //   speed: props.settings.speed || 0,
-    //   slidesToShow: props.settings.slidesToShow || 1,
-    //   slidesToScroll: props.settings.slidesToScroll || 1
-    // },
+    settings: {
+      speed: 0,
+      slidesToShow: 1,
+      slidesToScroll: 1
+    },
     currentSlide: 0,
     transitioning: false,
     touchObject: {
@@ -35,11 +35,15 @@ class Carousel {
 
   onMount() {
     utils.WINDOW().addEventListener('resize', this.updateWindow);
-    // this.state.products = this.cloneItems();
   }
 
   onUpdate() {
     this.state.products = this.cloneItems();
+    this.state.settings = {
+      speed: this.props.settings.speed || 0,
+      slidesToShow: this.props.settings.slidesToShow || 1,
+      slidesToScroll: this.props.settings.slidesToScroll || 1
+    };
   }
 
   onUnMount() {
@@ -51,15 +55,11 @@ class Carousel {
   }
 
   moveNext = () => {
-    this.slideHandler(
-      this.state.currentSlide + (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll)
-    );
+    this.slideHandler(this.state.currentSlide + this.state.settings.slidesToScroll);
   }
 
   movePrevious = () => {
-    this.slideHandler(
-      this.state.currentSlide - (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll)
-    );
+    this.slideHandler(this.state.currentSlide - this.state.settings.slidesToScroll);
   }
 
   onTouchStart = (e: TouchEvent & Carousel.Event) => {
@@ -68,7 +68,7 @@ class Carousel {
     const posX = e.touches[0].pageX;
     const posY = e.touches[0].pageY;
 
-    this.set({ touchObject: { startX: posX, startY: posY, curX: posX,curY: posY }});
+    this.set({ touchObject: { startX: posX, startY: posY, curX: posX, curY: posY } });
     this.refs.wrapper.addEventListener('touchend', this.onTouchEnd);
   }
 
@@ -78,7 +78,7 @@ class Carousel {
 
     // swipe distance needs to be more than 20
     if (Math.abs(this.state.touchObject.curX - this.state.touchObject.startX) < 20) {
-      this.refs.wrapper.removeEventListener('touchstart',this.onTouchStart);
+      this.refs.wrapper.removeEventListener('touchstart', this.onTouchStart);
       this.refs.wrapper.removeEventListener('touchend', this.onTouchEnd);
       return;
     }
@@ -92,7 +92,7 @@ class Carousel {
     if (!this.props.items) {
       return;
     }
-    const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
+    const slidesToShow = this.state.settings.slidesToShow;
 
     const numCloned = slidesToShow * 2 - 1;
     const len = this.props.items.length;
@@ -117,7 +117,7 @@ class Carousel {
   }
 
   slideHandler = (slide: number) => {
-    const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
+    const slidesToShow = this.state.settings.slidesToShow;
     const from = this.state.currentSlide;
     const to = slide;
     const len = this.props.items.length;
@@ -143,7 +143,7 @@ class Carousel {
     };
 
     // turn off transition if speed is 0;
-    if (!this.props.settings.speed) {
+    if (!this.state.settings.speed) {
       resetCurrentSlideNum();
       return;
     }
@@ -156,7 +156,7 @@ class Carousel {
 
       if (onEdge) {
         // reset to non-cloned slide
-        this.animationEndCallback = setTimeout(resetToRealSlide, this.props.settings.speed);
+        this.animationEndCallback = setTimeout(resetToRealSlide, this.state.settings.speed);
       } else {
         this.refs.track.addEventListener('transitionend', disableTransition, false);
       }
@@ -166,25 +166,17 @@ class Carousel {
   dotHandler = (e: MouseEvent | TouchEvent) => {
     e.preventDefault();
     const slidesToShow =
-      this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
+      this.state.settings.slidesToShow;
     const slide =
       parseInt((e.target as HTMLElement).getAttribute('data-index-to-go')) *
       slidesToShow;
     this.slideHandler(slide);
   }
 
-  slideStyle = () => {
-    const slideWidth = this.getSlideWidth();
-    return {
-      width: `${slideWidth}px`
-    };
-  }
-
   getStaticTrackStyle = () => {
     const slideWidth = this.getSlideWidth();
     const slideCount = this.props.items.length;
-    const slidesToShow =
-      this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
+    const slidesToShow = this.state.settings.slidesToShow;
     const trackWidth = (slideCount + 4 * slidesToShow - 2) * slideWidth;
 
     const pos = this.calcPos(this.state.currentSlide, slideWidth);
@@ -207,7 +199,7 @@ class Carousel {
 
     let transitionStyles;
     if (this.state.transitioning) {
-      const speed = this.props.settings.speed;
+      const speed = this.state.settings.speed;
       const tsVal = speed + 'ms ' + 'ease';
       transitionStyles = {
         '-webkit-transition': tsVal,
@@ -216,7 +208,7 @@ class Carousel {
       };
     }
 
-    if (!(this.props.settings.speed || DEFAULT_SETTINGS.speed)) {
+    if (!(this.state.settings.speed)) {
       transitionStyles = {};
     }
 
@@ -229,10 +221,8 @@ class Carousel {
       return [];
     }
     const slideCount = this.props.items.length;
-    const slidesToShow =
-      this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
-    const slidesToScroll =
-      this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll;
+    const slidesToShow = this.state.settings.slidesToShow;
+    const slidesToScroll = this.state.settings.slidesToScroll;
 
     const dotCount = Math.ceil(
       (slideCount - slidesToScroll) / slidesToScroll + 1
@@ -242,10 +232,8 @@ class Carousel {
   }
 
   dotClassName = (i: number) => {
-    const slidesToShow =
-      this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
-    const slidesToScroll =
-      this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll;
+    const slidesToShow = this.state.settings.slidesToShow;
+    const slidesToScroll = this.state.settings.slidesToScroll;
 
     let leftBound = i * slidesToScroll;
     let rightBound = i * slidesToScroll + slidesToShow - 1;
@@ -273,8 +261,7 @@ class Carousel {
 
   getSlideWidth = () => {
     const visibleWidth = this.refs.wrapper.offsetWidth;
-    const slidesToShow =
-      this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
+    const slidesToShow = this.state.settings.slidesToShow;
 
     if (visibleWidth) {
       const slideWidth = visibleWidth / slidesToShow;
@@ -283,8 +270,7 @@ class Carousel {
   }
 
   calcPos = (currS: number, moveDistance: number): number => {
-    const slidesToShow =
-      this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
+    const slidesToShow = this.state.settings.slidesToShow;
     return (currS + slidesToShow * 2 - 1) * moveDistance;
   }
 }
@@ -329,11 +315,11 @@ namespace Carousel {
   }
 
   export interface State {
-    // settings: {
-    //   speed: number;
-    //   slidesToShow: number;
-    //   slidesToScroll: number;
-    // };
+    settings: {
+      speed: number;
+      slidesToShow: number;
+      slidesToScroll: number;
+    };
     currentSlide: number;
     transitioning: boolean;
     touchObject: {
