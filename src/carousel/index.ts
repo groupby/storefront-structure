@@ -102,9 +102,7 @@ class Carousel {
 
     if (!(this.state.transitioning && onEdge)) {
       // make the transition
-      this.state.currentSlide = slide;
-      this.state.transitioning = true;
-      this.update();
+      this.set({ currentSlide: slide, transitioning: true });
 
       if (onEdge) {
         // reset to non-cloned slide
@@ -133,8 +131,7 @@ class Carousel {
 
   disableTransition = () => {
     this.refs.track.removeEventListener('transitionend', this.disableTransition);
-    this.state.transitioning = false;
-    this.update();
+    this.set({ transitioning: false });
   }
 
   dotHandler = (e: MouseEvent | TouchEvent) => {
@@ -165,10 +162,6 @@ class Carousel {
   }
 
   trackStyle = () => {
-    if (!this.props.items) {
-      return;
-    }
-
     let transitionStyles = {};
     if (this.state.transitioning && this.state.settings.speed) {
       const speed = this.state.settings.speed;
