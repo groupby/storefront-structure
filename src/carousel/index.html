@@ -1,8 +1,8 @@
-<div class="carousel" ref="carouselwrap" touchstart="{ onTouchStart }">
-  <div ref="carousellist" class="carousel__list">
+<div class="carousel" ref="wrapper" touchstart="{ onTouchStart }">
+  <div class="carousel__list">
     <div class="carousel__track" ref="track" style="{ trackStyle() }">
-      <div class="carousel__slide" each="{ product in cloneItems() }" style="{ slideStyle() }">
-        <yield></yield>
+      <div class="carousel__slide" each="{ product in state.products }" style="{ slideStyle() }">
+        <yield/>
       </div>
     </div>
   </div>

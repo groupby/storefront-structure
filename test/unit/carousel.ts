@@ -652,7 +652,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         const width = 500;
         const carouselwrap: any = { offsetWidth: width };
         let track;
-        carousel.refs = { carouselwrap, track };
+        carousel.refs = { wrapper, track };
 
         const result = carousel.getSlideWidth();
         expect(result).to.eq(width);
@@ -661,7 +661,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
       it('should not return anything if carousel width is not accessible', () => {
         const carouselwrap: any = { offsetWidth: undefined };
         let track;
-        carousel.refs = { carouselwrap, track };
+        carousel.refs = { wrapper, track };
 
         const result = carousel.getSlideWidth();
         expect(result).to.be.undefined;

@@ -9,7 +9,7 @@ const DEFAULT_SETTINGS = {
 @tag('gb-carousel', require('./index.html'), require('./index.css'))
 class Carousel {
   refs: {
-    carouselwrap: HTMLDivElement,
+    wrapper: HTMLDivElement,
     track: HTMLDivElement
   };
 
@@ -17,11 +17,11 @@ class Carousel {
   animationEndCallback: NodeJS.Timer | null = null;
 
   state: Carousel.State = {
-    settings: {
-      speed: props.settings.speed || 0,
-      slidesToShow: props.settings.slidesToShow || 1,
-      slidesToScroll: props.settings.slidesToScroll || 1
-    },
+    // settings: {
+    //   speed: props.settings.speed || 0,
+    //   slidesToShow: props.settings.slidesToShow || 1,
+    //   slidesToScroll: props.settings.slidesToScroll || 1
+    // },
     currentSlide: 0,
     transitioning: false,
     touchObject: {
@@ -29,11 +29,17 @@ class Carousel {
       startY: null,
       curX: null,
       curY: null
-    }
+    },
+    products: []
   };
 
   onMount() {
     utils.WINDOW().addEventListener('resize', this.updateWindow);
+    // this.state.products = this.cloneItems();
+  }
+
+  onUpdate() {
+    this.state.products = this.cloneItems();
   }
 
   onUnMount() {
@@ -46,15 +52,13 @@ class Carousel {
 
   moveNext = () => {
     this.slideHandler(
-      this.state.currentSlide +
-      (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll)
+      this.state.currentSlide + (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll)
     );
   }
 
   movePrevious = () => {
     this.slideHandler(
-      this.state.currentSlide -
-      (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll)
+      this.state.currentSlide - (this.props.settings.slidesToScroll || DEFAULT_SETTINGS.slidesToScroll)
     );
   }
 
@@ -65,7 +69,7 @@ class Carousel {
     const posY = e.touches[0].pageY;
 
     this.set({ touchObject: { startX: posX, startY: posY, curX: posX,curY: posY }});
-    this.refs.carouselwrap.addEventListener('touchend', this.onTouchEnd);
+    this.refs.wrapper.addEventListener('touchend', this.onTouchEnd);
   }
 
   onTouchEnd = (e: TouchEvent & Carousel.Event) => {
@@ -74,21 +78,20 @@ class Carousel {
 
     // swipe distance needs to be more than 20
     if (Math.abs(this.state.touchObject.curX - this.state.touchObject.startX) < 20) {
-      this.refs.carouselwrap.removeEventListener('touchstart',this.onTouchStart);
-      this.refs.carouselwrap.removeEventListener('touchend', this.onTouchEnd);
+      this.refs.wrapper.removeEventListener('touchstart',this.onTouchStart);
+      this.refs.wrapper.removeEventListener('touchend', this.onTouchEnd);
       return;
     }
 
     this.swipeSlides(this.state.touchObject);
-    this.refs.carouselwrap.removeEventListener('touchstart', this.onTouchStart);
-    this.refs.carouselwrap.removeEventListener('touchend', this.onTouchEnd);
+    this.refs.wrapper.removeEventListener('touchstart', this.onTouchStart);
+    this.refs.wrapper.removeEventListener('touchend', this.onTouchEnd);
   }
 
   cloneItems = () => {
     if (!this.props.items) {
       return;
     }
-
     const slidesToShow = this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
 
     const numCloned = slidesToShow * 2 - 1;
@@ -110,7 +113,6 @@ class Carousel {
     //   'data-index': i
     // }));
     // const newSlides = prior.concat(originalItems).concat(posterior);
-
     return newSlides;
   }
 
@@ -270,7 +272,7 @@ class Carousel {
   }
 
   getSlideWidth = () => {
-    const visibleWidth = this.refs.carouselwrap.offsetWidth;
+    const visibleWidth = this.refs.wrapper.offsetWidth;
     const slidesToShow =
       this.props.settings.slidesToShow || DEFAULT_SETTINGS.slidesToShow;
 
@@ -327,11 +329,11 @@ namespace Carousel {
   }
 
   export interface State {
-    settings: {
-      speed: number;
-      slidesToShow: number;
-      slidesToScroll: number;
-    };
+    // settings: {
+    //   speed: number;
+    //   slidesToShow: number;
+    //   slidesToScroll: number;
+    // };
     currentSlide: number;
     transitioning: boolean;
     touchObject: {
@@ -340,6 +342,8 @@ namespace Carousel {
       curX: number;
       curY: number;
     };
+    // TODO: change type
+    products: any;
   }
 
   export type Event = Tag.Event & { target: Element };
