@@ -6,10 +6,10 @@
       </div>
     </div>
   </div>
-  <a if="{ this.props.items.length > 0 }" class="carousel__prev" onclick="{ movePrevious }" touchstart="{ movePrevious }">
+  <a if="{ this.props.items && this.props.items.length > 0 }" class="carousel__prev" onclick="{ movePrevious }" touchstart="{ movePrevious }">
     &#10094;
   </a>
-  <a if="{ this.props.items.length > 0 }" class="carousel__next" onclick="{ moveNext }" touchstart="{ moveNext }">
+  <a if="{ this.props.items && this.props.items.length > 0 }" class="carousel__next" onclick="{ moveNext }" touchstart="{ moveNext }">
     &#10095;
   </a>
   <ul class="carousel__dots" ref="dots" if="{ this.props.settings.dots }">

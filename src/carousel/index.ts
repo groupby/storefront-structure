@@ -13,7 +13,7 @@ class Carousel {
     track: HTMLDivElement
   };
 
-  props: Carousel.Props = <any>{ settings: DEFAULT_SETTINGS };
+  props: Carousel.Props = <any>{ setting: {}, items: [] };
   animationEndCallback: NodeJS.Timer | null = null;
 
   state: Carousel.State = {
@@ -28,7 +28,7 @@ class Carousel {
       startX: null,
       startY: null,
       curX: null,
-      curY: null
+      curY: null,
     },
     products: []
   };
@@ -87,54 +87,32 @@ class Carousel {
 
   cloneItems = () => {
     if (!this.props.items) {
-      return;
+      return [];
     }
-    const slidesToShow = this.state.settings.slidesToShow;
 
+    const slidesToShow = this.state.settings.slidesToShow;
     const numCloned = slidesToShow * 2 - 1;
-    const len = this.props.items.length;
+    const length = this.props.items.length;
     const prior = this.props.items
       .slice(-numCloned)
-      .map((d, i) => ({ ...d, 'data-index': i - len }));
+      .map((d, i) => ({ ...d, 'data-index': i - length }));
     const posterior = this.props.items
       .slice(0, numCloned)
       .map((d, i) => ({ ...d, 'data-index': i }));
-
     this.props.items.forEach((d, i) => (d['data-index'] = i));
-    const newSlides = prior.concat(this.props.items).concat(posterior);
 
-    return newSlides;
+    return prior.concat(this.props.items).concat(posterior);
   }
 
   slideHandler = (slide: number) => {
     const slidesToShow = this.state.settings.slidesToShow;
     const from = this.state.currentSlide;
-    const to = slide;
-    const len = this.props.items.length;
-    const onEdge = to >= len || to <= 0;
-
-    const resetToRealSlide = () => {
-      this.state.transitioning = false;
-      resetCurrentSlideNum();
-      this.animationEndCallback = null;
-    };
-    const resetCurrentSlideNum = () => {
-      if (from < to) {
-        this.state.currentSlide = to % len;
-      } else {
-        this.state.currentSlide = (to % len + len) % len;
-      }
-      this.update();
-    };
-    const disableTransition = () => {
-      this.refs.track.removeEventListener('transitionend', disableTransition);
-      this.state.transitioning = false;
-      this.update();
-    };
+    const length = this.props.items.length;
+    const onEdge = slide >= length || slide <= 0;
 
     // turn off transition if speed is 0;
     if (!this.state.settings.speed) {
-      resetCurrentSlideNum();
+      this.resetCurrentSlideNum(from, slide, length);
       return;
     }
 
@@ -146,11 +124,33 @@ class Carousel {
 
       if (onEdge) {
         // reset to non-cloned slide
-        this.animationEndCallback = setTimeout(resetToRealSlide, this.state.settings.speed);
+        // tslint:disable-next-line:max-line-length
+        this.animationEndCallback = setTimeout(() => this.resetToRealSlide(from, slide, length), this.state.settings.speed);
       } else {
-        this.refs.track.addEventListener('transitionend', disableTransition, false);
+        this.refs.track.addEventListener('transitionend', this.disableTransition, false);
       }
     }
+  }
+
+  resetToRealSlide = (from: number, to: number, length: number) => {
+    this.state.transitioning = false;
+    this.resetCurrentSlideNum(from, to, length);
+    this.animationEndCallback = null;
+  }
+
+  resetCurrentSlideNum = (from: number, to: number, length: number) => {
+    if (from < to) {
+      this.state.currentSlide = to % length;
+    } else {
+      this.state.currentSlide = (to % length + length) % length;
+    }
+    this.update();
+  }
+
+  disableTransition = () => {
+    this.refs.track.removeEventListener('transitionend', this.disableTransition);
+    this.state.transitioning = false;
+    this.update();
   }
 
   dotHandler = (e: MouseEvent | TouchEvent) => {
@@ -177,9 +177,7 @@ class Carousel {
       '-ms-transform': tfm
     };
 
-    const style = Object.assign({}, { width: `${trackWidth}px` }, transformStyles);
-
-    return style;
+    return { width: `${trackWidth}px`, ...transformStyles };
   }
 
   trackStyle = () => {
@@ -187,23 +185,18 @@ class Carousel {
       return;
     }
 
-    let transitionStyles;
-    if (this.state.transitioning) {
+    let transitionStyles = {};
+    if (this.state.transitioning && this.state.settings.speed) {
       const speed = this.state.settings.speed;
-      const tsVal = speed + 'ms ' + 'ease';
+      const transition = speed + 'ms ' + 'ease';
       transitionStyles = {
-        '-webkit-transition': tsVal,
-        transition: tsVal,
-        'ms-transition': tsVal
+        '-webkit-transition': transition,
+        transition,
+        '-ms-transition': transition
       };
     }
 
-    if (!(this.state.settings.speed)) {
-      transitionStyles = {};
-    }
-
-    const style = Object.assign(this.getStaticTrackStyle(), transitionStyles);
-    return style;
+    return { ...this.getStaticTrackStyle(), ...transitionStyles };
   }
 
   getDots = () => {
@@ -238,7 +231,7 @@ class Carousel {
     }
   }
 
-  swipeSlides = (touchObj: { startX: number, startY: number, curX: number, curY: number }) => {
+  swipeSlides = (touchObj: Carousel.TouchObject) => {
     const direction: string = calSwipeDirection(touchObj);
     if (direction === 'left') {
       this.moveNext();
@@ -312,14 +305,16 @@ namespace Carousel {
     };
     currentSlide: number;
     transitioning: boolean;
-    touchObject: {
-      startX: number;
-      startY: number;
-      curX: number;
-      curY: number;
-    };
-    // TODO: change type
+    touchObject: TouchObject;
+    // tODO: change type
     products: any;
+  }
+
+  export interface TouchObject {
+    startX: number;
+    startY: number;
+    curX: number;
+    curY: number;
   }
 
   export type Event = Tag.Event & { target: Element };
