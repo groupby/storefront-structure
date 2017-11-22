@@ -8,7 +8,6 @@ class Carousel {
     track: HTMLDivElement
   };
   props: Carousel.Props = { items: [] };
-
   state: Carousel.State = {
     settings: {
       speed: 0,
@@ -19,7 +18,6 @@ class Carousel {
     transitioning: false,
     products: []
   };
-
   animationEndCallback: NodeJS.Timer | null = null;
 
   init() {
