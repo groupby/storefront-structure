@@ -1,0 +1,8 @@
+<div class="{ modal--invisible: $modal.visible }">
+  <yield from="target" />
+</div>
+<div class="modal { modal--invisible: !$modal.visible }">
+  <div ref="content" class="modal-content">
+    <yield from="content" />
+  </div>
+</div>
