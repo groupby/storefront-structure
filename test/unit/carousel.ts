@@ -1,6 +1,6 @@
 import { utils } from '@storefront/core';
 import * as sinon from 'sinon';
-import Carousel, { isSwipeToNext } from '../../src/carousel';
+import Carousel from '../../src/carousel';
 import suite from './_suite';
 
 suite('Carousel', ({ expect, spy, stub }) => {
@@ -10,24 +10,19 @@ suite('Carousel', ({ expect, spy, stub }) => {
   describe('settings', () => {
     it('should default to default settings if no settings are passed in', () => {
       carousel = new Carousel();
-      DEFAULT_SETTINGS = {
+      const settings = {
         speed: 0,
         slidesToShow: 1,
         slidesToScroll: 1
       };
 
-      expect(carousel.props.settings).to.deep.eq(DEFAULT_SETTINGS);
+      expect(carousel.state.settings).to.deep.eq(settings);
     });
   });
 
   describe('functions', () => {
     beforeEach(() => {
       carousel = new Carousel();
-      DEFAULT_SETTINGS = {
-        speed: 0,
-        slidesToShow: 1,
-        slidesToScroll: 1
-      };
       carousel.props.items = [
         { content: 'test0' },
         { content: 'test1' },
@@ -40,22 +35,30 @@ suite('Carousel', ({ expect, spy, stub }) => {
         { content: 'test8' },
         { content: 'test9' },
       ];
-      carousel.props.settings = {
-        speed: 500
-      };
+    });
+
+    describe('init()', () => {
+      it('should initialize state settings', () => {
+        carousel.props.settings = { speed: 500 };
+        carousel.init();
+        expect(carousel.state.settings).to.deep.eq({ speed: 500, slidesToScroll: 1, slidesToShow: 1 });
+      });
     });
 
     describe('onMount()', () => {
       it('should add event listener for window resize', () => {
         const addEventListener = spy();
         stub(utils, 'WINDOW').returns({ addEventListener });
-
         carousel.onMount();
+        expect(addEventListener).to.be.calledWithExactly('resize', carousel.update);
+      });
+    });
 
-        expect(addEventListener).to.have.been.calledWithExactly(
-          'resize',
-          carousel.updateWindow
-        );
+    describe('onUpdate()', () => {
+      it('should add cloned items to state', () => {
+        const clone = carousel.cloneItems = spy();
+        carousel.onUpdate();
+        expect(clone).to.be.called;
       });
     });
 
@@ -66,21 +69,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
         carousel.onUnMount();
 
-        expect(removeEventListener).to.have.been.calledWithExactly(
-          'resize',
-          carousel.updateWindow
-        );
-      });
-    });
-
-    describe('updateWindow', () => {
-      it('should update window', () => {
-        carousel.state.transitioning = false;
-        carousel.update = spy();
-
-        carousel.updateWindow();
-        expect(carousel.state.transitioning).to.eq(false);
-        expect(carousel.update).to.have.been.called;
+        expect(removeEventListener).to.be.calledWithExactly('resize', carousel.update);
       });
     });
 
@@ -91,7 +80,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
         carousel.moveNext();
 
-        expect(carousel.slideHandler).to.have.been.calledWithExactly(1);
+        expect(carousel.slideHandler).to.be.calledWithExactly(1);
       });
     });
 
@@ -102,7 +91,24 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
         carousel.movePrevious();
 
-        expect(carousel.slideHandler).to.have.been.calledWithExactly(-1);
+        expect(carousel.slideHandler).to.be.calledWithExactly(-1);
+      });
+    });
+
+    describe('isSwipeToNext()', () => {
+      it('should move next when swiping left with an angle between 315 and 360', () => {
+        const direction = Carousel.isSwipeToNext({ startX: 0, startY: 0 }, -25, 4);
+        expect(direction).to.eq(true);
+      });
+
+      it('should move next when swiping left with an angle between 0 and 45', () => {
+        const direction = Carousel.isSwipeToNext({ startX: 0, startY: 0 }, -20, -10);
+        expect(direction).to.eq(true);
+      });
+
+      it('should move previous when swiping right with an angle between 135 and 225', () => {
+        const direction = Carousel.isSwipeToNext({ startX: 0, startY: 0 }, 20, 10);
+        expect(direction).to.eq(false);
       });
     });
 
@@ -116,27 +122,25 @@ suite('Carousel', ({ expect, spy, stub }) => {
               pageX: 0,
               pageY: 5
             }
-          ]
-        };
-        const carouselwrap = {
-          addEventListener: spy()
+          ],
+          target: {
+            addEventListener: spy(),
+            removeEventListener: spy()
+          }
         };
         carousel.set = () => {
           carousel.state.touchObject = result;
         };
-        carousel.refs = <any>{ carouselwrap };
         const result = {
           startX: 0,
-          startY: 5,
-          curX: 0,
-          curY: 5
+          startY: 5
         };
 
-        expect(carouselwrap.addEventListener).to.not.have.been.called;
+        expect(event.target.addEventListener).to.not.be.called;
         carousel.onTouchStart(event as any);
-        expect(event.stopPropagation).to.have.been.called;
+        expect(event.stopPropagation).to.be.called;
         expect(carousel.state.touchObject).to.deep.eq(result);
-        expect(carouselwrap.addEventListener).to.have.been.calledWithExactly(
+        expect(event.target.addEventListener).to.be.calledWithExactly(
           'touchend',
           carousel.onTouchEnd
         );
@@ -148,8 +152,6 @@ suite('Carousel', ({ expect, spy, stub }) => {
         carousel.state.touchObject = {
           startX: 0,
           startY: 5,
-          curX: 0,
-          curY: 5
         };
       });
 
@@ -160,31 +162,27 @@ suite('Carousel', ({ expect, spy, stub }) => {
               pageX: 30,
               pageY: 15
             }
-          ]
+          ],
+          target: {
+            addEventListener: spy(),
+            removeEventListener: spy()
+          }
         };
-        const touch = {
-          startX: 0,
-          startY: 5,
-          curX: 30,
-          curY: 15
-        };
-        carousel.swipeSlides = spy();
-        const carouselwrap = {
-          removeEventListener: spy()
-        };
-        carousel.refs = <any>{ carouselwrap };
+        const s = stub(Carousel, 'isSwipeToNext').returns(true);
+        carousel.moveNext = spy();
 
         carousel.onTouchEnd(event as any);
 
-        expect(carousel.swipeSlides).to.have.been.calledWithExactly(touch);
-        expect(carouselwrap.removeEventListener).to.have.been.calledWithExactly(
+        expect(Carousel.isSwipeToNext).to.be.calledWithExactly({ startX: 0, startY: 5 }, 30, 15);
+        expect(event.target.removeEventListener).to.be.calledWithExactly(
           'touchstart',
           carousel.onTouchStart
         );
-        expect(carouselwrap.removeEventListener).to.have.been.calledWithExactly(
+        expect(event.target.removeEventListener).to.be.calledWithExactly(
           'touchend',
           carousel.onTouchEnd
         );
+        s.restore();
       });
 
       it('should not swipe slides if swipe distance is not long enough', () => {
@@ -194,210 +192,122 @@ suite('Carousel', ({ expect, spy, stub }) => {
               pageX: 10,
               pageY: 15
             }
-          ]
+          ],
+          target: {
+            addEventListener: spy(),
+            removeEventListener: spy()
+          }
         };
-        const touch = {
-          startX: 0,
-          startY: 5,
-          curX: 10,
-          curY: 15
-        };
-        carousel.swipeSlides = spy();
-        const carouselwrap = {
-          removeEventListener: spy()
-        };
-        carousel.refs = <any>{ carouselwrap };
+        Carousel.isSwipeToNext = spy();
 
         carousel.onTouchEnd(event as any);
 
-        expect(carousel.swipeSlides).to.not.have.been.calledWithExactly(touch);
-        expect(carouselwrap.removeEventListener).to.have.been.calledWithExactly(
-          'touchstart',
-          carousel.onTouchStart
-        );
-        expect(carouselwrap.removeEventListener).to.have.been.calledWithExactly(
-          'touchend',
-          carousel.onTouchEnd
-        );
+        expect(Carousel.isSwipeToNext).to.not.be.called;
+        expect(event.target.removeEventListener).to.be.calledWithExactly('touchstart', carousel.onTouchStart);
+        expect(event.target.removeEventListener).to.be.calledWithExactly('touchend', carousel.onTouchEnd);
       });
     });
 
     describe('slideHandler()', () => {
-      it('should go to the specific slide when threshold is not hit ', () => {
-        carousel.state.currentSlide = 0;
-        carousel.state.transitioning = false;
+      it('should simply set slide number if speed is 0', () => {
+        const reset = carousel.resetCurrentSlideNum = spy();
+        const update = carousel.set = spy();
+
+        carousel.slideHandler(-1);
+
+        expect(reset).to.be.calledWithExactly(0, -1, 10);
+        expect(update).to.not.be.called;
+      });
+
+      it('should go to the specific slide when threshold is not hit and speed is not 0', () => {
+        carousel.state.settings.speed = 200;
         const slide = 1;
         const track = <any>{ addEventListener: spy(), removeEventListener: spy() };
         carousel.refs = <any>{ track };
-        carousel.update = spy();
+        carousel.set = spy();
+        carousel.disableTransition = spy();
 
         carousel.slideHandler(slide);
 
-        expect(carousel.state.currentSlide).to.eq(slide);
-        expect(carousel.state.transitioning).to.eq(true);
-        expect(carousel.update).to.be.calledOnce;
+        expect(carousel.set).to.be.calledWithExactly({ currentSlide: slide, transitioning: true });
+        expect(carousel.animationEndCallback).to.not.exist;
         track.addEventListener.args[0][1]();
-        expect(track.addEventListener).to.have.been.calledWith('transitionend');
-        expect(track.removeEventListener).to.have.been.calledWith('transitionend');
-        expect(carousel.state.transitioning).to.eq(false);
-        expect(carousel.update).to.be.calledTwice;
+        // tslint:disable-next-line:max-line-length
+        expect(track.addEventListener).to.be.calledWithExactly('transitionend', carousel.disableTransition, false);
       });
 
-      describe('should reset to non-cloned slide when cloned slides are visible', () => {
-        let clock;
+      describe('should reset to non-cloned slide when cloned slides are visible if speed is not 0', () => {
         beforeEach(() => {
-          carousel.state.transitioning = false;
-          carousel.props.settings.slidesToShow = undefined;
-          carousel.props.settings.slidesToScroll = undefined;
-          const track = <any>{ addEventListener: spy() };
-          carousel.refs = <any>{ track };
-          carousel.update = spy();
-          clock = sinon.useFakeTimers();
+          carousel.state.settings.speed = 100;
+          carousel.set = spy();
         });
 
-        afterEach(() => {
-          clock.restore();
-        });
-
-        it('should reset slide when scrolling one slide to the next', () => {
-          carousel.props.settings.slidesToShow = 3;
-          carousel.props.settings.slidesToScroll = 1;
+        it('should be on edge', () => {
+          carousel.state.settings.slidesToShow = 3;
+          carousel.state.settings.slidesToScroll = 1;
           carousel.state.currentSlide = 9;
           const slide = 10;
 
           carousel.slideHandler(slide);
 
-          expect(carousel.state.transitioning).to.eq(true);
           expect(carousel.animationEndCallback).to.exist;
-          expect(carousel.update).to.be.calledOnce;
-          expect(carousel.state.currentSlide).to.eq(10);
-          clock.tick(500);
-          expect(carousel.state.transitioning).to.eq(false);
-          expect(carousel.state.currentSlide).to.eq(0);
-          expect(carousel.update).to.be.calledTwice;
-          expect(carousel.animationEndCallback).does.not.exist;
+          expect(carousel.set).to.be.calledWithExactly({ currentSlide: slide, transitioning: true });
         });
 
-        it('should reset slide when scrolling three slides to the next', () => {
-          carousel.props.settings.slidesToShow = 3;
-          carousel.props.settings.slidesToScroll = 3;
-          carousel.state.currentSlide = 9;
-          const slide = 12;
-
-          carousel.slideHandler(slide);
-
-          expect(carousel.state.transitioning).to.eq(true);
-          expect(carousel.animationEndCallback).to.exist;
-          expect(carousel.update).to.be.calledOnce;
-          expect(carousel.state.currentSlide).to.eq(12);
-          clock.tick(500);
-          expect(carousel.state.transitioning).to.eq(false);
-          expect(carousel.state.currentSlide).to.eq(2);
-          expect(carousel.update).to.be.calledTwice;
-          expect(carousel.animationEndCallback).does.not.exist;
-        });
-
-        it('should reset slide when scrolling one slide to previous', () => {
-          carousel.props.settings.slidesToShow = 3;
-          carousel.props.settings.slidesToScroll = 1;
+        it('should be on edge', () => {
+          carousel.state.settings.slidesToShow = 3;
+          carousel.state.settings.slidesToScroll = 1;
           carousel.state.currentSlide = 0;
           const slide = -1;
 
           carousel.slideHandler(slide);
 
-          expect(carousel.state.transitioning).to.eq(true);
           expect(carousel.animationEndCallback).to.exist;
-          expect(carousel.state.currentSlide).to.eq(-1);
-          expect(carousel.update).to.be.calledOnce;
-          clock.tick(500);
-          expect(carousel.state.transitioning).to.eq(false);
-          expect(carousel.state.currentSlide).to.eq(9);
-          expect(carousel.update).to.be.calledTwice;
-          expect(carousel.animationEndCallback).does.not.exist;
+          expect(carousel.set).to.be.calledWithExactly({ currentSlide: slide, transitioning: true });
         });
+      });
+    });
 
-        it('should reset slide when scrolling three slides to previous', () => {
-          carousel.props.settings.slidesToShow = 3;
-          carousel.props.settings.slidesToScroll = 3;
-          carousel.state.currentSlide = 1;
-          const slide = -2;
+    describe('resetToRealSlide()', () => {
+      it('should reset slide when scrolling three slides to the next', () => {
+        carousel.resetCurrentSlideNum = spy();
 
-          carousel.slideHandler(slide);
+        carousel.resetToRealSlide(9, 12, 10);
 
-          expect(carousel.state.transitioning).to.eq(true);
-          expect(carousel.animationEndCallback).to.exist;
-          expect(carousel.state.currentSlide).to.eq(-2);
-          expect(carousel.update).to.be.calledOnce;
-          clock.tick(500);
-          expect(carousel.state.transitioning).to.eq(false);
-          expect(carousel.state.currentSlide).to.eq(8);
-          expect(carousel.update).to.be.calledTwice;
-          expect(carousel.animationEndCallback).does.not.exist;
-        });
+        expect(carousel.state.transitioning).to.eq(false);
+        expect(carousel.animationEndCallback).does.not.exist;
+        expect(carousel.resetCurrentSlideNum).to.be.calledWithExactly(9, 12, 10);
+      });
+    });
 
-        it('should reset slide correctly when scrolling back and forth across threshold', () => {
-          carousel.props.settings.slidesToShow = 3;
-          carousel.props.settings.slidesToScroll = 3;
-          carousel.state.currentSlide = 1;
-          const slide1 = -2;
-          const slide2 = 11;
-          const slide3 = 4;
-          const slide4 = 7;
-          const slide5 = 10;
+    describe('resetCurrentSlideNum()', () => {
+      it('should reset slide when scrolling three slides to next', () => {
+        const set = carousel.set = spy();
+        carousel.resetCurrentSlideNum(9, 12, 10);
+        expect(set).to.be.calledWithExactly({ currentSlide: 2 });
+      });
 
-          carousel.slideHandler(slide1);
+      it('should reset slide when scrolling three slides to previous', () => {
+        const set = carousel.set = spy();
+        carousel.resetCurrentSlideNum(0, -3, 10);
+        expect(set).to.be.calledWithExactly({ currentSlide: 7 });
+      });
+    });
 
-          expect(carousel.state.transitioning).to.eq(true);
-          expect(carousel.animationEndCallback).to.exist;
-          expect(carousel.state.currentSlide).to.eq(-2);
-          expect(carousel.update).to.be.calledOnce;
-          clock.tick(500);
-          expect(carousel.state.transitioning).to.eq(false);
-          expect(carousel.state.currentSlide).to.eq(8);
-          expect(carousel.update).to.be.calledTwice;
-          expect(carousel.animationEndCallback).does.not.exist;
+    describe('disableTransition()', () => {
+      it('remove event listener and set transition to false', () => {
+        const track = <any>{ removeEventListener: spy() };
+        carousel.refs = <any>{ track };
+        const set = carousel.set = spy();
 
-          carousel.slideHandler(slide2);
+        carousel.disableTransition();
 
-          expect(carousel.state.currentSlide).to.eq(11);
-          clock.tick(500);
-          expect(carousel.state.currentSlide).to.eq(1);
-
-          carousel.slideHandler(slide3);
-
-          const timeout1 = setTimeout(() => {
-            expect(carousel.state.currentSlide).to.eq(4);
-          }, 500)
-          clearTimeout(timeout1);
-
-          carousel.slideHandler(slide4);
-
-          const timeout2 = setTimeout(() => {
-            expect(carousel.state.currentSlide).to.eq(7);
-          }, 500)
-          clearTimeout(timeout2);
-
-          carousel.slideHandler(slide5);
-
-          const timeout3 = setTimeout(() => {
-            expect(carousel.state.currentSlide).to.eq(10);
-            expect(carousel.state.currentSlide).to.eq(0);
-          }, 500)
-          clearTimeout(timeout3);
-        });
-      })
+        expect(track.removeEventListener).to.be.calledWithExactly('transitionend', carousel.disableTransition, false);
+        expect(set).to.be.calledWithExactly({ transitioning: false });
+      });
     });
 
     describe('cloneItems()', () => {
-      it('should return if no items are passed from porps', () => {
-        carousel.props.items = undefined;
-        carousel.cloneItems();
-
-        const slidesToShow = spy();
-
-        expect(slidesToShow).to.not.have.been.called;
-      });
-
       it('should clone items', () => {
         const items = carousel.cloneItems();
 
@@ -414,46 +324,8 @@ suite('Carousel', ({ expect, spy, stub }) => {
       });
     });
 
-    describe('dotHandler()', () => {
-      it('should call slideHandler function', () => {
-        const fakeLi = document.createElement('li');
-        fakeLi.getAttribute = spy();
-        const e: any = { target: fakeLi, preventDefault: spy() };
-        carousel.slideHandler = spy();
-
-        carousel.dotHandler(e);
-
-        expect(fakeLi.getAttribute).to.have.been.calledWith('data-index-to-go');
-        expect(carousel.slideHandler).to.have.been.called;
-      });
-    });
-
-    describe('slideStyle()', () => {
-      it('should return slide sty(le', () => {
-        const width = 100;
-        stub(carousel, 'getSlideWidth').returns(width);
-
-        const style = carousel.slideStyle();
-        const result = {
-          width: `${width}px`,
-        };
-        expect(style).to.deep.eq(result);
-      });
-    });
-
     describe('trackStyle()', () => {
-      it('should return when items are not passed in from props', () => {
-        carousel.props.items = undefined;
-        carousel.getStaticTrackStyle = spy();
-
-        carousel.trackStyle();
-
-        expect(carousel.getStaticTrackStyle).to.not.have.been.called;
-      });
-
-      it('should not allow transition when it is set to false', () => {
-        carousel.state.transitioning = false;
-        stub(carousel, 'cloneItems').returns({ content: 'test' });
+      it('should not allow transition when speed is 0', () => {
         stub(carousel, 'getStaticTrackStyle').returns({ a: 'b' });
 
         const result = carousel.trackStyle();
@@ -463,25 +335,13 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
       it('should return transition style if transition is allowed', () => {
         carousel.state.transitioning = true;
+        carousel.state.settings.speed = 500;
         const style = {
           a: 'b',
           '-webkit-transition': '500ms ease',
           transition: '500ms ease',
-          'ms-transition': '500ms ease'
+          '-ms-transition': '500ms ease'
         };
-        stub(carousel, 'cloneItems').returns({ content: 'test' });
-        stub(carousel, 'getStaticTrackStyle').returns({ a: 'b' });
-
-        const result = carousel.trackStyle();
-
-        expect(result).to.deep.eq(style);
-      });
-
-      it('should have no transition if no speed is provided', () => {
-        delete carousel.props.settings.speed;
-        carousel.state.transitioning = false;
-        const style = { a: 'b' };
-        stub(carousel, 'cloneItems').returns({ content: 'test' });
         stub(carousel, 'getStaticTrackStyle').returns({ a: 'b' });
 
         const result = carousel.trackStyle();
@@ -492,12 +352,10 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
     describe('getStaticTrackStyle', () => {
       it('should return style', () => {
-        const { items } = carousel.props;
-        const clonedItems = [items[2], ...items, items[0]];
         const width = 100;
         const trackWidth = 1200;
         const pos = 500;
-        const tfm = `translate3d(-${pos}px, 0px, 0px)`;
+        const tfm = `translateX(-${pos}px)`;
         const result = {
           transform: tfm,
           '-webkit-transform': tfm,
@@ -505,9 +363,8 @@ suite('Carousel', ({ expect, spy, stub }) => {
           width: `${trackWidth}px`
         };
 
-        stub(carousel, 'cloneItems').returns(clonedItems);
         stub(carousel, 'getSlideWidth').returns(width);
-        stub(carousel, 'calcPos').returns(500);
+        stub(Carousel, 'calculatePosition').returns(500);
 
         const style = carousel.getStaticTrackStyle();
 
@@ -515,142 +372,10 @@ suite('Carousel', ({ expect, spy, stub }) => {
       });
     });
 
-    describe('getDots()', () => {
-      it('should return when no items are passed down', () => {
-        carousel.props.items = undefined;
-
-        const result = carousel.getDots();
-
-        expect(result).to.deep.eq([]);
-      });
-
-      it('should return when items is empty array', () => {
-        carousel.props.items = [];
-
-        const result = carousel.getDots();
-
-        expect(result).to.deep.eq([]);
-      });
-
-      it('should get correct number of dots', () => {
-        const dots = Array(10).fill('dot');
-        const results = carousel.getDots();
-
-        expect(results).to.deep.eq(dots);
-      });
-
-      it('should get correct number of dots when slides to scroll and to show are more than one', () => {
-        carousel.props.settings.slidesToScroll = 4;
-        carousel.props.settings.slidesToShow = 4;
-
-        const dots = Array(3).fill('dot');
-        const results = carousel.getDots();
-
-        expect(results).to.deep.eq(dots);
-      });
-
-      it('should get correct number of dots when slides to show are more than one', () => {
-        carousel.props.settings.slidesToScroll = 1;
-        carousel.props.settings.slidesToShow = 3;
-
-        const dots = Array(10).fill('dot');
-        const results = carousel.getDots();
-
-        expect(results).to.deep.eq(dots);
-      });
-    });
-
-    describe('dotClassName()', () => {
-      it('should return active class name when dot is active', () => {
-        carousel.state.currentSlide = 1;
-        const active = 'active';
-        const inactive = 'inactive';
-
-        const style = carousel.dotClassName(0);
-        expect(style).to.deep.eq(inactive);
-        const style1 = carousel.dotClassName(1);
-        expect(style1).to.deep.eq(active);
-        const style2 = carousel.dotClassName(2);
-        expect(style2).to.deep.eq(inactive);
-      });
-
-      it('should return correct class names when slides to show and to scroll are more than one', () => {
-        carousel.props.settings.slidesToScroll = 3;
-        carousel.props.settings.slidesToShow = 3;
-        carousel.state.currentSlide = 3;
-        const active = 'active';
-        const inactive = 'inactive';
-
-        const style = carousel.dotClassName(0);
-        expect(style).to.deep.eq(inactive);
-        const style1 = carousel.dotClassName(1);
-        expect(style1).to.deep.eq(active);
-        const style2 = carousel.dotClassName(2);
-        expect(style2).to.deep.eq(inactive);
-      });
-
-      it('should return correct class names when slides to show are more than one', () => {
-        carousel.props.settings.slidesToScroll = 1;
-        carousel.props.settings.slidesToShow = 3;
-        carousel.state.currentSlide = 3;
-        const active = 'active';
-        const inactive = 'inactive';
-
-        const style = carousel.dotClassName(2);
-        expect(style).to.deep.eq(inactive);
-        const style1 = carousel.dotClassName(3);
-        expect(style1).to.deep.eq(active);
-        const style2 = carousel.dotClassName(4);
-        expect(style2).to.deep.eq(inactive);
-      });
-    });
-
-    describe('swipeSlides()', () => {
-      it('should move next when swiping left with an angle between 315 and 360', () => {
-        const touchObj = { startX: 0, startY: 0, curX: -20, curY: 4 };
-        stub(carousel, 'moveNext');
-        stub(carousel, 'movePrevious');
-
-        const direction = isSwipeToNext(touchObj);
-        expect(direction).to.eq('left');
-
-        carousel.swipeSlides(touchObj);
-
-        expect(carousel.moveNext).to.have.been.called;
-        expect(carousel.movePrevious).to.not.have.been.called;
-      });
-
-      it('should move next when swiping left with an angle between 0 and 45', () => {
-        stub(carousel, 'moveNext');
-        stub(carousel, 'movePrevious');
-
-        const touchObj2 = { startX: 0, startY: 0, curX: -20, curY: -10 };
-        const direction = isSwipeToNext(touchObj2);
-        expect(direction).to.eq('left');
-
-        carousel.swipeSlides(touchObj2);
-        expect(carousel.moveNext).to.have.been.called;
-        expect(carousel.movePrevious).to.not.have.been.called;
-      });
-
-      it('should move previous when swiping right with an angle between 135 and 225', () => {
-        stub(carousel, 'moveNext');
-        stub(carousel, 'movePrevious');
-
-        const touchObj = { startX: 0, startY: 0, curX: 20, curY: 10 };
-        const direction = isSwipeToNext(touchObj);
-        expect(direction).to.eq('right');
-
-        carousel.swipeSlides(touchObj);
-        expect(carousel.moveNext).to.not.have.been.called;
-        expect(carousel.movePrevious).to.have.been.called;
-      });
-    });
-
     describe('getSlideWidth()', () => {
       it('should return slide width', () => {
         const width = 500;
-        const carouselwrap: any = { offsetWidth: width };
+        const wrapper: any = { offsetWidth: width };
         let track;
         carousel.refs = { wrapper, track };
 
@@ -659,7 +384,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
       });
 
       it('should not return anything if carousel width is not accessible', () => {
-        const carouselwrap: any = { offsetWidth: undefined };
+        const wrapper: any = { offsetWidth: undefined };
         let track;
         carousel.refs = { wrapper, track };
 
@@ -668,31 +393,128 @@ suite('Carousel', ({ expect, spy, stub }) => {
       });
     });
 
-    describe('calcPos()', () => {
+    describe('calculatePosition()', () => {
       it('should return correct position value', () => {
-        const currentSlide = 2;
-        const moveDistance = 100;
-
-        const pos = carousel.calculatePosition(currentSlide, moveDistance);
-
-        expect(pos).to.eq(300);
+        const pos = Carousel.calculatePosition(2, 100, 2);
+        expect(pos).to.eq(500);
       });
     });
 
-    describe('calSwipeDirection()', () => {
-      it('should return correct direction', () => {
-        const touchObj1 = { startX: 0, startY: 0, curX: 20, curY: 4 };
-        const touchObj2 = { startX: 0, startY: 0, curX: -20, curY: 4 };
-        const touchObj3 = { startX: 0, startY: 0, curX: 0, curY: 40 };
+    // describe('dotHandler()', () => {
+    //   it('should call slideHandler function', () => {
+    //     const fakeLi = document.createElement('li');
+    //     fakeLi.getAttribute = spy();
+    //     const e: any = { target: fakeLi, preventDefault: spy() };
+    //     carousel.slideHandler = spy();
 
-        const result1 = isSwipeToNext(touchObj1);
-        const result2 = isSwipeToNext(touchObj2);
-        const result3 = isSwipeToNext(touchObj3);
+    //     carousel.dotHandler(e);
 
-        expect(result1).to.eq('right');
-        expect(result2).to.eq('left');
-        expect(result3).to.be.undefined;
-      });
-    });
+    //     expect(fakeLi.getAttribute).to.be.calledWith('data-index-to-go');
+    //     expect(carousel.slideHandler).to.be.called;
+    //   });
+    // });
+
+    // describe('slideStyle()', () => {
+    //   it('should return slide sty(le', () => {
+    //     const width = 100;
+    //     stub(carousel, 'getSlideWidth').returns(width);
+
+    //     const style = carousel.slideStyle();
+    //     const result = {
+    //       width: `${width}px`,
+    //     };
+    //     expect(style).to.deep.eq(result);
+    //   });
+    // });
+
+    // describe('getDots()', () => {
+    //   it('should return when no items are passed down', () => {
+    //     carousel.props.items = undefined;
+
+    //     const result = carousel.getDots();
+
+    //     expect(result).to.deep.eq([]);
+    //   });
+
+    //   it('should return when items is empty array', () => {
+    //     carousel.props.items = [];
+
+    //     const result = carousel.getDots();
+
+    //     expect(result).to.deep.eq([]);
+    //   });
+
+    //   it('should get correct number of dots', () => {
+    //     const dots = Array(10).fill('dot');
+    //     const results = carousel.getDots();
+
+    //     expect(results).to.deep.eq(dots);
+    //   });
+
+    //   it('should get correct number of dots when slides to scroll and to show are more than one', () => {
+    //    carousel.state.settings.slidesToScroll = 4;
+    //    carousel.state.settings.slidesToShow = 4;
+
+    //     const dots = Array(3).fill('dot');
+    //     const results = carousel.getDots();
+
+    //     expect(results).to.deep.eq(dots);
+    //   });
+
+    //   it('should get correct number of dots when slides to show are more than one', () => {
+    //    carousel.state.settings.slidesToScroll = 1;
+    //    carousel.state.settings.slidesToShow = 3;
+
+    //     const dots = Array(10).fill('dot');
+    //     const results = carousel.getDots();
+
+    //     expect(results).to.deep.eq(dots);
+    //   });
+    // });
+
+    // describe('dotClassName()', () => {
+    //   it('should return active class name when dot is active', () => {
+    //     carousel.state.currentSlide = 1;
+    //     const active = 'active';
+    //     const inactive = 'inactive';
+
+    //     const style = carousel.dotClassName(0);
+    //     expect(style).to.deep.eq(inactive);
+    //     const style1 = carousel.dotClassName(1);
+    //     expect(style1).to.deep.eq(active);
+    //     const style2 = carousel.dotClassName(2);
+    //     expect(style2).to.deep.eq(inactive);
+    //   });
+
+    //   it('should return correct class names when slides to show and to scroll are more than one', () => {
+    //    carousel.state.settings.slidesToScroll = 3;
+    //    carousel.state.settings.slidesToShow = 3;
+    //     carousel.state.currentSlide = 3;
+    //     const active = 'active';
+    //     const inactive = 'inactive';
+
+    //     const style = carousel.dotClassName(0);
+    //     expect(style).to.deep.eq(inactive);
+    //     const style1 = carousel.dotClassName(1);
+    //     expect(style1).to.deep.eq(active);
+    //     const style2 = carousel.dotClassName(2);
+    //     expect(style2).to.deep.eq(inactive);
+    //   });
+
+    //   it('should return correct class names when slides to show are more than one', () => {
+    //    carousel.state.settings.slidesToScroll = 1;
+    //    carousel.state.settings.slidesToShow = 3;
+    //     carousel.state.currentSlide = 3;
+    //     const active = 'active';
+    //     const inactive = 'inactive';
+
+    //     const style = carousel.dotClassName(2);
+    //     expect(style).to.deep.eq(inactive);
+    //     const style1 = carousel.dotClassName(3);
+    //     expect(style1).to.deep.eq(active);
+    //     const style2 = carousel.dotClassName(4);
+    //     expect(style2).to.deep.eq(inactive);
+    //   });
+    // });
   });
 });
