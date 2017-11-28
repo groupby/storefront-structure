@@ -10,8 +10,8 @@ suite('Carousel', ({ expect, spy, stub }) => {
       const carousel = new Carousel();
 
       expect(carousel.props.speed).to.eq(0);
-      expect(carousel.props.slidestoscroll).to.eq(1);
-      expect(carousel.props.slidestoshow).to.eq(1);
+      expect(carousel.props.slidesToScroll).to.eq(1);
+      expect(carousel.props.slidesToShow).to.eq(1);
     });
   });
 
@@ -89,22 +89,22 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
     describe('isSwipeToNext()', () => {
       it('should move next when swiping left with an angle between 315 and 360', () => {
-        const direction = Carousel.isSwipeToNext({ startX: 0, startY: 0 }, -25, 4);
+        const direction = Carousel.shouldSwipeToNext({ startX: 0, startY: 0 }, -25, 4);
         expect(direction).to.be.true;
       });
 
       it('should move next when swiping left with an angle between 0 and 45', () => {
-        const direction = Carousel.isSwipeToNext({ startX: 0, startY: 0 }, -25, -10);
+        const direction = Carousel.shouldSwipeToNext({ startX: 0, startY: 0 }, -25, -10);
         expect(direction).to.be.true;
       });
 
       it('should move previous when swiping right with an angle between 135 and 225', () => {
-        const direction = Carousel.isSwipeToNext({ startX: 0, startY: 0 }, 25, 10);
+        const direction = Carousel.shouldSwipeToNext({ startX: 0, startY: 0 }, 25, 10);
         expect(direction).to.be.false;
       });
 
       it('should not return anything if angle is between 45 to 135 or between225 and 315', () => {
-        const direction = Carousel.isSwipeToNext({ startX: 0, startY: 0 }, 0, 100);
+        const direction = Carousel.shouldSwipeToNext({ startX: 0, startY: 0 }, 0, 100);
         expect(direction).to.be.null;
       });
     });
@@ -150,7 +150,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
         carousel.onTouchEnd(event as any);
 
-        expect(Carousel.isSwipeToNext).to.be.calledWithExactly({ startX: 0, startY: 5 }, 30, 15);
+        expect(Carousel.shouldSwipeToNext).to.be.calledWithExactly({ startX: 0, startY: 5 }, 30, 15);
         expect(carousel.moveNext).to.be.called;
         expect(carousel.movePrevious).not.to.be.called;
         expect(event.target.removeEventListener).to.be.calledWithExactly('touchstart', carousel.onTouchStart);
@@ -171,7 +171,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
         carousel.onTouchEnd(event as any);
 
-        expect(Carousel.isSwipeToNext).to.be.calledWithExactly({ startX: 0, startY: 5 }, -40, 15);
+        expect(Carousel.shouldSwipeToNext).to.be.calledWithExactly({ startX: 0, startY: 5 }, -40, 15);
         expect(carousel.moveNext).not.to.be.called;
         expect(carousel.movePrevious).to.be.called;
         expect(event.target.removeEventListener).to.be.calledWithExactly('touchstart', carousel.onTouchStart);
@@ -236,8 +236,8 @@ suite('Carousel', ({ expect, spy, stub }) => {
         });
 
         it('should be on edge', () => {
-          carousel.props.slidestoshow = 3;
-          carousel.props.slidestoscroll = 1;
+          carousel.props.slidesToShow = 3;
+          carousel.props.slidesToScroll = 1;
           carousel.state.currentSlide = 9;
           const slide = 10;
 
@@ -254,8 +254,8 @@ suite('Carousel', ({ expect, spy, stub }) => {
         });
 
         it('should be on edge', () => {
-          carousel.props.slidestoshow = 3;
-          carousel.props.slidestoscroll = 1;
+          carousel.props.slidesToShow = 3;
+          carousel.props.slidesToScroll = 1;
           carousel.state.currentSlide = 0;
           const slide = -1;
 
@@ -271,8 +271,8 @@ suite('Carousel', ({ expect, spy, stub }) => {
         });
 
         it('should not do anything if it is on edge and transitioning', () => {
-          carousel.props.slidestoshow = 3;
-          carousel.props.slidestoscroll = 1;
+          carousel.props.slidesToShow = 3;
+          carousel.props.slidesToScroll = 1;
           carousel.state.currentSlide = 0;
           carousel.state.transitioning = true;
           const track = <any>{ addEventListener: spy(), removeEventListener: spy() };
