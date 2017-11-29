@@ -32,7 +32,6 @@ class Carousel {
 
   onUpdate() {
     this.state.items = this.cloneItems();
-    console.log('c', this.state.currentSlide);
   }
 
   onUnmount() {
@@ -45,11 +44,11 @@ class Carousel {
 
   cloneItems = () => {
     const numCloned = this.props.slidesToShow * 2 - 1;
-    const length = this.props.items.length;
+    const slideCount = this.props.items.length;
 
     const prior = this.props.items
       .slice(-numCloned)
-      .map((data, index) => ({ ...data, 'data-index': index - length }));
+      .map((data, index) => ({ ...data, 'data-index': index - slideCount }));
 
     this.props.items.forEach((data, index) => (data['data-index'] = index));
 
@@ -85,7 +84,7 @@ class Carousel {
   }
 
   resetToRealSlide = (from: number, to: number, length: number) => {
-    this.state.transitioning = false;
+    this.set({ transitioning: false });
     this.resetCurrentSlideNum(from, to, length);
     this.animationEndCallback = null;
   }
@@ -134,7 +133,7 @@ class Carousel {
   getSlideWidth = () => this.refs.wrapper.offsetWidth / this.props.slidesToShow;
 
   onTouchStart = (e: TouchEvent & Carousel.Event) => {
-    this.set({ touchObject: { startX: e.touches[0].pageX, startY: e.touches[0].pageY } })
+    this.set({ touchObject: { startX: e.touches[0].pageX, startY: e.touches[0].pageY } });
 
     e.target.addEventListener('touchend', this.onTouchEnd);
   }
@@ -154,7 +153,7 @@ class Carousel {
   }
 
   static calculatePosition = (currentSlide: number, moveDistance: number, slidesToShow: number): number =>
-    // offset the length of cloned items at the beginning
+    // when it first loads, offset the length of cloned items at the begining
     (currentSlide + slidesToShow * 2 - 1) * moveDistance
 
   static shouldSwipeToNext = ({ startX, startY }: Carousel.TouchObject, curX: number, curY: number): boolean => {

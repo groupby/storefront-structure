@@ -138,9 +138,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         const removeEventListener = spy();
         const event = {
           changedTouches: [{ pageX: 30, pageY: 15 }],
-          target: {
-            removeEventListener,
-          }
+          target: { removeEventListener }
         };
         const shouldSwipeToNext = stub(Carousel, 'shouldSwipeToNext').returns(true);
         const next = carousel.moveNext = spy();
@@ -170,15 +168,14 @@ suite('Carousel', ({ expect, spy, stub }) => {
       });
 
       it('should not swipe slides if swipe distance is not long enough', () => {
-        const addEventListener = spy();
         const removeEventListener = spy();
         const event = {
           changedTouches: [{ pageX: 10, pageY: 15 }],
-          target: { addEventListener, removeEventListener }
+          target: { removeEventListener }
         };
-        stub(Carousel, 'shouldSwipeToNext').returns(false);
         const next = carousel.moveNext = spy();
         const previous = carousel.movePrevious = spy();
+        stub(Carousel, 'shouldSwipeToNext').returns(false);
 
         carousel.onTouchEnd(<any>event);
 
@@ -202,8 +199,8 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
       it('should go to the specific slide when threshold is not hit and speed is not 0', () => {
         const slide = 1;
-        carousel.props.speed = 200;
         const addEventListener = spy();
+        carousel.props.speed = 200;
         carousel.refs = <any>{ track: { addEventListener } };
         carousel.set = spy();
         carousel.disableTransition = spy();
@@ -219,11 +216,13 @@ suite('Carousel', ({ expect, spy, stub }) => {
       describe('should reset to non-cloned slide when cloned slides are visible if speed is not 0', () => {
         let clock;
         let addEventListener;
+        let set;
+        let reset;
 
         beforeEach(() => {
           carousel.props.speed = 100;
-          carousel.set = spy();
-          carousel.resetToRealSlide = spy();
+          set = carousel.set = spy();
+          reset = carousel.resetToRealSlide = spy();
           addEventListener = spy();
           clock = sinon.useFakeTimers();
           carousel.refs = <any>{ track: { addEventListener } };
@@ -237,13 +236,13 @@ suite('Carousel', ({ expect, spy, stub }) => {
           carousel.slideHandler(10);
           // tslint:disable-next-line:max-line-length
           expect(addEventListener.getCall(0)).to.be.calledWithExactly('transitionend', carousel.disableTransition, false);
-          expect(carousel.resetToRealSlide).not.to.be.called;
+          expect(reset).not.to.be.called;
 
           clock.tick(100);
 
-          expect(carousel.resetToRealSlide).to.be.calledWithExactly(9, 10, 10);
+          expect(reset).to.be.calledWithExactly(9, 10, 10);
           expect(carousel.animationEndCallback).to.exist;
-          expect(carousel.set).to.be.calledWithExactly({ currentSlide: 10, transitioning: true });
+          expect(set).to.be.calledWithExactly({ currentSlide: 10, transitioning: true });
         });
 
         it('should be on edge', () => {
@@ -257,9 +256,9 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
           clock.tick(100);
 
-          expect(carousel.resetToRealSlide).to.be.calledWithExactly(0, -1, 10);
+          expect(reset).to.be.calledWithExactly(0, -1, 10);
           expect(carousel.animationEndCallback).to.exist;
-          expect(carousel.set).to.be.calledWithExactly({ currentSlide: -1, transitioning: true });
+          expect(set).to.be.calledWithExactly({ currentSlide: -1, transitioning: true });
         });
 
         it('should not do anything if it is on edge and transitioning', () => {
@@ -267,12 +266,11 @@ suite('Carousel', ({ expect, spy, stub }) => {
           carousel.props.slidesToScroll = 1;
           carousel.state.currentSlide = 0;
           carousel.state.transitioning = true;
-          const slide = -1;
 
-          carousel.slideHandler(slide);
+          carousel.slideHandler(-1);
           clock.tick(100);
 
-          expect(carousel.resetToRealSlide).not.to.be.called;
+          expect(reset).not.to.be.called;
           expect(carousel.animationEndCallback).to.be.null;
         });
       });
@@ -281,10 +279,11 @@ suite('Carousel', ({ expect, spy, stub }) => {
     describe('resetToRealSlide()', () => {
       it('should reset slide when scrolling three slides to the next', () => {
         const reset = carousel.resetCurrentSlideNum = spy();
+        const set = carousel.set = spy();
 
         carousel.resetToRealSlide(9, 12, 10);
 
-        expect(carousel.state.transitioning).to.be.false;
+        expect(set).to.be.calledWithExactly({ transitioning: false });
         expect(carousel.animationEndCallback).does.not.exist;
         expect(reset).to.be.calledWithExactly(9, 12, 10);
       });
@@ -311,7 +310,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
     describe('disableTransition()', () => {
       it('remove event listener and set transition to false', () => {
         const removeEventListener = spy();
-        const track = <any>{ removeEventListener };
+        const track = { removeEventListener };
         carousel.refs = <any>{ track };
         const set = carousel.set = spy();
 
@@ -347,14 +346,14 @@ suite('Carousel', ({ expect, spy, stub }) => {
       });
 
       it('should return transition style if transition is allowed', () => {
-        carousel.state.transitioning = true;
-        carousel.props.speed = 500;
         const style = {
           a: 'b',
           '-webkit-transition': '500ms ease',
           transition: '500ms ease',
           '-ms-transition': '500ms ease'
         };
+        carousel.state.transitioning = true;
+        carousel.props.speed = 500;
         stub(carousel, 'getStaticTrackStyle').returns({ a: 'b' });
 
         expect(carousel.trackStyle()).to.eql(style);
@@ -368,7 +367,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         const pos = 500;
         const transform = `translateX(-${pos}px)`;
         const result = {
-          transform: transform,
+          transform,
           '-webkit-transform': transform,
           '-ms-transform': transform,
           width: `${trackWidth}px`
@@ -383,21 +382,17 @@ suite('Carousel', ({ expect, spy, stub }) => {
     describe('getSlideWidth()', () => {
       it('should return slide width', () => {
         const offsetWidth = 500;
-        const wrapper: any = { offsetWidth };
+        const wrapper = { offsetWidth: 500 };
         carousel.refs = <any>{ wrapper };
 
-        const result = carousel.getSlideWidth();
-
-        expect(result).to.eq(offsetWidth);
+        expect(carousel.getSlideWidth()).to.eq(offsetWidth);
       });
     });
 
     describe('calculatePosition()', () => {
-      it('should return correct position value', () => {
-        const position = Carousel.calculatePosition(2, 100, 2);
-
-        expect(position).to.eq(500);
-      });
+      it('should return correct position value', () =>
+        expect(Carousel.calculatePosition(2, 100, 2)).to.eq(500)
+      );
     });
   });
 });
