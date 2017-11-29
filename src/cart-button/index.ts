@@ -4,6 +4,11 @@ import { tag, Actions, Events, Selectors, Tag } from '@storefront/core';
 class CartButton {
 
   refs: { button: HTMLButtonElement };
+  constructor() {
+    const cart = this.select(Selectors.cart);
+    this.state = { ...this.state, cart };
+  }
+
   onClick(event: MouseEvent & Tag.Event) {
     event.preventUpdate = true;
     if (this.props.onClick) {
@@ -12,18 +17,19 @@ class CartButton {
     let { itemCount } = this.state;
     itemCount = itemCount ? this.state.itemCount + 1 : 1;
     this.set({ itemCount });
-    console.log('cart')
-    // tslint:disable-next-line:max-line-length
     if (itemCount === 1) {
       // this.flux.emit(Events.CREATE_CART);
       // this.flux.emit(Events.ADD_TO_CART);
-      // this.dispatch(Actions.CREATE_CART);
-      console.log('you cant see me')
     } else {
       // this.flux.emit(Events.ADD_TO_CART);
-      console.log('you cant see me')
     }
   }
+
+  updateCart(item: string) {
+    this.set({ cart: { ...this.state.cart, item }});
+    this.flux.emit('cart:update', this.state.cart);
+  }
+
 }
 
 interface CartButton extends Tag<CartButton.Props> { }
