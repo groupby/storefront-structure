@@ -1,7 +1,6 @@
 import './badge';
 import Button from './button';
 import Carousel from './carousel';
-import CartButton from './cart-button';
 import './container';
 import CustomSelect from './custom-select';
 import FilteredList from './filtered-list';
@@ -23,7 +22,6 @@ import Tooltip from './tooltip';
 export {
   Button,
   Carousel,
-  CartButton,
   CustomSelect,
   FilteredList,
   Icon,

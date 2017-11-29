@@ -1,6 +1,10 @@
 import { alias, tag, utils, Tag } from '@storefront/core';
 
 const MIN_SWIPE_DISTANCE = 20;
+const MOVE_NEXT_UPWARD_MAX_ANGLE = 45;
+const MOVE_NEXT_DOWNWARD_MAX_ANGLE = 315;
+const MOVE_PREVIOUS_UPWARD_MIN_ANGLE = 135;
+const MOVE_PREVIOUS_DOWNWARD_MAX_ANGLE = 225;
 
 @alias('carousel')
 @tag('gb-carousel', require('./index.html'), require('./index.css'))
@@ -49,9 +53,9 @@ class Carousel {
     this.props.items.forEach((data, index) => (data['data-index'] = index));
 
     const posterior = this.props.items
-      .slice(0, numCloned);
+      .slice(0, numCloned)
 
-    return [...prior, this.props.items, ...posterior];
+    return [...prior, ...this.props.items, ...posterior];
   }
 
   slideHandler = (slide: number) => {
@@ -128,17 +132,12 @@ class Carousel {
 
   getSlideWidth = () => this.refs.wrapper.offsetWidth / this.props.slidesToShow;
 
-  //TODO
-  onTouchStart = ({ touches, target }: TouchEvent & Carousel.Event) => {
-    this.state.touchObject = {
-      startX: touches[0].pageX,
-      startY: touches[0].pageY
-    };
-
-    target.addEventListener('touchend', this.onTouchEnd);
+  onTouchStart = (e: TouchEvent & Carousel.Event) => {
+    this.set({ touchObject: { startX: e.touches[0].pageX, startY: e.touches[0].pageY }}) 
+      
+    e.target.addEventListener('touchend', this.onTouchEnd);
   }
 
-  // TODO
   onTouchEnd = (e: TouchEvent & Carousel.Event) => {
     const curX = e.changedTouches[0].pageX;
     const curY = e.changedTouches[0].pageY;
@@ -165,9 +164,9 @@ class Carousel {
     }
 
     // swipeAngle between 45 and 135, between 225 and 315 is ignored;
-    if ((swipeAngle <= 45 && swipeAngle >= 0) || (swipeAngle <= 360 && swipeAngle >= 315)) {
+    if ((swipeAngle <= MOVE_NEXT_UPWARD_MAX_ANGLE && swipeAngle >= 0) || (swipeAngle <= 360 && swipeAngle >= MOVE_NEXT_DOWNWARD_MAX_ANGLE)) {
       return true;
-    } else if (swipeAngle >= 135 && swipeAngle <= 225) {
+    } else if (swipeAngle >= MOVE_PREVIOUS_UPWARD_MIN_ANGLE && swipeAngle <= MOVE_PREVIOUS_DOWNWARD_MAX_ANGLE) {
       return false;
     } else {
       return null;

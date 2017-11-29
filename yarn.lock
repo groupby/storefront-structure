@@ -39,11 +39,11 @@
     conventional-changelog "0.0.17"
     github-url-from-git "^1.4.0"
 
-"@storefront/core@~1.30.0":
-  version "1.30.3"
-  resolved "https://registry.yarnpkg.com/@storefront/core/-/core-1.30.3.tgz#65dc1530d751aa1e98014c3362ed90e4423a5d6a"
+"@storefront/core@~1.28.0":
+  version "1.28.3"
+  resolved "https://registry.yarnpkg.com/@storefront/core/-/core-1.28.3.tgz#af19ebdc9ce8cf74cde7345c599b6bc7e3360f7b"
   dependencies:
-    "@storefront/flux-capacitor" "1.31.1"
+    "@storefront/flux-capacitor" "1.27.1"
     "@types/clone" "^0.1.30"
     "@types/deep-assign" "^0.1.0"
     "@types/js-cookie" "^2.0.28"
@@ -59,9 +59,9 @@
     riot "^3.4.4"
     url-parse "^1.1.9"
 
-"@storefront/flux-capacitor@1.31.1":
-  version "1.31.1"
-  resolved "https://registry.yarnpkg.com/@storefront/flux-capacitor/-/flux-capacitor-1.31.1.tgz#9ae962a2577c23ab55de5159ce47f6591a393d9a"
+"@storefront/flux-capacitor@1.27.1":
+  version "1.27.1"
+  resolved "https://registry.yarnpkg.com/@storefront/flux-capacitor/-/flux-capacitor-1.27.1.tgz#a451194b9b942eb680736a964be9c20e32705c36"
   dependencies:
     "@manaflair/redux-batch" "^0.1.0"
     "@types/redux-logger" "^3.0.0"
@@ -4151,8 +4151,8 @@ supports-color@^4.2.1:
     has-flag "^2.0.0"
 
 symbol-observable@^1.0.3:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.0.4.tgz#29bf615d4aa7121bdd898b22d4b3f9bc4e2aa03d"
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.1.0.tgz#5c68fd8d54115d9dfb72a84720549222e8db9b32"
 
 table@^3.7.8:
   version "3.8.3"
