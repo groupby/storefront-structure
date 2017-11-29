@@ -3,6 +3,8 @@ import * as chai from 'chai';
 
 bootstrap(chai, __dirname, [
   '../src/button/index.html',
+  '../src/carousel/index.html',
+  '../src/carousel/index.css',
   '../src/custom-select/index.html',
   '../src/custom-select/index.css',
   '../src/filtered-list/index.html',

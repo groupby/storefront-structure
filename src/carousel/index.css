@@ -1,0 +1,36 @@
+.carousel {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.carousel__track {
+  display: flex;
+  justify-content: center;
+}
+
+.carousel__list {
+  overflow: hidden;
+}
+
+.carousel__slide {
+  display: inline-block;
+}
+
+.carousel__slide img {
+  display: block;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.carousel__prev, .carousel__next {
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+  position: absolute;
+}
+
+.carousel__next {
+  right: 0;
+}
+
+
