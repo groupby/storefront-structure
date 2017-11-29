@@ -55,7 +55,7 @@ class Carousel {
 
     const posterior = this.props.items
       .slice(0, numCloned)
-      .map((data, index) => ({ ...data, 'data-index': index }));
+      .map((data) => ({ ...data }));
 
     return [...prior, ...this.props.items, ...posterior];
   }
@@ -72,24 +72,20 @@ class Carousel {
     }
 
     if (!(this.state.transitioning && onEdge)) {
-
+      this.refs.track.addEventListener('transitionend', this.disableTransition, false);
       // make the transition
       this.set({ currentSlide: slide, transitioning: true });
-      
+
       if (onEdge) {
-        console.log('to', slide)
         // reset to non-cloned slide
         // tslint:disable-next-line:max-line-length
         this.animationEndCallback = setTimeout(() => this.resetToRealSlide(from, slide, slideCount), speed);
-      } else {
-        this.refs.track.addEventListener('transitionend', this.disableTransition, false);
-
       }
     }
   }
 
   resetToRealSlide = (from: number, to: number, length: number) => {
-    // this.state.transitioning = false;
+    this.state.transitioning = false;
     this.resetCurrentSlideNum(from, to, length);
     this.animationEndCallback = null;
   }
