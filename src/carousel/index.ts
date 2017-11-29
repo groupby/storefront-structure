@@ -32,6 +32,7 @@ class Carousel {
 
   onUpdate() {
     this.state.items = this.cloneItems();
+    console.log('c', this.state.currentSlide);
   }
 
   onUnmount() {
@@ -54,6 +55,7 @@ class Carousel {
 
     const posterior = this.props.items
       .slice(0, numCloned)
+      .map((data, index) => ({ ...data, 'data-index': index }));
 
     return [...prior, ...this.props.items, ...posterior];
   }
@@ -70,15 +72,18 @@ class Carousel {
     }
 
     if (!(this.state.transitioning && onEdge)) {
-      this.refs.track.addEventListener('transitionend', this.disableTransition, false);
 
       // make the transition
       this.set({ currentSlide: slide, transitioning: true });
-
+      
       if (onEdge) {
+        console.log('to', slide)
         // reset to non-cloned slide
         // tslint:disable-next-line:max-line-length
         this.animationEndCallback = setTimeout(() => this.resetToRealSlide(from, slide, slideCount), speed);
+      } else {
+        this.refs.track.addEventListener('transitionend', this.disableTransition, false);
+
       }
     }
   }
@@ -133,8 +138,8 @@ class Carousel {
   getSlideWidth = () => this.refs.wrapper.offsetWidth / this.props.slidesToShow;
 
   onTouchStart = (e: TouchEvent & Carousel.Event) => {
-    this.set({ touchObject: { startX: e.touches[0].pageX, startY: e.touches[0].pageY }}) 
-      
+    this.set({ touchObject: { startX: e.touches[0].pageX, startY: e.touches[0].pageY } })
+
     e.target.addEventListener('touchend', this.onTouchEnd);
   }
 
@@ -164,6 +169,7 @@ class Carousel {
     }
 
     // swipeAngle between 45 and 135, between 225 and 315 is ignored;
+    // tslint:disable-next-line:max-line-length
     if ((swipeAngle <= MOVE_NEXT_UPWARD_MAX_ANGLE && swipeAngle >= 0) || (swipeAngle <= 360 && swipeAngle >= MOVE_NEXT_DOWNWARD_MAX_ANGLE)) {
       return true;
     } else if (swipeAngle >= MOVE_PREVIOUS_UPWARD_MIN_ANGLE && swipeAngle <= MOVE_PREVIOUS_DOWNWARD_MAX_ANGLE) {
