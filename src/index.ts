@@ -2,6 +2,7 @@ import './badge';
 import Button from './button';
 import Carousel from './carousel';
 import CarouselSlide from './carousel-slide';
+import CartButton from './cart-button';
 import './container';
 import CustomSelect from './custom-select';
 import FilteredList from './filtered-list';
@@ -25,6 +26,7 @@ export {
   Button,
   Carousel,
   CarouselSlide,
+  CartButton,
   CustomSelect,
   FilteredList,
   Icon,
