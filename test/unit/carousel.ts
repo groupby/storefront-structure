@@ -364,8 +364,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
       it('should return style', () => {
         const width = 100;
         const trackWidth = 1200;
-        const pos = 500;
-        const transform = `translateX(-${pos}px)`;
+        const transform = 'translateX(-500px)';
         const result = {
           transform,
           '-webkit-transform': transform,
