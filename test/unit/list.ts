@@ -1,7 +1,7 @@
 import List from '../../src/list';
 import suite from './_suite';
 
-suite('List', ({ expect, spy, stub }) => {
+suite('List', ({ expect, spy }) => {
   let list: List;
 
   beforeEach(() => list = new List());
