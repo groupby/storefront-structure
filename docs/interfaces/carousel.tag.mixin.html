@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Event | @storefront/structure</title>
+	<title>Mixin | @storefront/structure</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,16 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../classes/swatches.html">Swatches</a>
+					<a href="../classes/carousel.html">Carousel</a>
 				</li>
 				<li>
-					<a href="swatches.event.html">Event</a>
+					<a href="../modules/carousel.tag.html">Tag</a>
+				</li>
+				<li>
+					<a href="carousel.tag.mixin.html">Mixin</a>
 				</li>
 			</ul>
-			<h1>Interface Event</h1>
+			<h1>Interface Mixin</h1>
 		</div>
 	</div>
 </header>
@@ -73,12 +76,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">Event</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">Event</span>
-							</li>
-						</ul>
+						<span class="target">Mixin</span>
 					</li>
 				</ul>
 			</section>
@@ -89,8 +87,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="swatches.event.html#item" class="tsd-kind-icon">item</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="swatches.event.html#preventupdate" class="tsd-kind-icon">prevent<wbr>Update</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="carousel.tag.mixin.html#config" class="tsd-kind-icon">config</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="carousel.tag.mixin.html#flux" class="tsd-kind-icon">flux</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="carousel.tag.mixin.html#init" class="tsd-kind-icon">init</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="carousel.tag.mixin.html#log" class="tsd-kind-icon">log</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="carousel.tag.mixin.html#services" class="tsd-kind-icon">services</a></li>
 							</ul>
 						</section>
 					</div>
@@ -99,31 +100,73 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="item" class="tsd-anchor"></a>
-					<h3>item</h3>
-					<div class="tsd-signature tsd-kind-icon">item<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<a name="config" class="tsd-anchor"></a>
+					<h3>config</h3>
+					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Configuration</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9f0ddb6/src/swatches/index.ts#L43">src/swatches/index.ts:43</a></li>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:76</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="flux" class="tsd-anchor"></a>
+					<h3>flux</h3>
+					<div class="tsd-signature tsd-kind-icon">flux<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">FluxCapacitor</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:77</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="init" class="tsd-anchor"></a>
+					<h3>init</h3>
+					<div class="tsd-signature tsd-kind-icon">init<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:80</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>i<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TagInterface</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>this: <span class="tsd-signature-type">TagInterface</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="preventupdate" class="tsd-anchor"></a>
-					<h3>prevent<wbr>Update</h3>
-					<div class="tsd-signature tsd-kind-icon">prevent<wbr>Update<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="log" class="tsd-anchor"></a>
+					<h3>log</h3>
+					<div class="tsd-signature tsd-kind-icon">log<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Logger</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from Event.preventUpdate</p>
 						<ul>
-							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:62</li>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:79</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="services" class="tsd-anchor"></a>
+					<h3>services</h3>
+					<div class="tsd-signature tsd-kind-icon">services<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SystemServices</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:78</li>
 						</ul>
 					</aside>
 				</section>
@@ -139,109 +182,62 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/button.html" class="tsd-kind-icon">Button</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="carousel.tag.description.html" class="tsd-kind-icon">Description</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/carousel.html" class="tsd-kind-icon">Carousel</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="carousel.tag.event.html" class="tsd-kind-icon">Event</a>
 					</li>
-					<li class=" tsd-kind-class">
-						<a href="../classes/customselect.html" class="tsd-kind-icon">Custom<wbr>Select</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="carousel.tag.lifecycle.html" class="tsd-kind-icon">Lifecycle</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/filteredlist.html" class="tsd-kind-icon">Filtered<wbr>List</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/icon.html" class="tsd-kind-icon">Icon</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/link.html" class="tsd-kind-icon">Link</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/list.html" class="tsd-kind-icon">List</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/listitem.html" class="tsd-kind-icon">List<wbr>Item</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="../classes/modal.html" class="tsd-kind-icon">Modal</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/nativeselect.html" class="tsd-kind-icon">Native<wbr>Select</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/raw.html" class="tsd-kind-icon">Raw</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/select.html" class="tsd-kind-icon">Select</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/selectoption.html" class="tsd-kind-icon">Select<wbr>Option</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/slider.html" class="tsd-kind-icon">Slider</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/swatch.html" class="tsd-kind-icon">Swatch</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="carousel.tag.metadata.html" class="tsd-kind-icon">Metadata</a>
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class">
-						<a href="../classes/swatches.html" class="tsd-kind-icon">Swatches</a>
+					<li class="current tsd-kind-interface tsd-parent-kind-module">
+						<a href="carousel.tag.mixin.html" class="tsd-kind-icon">Mixin</a>
 						<ul>
-							<li class="current tsd-kind-interface tsd-parent-kind-class">
-								<a href="swatches.event.html" class="tsd-kind-icon">Event</a>
-								<ul>
-									<li class=" tsd-kind-property tsd-parent-kind-interface">
-										<a href="swatches.event.html#item" class="tsd-kind-icon">item</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-										<a href="swatches.event.html#preventupdate" class="tsd-kind-icon">prevent<wbr>Update</a>
-									</li>
-								</ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="carousel.tag.mixin.html#config" class="tsd-kind-icon">config</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="carousel.tag.mixin.html#flux" class="tsd-kind-icon">flux</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="carousel.tag.mixin.html#init" class="tsd-kind-icon">init</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="carousel.tag.mixin.html#log" class="tsd-kind-icon">log</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="carousel.tag.mixin.html#services" class="tsd-kind-icon">services</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/toggle.html" class="tsd-kind-icon">Toggle</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="carousel.tag.props.html" class="tsd-kind-icon">Props</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/tooltip.html" class="tsd-kind-icon">Tooltip</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/carousel.tag.html#transform" class="tsd-kind-icon">Transform</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#data_url_prefix" class="tsd-kind-icon">DATA_<wbr>URL_<wbr>PREFIX</a>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/carousel.tag.html#create" class="tsd-kind-icon">create</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#default_index_alias" class="tsd-kind-icon">DEFAULT_<wbr>INDEX_<wbr>ALIAS</a>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/carousel.tag.html#getdescription" class="tsd-kind-icon">get<wbr>Description</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#default_item_alias" class="tsd-kind-icon">DEFAULT_<wbr>ITEM_<wbr>ALIAS</a>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/carousel.tag.html#getmeta" class="tsd-kind-icon">get<wbr>Meta</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#image_pattern" class="tsd-kind-icon">IMAGE_<wbr>PATTERN</a>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/carousel.tag.html#mixin-1" class="tsd-kind-icon">mixin</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="../globals.html#min_swipe_distance" class="tsd-kind-icon">MIN_<wbr>SWIPE_<wbr>DISTANCE</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="../globals.html#move_next_downward_max_angle" class="tsd-kind-icon">MOVE_<wbr>NEXT_<wbr>DOWNWARD_<wbr>MAX_<wbr>ANGLE</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="../globals.html#move_next_upward_max_angle" class="tsd-kind-icon">MOVE_<wbr>NEXT_<wbr>UPWARD_<wbr>MAX_<wbr>ANGLE</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="../globals.html#move_previous_downward_max_angle" class="tsd-kind-icon">MOVE_<wbr>PREVIOUS_<wbr>DOWNWARD_<wbr>MAX_<wbr>ANGLE</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="../globals.html#move_previous_upward_min_angle" class="tsd-kind-icon">MOVE_<wbr>PREVIOUS_<wbr>UPWARD_<wbr>MIN_<wbr>ANGLE</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#zindex_high" class="tsd-kind-icon">ZINDEX_<wbr>HIGH</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#zindex_low" class="tsd-kind-icon">ZINDEX_<wbr>LOW</a>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/carousel.tag.html#setdescription" class="tsd-kind-icon">set<wbr>Description</a>
 					</li>
 				</ul>
 			</nav>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Event | @storefront/structure</title>
+	<title>TouchObject | @storefront/structure</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../classes/swatches.html">Swatches</a>
+					<a href="../classes/carousel.html">Carousel</a>
 				</li>
 				<li>
-					<a href="swatches.event.html">Event</a>
+					<a href="carousel.touchobject.html">TouchObject</a>
 				</li>
 			</ul>
-			<h1>Interface Event</h1>
+			<h1>Interface TouchObject</h1>
 		</div>
 	</div>
 </header>
@@ -73,12 +73,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">Event</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">Event</span>
-							</li>
-						</ul>
+						<span class="target">TouchObject</span>
 					</li>
 				</ul>
 			</section>
@@ -89,8 +84,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="swatches.event.html#item" class="tsd-kind-icon">item</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="swatches.event.html#preventupdate" class="tsd-kind-icon">prevent<wbr>Update</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="carousel.touchobject.html#startx" class="tsd-kind-icon">startX</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="carousel.touchobject.html#starty" class="tsd-kind-icon">startY</a></li>
 							</ul>
 						</section>
 					</div>
@@ -99,31 +94,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="item" class="tsd-anchor"></a>
-					<h3>item</h3>
-					<div class="tsd-signature tsd-kind-icon">item<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<a name="startx" class="tsd-anchor"></a>
+					<h3>startX</h3>
+					<div class="tsd-signature tsd-kind-icon">startX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9f0ddb6/src/swatches/index.ts#L43">src/swatches/index.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9f0ddb6/src/carousel/index.ts#L195">src/carousel/index.ts:195</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>i<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-							</li>
-						</ul>
-					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="preventupdate" class="tsd-anchor"></a>
-					<h3>prevent<wbr>Update</h3>
-					<div class="tsd-signature tsd-kind-icon">prevent<wbr>Update<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="starty" class="tsd-anchor"></a>
+					<h3>startY</h3>
+					<div class="tsd-signature tsd-kind-icon">startY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from Event.preventUpdate</p>
 						<ul>
-							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:62</li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9f0ddb6/src/carousel/index.ts#L196">src/carousel/index.ts:196</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -142,9 +128,26 @@
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="../classes/button.html" class="tsd-kind-icon">Button</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-has-type-parameter">
 						<a href="../classes/carousel.html" class="tsd-kind-icon">Carousel</a>
+						<ul>
+							<li class="current tsd-kind-interface tsd-parent-kind-class">
+								<a href="carousel.touchobject.html" class="tsd-kind-icon">Touch<wbr>Object</a>
+								<ul>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="carousel.touchobject.html#startx" class="tsd-kind-icon">startX</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="carousel.touchobject.html#starty" class="tsd-kind-icon">startY</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-class">
 						<a href="../classes/customselect.html" class="tsd-kind-icon">Custom<wbr>Select</a>
 					</li>
@@ -184,26 +187,9 @@
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="../classes/swatch.html" class="tsd-kind-icon">Swatch</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-class">
+					<li class=" tsd-kind-class">
 						<a href="../classes/swatches.html" class="tsd-kind-icon">Swatches</a>
-						<ul>
-							<li class="current tsd-kind-interface tsd-parent-kind-class">
-								<a href="swatches.event.html" class="tsd-kind-icon">Event</a>
-								<ul>
-									<li class=" tsd-kind-property tsd-parent-kind-interface">
-										<a href="swatches.event.html#item" class="tsd-kind-icon">item</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-										<a href="swatches.event.html#preventupdate" class="tsd-kind-icon">prevent<wbr>Update</a>
-									</li>
-								</ul>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="../classes/toggle.html" class="tsd-kind-icon">Toggle</a>
 					</li>

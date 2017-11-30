@@ -71,6 +71,7 @@
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/button.html" class="tsd-kind-icon">Button</a></li>
+								<li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/carousel.html" class="tsd-kind-icon">Carousel</a></li>
 								<li class="tsd-kind-class"><a href="classes/customselect.html" class="tsd-kind-icon">Custom<wbr>Select</a></li>
 								<li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/filteredlist.html" class="tsd-kind-icon">Filtered<wbr>List</a></li>
 								<li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/icon.html" class="tsd-kind-icon">Icon</a></li>
@@ -96,6 +97,11 @@
 								<li class="tsd-kind-variable"><a href="globals.html#default_index_alias" class="tsd-kind-icon">DEFAULT_<wbr>INDEX_<wbr>ALIAS</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#default_item_alias" class="tsd-kind-icon">DEFAULT_<wbr>ITEM_<wbr>ALIAS</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#image_pattern" class="tsd-kind-icon">IMAGE_<wbr>PATTERN</a></li>
+								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#min_swipe_distance" class="tsd-kind-icon">MIN_<wbr>SWIPE_<wbr>DISTANCE</a></li>
+								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#move_next_downward_max_angle" class="tsd-kind-icon">MOVE_<wbr>NEXT_<wbr>DOWNWARD_<wbr>MAX_<wbr>ANGLE</a></li>
+								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#move_next_upward_max_angle" class="tsd-kind-icon">MOVE_<wbr>NEXT_<wbr>UPWARD_<wbr>MAX_<wbr>ANGLE</a></li>
+								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#move_previous_downward_max_angle" class="tsd-kind-icon">MOVE_<wbr>PREVIOUS_<wbr>DOWNWARD_<wbr>MAX_<wbr>ANGLE</a></li>
+								<li class="tsd-kind-variable tsd-is-not-exported"><a href="globals.html#move_previous_upward_min_angle" class="tsd-kind-icon">MOVE_<wbr>PREVIOUS_<wbr>UPWARD_<wbr>MIN_<wbr>ANGLE</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#zindex_high" class="tsd-kind-icon">ZINDEX_<wbr>HIGH</a></li>
 								<li class="tsd-kind-variable"><a href="globals.html#zindex_low" class="tsd-kind-icon">ZINDEX_<wbr>LOW</a></li>
 							</ul>
@@ -111,7 +117,7 @@
 					<div class="tsd-signature tsd-kind-icon">DATA_<wbr>URL_<wbr>PREFIX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"data:image/"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;data:image/&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/0e25d6e/src/icon/index.ts#L4">src/icon/index.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9f0ddb6/src/icon/index.ts#L4">src/icon/index.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -121,7 +127,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>INDEX_<wbr>ALIAS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"i"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;i&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/0e25d6e/src/list/index.ts#L4">src/list/index.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9f0ddb6/src/list/index.ts#L4">src/list/index.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -131,7 +137,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>ITEM_<wbr>ALIAS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"item"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;item&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/0e25d6e/src/list/index.ts#L3">src/list/index.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9f0ddb6/src/list/index.ts#L3">src/list/index.ts:3</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -141,7 +147,57 @@
 					<div class="tsd-signature tsd-kind-icon">IMAGE_<wbr>PATTERN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> =&nbsp;/.*\..*/</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/0e25d6e/src/icon/index.ts#L3">src/icon/index.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9f0ddb6/src/icon/index.ts#L3">src/icon/index.ts:3</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-not-exported">
+					<a name="min_swipe_distance" class="tsd-anchor"></a>
+					<h3>MIN_<wbr>SWIPE_<wbr>DISTANCE</h3>
+					<div class="tsd-signature tsd-kind-icon">MIN_<wbr>SWIPE_<wbr>DISTANCE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">20</span><span class="tsd-signature-symbol"> =&nbsp;20</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9f0ddb6/src/carousel/index.ts#L3">src/carousel/index.ts:3</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-not-exported">
+					<a name="move_next_downward_max_angle" class="tsd-anchor"></a>
+					<h3>MOVE_<wbr>NEXT_<wbr>DOWNWARD_<wbr>MAX_<wbr>ANGLE</h3>
+					<div class="tsd-signature tsd-kind-icon">MOVE_<wbr>NEXT_<wbr>DOWNWARD_<wbr>MAX_<wbr>ANGLE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">315</span><span class="tsd-signature-symbol"> =&nbsp;315</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9f0ddb6/src/carousel/index.ts#L5">src/carousel/index.ts:5</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-not-exported">
+					<a name="move_next_upward_max_angle" class="tsd-anchor"></a>
+					<h3>MOVE_<wbr>NEXT_<wbr>UPWARD_<wbr>MAX_<wbr>ANGLE</h3>
+					<div class="tsd-signature tsd-kind-icon">MOVE_<wbr>NEXT_<wbr>UPWARD_<wbr>MAX_<wbr>ANGLE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">45</span><span class="tsd-signature-symbol"> =&nbsp;45</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9f0ddb6/src/carousel/index.ts#L4">src/carousel/index.ts:4</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-not-exported">
+					<a name="move_previous_downward_max_angle" class="tsd-anchor"></a>
+					<h3>MOVE_<wbr>PREVIOUS_<wbr>DOWNWARD_<wbr>MAX_<wbr>ANGLE</h3>
+					<div class="tsd-signature tsd-kind-icon">MOVE_<wbr>PREVIOUS_<wbr>DOWNWARD_<wbr>MAX_<wbr>ANGLE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">225</span><span class="tsd-signature-symbol"> =&nbsp;225</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9f0ddb6/src/carousel/index.ts#L7">src/carousel/index.ts:7</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-is-not-exported">
+					<a name="move_previous_upward_min_angle" class="tsd-anchor"></a>
+					<h3>MOVE_<wbr>PREVIOUS_<wbr>UPWARD_<wbr>MIN_<wbr>ANGLE</h3>
+					<div class="tsd-signature tsd-kind-icon">MOVE_<wbr>PREVIOUS_<wbr>UPWARD_<wbr>MIN_<wbr>ANGLE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">135</span><span class="tsd-signature-symbol"> =&nbsp;135</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9f0ddb6/src/carousel/index.ts#L6">src/carousel/index.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -151,7 +207,7 @@
 					<div class="tsd-signature tsd-kind-icon">ZINDEX_<wbr>HIGH<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">10</span><span class="tsd-signature-symbol"> =&nbsp;10</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/0e25d6e/src/slider/index.ts#L4">src/slider/index.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9f0ddb6/src/slider/index.ts#L4">src/slider/index.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -161,7 +217,7 @@
 					<div class="tsd-signature tsd-kind-icon">ZINDEX_<wbr>LOW<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/0e25d6e/src/slider/index.ts#L3">src/slider/index.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9f0ddb6/src/slider/index.ts#L3">src/slider/index.ts:3</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -179,6 +235,9 @@
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="classes/button.html" class="tsd-kind-icon">Button</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/carousel.html" class="tsd-kind-icon">Carousel</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/customselect.html" class="tsd-kind-icon">Custom<wbr>Select</a>
@@ -239,6 +298,21 @@
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#image_pattern" class="tsd-kind-icon">IMAGE_<wbr>PATTERN</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#min_swipe_distance" class="tsd-kind-icon">MIN_<wbr>SWIPE_<wbr>DISTANCE</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#move_next_downward_max_angle" class="tsd-kind-icon">MOVE_<wbr>NEXT_<wbr>DOWNWARD_<wbr>MAX_<wbr>ANGLE</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#move_next_upward_max_angle" class="tsd-kind-icon">MOVE_<wbr>NEXT_<wbr>UPWARD_<wbr>MAX_<wbr>ANGLE</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#move_previous_downward_max_angle" class="tsd-kind-icon">MOVE_<wbr>PREVIOUS_<wbr>DOWNWARD_<wbr>MAX_<wbr>ANGLE</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#move_previous_upward_min_angle" class="tsd-kind-icon">MOVE_<wbr>PREVIOUS_<wbr>UPWARD_<wbr>MIN_<wbr>ANGLE</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#zindex_high" class="tsd-kind-icon">ZINDEX_<wbr>HIGH</a>

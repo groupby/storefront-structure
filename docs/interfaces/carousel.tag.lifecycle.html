@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>State | @storefront/structure</title>
+	<title>Lifecycle | @storefront/structure</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,16 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../classes/swatches.html">Swatches</a>
+					<a href="../classes/carousel.html">Carousel</a>
 				</li>
 				<li>
-					<a href="swatches.state.html">State</a>
+					<a href="../modules/carousel.tag.html">Tag</a>
+				</li>
+				<li>
+					<a href="carousel.tag.lifecycle.html">Lifecycle</a>
 				</li>
 			</ul>
-			<h1>Interface State</h1>
+			<h1>Interface Lifecycle</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +76,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">State</span>
+						<span class="target">Lifecycle</span>
 					</li>
 				</ul>
 			</section>
@@ -84,9 +87,12 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="swatches.state.html#onactivate" class="tsd-kind-icon">on<wbr>Activate</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="swatches.state.html#onclick" class="tsd-kind-icon">on<wbr>Click</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="swatches.state.html#ondeactivate" class="tsd-kind-icon">on<wbr>Deactivate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="carousel.tag.lifecycle.html#onbeforemount" class="tsd-kind-icon">on<wbr>Before<wbr>Mount</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="carousel.tag.lifecycle.html#onbeforeunmount" class="tsd-kind-icon">on<wbr>Before<wbr>Unmount</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="carousel.tag.lifecycle.html#onmount" class="tsd-kind-icon">on<wbr>Mount</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="carousel.tag.lifecycle.html#onunmount" class="tsd-kind-icon">on<wbr>Unmount</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="carousel.tag.lifecycle.html#onupdate" class="tsd-kind-icon">on<wbr>Update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="carousel.tag.lifecycle.html#onupdated" class="tsd-kind-icon">on<wbr>Updated</a></li>
 							</ul>
 						</section>
 					</div>
@@ -95,22 +101,95 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="onactivate" class="tsd-anchor"></a>
-					<h3>on<wbr>Activate</h3>
+					<a name="onbeforemount" class="tsd-anchor"></a>
+					<h3>on<wbr>Before<wbr>Mount</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">on<wbr>Activate<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><a href="swatches.event.html" class="tsd-signature-type">Event</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Before<wbr>Mount<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9f0ddb6/src/swatches/index.ts#L38">src/swatches/index.ts:38</a></li>
+									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:68</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>aliases are available here</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="onbeforeunmount" class="tsd-anchor"></a>
+					<h3>on<wbr>Before<wbr>Unmount</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Before<wbr>Unmount<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:72</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="onmount" class="tsd-anchor"></a>
+					<h3>on<wbr>Mount</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Mount<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:69</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="onunmount" class="tsd-anchor"></a>
+					<h3>on<wbr>Unmount</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Unmount<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:73</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="onupdate" class="tsd-anchor"></a>
+					<h3>on<wbr>Update</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Update<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:70</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>event: <a href="swatches.event.html" class="tsd-signature-type">Event</a></h5>
+									<h5>state: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -118,47 +197,18 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="onclick" class="tsd-anchor"></a>
-					<h3>on<wbr>Click</h3>
+					<a name="onupdated" class="tsd-anchor"></a>
+					<h3>on<wbr>Updated</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">on<wbr>Click<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><a href="swatches.event.html" class="tsd-signature-type">Event</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Updated<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9f0ddb6/src/swatches/index.ts#L37">src/swatches/index.ts:37</a></li>
+									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:71</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>event: <a href="swatches.event.html" class="tsd-signature-type">Event</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="ondeactivate" class="tsd-anchor"></a>
-					<h3>on<wbr>Deactivate</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">on<wbr>Deactivate<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><a href="swatches.event.html" class="tsd-signature-type">Event</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/9f0ddb6/src/swatches/index.ts#L39">src/swatches/index.ts:39</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>event: <a href="swatches.event.html" class="tsd-signature-type">Event</a></h5>
-								</li>
-							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -175,112 +225,65 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/button.html" class="tsd-kind-icon">Button</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="carousel.tag.description.html" class="tsd-kind-icon">Description</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/carousel.html" class="tsd-kind-icon">Carousel</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="../classes/customselect.html" class="tsd-kind-icon">Custom<wbr>Select</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/filteredlist.html" class="tsd-kind-icon">Filtered<wbr>List</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/icon.html" class="tsd-kind-icon">Icon</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/link.html" class="tsd-kind-icon">Link</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/list.html" class="tsd-kind-icon">List</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/listitem.html" class="tsd-kind-icon">List<wbr>Item</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="../classes/modal.html" class="tsd-kind-icon">Modal</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/nativeselect.html" class="tsd-kind-icon">Native<wbr>Select</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/raw.html" class="tsd-kind-icon">Raw</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/select.html" class="tsd-kind-icon">Select</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/selectoption.html" class="tsd-kind-icon">Select<wbr>Option</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/slider.html" class="tsd-kind-icon">Slider</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/swatch.html" class="tsd-kind-icon">Swatch</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="carousel.tag.event.html" class="tsd-kind-icon">Event</a>
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class">
-						<a href="../classes/swatches.html" class="tsd-kind-icon">Swatches</a>
+					<li class="current tsd-kind-interface tsd-parent-kind-module">
+						<a href="carousel.tag.lifecycle.html" class="tsd-kind-icon">Lifecycle</a>
 						<ul>
-							<li class="current tsd-kind-interface tsd-parent-kind-class">
-								<a href="swatches.state.html" class="tsd-kind-icon">State</a>
-								<ul>
-									<li class=" tsd-kind-method tsd-parent-kind-interface">
-										<a href="swatches.state.html#onactivate" class="tsd-kind-icon">on<wbr>Activate</a>
-									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-interface">
-										<a href="swatches.state.html#onclick" class="tsd-kind-icon">on<wbr>Click</a>
-									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-interface">
-										<a href="swatches.state.html#ondeactivate" class="tsd-kind-icon">on<wbr>Deactivate</a>
-									</li>
-								</ul>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="carousel.tag.lifecycle.html#onbeforemount" class="tsd-kind-icon">on<wbr>Before<wbr>Mount</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="carousel.tag.lifecycle.html#onbeforeunmount" class="tsd-kind-icon">on<wbr>Before<wbr>Unmount</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="carousel.tag.lifecycle.html#onmount" class="tsd-kind-icon">on<wbr>Mount</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="carousel.tag.lifecycle.html#onunmount" class="tsd-kind-icon">on<wbr>Unmount</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="carousel.tag.lifecycle.html#onupdate" class="tsd-kind-icon">on<wbr>Update</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="carousel.tag.lifecycle.html#onupdated" class="tsd-kind-icon">on<wbr>Updated</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/toggle.html" class="tsd-kind-icon">Toggle</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="carousel.tag.metadata.html" class="tsd-kind-icon">Metadata</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="../classes/tooltip.html" class="tsd-kind-icon">Tooltip</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="carousel.tag.mixin.html" class="tsd-kind-icon">Mixin</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#data_url_prefix" class="tsd-kind-icon">DATA_<wbr>URL_<wbr>PREFIX</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="carousel.tag.props.html" class="tsd-kind-icon">Props</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#default_index_alias" class="tsd-kind-icon">DEFAULT_<wbr>INDEX_<wbr>ALIAS</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/carousel.tag.html#transform" class="tsd-kind-icon">Transform</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#default_item_alias" class="tsd-kind-icon">DEFAULT_<wbr>ITEM_<wbr>ALIAS</a>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/carousel.tag.html#create" class="tsd-kind-icon">create</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#image_pattern" class="tsd-kind-icon">IMAGE_<wbr>PATTERN</a>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/carousel.tag.html#getdescription" class="tsd-kind-icon">get<wbr>Description</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="../globals.html#min_swipe_distance" class="tsd-kind-icon">MIN_<wbr>SWIPE_<wbr>DISTANCE</a>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/carousel.tag.html#getmeta" class="tsd-kind-icon">get<wbr>Meta</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="../globals.html#move_next_downward_max_angle" class="tsd-kind-icon">MOVE_<wbr>NEXT_<wbr>DOWNWARD_<wbr>MAX_<wbr>ANGLE</a>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/carousel.tag.html#mixin-1" class="tsd-kind-icon">mixin</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="../globals.html#move_next_upward_max_angle" class="tsd-kind-icon">MOVE_<wbr>NEXT_<wbr>UPWARD_<wbr>MAX_<wbr>ANGLE</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="../globals.html#move_previous_downward_max_angle" class="tsd-kind-icon">MOVE_<wbr>PREVIOUS_<wbr>DOWNWARD_<wbr>MAX_<wbr>ANGLE</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="../globals.html#move_previous_upward_min_angle" class="tsd-kind-icon">MOVE_<wbr>PREVIOUS_<wbr>UPWARD_<wbr>MIN_<wbr>ANGLE</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#zindex_high" class="tsd-kind-icon">ZINDEX_<wbr>HIGH</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#zindex_low" class="tsd-kind-icon">ZINDEX_<wbr>LOW</a>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/carousel.tag.html#setdescription" class="tsd-kind-icon">set<wbr>Description</a>
 					</li>
 				</ul>
 			</nav>
