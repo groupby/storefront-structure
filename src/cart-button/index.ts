@@ -30,6 +30,11 @@ class CartButton {
     this.flux.emit('cart:update', this.state.cart);
   }
 
+  createCart(item: string) {
+    this.set({ cart: { ...this.state.cart, item }});
+    this.flux.emit('cart:create', this.state.cart);
+  }
+
 }
 
 interface CartButton extends Tag<CartButton.Props> { }
