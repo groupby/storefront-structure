@@ -33,6 +33,17 @@ suite('Carousel', ({ expect, spy, stub }) => {
       ];
     });
 
+    describe('init()', () => {
+      it('should call expose()', () => {
+        const item = carousel.item = { a: 'b' };
+        const expose = carousel.expose = spy();
+
+        carousel.init();
+
+        expect(expose).to.be.calledWith('carouselItem', item);
+      });
+    });
+
     describe('onMount()', () => {
       it('should add event listener for window resize', () => {
         const addEventListener = spy();
@@ -47,6 +58,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
     describe('onUpdate()', () => {
       it('should add cloned items to state', () => {
         const clone = carousel.cloneItems = spy();
+        carousel.props.speed = 200;
 
         carousel.onUpdate();
 
