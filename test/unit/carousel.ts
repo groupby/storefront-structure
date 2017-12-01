@@ -35,12 +35,12 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
     describe('init()', () => {
       it('should call expose()', () => {
-        const item = carousel.item = { a: 'b' };
+        const props = carousel.props;
         const expose = carousel.expose = spy();
 
         carousel.init();
 
-        expect(expose).to.be.calledWith('carouselItem', item);
+        expect(expose).to.be.calledWith('carousel', props);
       });
     });
 

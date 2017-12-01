@@ -1,7 +1,7 @@
-import { alias, tag, utils, Tag } from '@storefront/core';
+import { tag, utils, Tag } from '@storefront/core';
 
-export const DEFAULT_ITEM_ALIAS = 'item';
-export const DEFAULT_INDEX_ALIAS = 'i';
+export const DEFAULT_ITEM_ALIAS = 'slide';
+export const DEFAULT_INDEX_ALIAS = 'index';
 
 const MIN_SWIPE_DISTANCE = 20;
 const MOVE_NEXT_UPWARD_MAX_ANGLE = 45;
@@ -22,13 +22,14 @@ class Carousel {
     slidesToScroll: 1,
     items: [],
     itemAlias: DEFAULT_ITEM_ALIAS,
-    indexAlias: DEFAULT_INDEX_ALIAS
+    indexAlias: DEFAULT_INDEX_ALIAS,
+    getSlideWidth: () => this.refs.wrapper.offsetWidth / this.props.slidesToShow
   };
 
   state: Carousel.State = {
     currentSlide: 0,
     transitioning: false,
-    items: []
+    items: [],
   };
   animationEndCallback: NodeJS.Timer = null;
 
@@ -194,6 +195,7 @@ namespace Carousel {
     items: any[];
     itemAlias?: string;
     indexAlias?: string;
+    getSlideWidth: () => number;
   }
 
   export interface State {
