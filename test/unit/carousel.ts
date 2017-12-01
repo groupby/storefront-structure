@@ -58,7 +58,6 @@ suite('Carousel', ({ expect, spy, stub }) => {
     describe('onUpdate()', () => {
       it('should add cloned items to state', () => {
         const clone = carousel.cloneItems = spy();
-        carousel.props.speed = 200;
 
         carousel.onUpdate();
 

@@ -28,7 +28,7 @@ class Carousel {
   state: Carousel.State = {
     currentSlide: 0,
     transitioning: false,
-    items: [],
+    items: []
   };
   animationEndCallback: NodeJS.Timer = null;
 
