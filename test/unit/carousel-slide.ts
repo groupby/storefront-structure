@@ -13,7 +13,7 @@ suite('CarouselSlide', ({ expect, spy }) => {
       const expose = carouselSlide.expose = spy();
       const item = carouselSlide.slide = { a: 'b' };
       const index = carouselSlide.index = <any>{ c: 'd' };
-      carouselSlide.$carousel = { itemAlias, indexAlias };
+      carouselSlide.$carousel = <any>{ itemAlias, indexAlias };
       carouselSlide.unexpose = () => null;
 
       carouselSlide.init();
@@ -25,17 +25,17 @@ suite('CarouselSlide', ({ expect, spy }) => {
     it('should call unexpose()', () => {
       const unexpose = carouselSlide.unexpose = spy();
       carouselSlide.expose = () => null;
-      carouselSlide.$carousel = {};
+      carouselSlide.$carousel = <any>{};
 
       carouselSlide.init();
 
-      expect(unexpose).to.be.calledWith('list');
+      expect(unexpose).to.be.calledWith('carousel');
     });
   });
 
   describe('onUpdate()', () => {
     it('should update item and index aliases', () => {
-      const item = carouselSlide.slide = { a: 'b' };
+      const slide = carouselSlide.slide = { a: 'b' };
       const index = carouselSlide.index = 7;
       const itemAlias = carouselSlide.itemAlias = 'myItem';
       const indexAlias = carouselSlide.indexAlias = 'myIndex';
@@ -43,7 +43,7 @@ suite('CarouselSlide', ({ expect, spy }) => {
 
       carouselSlide.onUpdate();
 
-      expect(updateAlias).to.be.calledWith(itemAlias, item);
+      expect(updateAlias).to.be.calledWith(itemAlias, slide);
       expect(updateAlias).to.be.calledWith(indexAlias, index);
     });
   });

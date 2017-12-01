@@ -22,8 +22,7 @@ class Carousel {
     slidesToScroll: 1,
     items: [],
     itemAlias: DEFAULT_ITEM_ALIAS,
-    indexAlias: DEFAULT_INDEX_ALIAS,
-    getSlideWidth: () => this.refs.wrapper.offsetWidth / this.props.slidesToShow
+    indexAlias: DEFAULT_INDEX_ALIAS
   };
 
   state: Carousel.State = {
@@ -195,7 +194,6 @@ namespace Carousel {
     items: any[];
     itemAlias?: string;
     indexAlias?: string;
-    getSlideWidth: () => number;
   }
 
   export interface State {
