@@ -17,6 +17,8 @@ class CartButton {
     let { itemCount } = this.state;
     itemCount = itemCount ? this.state.itemCount + 1 : 1;
     this.set({ itemCount });
+    console.log('clicked')
+    this.flux.emit(Events.CREATE_CART);
     if (itemCount === 1) {
       // this.flux.emit(Events.CREATE_CART);
       // this.flux.emit(Events.ADD_TO_CART);
