@@ -39,11 +39,11 @@
     conventional-changelog "0.0.17"
     github-url-from-git "^1.4.0"
 
-"@storefront/core@~1.32.0":
-  version "1.32.0"
-  resolved "https://registry.yarnpkg.com/@storefront/core/-/core-1.32.0.tgz#212c3f0a4c23c909d51a77ef5c9fa58278e11823"
+"@storefront/core@~1.33.0":
+  version "1.33.0"
+  resolved "https://registry.yarnpkg.com/@storefront/core/-/core-1.33.0.tgz#7e0664e636d101d94e19474251e5f1b00127a702"
   dependencies:
-    "@storefront/flux-capacitor" "1.32.0"
+    "@storefront/flux-capacitor" "1.33.0"
     "@types/clone" "^0.1.30"
     "@types/deep-assign" "^0.1.0"
     "@types/js-cookie" "^2.0.28"
@@ -59,9 +59,9 @@
     riot "^3.4.4"
     url-parse "^1.1.9"
 
-"@storefront/flux-capacitor@1.32.0":
-  version "1.32.0"
-  resolved "https://registry.yarnpkg.com/@storefront/flux-capacitor/-/flux-capacitor-1.32.0.tgz#03fff5f26fb5230d77c33e58720607e755a10c33"
+"@storefront/flux-capacitor@1.33.0":
+  version "1.33.0"
+  resolved "https://registry.yarnpkg.com/@storefront/flux-capacitor/-/flux-capacitor-1.33.0.tgz#73cbd0233b21727cbaad99f8988a0f646a039a0a"
   dependencies:
     "@manaflair/redux-batch" "^0.1.0"
     "@types/redux-logger" "^3.0.0"
@@ -142,8 +142,8 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.71.tgz#0dc383f78981216ac76e2f2c3afd998e0450e4c1"
 
 "@types/lodash@^4.14.70":
-  version "4.14.86"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.86.tgz#6788d3d75032c46322ff1c144c948cf8117c405b"
+  version "4.14.87"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.87.tgz#55f92183b048c2c64402afe472f8333f4e319a6b"
 
 "@types/loglevel@^1.4.29":
   version "1.5.3"
