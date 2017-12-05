@@ -4,14 +4,20 @@ import { tag, Actions, Events, Selectors, Tag } from '@storefront/core';
 class CartButton {
 
   refs: { button: HTMLButtonElement };
+
+  state: CartButton.State = <any>{
+  };
+
   constructor() {
     const cart = this.select(Selectors.cart);
+    const details = this.select(Selectors.details);
+    console.log('d', this)
     this.state = { ...this.state, cart };
   }
 
   init() {
     this.services.cart.register(this);
-    this.flux.on(Events.CART_CREATED, this.updateCart)
+    this.flux.on(Events.CART_ID_UPDATED, this.registerCartId);
   }
 
   onClick(event: MouseEvent & Tag.Event) {
@@ -19,28 +25,19 @@ class CartButton {
     if (this.props.onClick) {
       this.props.onClick(event);
     }
-    let { itemCount } = this.state;
-    itemCount = itemCount ? this.state.itemCount + 1 : 1;
-    this.set({ itemCount });
-    console.log('clicked')
-    this.flux.emit(Events.CREATE_CART);
-    if (itemCount === 1) {
-      // this.flux.emit(Events.CREATE_CART);
-      // this.flux.emit(Events.ADD_TO_CART);
-    } else {
-      // this.flux.emit(Events.ADD_TO_CART);
+
+    if (!this.state.cart.cartId) {
+      this.flux.emit(Events.CREATE_CART);
     }
+    this.addItem();
   }
 
-  updateCart() {
-    console.log('update')
-    // this.set({ cart: { ...this.state.cart, item }});
-    // this.flux.emit('cart:update', this.state.cart);
+  registerCartId = (cartId: number) => {
+    this.set({ ...this.state, cart: { ...this.state.cart, cartId } });
   }
 
-  createCart(item: string) {
-    this.set({ cart: { ...this.state.cart, item }});
-    this.flux.emit('cart:create', this.state.cart);
+  addItem = () => {
+    this.set({ ...this.state, cart: { ...this.state.cart, items: [...this.state.cart.items, 'toothpaste'] } });
   }
 
 }
@@ -49,6 +46,10 @@ interface CartButton extends Tag<CartButton.Props> { }
 namespace CartButton {
   export interface Props extends Tag.Props {
     onClick: (event: MouseEvent & Tag.Event) => void;
+  }
+
+  export interface State {
+    cart: any;
   }
 }
 
