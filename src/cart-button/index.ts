@@ -9,6 +9,11 @@ class CartButton {
     this.state = { ...this.state, cart };
   }
 
+  init() {
+    this.services.cart.register(this);
+    this.flux.on(Events.CART_CREATED, this.updateCart)
+  }
+
   onClick(event: MouseEvent & Tag.Event) {
     event.preventUpdate = true;
     if (this.props.onClick) {
@@ -27,9 +32,10 @@ class CartButton {
     }
   }
 
-  updateCart(item: string) {
-    this.set({ cart: { ...this.state.cart, item }});
-    this.flux.emit('cart:update', this.state.cart);
+  updateCart() {
+    console.log('update')
+    // this.set({ cart: { ...this.state.cart, item }});
+    // this.flux.emit('cart:update', this.state.cart);
   }
 
   createCart(item: string) {
