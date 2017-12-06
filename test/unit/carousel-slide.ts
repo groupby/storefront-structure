@@ -1,7 +1,7 @@
 import CarouselSlide from '../../src/carousel-slide';
 import suite from './_suite';
 
-suite('CarouselSlide', ({ expect, spy }) => {
+suite.only('CarouselSlide', ({ expect, spy }) => {
   let carouselSlide: CarouselSlide;
 
   beforeEach(() => carouselSlide = new CarouselSlide());
@@ -10,26 +10,17 @@ suite('CarouselSlide', ({ expect, spy }) => {
     it('should expose the slide and index', () => {
       const itemAlias = 'someAlias';
       const indexAlias = 'someIndex';
-      const expose = carouselSlide.expose = spy();
       const item = carouselSlide.slide = { a: 'b' };
       const index = carouselSlide.index = <any>{ c: 'd' };
       carouselSlide.$carousel = <any>{ itemAlias, indexAlias };
-      carouselSlide.unexpose = () => null;
-
-      carouselSlide.init();
-
-      expect(expose).to.be.calledWith(itemAlias, item);
-      expect(expose).to.be.calledWith(indexAlias, index);
-    });
-
-    it('should call unexpose()', () => {
+      const expose = carouselSlide.expose = spy();
       const unexpose = carouselSlide.unexpose = spy();
-      carouselSlide.expose = () => null;
-      carouselSlide.$carousel = <any>{};
 
       carouselSlide.init();
 
-      expect(unexpose).to.be.calledWith('carousel');
+      expect(expose).to.be.calledWithExactly(itemAlias, item);
+      expect(expose).to.be.calledWithExactly(indexAlias, index);
+      expect(unexpose).to.be.calledWithExactly('carousel');
     });
   });
 
@@ -43,8 +34,8 @@ suite('CarouselSlide', ({ expect, spy }) => {
 
       carouselSlide.onUpdate();
 
-      expect(updateAlias).to.be.calledWith(itemAlias, slide);
-      expect(updateAlias).to.be.calledWith(indexAlias, index);
+      expect(updateAlias).to.be.calledWithExactly(itemAlias, slide);
+      expect(updateAlias).to.be.calledWithExactly(indexAlias, index);
     });
   });
 });
