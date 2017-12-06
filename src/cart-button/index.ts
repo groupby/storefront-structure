@@ -5,13 +5,9 @@ class CartButton {
 
   refs: { button: HTMLButtonElement };
 
-  state: CartButton.State = <any>{
-  };
-
   constructor() {
     const cart = this.select(Selectors.cart);
     const details = this.select(Selectors.details);
-    console.log('d', this)
     this.state = { ...this.state, cart };
   }
 
@@ -25,19 +21,21 @@ class CartButton {
     if (this.props.onClick) {
       this.props.onClick(event);
     }
+    console.log('product', this.props.product);
 
     if (!this.state.cart.cartId) {
       this.flux.emit(Events.CREATE_CART);
     }
-    this.addItem();
+    this.addItem(this.props.product);
   }
 
   registerCartId = (cartId: number) => {
     this.set({ ...this.state, cart: { ...this.state.cart, cartId } });
   }
 
-  addItem = () => {
-    this.set({ ...this.state, cart: { ...this.state.cart, items: [...this.state.cart.items, 'toothpaste'] } });
+  addItem = (item: any) => {
+    this.flux.store.dispatch(this.flux.actions.addToCart(item));
+    // this.set({ ...this.state, cart: { ...this.state.cart, items: [...this.state.cart.items, ...item] } });
   }
 
 }
@@ -46,6 +44,7 @@ interface CartButton extends Tag<CartButton.Props> { }
 namespace CartButton {
   export interface Props extends Tag.Props {
     onClick: (event: MouseEvent & Tag.Event) => void;
+    product: any;
   }
 
   export interface State {
