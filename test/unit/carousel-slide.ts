@@ -1,7 +1,7 @@
 import CarouselSlide from '../../src/carousel-slide';
 import suite from './_suite';
 
-suite.only('CarouselSlide', ({ expect, spy }) => {
+suite('CarouselSlide', ({ expect, spy }) => {
   let carouselSlide: CarouselSlide;
 
   beforeEach(() => carouselSlide = new CarouselSlide());
