@@ -7,7 +7,7 @@ suite('CarouselSlide', ({ expect, spy }) => {
   beforeEach(() => carouselSlide = new CarouselSlide());
 
   describe('init()', () => {
-    it('should expose the slide and index', () => {
+    it('should expose the slide and index and unexpose carousel', () => {
       const itemAlias = 'someAlias';
       const indexAlias = 'someIndex';
       const item = carouselSlide.slide = { a: 'b' };
