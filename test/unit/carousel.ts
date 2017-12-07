@@ -33,6 +33,17 @@ suite('Carousel', ({ expect, spy, stub }) => {
       ];
     });
 
+    describe('init()', () => {
+      it('should call expose()', () => {
+        const props = carousel.props;
+        const expose = carousel.expose = spy();
+
+        carousel.init();
+
+        expect(expose).to.be.calledWith('carousel', props);
+      });
+    });
+
     describe('onMount()', () => {
       it('should add event listener for window resize', () => {
         const addEventListener = spy();

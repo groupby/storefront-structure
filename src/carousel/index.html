@@ -1,7 +1,7 @@
 <div class="carousel" ref="wrapper" touchstart="{ onTouchStart }">
   <div class="carousel__list">
     <div class="carousel__track" ref="track" style="{ trackStyle() }">
-      <div class="carousel__slide" each="{ product in $carousel.items }" style="width: { getSlideWidth() }px">
+      <div data-is="gb-carousel-slide" class="carousel__slide" style="width: { parent.getSlideWidth() }px" each="{ slide in state.items }">
         <yield/>
       </div>
     </div>

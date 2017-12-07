@@ -1,4 +1,7 @@
-import { alias, tag, utils, Tag } from '@storefront/core';
+import { tag, utils, Tag } from '@storefront/core';
+
+export const DEFAULT_ITEM_ALIAS = 'slide';
+export const DEFAULT_INDEX_ALIAS = 'index';
 
 const MIN_SWIPE_DISTANCE = 20;
 const MOVE_NEXT_UPWARD_MAX_ANGLE = 45;
@@ -6,25 +9,32 @@ const MOVE_NEXT_DOWNWARD_MAX_ANGLE = 315;
 const MOVE_PREVIOUS_UPWARD_MIN_ANGLE = 135;
 const MOVE_PREVIOUS_DOWNWARD_MAX_ANGLE = 225;
 
-@alias('carousel')
 @tag('gb-carousel', require('./index.html'), require('./index.css'))
 class Carousel {
   refs: {
     wrapper: HTMLDivElement,
     track: HTMLDivElement
   };
+
   props: Carousel.Props = {
     speed: 0,
     slidesToShow: 1,
     slidesToScroll: 1,
-    items: []
+    items: [],
+    itemAlias: DEFAULT_ITEM_ALIAS,
+    indexAlias: DEFAULT_INDEX_ALIAS
   };
+
   state: Carousel.State = {
     currentSlide: 0,
     transitioning: false,
     items: []
   };
   animationEndCallback: NodeJS.Timer = null;
+
+  init() {
+    this.expose('carousel', this.props);
+  }
 
   onMount() {
     utils.WINDOW().addEventListener('resize', this.update);
@@ -182,6 +192,8 @@ namespace Carousel {
     slidesToShow: number;
     slidesToScroll: number;
     items: any[];
+    itemAlias?: string;
+    indexAlias?: string;
   }
 
   export interface State {
