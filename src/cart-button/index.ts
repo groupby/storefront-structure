@@ -21,7 +21,6 @@ class CartButton {
     if (this.props.onClick) {
       this.props.onClick(event);
     }
-    console.log('product', this.props.product);
 
     if (!this.state.cart.cartId) {
       this.flux.emit(Events.CREATE_CART);
