@@ -13,6 +13,7 @@ import ListItem from './list-item';
 import Modal from './modal';
 import NativeSelect from './native-select';
 import Pill from './pill';
+import QuantitySelector from './quantity-selector';
 import Raw from './raw';
 import Select from './select';
 import SelectOption from './select-option';
@@ -36,6 +37,7 @@ export {
   Modal,
   Pill,
   NativeSelect,
+  QuantitySelector,
   Raw,
   Select,
   SelectOption,
