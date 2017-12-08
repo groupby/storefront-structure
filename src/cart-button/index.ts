@@ -21,19 +21,17 @@ class CartButton {
     if (this.props.onClick) {
       this.props.onClick(event);
     }
-
-    if (!this.state.cart.cartId) {
-      this.flux.emit(Events.CREATE_CART);
-    }
+    
     this.addItem(this.props.product);
   }
-
+  
   registerCartId = (cartId: number) => {
     this.set({ ...this.state, cart: { ...this.state.cart, cartId } });
   }
-
+  
   addItem = (item: any) => {
-    this.flux.store.dispatch(this.flux.actions.addToCart(item));
+    this.flux.emit(Events.ADD_TO_CART);
+    // this.flux.store.dispatch(this.flux.actions.addToCart(item));
     // this.set({ ...this.state, cart: { ...this.state.cart, items: [...this.state.cart.items, ...item] } });
   }
 
