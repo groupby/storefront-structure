@@ -1,0 +1,18 @@
+.cart__icon__wrapper {
+  display: flex;
+}
+
+.cart__icon {
+}
+
+.cart__item__quantity {
+  background-color: #0097a7;
+  width: 1em;
+  height: 1em;
+  border-radius: 68%;
+  z-index: 100;
+  display: inline-block;
+  margin-left: -12%;
+  margin-bottom: 15%;
+}
+

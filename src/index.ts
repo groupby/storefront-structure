@@ -3,6 +3,7 @@ import Button from './button';
 import Carousel from './carousel';
 import CarouselSlide from './carousel-slide';
 import CartButton from './cart-button';
+import CartIcon from './cart-icon';
 import './container';
 import CustomSelect from './custom-select';
 import FilteredList from './filtered-list';
@@ -28,6 +29,7 @@ export {
   Carousel,
   CarouselSlide,
   CartButton,
+  CartIcon,
   CustomSelect,
   FilteredList,
   Icon,
