@@ -5,12 +5,13 @@ class CartButton {
 
   constructor() {
     const cart = this.select(Selectors.cart);
-    this.state = { ...this.state, cart, selected: 0 };
+    this.state = { ...this.state, cart };
   }
 
   init() {
     // this.services.cart.register(this);
     this.flux.on(Events.CART_ID_UPDATED, this.registerCartId);
+    this.flux.on('selector:update', this.updateQuantity);
   }
 
   onClick(event: MouseEvent & Tag.Event) {
@@ -26,8 +27,13 @@ class CartButton {
     this.set({ ...this.state, cart: { ...this.state.cart, cartId } });
   }
 
+  updateQuantity = (quantity: number) => {
+    console.log('quantity', typeof quantity);
+    this.set({ quantity });
+  }
+
   addItem = (item: any) => {
-    this.flux.store.dispatch(this.flux.actions.addToCart(item));
+    this.flux.store.dispatch(this.flux.actions.addToCart(item, this.state.quantity));
   }
 
 }
