@@ -1,23 +1,27 @@
 import { alias, tag, Events, Selectors, Tag } from '@storefront/core';
 
+const INITIAL_INDEX = 0;
+
 @alias('selector')
 @tag('gb-quantity-selector', require('./index.html'))
 class QuantitySelector {
 
-  constructor() {
-    const cart = this.select(Selectors.cart);
-    const details = this.select(Selectors.details);
-    this.state = { ...this.state, cart, selected: 0 };
-  }
+  state: QuantitySelector.State = {
+    selected: INITIAL_INDEX,
+    options: []
+  };
 
   init() {
     this.getOptions(this.props.quantity);
+
+    // args for this event is a url link
+    this.flux.on(Events.URL_UPDATED, this.reset);
   }
-  
+
   onMount() {
     this.flux.emit('selector:update', this.state.options[this.state.selected].value);
   }
-  
+
   getOptions = (quantity: number) => {
     let options = [];
     let i;
@@ -32,17 +36,17 @@ class QuantitySelector {
     this.state.options = options;
   }
 
-  onSelect = (event: MouseEvent & Tag.Event) => {
-    this.set({ selected: event });
-    this.setSelected();
-  }
-
-  setSelected = () => {
+  setSelected = (target: number = INITIAL_INDEX) => {
+    this.state.selected = target;
     this.state.options.forEach((el, i) => {
       el['selected'] = (i === this.state.selected ? true : false);
     });
 
     this.flux.emit('selector:update', this.state.options[this.state.selected].value);
+  }
+
+  reset = () => {
+    this.setSelected();
   }
 
 }
@@ -53,6 +57,11 @@ namespace QuantitySelector {
     onSelect: (event: MouseEvent & Tag.Event) => void;
     product: any;
     quantity: number;
+  }
+
+  export interface State {
+    selected: number;
+    options: any[];
   }
 }
 

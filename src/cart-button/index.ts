@@ -3,14 +3,9 @@ import { tag, Events, Selectors, Tag } from '@storefront/core';
 @tag('gb-cart-button', require('./index.html'))
 class CartButton {
 
-  constructor() {
-    const cart = this.select(Selectors.cart);
-    this.state = { ...this.state, cart };
-  }
-
   init() {
+    // todo: keep this for service in core
     // this.services.cart.register(this);
-    this.flux.on(Events.CART_ID_UPDATED, this.registerCartId);
     this.flux.on('selector:update', this.updateQuantity);
   }
 
@@ -23,12 +18,7 @@ class CartButton {
     this.addItem(this.props.product);
   }
 
-  registerCartId = (cartId: number) => {
-    this.set({ ...this.state, cart: { ...this.state.cart, cartId } });
-  }
-
   updateQuantity = (quantity: number) => {
-    console.log('quantity', typeof quantity);
     this.set({ quantity });
   }
 
