@@ -23,7 +23,7 @@ class QuantitySelector {
   }
 
   getOptions = (quantity: number) => {
-    let options = [];
+    const options = [];
     for (let i = 0; i < quantity; i++) {
       const value = i + 1;
 
