@@ -8,8 +8,8 @@ class CartIcon {
   };
 
   constructor() {
-    const cart = this.select(Selectors.cart);
-    this.state = { ...this.state, quantity: cart.content.quantity };
+    const { quantity } = this.select(Selectors.cart).content;
+    this.state = { ...this.state, quantity };
   }
 
   init() {
@@ -23,7 +23,7 @@ class CartIcon {
 
 }
 
-interface CartIcon extends Tag<CartIcon.Props> { }
+interface CartIcon extends Tag<CartIcon.Props, CartIcon.State> { }
 namespace CartIcon {
   export interface Props extends Tag.Props {
     onClick: (event: MouseEvent & Tag.Event) => void;

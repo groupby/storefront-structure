@@ -19,30 +19,26 @@ class QuantitySelector {
   }
 
   onMount() {
-    this.flux.emit('selector:update', this.state.options[this.state.selected].value);
+    this.flux.emit('selector:change_quantity', this.state.options[this.state.selected].value);
   }
 
   getOptions = (quantity: number) => {
     let options = [];
-    let i;
-    for (i = 0; i < quantity; i++) {
-      let el = {};
+    for (let i = 0; i < quantity; i++) {
       const value = i + 1;
-      el = { value };
-      el['label'] = value.toString();
-      el['selected'] = (i === this.state.selected ? true : false);
-      options.push(el);
+
+      options.push({ value, label: value.toString(), selected: (i === this.state.selected) });
     }
     this.state.options = options;
   }
 
   setSelected = (target: number = INITIAL_INDEX) => {
     this.state.selected = target;
-    this.state.options.forEach((el, i) => {
-      el['selected'] = (i === this.state.selected ? true : false);
+    this.state.options.forEach((el: Option, i) => {
+      el.selected = (i === this.state.selected);
     });
 
-    this.flux.emit('selector:update', this.state.options[this.state.selected].value);
+    this.flux.emit('selector:change_quantity', this.state.options[this.state.selected].value);
   }
 
   reset = () => {
@@ -51,7 +47,7 @@ class QuantitySelector {
 
 }
 
-interface QuantitySelector extends Tag<QuantitySelector.Props> { }
+interface QuantitySelector extends Tag<QuantitySelector.Props, QuantitySelector.State> { }
 namespace QuantitySelector {
   export interface Props extends Tag.Props {
     onSelect: (event: MouseEvent & Tag.Event) => void;
@@ -63,6 +59,12 @@ namespace QuantitySelector {
     selected: number;
     options: any[];
   }
+}
+
+interface Option {
+  value: number;
+  label: string;
+  selected: boolean;
 }
 
 export default QuantitySelector;

@@ -6,7 +6,7 @@ class CartButton {
   init() {
     // todo: keep this for service in core
     // this.services.cart.register(this);
-    this.flux.on('selector:update', this.updateQuantity);
+    this.flux.on('selector:change_quantity', this.updateQuantity);
   }
 
   onClick(event: MouseEvent & Tag.Event) {
