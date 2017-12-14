@@ -13,7 +13,7 @@ class CartIcon {
   }
 
   init() {
-    this.flux.on(Events.CART_UPDATED, this.updateQuantity);
+    this.flux.on(Events.CART_QUANTITY_UPDATED, this.updateQuantity);
   }
 
   updateQuantity = () => {

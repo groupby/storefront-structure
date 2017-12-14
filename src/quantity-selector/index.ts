@@ -2,7 +2,7 @@ import { alias, tag, Events, Selectors, Tag } from '@storefront/core';
 
 const INITIAL_INDEX = 0;
 
-@alias('selector')
+@alias('quantitySelector')
 @tag('gb-quantity-selector', require('./index.html'))
 class QuantitySelector {
 
@@ -15,7 +15,7 @@ class QuantitySelector {
     this.getOptions(this.props.quantity);
 
     // args for this event is a url link
-    this.flux.on(Events.URL_UPDATED, this.reset);
+    this.flux.on(Events.URL_UPDATED, () => this.setSelected);
   }
 
   onMount() {
@@ -33,6 +33,7 @@ class QuantitySelector {
   }
 
   setSelected = (target: number = INITIAL_INDEX) => {
+    console.log('reset',target)
     this.state.selected = target;
     this.state.options.forEach((el: Option, i) => {
       el.selected = (i === this.state.selected);
@@ -40,11 +41,6 @@ class QuantitySelector {
 
     this.flux.emit('selector:change_quantity', this.state.options[this.state.selected].value);
   }
-
-  reset = () => {
-    this.setSelected();
-  }
-
 }
 
 interface QuantitySelector extends Tag<QuantitySelector.Props, QuantitySelector.State> { }
