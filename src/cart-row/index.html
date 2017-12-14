@@ -15,7 +15,7 @@
     <label class="product-line-price">Total</label>
   </div>
 
-  <div class="parent" each="{ product in props.products }">
+  <div class="parent" each="{ product in $cartRow.cartContent }">
     <div class="product">
       <div class="product-image">
         <img src="{ product.item.data.image }">
@@ -25,7 +25,7 @@
       </div>
       <div class="product-price">{ product.item.data.price }</div>
       <div class="product-quantity">
-        <input type="number" value="{ product.quantity}" min="1">
+        <input type="number" value="{ product.quantity }" min="1">
       </div>
       <div class="product-removal">
         <button class="remove-product">
