@@ -25,5 +25,12 @@ suite('Button', ({ expect, spy }) => {
 
       expect(onClick).to.be.calledWith(event);
     });
+
+    it('should not fail if onClick not provided', () => {
+      const event = <any>{};
+      button.props = <any>{};
+
+      expect(() => button.onClick(event)).to.not.throw();
+    });
   });
 });

@@ -39,11 +39,11 @@
     conventional-changelog "0.0.17"
     github-url-from-git "^1.4.0"
 
-"@storefront/core@~1.33.0":
-  version "1.33.0"
-  resolved "https://registry.yarnpkg.com/@storefront/core/-/core-1.33.0.tgz#7e0664e636d101d94e19474251e5f1b00127a702"
+"@storefront/core@~1.33.5":
+  version "1.33.5"
+  resolved "https://registry.yarnpkg.com/@storefront/core/-/core-1.33.5.tgz#dc3e00138df389ae188e4d8ee0ea8650ec83f1e8"
   dependencies:
-    "@storefront/flux-capacitor" "1.33.0"
+    "@storefront/flux-capacitor" "1.35.0"
     "@types/clone" "^0.1.30"
     "@types/deep-assign" "^0.1.0"
     "@types/js-cookie" "^2.0.28"
@@ -51,7 +51,7 @@
     "@types/loglevel" "^1.4.29"
     "@types/riot" "^3.6.0"
     clone "^2.1.1"
-    gb-tracker-client "3.5.4"
+    gb-tracker-client "3.5.5"
     js-cookie "^2.1.4"
     lodash.camelcase "^4.3.0"
     lodash.merge "^4.6.0"
@@ -59,16 +59,16 @@
     riot "^3.4.4"
     url-parse "^1.1.9"
 
-"@storefront/flux-capacitor@1.33.0":
-  version "1.33.0"
-  resolved "https://registry.yarnpkg.com/@storefront/flux-capacitor/-/flux-capacitor-1.33.0.tgz#73cbd0233b21727cbaad99f8988a0f646a039a0a"
+"@storefront/flux-capacitor@1.35.0":
+  version "1.35.0"
+  resolved "https://registry.yarnpkg.com/@storefront/flux-capacitor/-/flux-capacitor-1.35.0.tgz#b0bc5bd8656fd7c63fec0a52b545882e44d2522a"
   dependencies:
     "@manaflair/redux-batch" "^0.1.0"
     "@types/redux-logger" "^3.0.0"
     cuid "^1.3.8"
-    eventemitter3 "^2.0.3"
+    eventemitter3 "^3.0.0"
     fetch-ponyfill "^4.1.0"
-    groupby-api "2.3.0"
+    groupby-api "2.4.0"
     redux "^3.7.0"
     redux-logger "^3.0.6"
     redux-persist "^5.1.0"
@@ -142,8 +142,8 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.71.tgz#0dc383f78981216ac76e2f2c3afd998e0450e4c1"
 
 "@types/lodash@^4.14.70":
-  version "4.14.87"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.87.tgz#55f92183b048c2c64402afe472f8333f4e319a6b"
+  version "4.14.91"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.91.tgz#794611b28056d16b5436059c6d800b39d573cd3a"
 
 "@types/loglevel@^1.4.29":
   version "1.5.3"
@@ -166,8 +166,8 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.18.tgz#9e96603a02a38889d08f451906f9cb56a2725ff5"
 
 "@types/node@^7.0.14":
-  version "7.0.48"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.48.tgz#24bfdc0aa82e8f6dbd017159c58094a2e06d0abb"
+  version "7.0.50"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.50.tgz#432428edab1073d478924d80a58a250b390c7b1b"
 
 "@types/qs@^6.2.30":
   version "6.5.1"
@@ -1443,9 +1443,9 @@ event-stream@^3.3.0:
     stream-combiner "~0.0.4"
     through "~2.3.1"
 
-eventemitter3@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-2.0.3.tgz#b5e1079b59fb5e1ba2771c0a993be060a58c99ba"
+eventemitter3@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.0.0.tgz#fc29ecf233bd19fbd527bb4089bbf665dc90c1e3"
 
 events@^1.0.0:
   version "1.1.1"
@@ -1717,9 +1717,9 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
-gb-tracker-client@3.5.4:
-  version "3.5.4"
-  resolved "https://registry.yarnpkg.com/gb-tracker-client/-/gb-tracker-client-3.5.4.tgz#559377366631bcf66403ee8cecf862c30ec8d75d"
+gb-tracker-client@3.5.5:
+  version "3.5.5"
+  resolved "https://registry.yarnpkg.com/gb-tracker-client/-/gb-tracker-client-3.5.5.tgz#2a66355f452310bebeffc6f8856f047682c0465b"
   dependencies:
     cookies-js "^1.2.3"
     cuid "^1.3.8"
@@ -1862,9 +1862,9 @@ graceful-fs@^4.1.2, graceful-fs@^4.1.5, graceful-fs@^4.1.6:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
 
-groupby-api@2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/groupby-api/-/groupby-api-2.3.0.tgz#30e3a0830d6fed4677631681634ef27fe012d752"
+groupby-api@2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/groupby-api/-/groupby-api-2.4.0.tgz#c7d0bf6e59edab8c86f80b3427edf47d34f455a0"
   dependencies:
     "@types/clone" "^0.1.30"
     "@types/deep-equal" "^0.0.30"
@@ -3654,10 +3654,12 @@ riot-cli@^3.0.3:
     shelljs "^0.7.8"
 
 riot-compiler@^3.2.4, riot-compiler@^3.2.6:
-  version "3.2.6"
-  resolved "https://registry.yarnpkg.com/riot-compiler/-/riot-compiler-3.2.6.tgz#cd6034ecd351392dc4861c1d418dcd798a1bb585"
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/riot-compiler/-/riot-compiler-3.3.0.tgz#1cbd2f9df67bcbd3c64f770bea9956013e4a8e97"
   dependencies:
     skip-regex "^0.3.1"
+    source-map "^0.6.1"
+    string-similarity "^1.2.0"
 
 riot-observable@^3.0.0:
   version "3.0.0"
@@ -3889,6 +3891,10 @@ source-map@^0.5.0, source-map@^0.5.3, source-map@^0.5.6, source-map@~0.5.1, sour
   version "0.5.6"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.6.tgz#75ce38f52bf0733c5a7f0c118d81334a2bb5f412"
 
+source-map@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
+
 spdx-correct@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/spdx-correct/-/spdx-correct-1.0.2.tgz#4b3073d933ff51f3912f03ac5519498a4150db40"
@@ -4110,6 +4116,12 @@ stream-http@^2.3.1:
     readable-stream "^2.2.6"
     to-arraybuffer "^1.0.0"
     xtend "^4.0.0"
+
+string-similarity@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/string-similarity/-/string-similarity-1.2.0.tgz#d75153cb383846318b7a39a8d9292bb4db4e9c30"
+  dependencies:
+    lodash "^4.13.1"
 
 string-width@^1.0.1, string-width@^1.0.2:
   version "1.0.2"

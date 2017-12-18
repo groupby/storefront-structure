@@ -7,6 +7,7 @@ import Link from '../../src/link';
 import List from '../../src/list';
 import ListItem from '../../src/list-item';
 import NativeSelect from '../../src/native-select';
+import Pill from '../../src/pill';
 import Raw from '../../src/raw';
 import Select from '../../src/select';
 import SelectOption from '../../src/select-option';
@@ -44,6 +45,10 @@ suite('package', ({ expect }) => {
 
   it('should expose NativeSelect', () => {
     expect(pkg.NativeSelect).to.eq(NativeSelect);
+  });
+
+  it('should expose Pill', () => {
+    expect(pkg.Pill).to.eq(Pill);
   });
 
   it('should expose Raw', () => {
