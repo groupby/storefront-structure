@@ -4,12 +4,12 @@ import { alias, tag, Events, Selectors, Tag } from '@storefront/core';
 @tag('gb-cart-icon', require('./index.html'), require('./index.css'))
 class CartIcon {
   state: CartIcon.State = {
-    quantity: 0
+    totalQuantity: 0
   };
 
   constructor() {
-    const { quantity } = this.select(Selectors.cart).content;
-    this.state = { ...this.state, quantity };
+    const { totalQuantity } = this.select(Selectors.cart).content;
+    this.state = { ...this.state, totalQuantity };
   }
 
   init() {
@@ -17,8 +17,8 @@ class CartIcon {
   }
 
   updateQuantity = () => {
-    const cart = this.select(Selectors.cart);
-    this.set({ quantity: cart.content.quantity });
+    const { totalQuantity } = this.select(Selectors.cart).content;
+    this.set({ totalQuantity });
   }
 
 }
@@ -31,7 +31,7 @@ namespace CartIcon {
   }
 
   export interface State {
-    quantity: number;
+    totalQuantity: number;
   }
 }
 

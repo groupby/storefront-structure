@@ -8,38 +8,27 @@ class QuantitySelector {
 
   state: QuantitySelector.State = {
     selected: INITIAL_INDEX,
-    options: []
+    value: 1
   };
 
   init() {
-    this.getOptions(this.props.quantity);
 
     // args for this event is a url link
     this.flux.on(Events.URL_UPDATED, () => this.setSelected);
   }
 
   onMount() {
-    this.flux.emit('selector:change_quantity', this.state.options[this.state.selected].value);
-  }
-
-  getOptions = (quantity: number) => {
-    const options = [];
-    for (let i = 0; i < quantity; i++) {
-      const value = i + 1;
-
-      options.push({ value, label: value.toString(), selected: (i === this.state.selected) });
-    }
-    this.state.options = options;
+    this.flux.emit('selector:change_quantity', this.state.value);
   }
 
   setSelected = (target: number = INITIAL_INDEX) => {
-    console.log('reset',target)
-    this.state.selected = target;
-    this.state.options.forEach((el: Option, i) => {
-      el.selected = (i === this.state.selected);
-    });
+    // this.state.selected = target;
+    // this.state.options.forEach((el: Option, i) => {
+    //   el.selected = (i === this.state.selected);
+    // });
+    console.log('here')
 
-    this.flux.emit('selector:change_quantity', this.state.options[this.state.selected].value);
+    this.flux.emit('selector:change_quantity', this.state.value);
   }
 }
 
@@ -53,7 +42,7 @@ namespace QuantitySelector {
 
   export interface State {
     selected: number;
-    options: any[];
+    value: number;
   }
 }
 

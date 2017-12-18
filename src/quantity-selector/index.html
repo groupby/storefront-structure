@@ -1,1 +1,2 @@
-<gb-select on-select="{ setSelected }" options="{ $quantitySelector.options }"></gb-select>
+<!-- <gb-select on-select="{ setSelected }"></gb-select> -->
+<input type="number" on-change="{ setSelected }" value="{ $quantitySelector.value }" min="1">

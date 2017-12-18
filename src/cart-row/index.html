@@ -18,12 +18,12 @@
   <div class="parent" each="{ product in $cartRow.cartContent }">
     <div class="product">
       <div class="product-image">
-        <img src="{ product.item.data.image }">
+        <img src="{ product.image }">
       </div>
       <div class="product-details">
-        <div class="product-title">{ product.item.data.title}</div>
+        <div class="product-title">{ product.title}</div>
       </div>
-      <div class="product-price">{ product.item.data.price }</div>
+      <div class="product-price">{ product.price }</div>
       <div class="product-quantity">
         <input type="number" value="{ product.quantity }" min="1">
       </div>
