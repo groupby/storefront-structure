@@ -1,4 +1,5 @@
 import { alias, tag, Events, Selectors, Tag } from '@storefront/core';
+import { totalmem } from 'os';
 
 @alias('quantity')
 @tag('gb-cart-icon', require('./index.html'), require('./index.css'))
@@ -9,6 +10,7 @@ class CartIcon {
 
   constructor() {
     const { totalQuantity } = this.select(Selectors.cart).content;
+    console.log('t', totalQuantity)
     this.state = { ...this.state, totalQuantity };
   }
 

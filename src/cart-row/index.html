@@ -18,7 +18,7 @@
   <div class="parent" each="{ product in $cartRow.cartContent }">
     <div class="product">
       <div class="product-image">
-        <img src="{ product.image }">
+        <img src="{ product.metadata[0]['value'] }">
       </div>
       <div class="product-details">
         <div class="product-title">{ product.title}</div>

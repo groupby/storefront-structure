@@ -15,6 +15,7 @@ class CartButton {
     if (this.props.onClick) {
       this.props.onClick(event);
     }
+    console.log('in button', this.props.product)
 
     this.addItem(this.props.product, this.state.quantity);
   }
