@@ -24,12 +24,10 @@ class CartButton {
   }
 
   addItem = (item: any, quantity: number) => {
-    console.log('add quanitty', quantity)
     this.flux.store.dispatch(this.flux.actions.addToCart(item, quantity));
   }
 
   quantityHandler = (event: MouseEvent | TouchEvent) => {
-    console.log('are u getting this')
     this.set({ quantity: event.target['value'] });
   }
 

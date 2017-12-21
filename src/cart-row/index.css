@@ -99,14 +99,13 @@ label {
 .product .remove-product {
   border: 0;
   padding: 4px 8px;
-  background-color: #c66;
   color: #fff;
   font-family: 'HelveticaNeue-Medium', 'Helvetica Neue Medium';
   font-size: 12px;
   border-radius: 3px;
 }
 .product .remove-product:hover {
-  background-color: #a44;
+  background-color: rgb(155, 155, 155);
 }
 /* Totals section */
 .totals .totals-item {

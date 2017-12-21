@@ -20,10 +20,6 @@ class QuantitySelector {
     this.flux.emit('quantitySelector:change_quantity', this.state.value);
   }
 
-  onUpdate() {
-    console.log('hey', this.state.value);
-  }
-
   setSelected = (event: MouseEvent | TouchEvent) => {
     this.set({ value: event.target['value'] });
     this.flux.emit('quantitySelector:change_quantity', this.state.value);
