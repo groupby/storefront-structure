@@ -12,16 +12,28 @@ class CartRow {
 
   init() {
     // when persist the store on first load, this will fire
-    this.flux.on(Events.CART_ITEMS_UPDATED, this.getCartContent);
+    this.flux.on(Events.CART_ITEMS_UPDATED, this.update);
   }
 
   getCartContent = () => {
-    const cart = this.select(Selectors.cart);
-    this.set({ cartContent: cart.content.items, totalPrice: cart.content.generatedTotalPrice });
+    return this.select(Selectors.cart).content.items;
   }
 
+  onUpdate() {
+    console.log('update', this.select(Selectors.cart).content.generatedTotalPrice)
+  }
+
+  getTotalPrice = () => {
+    const cart = this.select(Selectors.cart);
+    if (cart && cart.cotent && cart.content.generatedTotalPrice) {
+      console.log('should update price', cart.content.generatedTotalPrice)
+      return cart.content.generatedTotalPrice.toFixed(2)
+    } else {
+      return '0';
+    }
+  };
+
   removeItem = (product: any) => {
-    console.log('roemove', product)
     this.actions.removeItem(product);
   }
 

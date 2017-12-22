@@ -9,7 +9,7 @@
     <label class="product-line-price">Item Subtotal</label>
   </div>
 
-  <gb-list class="parent" items="{ $cartRow.cartContent }">
+  <gb-list class="parent" items="{ getCartContent() }">
     <div class="product">
       <div class="product-image">
         <img src="{ $item.metadata[0]['value'] }">
@@ -35,11 +35,11 @@
   <div class="totals">
     <div class="totals-item">
       <label>Subtotal</label>
-      <div class="totals-value" id="cart-subtotal">{ $cartRow.totalPrice.toFixed(2) }</div>
+      <div class="totals-value" id="cart-subtotal">{ getTotalPrice() }</div>
     </div>
     <div class="totals-item totals-item-total">
       <label>Grand Total</label>
-      <div class="totals-value" id="cart-total">{ $cartRow.totalPrice.toFixed(2) } </br><span class="cart-tax-notes">(tax will be calculated during checkout)</span></div>
+      <div class="totals-value" id="cart-total">{ getTotalPrice() } </br><span class="cart-tax-notes">(tax will be calculated during checkout)</span></div>
     </div>
   </div>
 
