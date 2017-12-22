@@ -1,25 +1,25 @@
-gb-slider.gb-ui,
-[data-is="gb-slider"].gb-ui {
+gb-slider,
+[data-is="gb-slider"] {
   display: block;
 }
 
-gb-slider.gb-ui .gb-slider__base,
-[data-is="gb-slider"].gb-ui .gb-slider__base {
+gb-slider .gb-slider__base,
+[data-is="gb-slider"] .gb-slider__base {
   width: 100%;
   height: 100%;
   position: relative;
 }
 
-gb-slider.gb-ui .gb-slider__handle,
-[data-is="gb-slider"].gb-ui .gb-slider__handle {
+gb-slider .gb-slider__handle,
+[data-is="gb-slider"] .gb-slider__handle {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
 }
 
-gb-slider.gb-ui .gb-slider__connect,
-[data-is="gb-slider"].gb-ui .gb-slider__connect {
+gb-slider .gb-slider__connect,
+[data-is="gb-slider"] .gb-slider__connect {
   position: absolute;
   height: 100%;
 }
