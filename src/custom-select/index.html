@@ -3,7 +3,7 @@
     <gb-button on-click="{ onClickToggleActive }" ref="toggle">{ $customSelect.selected().label }</gb-button>
   </div>
   <gb-list class="gb-option-list" items="{ $select.options }" item-alias="option" onmouseleave="{ onHoverDeactivate }">
-    <gb-button class="{ gb-selected: $option.selected }" type="button" onclick="{ $customSelect.onSelect }">
+    <gb-button class="{ gb-selected: $option.selected }" type="button" on-click="{ $customSelect.onSelect }">
       <yield>{ $option.label }</yield>
     </gb-button>
   </gb-list>
