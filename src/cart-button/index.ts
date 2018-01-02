@@ -19,7 +19,7 @@ class CartButton {
     if (this.props.onClick) {
       this.props.onClick(event);
     }
-
+    
     this.addItem(this.props.product, Number(this.state.quantity));
   }
 

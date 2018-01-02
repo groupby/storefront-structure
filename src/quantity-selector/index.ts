@@ -26,11 +26,12 @@ class QuantitySelector {
   }
 
   quantityHandler = (event: MouseEvent | TouchEvent) => {
+    console.log('change')
     if (this.props.onchange) {
       this.props.onchange(<any>event);
     } else {
       this.set({ value: event.target['value'] });
-      this.actions.itemQuantityChanged(this.props.product, event.target['value']);
+      this.actions.itemQuantityChanged(this.props.product, Number(event.target['value']));
     }
   }
 }

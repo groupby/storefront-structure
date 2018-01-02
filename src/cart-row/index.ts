@@ -5,13 +5,14 @@ const TAX_RATE = 0.05;
 @alias('cartRow')
 @tag('gb-cart-row', require('./index.html'), require('./index.css'))
 class CartRow {
+  // TODO: create product card tag for cart
   constructor() {
     this.getCartContent();
     this.state = {...this.state, taxRate: TAX_RATE, removeItem: this.removeItem }
   }
 
   init() {
-    // when persist the store on first load, this will fire
+    // fix or not fix:when persist the store on first load, this will fire
     this.flux.on(Events.CART_ITEMS_UPDATED, this.update);
   }
 
@@ -19,19 +20,7 @@ class CartRow {
     return this.select(Selectors.cart).content.items;
   }
 
-  onUpdate() {
-    console.log('update', this.select(Selectors.cart).content.generatedTotalPrice)
-  }
-
-  getTotalPrice = () => {
-    const cart = this.select(Selectors.cart);
-    if (cart && cart.cotent && cart.content.generatedTotalPrice) {
-      console.log('should update price', cart.content.generatedTotalPrice)
-      return cart.content.generatedTotalPrice.toFixed(2)
-    } else {
-      return '0';
-    }
-  };
+  getTotalPrice = () => this.select(Selectors.cart).content.generatedTotalPrice.toFixed(2);
 
   removeItem = (product: any) => {
     this.actions.removeItem(product);
