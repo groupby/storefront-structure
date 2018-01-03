@@ -1,4 +1,4 @@
-import { tag, Events, Selectors, Tag } from '@storefront/core';
+import { tag, Events, ProductTransformer, Selectors, Tag, TransformUtils } from '@storefront/core';
 
 const DEFAULT_VALUE = 1;
 
@@ -24,11 +24,16 @@ class CartButton {
   }
 
   addItem = (item: any, quantity: number) => {
+    console.log('aaaa', item)
+    const { structure } = this.config.cart;
+    const data = TransformUtils.remap(item, <any>structure);
+    console.log('zzzz', data);
+
     this.flux.store.dispatch(this.flux.actions.addToCart(item, quantity));
   }
 
   quantityHandler = (event: MouseEvent | TouchEvent) => {
-    this.set({ quantity: event.target['value'] });
+    this.set({ quantity: Number(event.target['value']) });
   }
 
 }

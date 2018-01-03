@@ -1,4 +1,4 @@
-import { alias, tag, Events, Selectors, Tag } from '@storefront/core';
+import { alias, tag, Events, ProductTransformer, Selectors, Tag, transform } from '@storefront/core';
 import { DEFAULT_AREA } from '../../../../../flux-capacitor/dist/core/reducers/data/area';
 
 const DEFAULT_VALUE = 1;
@@ -20,17 +20,11 @@ class QuantitySelector {
     this.flux.emit('quantitySelector:change_quantity', this.state.value);
   }
 
-  setSelected = (event: MouseEvent | TouchEvent) => {
-    this.set({ value: event.target['value'] });
-    this.flux.emit('quantitySelector:change_quantity', this.state.value);
-  }
-
   quantityHandler = (event: MouseEvent | TouchEvent) => {
-    console.log('change')
     if (this.props.onchange) {
       this.props.onchange(<any>event);
     } else {
-      this.set({ value: event.target['value'] });
+      this.set({ value: Number(event.target['value'] )});
       this.actions.itemQuantityChanged(this.props.product, Number(event.target['value']));
     }
   }
@@ -42,6 +36,7 @@ namespace QuantitySelector {
     onchange: (event: MouseEvent & Tag.Event) => void;
     product: any;
     quantity: number;
+    value: number;
   }
 
   export interface State {
