@@ -19,22 +19,30 @@ class CartButton {
     if (this.props.onClick) {
       this.props.onClick(event);
     }
-    
+
     this.addItem(this.props.product, Number(this.state.quantity));
   }
 
   addItem = (item: any, quantity: number) => {
-    console.log('aaaa', item)
-    const { structure } = this.config.cart;
-    const data = TransformUtils.remap(item, <any>structure);
-    console.log('zzzz', data);
+    const transformed = this.productTransformer(item, quantity);
 
-    this.flux.store.dispatch(this.flux.actions.addToCart(item, quantity));
+    this.flux.store.dispatch(this.flux.actions.addToCart(transformed));
   }
 
   quantityHandler = (event: MouseEvent | TouchEvent) => {
     this.set({ quantity: Number(event.target['value']) });
   }
+
+  productTransformer = (item: RawProduct, quantity: number) => {
+    const { structure } = this.config.cart;
+    const data = TransformUtils.remap(item, <any>structure);
+    data['collection'] = this.config.collection;
+    data['metadata'] = [{ key: 'image', value: data['image'] }];
+    data['quantity'] = quantity;
+    delete data['image'];
+
+    return data;
+  };
 
 }
 
@@ -48,6 +56,12 @@ namespace CartButton {
   export interface State {
     quantity: number;
   }
+
+}
+
+interface RawProduct {
+  data: object;
+  variants: object[];
 }
 
 export default CartButton;

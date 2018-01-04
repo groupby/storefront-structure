@@ -2,9 +2,6 @@
   display: flex;
 }
 
-.cart__icon {
-}
-
 .cart__item__quantity {
   background-color: #0097a7;
   width: 1em;
