@@ -17,7 +17,7 @@ class CartIcon {
     this.flux.on(Events.CART_QUANTITY_UPDATED, this.updateQuantity);
   }
 
-  updateQuantity = (totalQuantity) => {
+  updateQuantity = (totalQuantity: number) => {
     this.set({ totalQuantity });
   }
 
