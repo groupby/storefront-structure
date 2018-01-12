@@ -1,4 +1,3 @@
-import { TransformUtils } from '@storefront/core';
 import CartButton from '../../src/cart-button';
 import suite from './_suite';
 
@@ -15,17 +14,19 @@ suite('CartButton', ({ expect, stub, spy }) => {
       cartButton.props = props;
 
       cartButton.onClick(event);
+
       expect(event.preventUpdate).to.be.true;
       expect(onClick).to.be.calledWithExactly(event);
     });
 
     it('should add item if no click handler from props', () => {
       const event: any = { preventUpdate: null };
+      const addItem = cartButton.addItem = spy();
       cartButton.state = { quantity: 1 };
       cartButton.props = <any>{ product: 'a' };
-      const addItem = cartButton.addItem = spy();
 
       cartButton.onClick(event);
+
       expect(event.preventUpdate).to.be.true;
       expect(addItem).to.be.calledWithExactly('a', 1);
     });
@@ -42,8 +43,8 @@ suite('CartButton', ({ expect, stub, spy }) => {
         actions: { addToCart }
       };
       const transformed = 't';
-      cartButton.flux = <any>flux;
       const transform = stub(cartButton, 'productTransformer').returns(transformed);
+      cartButton.flux = <any>flux;
 
       cartButton.addItem(item, quantity);
 
@@ -62,24 +63,12 @@ suite('CartButton', ({ expect, stub, spy }) => {
 
       cartButton.quantityHandler(event);
 
-      expect(set).to.be.calledWithExactly({quantity: 2});
+      expect(set).to.be.calledWithExactly({ quantity: 2 });
     });
   });
 
   describe('productTransformer()', () => {
     it('should transform product', () => {
-      cartButton.config = <any>{
-        collection: 'special',
-        cart: {
-          structure: {
-            sku: 'data.id',
-            productId: 'data.id',
-            title: 'data.title',
-            price: 'data.price',
-            image: 'data.image',
-          }
-        }
-      };
       const item = <any>{
         data: {
           id: '2333',
@@ -100,12 +89,22 @@ suite('CartButton', ({ expect, stub, spy }) => {
           value: 'http://happyshopping.com/2333.tif'
         }]
       };
+      cartButton.config = <any>{
+        collection: 'special',
+        cart: {
+          structure: {
+            sku: 'data.id',
+            productId: 'data.id',
+            title: 'data.title',
+            price: 'data.price',
+            image: 'data.image',
+          }
+        }
+      };
 
       const result = cartButton.productTransformer(item, 2);
 
       expect(result).to.eql(expected);
-
-
     });
   });
 });

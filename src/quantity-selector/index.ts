@@ -1,4 +1,4 @@
-import { alias, tag, Events, ProductTransformer, Selectors, Tag, transform } from '@storefront/core';
+import { alias, tag, Events, Tag } from '@storefront/core';
 import { DEFAULT_AREA } from '../../../../../flux-capacitor/dist/core/reducers/data/area';
 
 const DEFAULT_VALUE = 1;
@@ -10,11 +10,6 @@ class QuantitySelector {
     value: DEFAULT_VALUE
   };
 
-  init() {
-    // fix: this event no longer fires
-    this.flux.on(Events.URL_UPDATED, () => this.set({ value: DEFAULT_VALUE }))
-  }
-
   onMount() {
     this.flux.emit('quantitySelector:change_quantity', this.state.value);
   }
@@ -23,8 +18,9 @@ class QuantitySelector {
     if (this.props.onchange) {
       this.props.onchange(<any>event);
     } else {
-      this.set({ value: Number(event.target['value'] )});
-      this.actions.itemQuantityChanged(this.props.product, Number(event.target['value']));
+      const value = Number(event.target['value']);
+      this.set({ value });
+      this.actions.itemQuantityChanged(this.props.product, value);
     }
   }
 }
@@ -52,6 +48,5 @@ namespace QuantitySelector {
     price: string;
   }
 }
-
 
 export default QuantitySelector;

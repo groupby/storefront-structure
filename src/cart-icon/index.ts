@@ -1,7 +1,6 @@
 import { alias, tag, Events, Selectors, Tag } from '@storefront/core';
-import { totalmem } from 'os';
 
-@alias('quantity')
+@alias('cartIcon')
 @tag('gb-cart-icon', require('./index.html'), require('./index.css'))
 class CartIcon {
   state: CartIcon.State = {

@@ -1,15 +1,30 @@
-import { Events, TransformUtils } from '@storefront/core';
+import { Events } from '@storefront/core';
 import CartRow from '../../src/cart-row';
 import suite from './_suite';
 
-suite.only('CartRow', ({ expect, stub, spy }) => {
+suite('CartRow', ({ expect, stub, spy }) => {
   let cartRow: CartRow;
 
   beforeEach(() => cartRow = new CartRow());
 
+  describe('removeItem()', () => {
+    it('should dispatch action to remove item', () => {
+      const product = 'bird';
+      const removeItem = spy();
+      cartRow.actions = <any>{
+        removeItem
+      };
+
+      cartRow.state.removeItem(product);
+
+      expect(removeItem).to.be.calledWithExactly(product);
+    });
+  });
+
   describe('init()', () => {
     it('listen to event CART_ITEMS_UPDATED', () => {
-      const on = cartRow.flux.on = spy();
+      const on = spy();
+      cartRow.flux = <any>{ on };
       const update = cartRow.update = spy();
 
       cartRow.init();
@@ -19,67 +34,21 @@ suite.only('CartRow', ({ expect, stub, spy }) => {
 
   describe('getCartContent()', () => {
     it('should return cart content', () => {
-      const select = cartRow.select = spy();
+      cartRow.select = () => ({ content: { items: ['a'] } });
 
-      cartRow.getCartContent();
+      const result = cartRow.getCartContent();
 
-      expect(select).to.be.called;
+      expect(result).to.eql(['a']);
     });
   });
 
-  describe('quantityHandler()', () => {
+  describe('getTotalPrice()', () => {
     it('should set state', () => {
-      const event: any = {
-        target: { value: '2' }
-      };
-      const set = cartRow.set = spy();
+      cartRow.select = () => ({ content: { generatedTotalPrice: 19.9 } });
 
-      cartRow.quantityHandler(event);
+      const result = cartRow.getTotalPrice();
 
-      expect(set).to.be.calledWithExactly({ quantity: 2 });
-    });
-  });
-
-  describe('productTransformer()', () => {
-    it('should transform product', () => {
-      cartRow.config = <any>{
-        collection: 'special',
-        cart: {
-          structure: {
-            sku: 'data.id',
-            productId: 'data.id',
-            title: 'data.title',
-            price: 'data.price',
-            image: 'data.image',
-          }
-        }
-      };
-      const item = <any>{
-        data: {
-          id: '2333',
-          image: 'http://happyshopping.com/2333.tif',
-          price: '199.99',
-          title: 'cat ear hat'
-        }
-      };
-      const expected = {
-        sku: '2333',
-        productId: '2333',
-        title: 'cat ear hat',
-        price: '199.99',
-        quantity: 2,
-        collection: 'special',
-        metadata: [{
-          key: 'image',
-          value: 'http://happyshopping.com/2333.tif'
-        }]
-      };
-
-      const result = cartRow.productTransformer(item, 2);
-
-      expect(result).to.eql(expected);
-
-
+      expect(result).to.eq('19.90');
     });
   });
 });
