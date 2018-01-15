@@ -10,7 +10,6 @@ class CartIcon {
 
   constructor() {
     const { totalQuantity } = this.select(Selectors.cart).content;
-    console.log('t', totalQuantity)
     this.state = { ...this.state, totalQuantity };
   }
 

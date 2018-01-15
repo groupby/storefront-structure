@@ -1,2 +1,1 @@
-<!-- <gb-select on-select="{ setSelected }"></gb-select> -->
-<input type="number" on-change="{ setSelected }" value="{ $quantitySelector.value }" min="1">
+<input type="number" onchange="{ quantityHandler }" value="{ props.value || $quantitySelector.value }" min="1">

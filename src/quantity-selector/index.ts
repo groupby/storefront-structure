@@ -1,47 +1,53 @@
 import { alias, tag, Events, Selectors, Tag } from '@storefront/core';
+import { DEFAULT_AREA } from '../../../../../flux-capacitor/dist/core/reducers/data/area';
 
-const INITIAL_INDEX = 0;
+const DEFAULT_VALUE = 1;
 
 @alias('quantitySelector')
 @tag('gb-quantity-selector', require('./index.html'))
 class QuantitySelector {
 
+
   state: QuantitySelector.State = {
-    selected: INITIAL_INDEX,
-    value: 1
+    value: DEFAULT_VALUE
   };
 
   init() {
-
-    // args for this event is a url link
-    this.flux.on(Events.URL_UPDATED, () => this.setSelected);
+    this.flux.on(Events.URL_UPDATED, () => this.set({ value: DEFAULT_VALUE }))
   }
 
   onMount() {
-    this.flux.emit('selector:change_quantity', this.state.value);
+    this.flux.emit('quantitySelector:change_quantity', this.state.value);
   }
 
-  setSelected = (target: number = INITIAL_INDEX) => {
-    // this.state.selected = target;
-    // this.state.options.forEach((el: Option, i) => {
-    //   el.selected = (i === this.state.selected);
-    // });
-    console.log('here')
+  onUpdate() {
+    console.log('hey', this.state.value);
+  }
 
-    this.flux.emit('selector:change_quantity', this.state.value);
+  setSelected = (event: MouseEvent | TouchEvent) => {
+    this.set({ value: event.target['value'] });
+    this.flux.emit('quantitySelector:change_quantity', this.state.value);
+  }
+
+  quantityHandler = (event: MouseEvent | TouchEvent) => {
+    if (this.props.onchange) {
+      this.props.onchange(<any>event);
+    } else {
+      this.set({ value: event.target['value'] });
+      this.actions.itemQuantityChanged(this.props.product, event.target['value']);
+    }
   }
 }
 
 interface QuantitySelector extends Tag<QuantitySelector.Props, QuantitySelector.State> { }
 namespace QuantitySelector {
   export interface Props extends Tag.Props {
-    onSelect: (event: MouseEvent & Tag.Event) => void;
+    onchange: (event: MouseEvent & Tag.Event) => void;
     product: any;
     quantity: number;
   }
 
   export interface State {
-    selected: number;
     value: number;
   }
 }

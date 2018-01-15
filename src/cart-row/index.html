@@ -15,17 +15,17 @@
     <label class="product-line-price">Total</label>
   </div>
 
-  <div class="parent" each="{ product in $cartRow.cartContent }">
+  <gb-list class="parent" items="{ $cartRow.cartContent }">
     <div class="product">
       <div class="product-image">
-        <img src="{ product.metadata[0]['value'] }">
+        <img src="{ $item.metadata[0]['value'] }">
       </div>
       <div class="product-details">
-        <div class="product-title">{ product.title}</div>
+        <div class="product-title">{ $item.title}</div>
       </div>
-      <div class="product-price">{ product.price }</div>
+      <div class="product-price">{ $item.price }</div>
       <div class="product-quantity">
-        <input type="number" value="{ product.quantity }" min="1">
+        <gb-quantity-selector value="{ $item.quantity }" onchange="{ quantityHandler }" product="{ $item }"></gb-quantity-selector>
       </div>
       <div class="product-removal">
         <button class="remove-product">
@@ -34,7 +34,7 @@
       </div>
       <div class="product-line-price">25.98</div>
     </div>
-  </div>
+  </gb-list>
 
 
 
