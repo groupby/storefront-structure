@@ -4,13 +4,12 @@ const DEFAULT_VALUE = 1;
 
 @tag('gb-cart-button', require('./index.html'))
 class CartButton {
-
   state: CartButton.State = {
     quantity: DEFAULT_VALUE
   }
 
   init() {
-    // todo: keep this for service in core
+    // keep this for service in core
     // this.services.cart.register(this);
   }
 
@@ -20,10 +19,10 @@ class CartButton {
       this.props.onClick(event);
     }
 
-    this.addItem(this.props.product, Number(this.state.quantity));
+    this.addItem(this.props.product, this.state.quantity);
   }
 
-  addItem = (item: any, quantity: number) => {
+  addItem = (item: CartButton.RawProduct, quantity: number) => {
     const transformed = this.productTransformer(item, quantity);
 
     this.flux.store.dispatch(this.flux.actions.addToCart(transformed));
@@ -33,7 +32,7 @@ class CartButton {
     this.set({ quantity: Number(event.target['value']) });
   }
 
-  productTransformer = (item: RawProduct, quantity: number) => {
+  productTransformer = (item: CartButton.RawProduct, quantity: number) => {
     const { structure } = this.config.cart;
     const data = TransformUtils.remap(item, <any>structure);
     data['collection'] = this.config.collection;
@@ -43,25 +42,24 @@ class CartButton {
 
     return data;
   };
-
 }
 
 interface CartButton extends Tag<CartButton.Props, CartButton.State> { }
 namespace CartButton {
   export interface Props extends Tag.Props {
     onClick: (event: MouseEvent & Tag.Event) => void;
-    product: any;
+    product: RawProduct;
   }
 
   export interface State {
     quantity: number;
   }
-
+  
+  export interface RawProduct {
+    data: object;
+    variants: object[];
+  }
 }
 
-interface RawProduct {
-  data: object;
-  variants: object[];
-}
 
 export default CartButton;

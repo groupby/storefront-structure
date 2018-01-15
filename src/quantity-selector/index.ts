@@ -6,13 +6,12 @@ const DEFAULT_VALUE = 1;
 @alias('quantitySelector')
 @tag('gb-quantity-selector', require('./index.html'))
 class QuantitySelector {
-
-
   state: QuantitySelector.State = {
     value: DEFAULT_VALUE
   };
 
   init() {
+    // fix: this event no longer fires
     this.flux.on(Events.URL_UPDATED, () => this.set({ value: DEFAULT_VALUE }))
   }
 
@@ -42,12 +41,17 @@ namespace QuantitySelector {
   export interface State {
     value: number;
   }
+
+  export interface Product {
+    sku: string;
+    productId: string;
+    quantity: number;
+    title: string;
+    metadata: object[];
+    collection: string;
+    price: string;
+  }
 }
 
-interface Option {
-  value: number;
-  label: string;
-  selected: boolean;
-}
 
 export default QuantitySelector;
