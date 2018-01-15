@@ -1,21 +1,25 @@
-import { Events } from '@storefront/core';
+import { Events, Selectors } from '@storefront/core';
 import CartIcon from '../../src/cart-icon';
 import suite from './_suite';
 
 suite('CartIcon', ({ expect, stub, spy }) => {
   let cartIcon: CartIcon;
+  let select: sinon.SinonStub;
 
-  beforeEach(() => cartIcon = new CartIcon());
+  beforeEach(() => {
+    select = CartIcon.prototype.select = stub();
+    select.withArgs(Selectors.cart).returns({ content: { totalQuantity: 1 }});
+    cartIcon = new CartIcon();
+  });
+
+  afterEach(() => {
+    delete CartIcon.prototype.select;
+  });
 
   describe('constructor()', () => {
-    beforeEach(() => {
-
-    });
-    
     it('should initialize the state', () => {
-      const select = CartIcon.prototype.select = stub().returns({ content: { totalQuantity: 2 } });
-
-      expect(cartIcon.state).to.eql({ totalQuantity: 2 });
+      expect(select).to.be.calledWith(Selectors.cart);
+      expect(cartIcon.state.totalQuantity).to.eq(1);
     });
   });
 
@@ -27,6 +31,7 @@ suite('CartIcon', ({ expect, stub, spy }) => {
       cartIcon.updateQuantity = updateQuantity;
 
       cartIcon.init();
+
       expect(on).to.be.calledWithExactly(Events.CART_QUANTITY_UPDATED, updateQuantity);
     });
   });
@@ -34,6 +39,7 @@ suite('CartIcon', ({ expect, stub, spy }) => {
   describe('updateQuantity()', () => {
     it('should update quantity', () => {
       const set = cartIcon.set = spy();
+
       cartIcon.updateQuantity(2);
 
       expect(set).to.be.calledWithExactly({totalQuantity: 2});

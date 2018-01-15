@@ -1,5 +1,4 @@
 import { alias, tag, Events, Tag } from '@storefront/core';
-import { DEFAULT_AREA } from '../../../../../flux-capacitor/dist/core/reducers/data/area';
 
 const DEFAULT_VALUE = 1;
 
@@ -43,9 +42,14 @@ namespace QuantitySelector {
     productId: string;
     quantity: number;
     title: string;
-    metadata: object[];
+    metadata: Metadata[];
     collection: string;
-    price: string;
+    price: number;
+  }
+
+  export interface Metadata {
+    key: string;
+    value: string;
   }
 }
 

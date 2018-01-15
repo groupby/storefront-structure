@@ -1,7 +1,5 @@
 import { alias, tag, Events, Selectors, Tag } from '@storefront/core';
 
-const TAX_RATE = 0.05;
-
 @alias('cartRow')
 @tag('gb-cart-row', require('./index.html'), require('./index.css'))
 class CartRow {
@@ -22,12 +20,26 @@ class CartRow {
 interface CartRow extends Tag<CartRow.Props, CartRow.State> { }
 namespace CartRow {
   export interface Props extends Tag.Props {
-    products: any[];
   }
 
   export interface State {
     cartContent: any[];
-    removeItem: (product: any) => void;
+    removeItem: (product: Product) => void;
+  }
+
+  export interface Product {
+    sku: string;
+    productId: string;
+    quantity: number;
+    title: string;
+    metadata: Metadata[];
+    collection: string;
+    price: number;
+  }
+
+  export interface Metadata {
+    key: string;
+    value: string;
   }
 }
 
