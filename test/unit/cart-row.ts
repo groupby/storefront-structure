@@ -9,7 +9,7 @@ suite('CartRow', ({ expect, stub, spy }) => {
 
   describe('removeItem()', () => {
     it('should dispatch action to remove item', () => {
-      const product = 'bird';
+      const product: any = 'bird';
       const removeItem = spy();
       cartRow.actions = <any>{
         removeItem
