@@ -6,6 +6,7 @@ import './container';
 import CustomSelect from './custom-select';
 import FilteredList from './filtered-list';
 import Icon from './icon';
+import InfiniteList from './infinite-list';
 import Link from './link';
 import List from './list';
 import ListItem from './list-item';
@@ -28,6 +29,7 @@ export {
   CustomSelect,
   FilteredList,
   Icon,
+  InfiniteList,
   Link,
   List,
   ListItem,

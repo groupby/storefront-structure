@@ -1,10 +1,19 @@
 import { tag, Tag } from '@storefront/core';
+import ListItem from '../list-item';
 
 export const DEFAULT_ITEM_ALIAS = 'item';
 export const DEFAULT_INDEX_ALIAS = 'i';
 
 @tag('gb-list', require('./index.html'), require('./index.css'))
 class List {
+
+  refs: {
+    wrapper: HTMLUListElement
+  };
+
+  tags: {
+    'gb-list-item': ListItem[];
+  };
 
   props: List.Props = {
     items: [],

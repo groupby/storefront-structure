@@ -10,6 +10,8 @@ bootstrap(chai, __dirname, [
   '../src/custom-select/index.css',
   '../src/filtered-list/index.html',
   '../src/icon/index.html',
+  '../src/infinite-list/index.html',
+  '../src/infinite-list/index.css',
   '../src/link/index.html',
   '../src/list/index.html',
   '../src/list/index.css',
