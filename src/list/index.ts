@@ -28,7 +28,18 @@ class List {
   }
 
   isGrid() {
-    return this.props.layout.toLowerCase() === 'grid';
+    const layout = this.props.layout.toLocaleLowerCase();
+
+    switch (layout) {
+      case 'grid':
+        return 'gb-list__wrapper--grid';
+      case 'column':
+        return 'gb-list__wrapper--column';
+      case 'shelf':
+        return 'gb-list__wrapper--shelf';
+      default:
+        return 'gb-list__wrapper--column';
+    }
   }
 }
 

@@ -10,3 +10,12 @@ gb-list.gb-ui .gb-list__wrapper--grid,
 .gb-list__wrapper--grid .gb-list__item.gb-ui {
   flex: 1;
 }
+
+
+gb-list.gb-ui .gb-list__wrapper--shelf,
+[data-is="gb-list"].gb-ui .gb-list__wrapper--shelf {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  list-style: none;
+}
