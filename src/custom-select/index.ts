@@ -30,6 +30,10 @@ class CustomSelect {
     }
   }
 
+  onUnmount() {
+    utils.WINDOW().document.removeEventListener('click', this.onClickDeactivate);
+  }
+
   onHoverActivate(event: MouseEvent & Tag.Event) {
     event.preventUpdate = true;
     if (this.props.hover && !this.isActive) {

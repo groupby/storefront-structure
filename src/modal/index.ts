@@ -16,6 +16,10 @@ class Modal {
     this.set({ visible: this.props.autoOpen });
   }
 
+  onUnmount() {
+    utils.WINDOW().document.removeEventListener('click', this.close);
+  }
+
   handleOpen = (event: MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
@@ -38,7 +42,6 @@ class Modal {
       this.handleClose();
     }
   }
-
 }
 
 interface Modal extends Tag<Modal.Props, Modal.State> { }

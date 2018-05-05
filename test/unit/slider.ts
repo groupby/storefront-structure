@@ -181,19 +181,11 @@ suite('Slider', ({ expect, spy, stub }) => {
 
   describe('onDragEnd()', () => {
     it('should remove eventListeners from document', () => {
-      const preventDefault = spy();
-      const stopPropagation = spy();
       const setup = slider.setup = spy();
       const removeEventListener = spy();
-      const target = { a: 'b' };
-      const event = <any>{
-        preventDefault,
-        stopPropagation,
-        target
-      };
       stub(utils, 'WINDOW').returns({ document: { removeEventListener } });
 
-      slider.onDragEnd(event);
+      slider.onDragEnd();
 
       expect(removeEventListener).to.be.calledWithExactly('mousemove', slider.onMouseMove);
       expect(removeEventListener).to.be.calledWithExactly('touchmove', slider.onTouchMove);

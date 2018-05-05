@@ -22,6 +22,10 @@ class Slider {
     this.moveHandle(this.refs.upper, this.props.high);
   }
 
+  onUnmount() {
+    this.removeEventListeners();
+  }
+
   moveHandle(handle: Element, value: number) {
     this.setup(handle);
     this.moveElements(this.percentage(value - this.props.min, this.props.max - this.props.min));
@@ -64,12 +68,7 @@ class Slider {
     }
   }
 
-  onDragEnd = (event: MouseEvent & Slider.Event) => {
-    utils.WINDOW().document.removeEventListener('mousemove', this.onMouseMove);
-    utils.WINDOW().document.removeEventListener('touchmove', this.onTouchMove);
-    utils.WINDOW().document.removeEventListener('mouseup', this.onDragEnd);
-    utils.WINDOW().document.removeEventListener('touchend', this.onDragEnd);
-  }
+  onDragEnd = () => this.removeEventListeners();
 
   setup = (handle: Element) => {
     const baseDimensions = this.refs.base.getBoundingClientRect();
@@ -130,6 +129,13 @@ class Slider {
     }
   }
 
+  removeEventListeners() {
+    const { removeEventListener } = utils.WINDOW().document;
+    removeEventListener('mousemove', this.onMouseMove);
+    removeEventListener('touchmove', this.onTouchMove);
+    removeEventListener('mouseup', this.onDragEnd);
+    removeEventListener('touchend', this.onDragEnd);
+  }
 }
 
 interface Slider extends Tag<Slider.Props> { }
