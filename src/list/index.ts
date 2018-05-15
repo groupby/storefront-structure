@@ -1,30 +1,24 @@
-import { tag, Tag } from '@storefront/core';
+import { provide, tag, Tag } from '@storefront/core';
 import ListItem from '../list-item';
 
-export const DEFAULT_ITEM_ALIAS = 'item';
-export const DEFAULT_INDEX_ALIAS = 'i';
-
+@provide('list', (props) => props)
 @tag('gb-list', require('./index.html'), require('./index.css'))
 class List {
-
   refs: {
-    wrapper: HTMLUListElement
+    wrapper: HTMLUListElement;
   };
-
   tags: {
     'gb-list-item': ListItem[];
   };
-
   props: List.Props = {
     items: [],
-    itemAlias: DEFAULT_ITEM_ALIAS,
-    indexAlias: DEFAULT_INDEX_ALIAS,
     layout: 'list',
     shouldRender: (item) => typeof item.shouldRender !== 'function' || item.shouldRender(),
   };
 
-  init() {
-    this.expose('list', this.props);
+  childProps() {
+    const { itemAlias, indexAlias, itemProps } = this.props;
+    return { ...itemProps, itemAlias, indexAlias };
   }
 
   isGrid() {
@@ -32,10 +26,11 @@ class List {
   }
 }
 
-interface List extends Tag<List.Props> { }
+interface List extends Tag<List.Props> {}
 namespace List {
   export interface Props extends Tag.Props {
     items?: any[];
+    itemProps?: ListItem.Props;
     itemAlias?: string;
     indexAlias?: string;
     layout?: string;

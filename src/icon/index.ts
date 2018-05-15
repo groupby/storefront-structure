@@ -5,7 +5,6 @@ export const DATA_URL_PREFIX = 'data:image/';
 
 @tag('gb-icon', require('./index.html'))
 class Icon {
-
   isImage: boolean;
 
   onBeforeMount() {
@@ -22,7 +21,7 @@ class Icon {
   }
 }
 
-interface Icon extends Tag<Icon.Props> { }
+interface Icon extends Tag<Icon.Props> {}
 namespace Icon {
   export interface Props extends Tag.Props {
     image: string;

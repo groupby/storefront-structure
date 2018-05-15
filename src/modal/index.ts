@@ -1,13 +1,11 @@
-import { alias, tag, utils, Tag } from '@storefront/core';
+import { provide, tag, utils, Tag } from '@storefront/core';
 
-@alias('modal')
+@provide('modal')
 @tag('gb-modal', require('./index.html'), require('./index.css'))
 class Modal {
-
   refs: {
-    content: HTMLDivElement,
+    content: HTMLDivElement;
   };
-
   props: Modal.Props = {
     autoOpen: false,
   };
@@ -20,7 +18,8 @@ class Modal {
     utils.WINDOW().document.removeEventListener('click', this.close);
   }
 
-  handleOpen = (event: MouseEvent) => {
+  handleOpen = (event: MouseEvent & Tag.Event) => {
+    event.preventUpdate = true;
     event.preventDefault();
     event.stopPropagation();
 
@@ -28,23 +27,23 @@ class Modal {
     body.style.overflow = 'hidden';
     addEventListener('click', this.close);
     this.set({ visible: true });
-  }
+  };
 
   handleClose = () => {
     const { body, removeEventListener } = utils.WINDOW().document;
     body.style.removeProperty('overflow');
     removeEventListener('click', this.close);
     this.set({ visible: false });
-  }
+  };
 
-  close = (event: MouseEvent & { target: HTMLElement } ) => {
+  close = (event: MouseEvent & { target: HTMLElement }) => {
     if (!this.refs.content.contains(event.target)) {
       this.handleClose();
     }
-  }
+  };
 }
 
-interface Modal extends Tag<Modal.Props, Modal.State> { }
+interface Modal extends Tag<Modal.Props, Modal.State> {}
 namespace Modal {
   export interface Props extends Tag.Props {
     autoOpen: boolean;

@@ -1,14 +1,10 @@
-import { tag, Tag } from '@storefront/core';
+import { provide, tag, Tag } from '@storefront/core';
 
+@provide('swatch', (props) => props)
 @tag('gb-swatch', require('./index.html'))
-class Swatch {
+class Swatch {}
 
-  init() {
-    this.expose('swatch', this.props);
-  }
-}
-
-interface Swatch extends Tag<Swatch.Props> { }
+interface Swatch extends Tag<Swatch.Props> {}
 namespace Swatch {
   export interface Props extends Tag.Props {
     color: string;

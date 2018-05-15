@@ -1,9 +1,9 @@
-<div class="gb-select { gb-active: isActive } gb-{ props.hover ? 'hoverable' : 'clickable' }" onmouseenter="{ onHoverActivate }">
+<div class="gb-select { gb-active: state.isActive } gb-{ props.hover ? 'hoverable' : 'clickable' }" onmouseenter="{ onHoverActivate }">
   <div class="gb-select-toggle">
-    <gb-button on-click="{ onClickToggleActive }" ref="toggle">{ $customSelect.selected().label }</gb-button>
+    <gb-button ref="toggle" on-click="{ onClickToggleActive }" _consumes="customSelect">{ $customSelect.selected().label }</gb-button>
   </div>
-  <gb-list class="gb-option-list" items="{ $select.options }" item-alias="option" onmouseleave="{ onHoverDeactivate }">
-    <gb-button class="{ gb-selected: $option.selected }" type="button" onclick="{ $customSelect.onSelect }">
+  <gb-list class="gb-option-list" items="{ props.options }" item-alias="option" onmouseleave="{ onHoverDeactivate }" item-props="{{ onSelect: state.onSelect }}">
+    <gb-button class="{ gb-selected: item.selected }" type="button" onclick="{ props.onSelect }" _consumes="option">
       <yield>{ $option.label }</yield>
     </gb-button>
   </gb-list>

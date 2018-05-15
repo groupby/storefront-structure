@@ -2,7 +2,6 @@ import { tag, Tag } from '@storefront/core';
 
 @tag('gb-link', require('./index.html'))
 class Link {
-
   onClick(event: MouseEvent & Tag.Event) {
     event.preventUpdate = true;
     event.preventDefault();
@@ -12,7 +11,7 @@ class Link {
   }
 }
 
-interface Link extends Tag<Link.Props> { }
+interface Link extends Tag<Link.Props> {}
 namespace Link {
   export interface Props extends Tag.Props {
     onClick(): void;

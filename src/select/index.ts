@@ -1,20 +1,18 @@
-import { tag, Tag } from '@storefront/core';
+import { provide, tag, Tag } from '@storefront/core';
 
+@provide('select', (props) => props)
 @tag('gb-select', require('./index.html'))
 class Select {
-
   props: Select.Props = {
     options: [],
-    optionAlias: 'option',
-    indexAlias: 'i'
-  };
+  } as Select.Props;
 
-  init() {
-    this.expose('select', this.props);
+  childProps() {
+    return this.props;
   }
 }
 
-interface Select extends Tag<Select.Props> { }
+interface Select extends Tag<Select.Props> {}
 namespace Select {
   export interface Props extends Tag.Props {
     options: Option[];

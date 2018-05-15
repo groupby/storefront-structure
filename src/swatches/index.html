@@ -1,5 +1,7 @@
 <gb-list items="{ props.items }">
   <yield>
-    <gb-swatch color="{ $item.color }" label="{ $item.label }" on-click="{ $swatches.onClick }" onmouseenter="{ $swatches.onActivate }" onmouseleave="{ $swatches.onDeactivate }"></gb-swatch>
+    <virtual data-is="consume" alias="swatches">
+      <gb-swatch color="{ parent.item.color }" label="{ parent.item.label }" on-click="{ $swatches.onClick }" onmouseenter="{ $swatches.onActivate }" onmouseleave="{ $swatches.onDeactivate }"></gb-swatch>
+    </virtual>
   </yield>
 </gb-list>

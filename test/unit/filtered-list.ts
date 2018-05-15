@@ -1,19 +1,16 @@
 import FilteredList from '../../src/filtered-list';
-import { DEFAULT_INDEX_ALIAS, DEFAULT_ITEM_ALIAS } from '../../src/list';
 import suite from './_suite';
 
 suite('FilteredList', ({ expect, spy }) => {
   let filteredList: FilteredList;
 
-  beforeEach(() => filteredList = new FilteredList());
+  beforeEach(() => (filteredList = new FilteredList()));
 
   describe('constructor()', () => {
     describe('props', () => {
       it('should set initial value', () => {
         expect(filteredList.props).eql(<any>{
           items: [],
-          itemAlias: DEFAULT_ITEM_ALIAS,
-          indexAlias: DEFAULT_INDEX_ALIAS
         });
       });
     });
@@ -21,7 +18,7 @@ suite('FilteredList', ({ expect, spy }) => {
 
   describe('onBeforeMount()', () => {
     it('should call updateItems()', () => {
-      const updateItems = filteredList.updateItems = spy();
+      const updateItems = (filteredList.updateItems = spy());
       const items = ['a', 'b'];
       filteredList.props = { items };
 
@@ -33,7 +30,7 @@ suite('FilteredList', ({ expect, spy }) => {
 
   describe('onUpdate()', () => {
     it('should call updateItems()', () => {
-      const updateItems = filteredList.updateItems = spy();
+      const updateItems = (filteredList.updateItems = spy());
       filteredList.props = { items: ['a', 'b', 'c'] };
 
       filteredList.onUpdate();
@@ -44,7 +41,7 @@ suite('FilteredList', ({ expect, spy }) => {
 
   describe('onFilterChange()', () => {
     it('should call updateItems()', () => {
-      const updateItems = filteredList.updateItems = spy();
+      const updateItems = (filteredList.updateItems = spy());
 
       filteredList.onFilterChange(<any>{});
 
@@ -83,7 +80,7 @@ suite('FilteredList', ({ expect, spy }) => {
 
       filteredList.updateItems();
 
-      expect(filteredList.items).to.eql([ { value: 'efg' } ]);
+      expect(filteredList.items).to.eql([{ value: 'efg' }]);
     });
 
     it('should trim filter value', () => {

@@ -2,10 +2,12 @@ import { utils } from '@storefront/core';
 import Modal from '../../src/modal';
 import suite from './_suite';
 
-suite('Modal', ({ expect, spy, stub }) => {
+suite('Modal', ({ expect, spy, stub, itShouldProvideAlias }) => {
   let modal: Modal;
 
-  beforeEach(() => modal = new Modal());
+  beforeEach(() => (modal = new Modal()));
+
+  itShouldProvideAlias(Modal, 'modal');
 
   describe('constructor()', () => {
     describe('props', () => {
@@ -17,7 +19,7 @@ suite('Modal', ({ expect, spy, stub }) => {
 
   describe('init()', () => {
     it('should set visible state to autoOpen', () => {
-      const set = modal.set = spy();
+      const set = (modal.set = spy());
 
       modal.init();
 
@@ -32,12 +34,12 @@ suite('Modal', ({ expect, spy, stub }) => {
       const event: any = { preventDefault, stopPropagation };
       const addEventListener = spy();
       const style = { overflow: 'auto' };
-      const set = modal.set = spy();
+      const set = (modal.set = spy());
       stub(utils, 'WINDOW').returns({
         document: {
           addEventListener,
-          body: { style }
-        }
+          body: { style },
+        },
       });
 
       modal.handleOpen(event);
@@ -52,14 +54,14 @@ suite('Modal', ({ expect, spy, stub }) => {
 
   describe('handleClose()', () => {
     it('should set visible to false, remove overflow from body, and remove click', () => {
-      const set = modal.set = spy();
+      const set = (modal.set = spy());
       const removeEventListener = spy();
       const removeProperty = spy();
       stub(utils, 'WINDOW').returns({
         document: {
           removeEventListener,
-          body: { style: { removeProperty } }
-        }
+          body: { style: { removeProperty } },
+        },
       });
 
       modal.handleClose();
@@ -75,7 +77,7 @@ suite('Modal', ({ expect, spy, stub }) => {
       const target = { a: 'b' };
       const event: any = { target };
       const contains = spy(() => false);
-      const handleClose = modal.handleClose = spy();
+      const handleClose = (modal.handleClose = spy());
       modal.refs = <any>{ content: { contains } };
 
       modal.close(event);
@@ -88,7 +90,7 @@ suite('Modal', ({ expect, spy, stub }) => {
       const target = { a: 'b' };
       const event: any = { target };
       const contains = spy(() => true);
-      const handleClose = modal.handleClose = spy();
+      const handleClose = (modal.handleClose = spy());
       modal.refs = <any>{ content: { contains } };
 
       modal.close(event);

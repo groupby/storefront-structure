@@ -1,8 +1,10 @@
 <gb-tooltip>
   <yield to="target">
-    <gb-button on-click="{ $swatch.onClick }">
+    <gb-button on-click="{ onClick }" _consumes="swatch">
       <div class="gb-swatch__color" riot-style="{ $swatch.color ? { 'background-color': $swatch.color } : { 'background': 'url(' + $swatch.image + ') center / cover' } }"></div>
     </gb-button>
   </yield>
-  <yield to="content">{ $swatch.label }</yield>
+  <yield to="content">
+    { label }
+  </yield>
 </gb-tooltip>

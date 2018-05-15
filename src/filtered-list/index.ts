@@ -1,16 +1,17 @@
 import { tag, Tag } from '@storefront/core';
-import { DEFAULT_INDEX_ALIAS, DEFAULT_ITEM_ALIAS } from '../list';
 
 @tag('gb-filtered-list', require('./index.html'))
 class FilteredList {
-
   refs: { filter: HTMLInputElement };
   items: FilteredList.Item[];
   props: FilteredList.Props = {
     items: [],
-    itemAlias: DEFAULT_ITEM_ALIAS,
-    indexAlias: DEFAULT_INDEX_ALIAS,
   };
+
+  childProps() {
+    const { itemAlias, indexAlias } = this.props;
+    return { itemAlias, indexAlias, items: this.items };
+  }
 
   onBeforeMount() {
     this.updateItems('');
@@ -26,7 +27,7 @@ class FilteredList {
 
   updateItems(value: string = this.refs.filter.value) {
     value = value.trim().toLowerCase();
-    this.items = this.props.items.filter((item) => {
+    const filtered = this.props.items.filter((item) => {
       if (!item) {
         return false;
       } else if (typeof item === 'string') {
@@ -37,10 +38,14 @@ class FilteredList {
         return false;
       }
     });
+
+    if (filtered.length !== 0 || this.items.length !== 0) {
+      this.items = filtered;
+    }
   }
 }
 
-interface FilteredList extends Tag<FilteredList.Props> { }
+interface FilteredList extends Tag<FilteredList.Props> {}
 namespace FilteredList {
   export interface Props extends Tag.Props {
     items?: Item[];

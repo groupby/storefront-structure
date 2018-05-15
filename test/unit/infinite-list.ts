@@ -2,10 +2,12 @@ import InfiniteList from '../../src/infinite-list';
 import List from '../../src/list';
 import suite from './_suite';
 
-suite('InfiniteList', ({ expect, spy }) => {
+suite('InfiniteList', ({ expect, spy, itShouldProvideAlias }) => {
   let infiniteList: InfiniteList;
 
-  beforeEach(() => infiniteList = new InfiniteList());
+  beforeEach(() => (infiniteList = new InfiniteList()));
+
+  itShouldProvideAlias(InfiniteList, 'list');
 
   describe('inheritance', () => {
     it('should extend List', () => {

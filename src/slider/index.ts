@@ -5,17 +5,16 @@ export const ZINDEX_HIGH = 10;
 
 @tag('gb-slider', require('./index.html'), require('./index.css'))
 class Slider {
-
   refs: {
-    base: HTMLDivElement,
-    lower: HTMLDivElement,
-    upper: HTMLDivElement,
-    connect: HTMLDivElement
+    base: HTMLDivElement;
+    lower: HTMLDivElement;
+    upper: HTMLDivElement;
+    connect: HTMLDivElement;
   };
-  props: Slider.Props = <any>{
+  props: Slider.Props = {
     min: 0,
-    max: 100
-  };
+    max: 100,
+  } as Slider.Props;
 
   onMount() {
     this.moveHandle(this.refs.lower, this.props.low);
@@ -45,7 +44,7 @@ class Slider {
       this.setup(upper);
     }
     this.redraw(mouseLeft);
-  }
+  };
 
   onDragStart = (event: MouseEvent & Slider.Event | TouchEvent & Slider.Event) => {
     event.preventDefault();
@@ -55,18 +54,18 @@ class Slider {
     utils.WINDOW().document.addEventListener('touchmove', this.onTouchMove);
     utils.WINDOW().document.addEventListener('mouseup', this.onDragEnd);
     utils.WINDOW().document.addEventListener('touchend', this.onDragEnd);
-  }
+  };
 
   onMouseMove = (event: MouseEvent & Slider.Event) => {
     this.redraw(event.clientX);
-  }
+  };
 
   onTouchMove = (event: TouchEvent & Slider.Event) => {
     const touchEvent = event.changedTouches[0];
     if (touchEvent.target === this.state.handle) {
       this.redraw(touchEvent.clientX);
     }
-  }
+  };
 
   onDragEnd = () => this.removeEventListeners();
 
@@ -81,9 +80,9 @@ class Slider {
       baseLeft: baseDimensions.left,
       handle,
       isLower,
-      limit
+      limit,
     };
-  }
+  };
 
   redraw(mouseLeft: number) {
     this.state = { ...this.state, mouseLeft };
@@ -121,7 +120,7 @@ class Slider {
   }
 
   setInput(percentage: number) {
-    const input = Math.floor((((this.props.max - this.props.min) * percentage) / 100) + this.props.min);
+    const input = Math.floor((this.props.max - this.props.min) * percentage / 100 + this.props.min);
     if (this.state.isLower) {
       this.props.onChange(input, this.props.high);
     } else {
@@ -138,7 +137,7 @@ class Slider {
   }
 }
 
-interface Slider extends Tag<Slider.Props> { }
+interface Slider extends Tag<Slider.Props> {}
 namespace Slider {
   export interface Props extends Tag.Props {
     min: number;

@@ -1,10 +1,12 @@
 import List from '../../src/list';
 import suite from './_suite';
 
-suite('List', ({ expect, spy }) => {
+suite('List', ({ expect, spy, itShouldProvideAlias }) => {
   let list: List;
 
-  beforeEach(() => list = new List());
+  beforeEach(() => (list = new List()));
+
+  itShouldProvideAlias(List, 'list');
 
   describe('constructor()', () => {
     describe('props', () => {
@@ -21,14 +23,13 @@ suite('List', ({ expect, spy }) => {
     });
   });
 
-  describe('init()', () => {
-    it('should call expose()', () => {
-      const props = list.props = <any>{ a: 'b' };
-      const expose = list.expose = spy();
+  describe('childProps()', () => {
+    it('should return filtered props', () => {
+      const itemAlias = 'myItem';
+      const indexAlias = 'myIndex';
+      list.props = { a: 'b', itemAlias, indexAlias } as any;
 
-      list.init();
-
-      expect(expose).to.be.calledWith('list', props);
+      expect(list.childProps()).to.eql({ itemAlias, indexAlias });
     });
   });
 

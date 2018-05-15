@@ -1,31 +1,28 @@
 import Select from '../../src/select';
 import suite from './_suite';
 
-suite('Select', ({ expect, spy }) => {
+suite('Select', ({ expect, spy, itShouldProvideAlias }) => {
   let select: Select;
 
-  beforeEach(() => select = new Select());
+  beforeEach(() => (select = new Select()));
+
+  itShouldProvideAlias(Select, 'select');
 
   describe('constructor()', () => {
     describe('props', () => {
       it('should set initial value', () => {
         expect(select.props).to.eql({
           options: [],
-          optionAlias: 'option',
-          indexAlias: 'i'
         });
       });
     });
   });
 
-  describe('init()', () => {
-    it('should call expose()', () => {
-      const props = select.props = <any>{ a: 'b' };
-      const expose = select.expose = spy();
+  describe('childProps()', () => {
+    it('should return props', () => {
+      const props = (select.props = { a: 'b' } as any);
 
-      select.init();
-
-      expect(expose).to.be.calledWith('select', props);
+      expect(select.childProps()).to.eq(props);
     });
   });
 });

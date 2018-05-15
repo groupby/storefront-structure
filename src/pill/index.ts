@@ -22,7 +22,7 @@ class Pill {
   }
 }
 
-interface Pill extends Tag<Pill.Props> { }
+interface Pill extends Tag<Pill.Props> {}
 namespace Pill {
   export interface Props extends Tag.Props {
     selected: boolean;

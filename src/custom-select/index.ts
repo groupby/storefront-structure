@@ -1,29 +1,27 @@
-import { alias, tag, utils, Tag } from '@storefront/core';
+import { provide, tag, utils, Tag } from '@storefront/core';
 import Button from '../button';
 import Select from '../select';
 
-@alias('customSelect')
+@provide('customSelect')
 @tag('gb-custom-select', require('./index.html'), require('./index.css'))
 class CustomSelect {
-
-  $select: Select.Props;
   refs: { toggle: Button };
   props: CustomSelect.Props = {
-    hover: false
-  };
+    hover: false,
+  } as CustomSelect.Props;
   state: CustomSelect.State = {
-    selected: () => this.$select.options.find((option) => option.selected),
+    selected: () => this.props.options.find((option) => option.selected),
     onSelect: (event) => {
-      if (this.$select.onSelect) {
-        this.$select.onSelect(event.item.i);
+      if (this.props.onSelect) {
+        this.props.onSelect(event.item.i);
       }
-      this.update({ isActive: false });
-    }
+      this.set({ isActive: false });
+    },
+    isActive: false,
   };
-  isActive: boolean = false;
 
   onUpdated() {
-    if (this.isActive) {
+    if (this.state.isActive) {
       utils.WINDOW().document.addEventListener('click', this.onClickDeactivate);
     } else {
       utils.WINDOW().document.removeEventListener('click', this.onClickDeactivate);
@@ -36,14 +34,14 @@ class CustomSelect {
 
   onHoverActivate(event: MouseEvent & Tag.Event) {
     event.preventUpdate = true;
-    if (this.props.hover && !this.isActive) {
-      this.update({ isActive: true });
+    if (this.props.hover && !this.state.isActive) {
+      this.set({ isActive: true });
     }
   }
 
   onHoverDeactivate(event: MouseEvent & Tag.Event) {
     event.preventUpdate = true;
-    if (!this.props.hover && !this.isActive) {
+    if (!this.props.hover && !this.state.isActive) {
       this.update();
     }
   }
@@ -51,25 +49,25 @@ class CustomSelect {
   onClickDeactivate = (event: MouseEvent & Tag.Event) => {
     event.preventUpdate = true;
     if (!this.props.hover && event.target !== this.refs.toggle.refs.button) {
-      this.update({ isActive: false });
+      this.set({ isActive: false });
     }
-  }
+  };
 
-  onClickToggleActive = (event: MouseEvent & Tag.Event) => {
-    event.preventUpdate = true;
+  onClickToggleActive = () => {
     if (!this.props.hover) {
-      this.update({ isActive: !this.isActive });
+      this.set({ isActive: !this.state.isActive });
     }
-  }
+  };
 }
 
-interface CustomSelect extends Tag<CustomSelect.Props, CustomSelect.State> { }
+interface CustomSelect extends Tag<CustomSelect.Props, CustomSelect.State> {}
 namespace CustomSelect {
-  export interface Props extends Tag.Props {
+  export interface Props extends Tag.Props, Select.Props {
     hover: boolean;
   }
 
   export interface State {
+    isActive: boolean;
     selected(): Select.Option;
     onSelect(event: MouseEvent & { item: { i: number } }): void;
   }

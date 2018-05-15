@@ -4,12 +4,12 @@ import suite from './_suite';
 suite('NativeSelect', ({ expect, spy }) => {
   let nativeSelect: NativeSelect;
 
-  beforeEach(() => nativeSelect = new NativeSelect());
+  beforeEach(() => (nativeSelect = new NativeSelect()));
 
   describe('onUpdated()', () => {
     it('should set selectedIndex', () => {
       const selector: any = {};
-      nativeSelect.$select = <any>{ options: [{}, {}, { selected: true }, {}] };
+      nativeSelect.props = <any>{ options: [{}, {}, { selected: true }, {}] };
       nativeSelect.refs = <any>{ selector };
 
       nativeSelect.onUpdated();
@@ -22,15 +22,15 @@ suite('NativeSelect', ({ expect, spy }) => {
         selector: {
           set selectedIndex(param: any) {
             expect.fail();
-          }
-        }
+          },
+        },
       };
-      nativeSelect.$select = <any>{
+      nativeSelect.props = <any>{
         options: {
           findIndex() {
             return nativeSelect.refs.selector.selectedIndex;
-          }
-        }
+          },
+        },
       };
 
       nativeSelect.onUpdated();
@@ -40,7 +40,7 @@ suite('NativeSelect', ({ expect, spy }) => {
   describe('updateSelection()', () => {
     it('should set preventUpdate', () => {
       const event: any = {};
-      nativeSelect.$select = <any>{};
+      nativeSelect.props = <any>{};
 
       nativeSelect.updateSelection(event);
 
@@ -50,7 +50,7 @@ suite('NativeSelect', ({ expect, spy }) => {
     it('should call $select.onSelect', () => {
       const onSelect = spy();
       const event: any = { target: { selectedIndex: 7 } };
-      nativeSelect.$select = <any>{ onSelect };
+      nativeSelect.props = <any>{ onSelect };
 
       nativeSelect.updateSelection(event);
 

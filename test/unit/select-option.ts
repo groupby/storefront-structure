@@ -4,26 +4,21 @@ import suite from './_suite';
 suite('SelectOption', ({ expect, spy }) => {
   let selectOption: SelectOption;
 
-  beforeEach(() => selectOption = new SelectOption());
+  beforeEach(() => (selectOption = new SelectOption()));
 
-  describe('init()', () => {
-    it('should expose item and index', () => {
-      const optionAlias = 'some option';
-      const indexAlias = 'some index';
-      const option = selectOption.option = <any>{ a: 'b' };
-      const index = selectOption.i = 8;
-      const expose = selectOption.expose = spy();
-      selectOption.$select = <any>{ optionAlias, indexAlias };
+  describe('onBeforeMount()', () => {
+    it('should call updateContent()', () => {
+      const updateState = (selectOption.updateState = spy());
 
-      selectOption.init();
+      selectOption.onBeforeMount();
 
-      expect(expose).to.be.calledWith(optionAlias, option).calledWith(indexAlias, index);
+      expect(updateState).to.be.called;
     });
   });
 
   describe('onMount()', () => {
     it('should call updateContent()', () => {
-      const updateContent = selectOption.updateContent = spy();
+      const updateContent = (selectOption.updateContent = spy());
 
       selectOption.onMount();
 
@@ -32,22 +27,18 @@ suite('SelectOption', ({ expect, spy }) => {
   });
 
   describe('onUpdate', () => {
-    it('should update aliases', () => {
-      const option = selectOption.option = <any>{ a: 'b' };
-      const index = selectOption.i = 8;
-      const optionAlias = selectOption.optionAlias = 'myOption';
-      const indexAlias = selectOption.indexAlias = 'myIndex';
-      const updateAlias = selectOption.updateAlias = spy();
+    it('should call updateState()', () => {
+      const updateState = (selectOption.updateState = spy());
       selectOption.updateContent = () => null;
 
       selectOption.onUpdate();
 
-      expect(updateAlias).to.be.calledWith(optionAlias, option).calledWith(indexAlias, index);
+      expect(updateState).to.be.called;
     });
 
     it('should call updateContent()', () => {
-      const updateContent = selectOption.updateContent = spy();
-      selectOption.updateAlias = () => null;
+      const updateContent = (selectOption.updateContent = spy());
+      selectOption.updateState = () => null;
 
       selectOption.onUpdate();
 
@@ -55,11 +46,23 @@ suite('SelectOption', ({ expect, spy }) => {
     });
   });
 
+  describe('updateState()', () => {
+    it('should update aliases', () => {
+      const option = (selectOption.option = <any>{ a: 'b' });
+      const index = (selectOption.i = 8);
+      selectOption.state = { e: 'f' } as any;
+
+      selectOption.updateState();
+
+      expect(selectOption.state).to.eql({ e: 'f', option, index });
+    });
+  });
+
   describe('updateContent()', () => {
     it('should override <option> label', () => {
       const label = 'some simple label';
       const textContent = 'some complex label';
-      const root = selectOption.root = <any>{ label, textContent };
+      const root = (selectOption.root = <any>{ label, textContent });
 
       selectOption.updateContent();
 
@@ -70,8 +73,12 @@ suite('SelectOption', ({ expect, spy }) => {
       const label = 'some simple label';
       selectOption.root = <any>{
         textContent: label,
-        get label() { return label; },
-        set label(value: string) { expect.fail(); }
+        get label() {
+          return label;
+        },
+        set label(value: string) {
+          expect.fail();
+        },
       };
 
       selectOption.updateContent();

@@ -1,41 +1,59 @@
+import * as sinon from 'sinon';
 import CarouselSlide from '../../src/carousel-slide';
 import suite from './_suite';
 
 suite('CarouselSlide', ({ expect, spy }) => {
   let carouselSlide: CarouselSlide;
 
-  beforeEach(() => carouselSlide = new CarouselSlide());
+  beforeEach(() => (carouselSlide = new CarouselSlide()));
 
   describe('init()', () => {
     it('should expose the slide and index and unexpose carousel', () => {
       const itemAlias = 'someAlias';
       const indexAlias = 'someIndex';
-      const item = carouselSlide.slide = { a: 'b' };
-      const index = carouselSlide.index = <any>{ c: 'd' };
-      carouselSlide.$carousel = <any>{ itemAlias, indexAlias };
-      const expose = carouselSlide.expose = spy();
-      const unexpose = carouselSlide.unexpose = spy();
+      const slide = { a: 'b' };
+      const index = 8;
+      const provide = (carouselSlide.provide = spy());
+      const state = { slide, index };
+      carouselSlide.props = { itemAlias, indexAlias };
 
       carouselSlide.init();
 
-      expect(expose).to.be.calledWithExactly(itemAlias, item);
-      expect(expose).to.be.calledWithExactly(indexAlias, index);
-      expect(unexpose).to.be.calledWithExactly('carousel');
+      expect(provide).to.be.calledWithExactly(itemAlias, sinon.match((cb) => expect(cb(null, state)).to.eq(slide)));
+      expect(provide).to.be.calledWithExactly(indexAlias, sinon.match((cb) => expect(cb(null, state)).to.eq(index)));
+    });
+  });
+
+  describe('onBeforeMount()', () => {
+    it('should call updateState()', () => {
+      const updateState = (carouselSlide.updateState = spy());
+
+      carouselSlide.onBeforeMount();
+
+      expect(updateState).to.be.called;
     });
   });
 
   describe('onUpdate()', () => {
-    it('should update item and index aliases', () => {
-      const slide = carouselSlide.slide = { a: 'b' };
-      const index = carouselSlide.index = 7;
-      const itemAlias = carouselSlide.itemAlias = 'myItem';
-      const indexAlias = carouselSlide.indexAlias = 'myIndex';
-      const updateAlias = carouselSlide.updateAlias = spy();
+    it('should call updateState()', () => {
+      const updateState = (carouselSlide.updateState = spy());
 
       carouselSlide.onUpdate();
 
-      expect(updateAlias).to.be.calledWithExactly(itemAlias, slide);
-      expect(updateAlias).to.be.calledWithExactly(indexAlias, index);
+      expect(updateState).to.be.called;
+    });
+  });
+
+  describe('updateState()', () => {
+    it('should call updateState()', () => {
+      const slide = (carouselSlide.slide = { a: 'b' });
+      const index = (carouselSlide.index = 7);
+      carouselSlide.props = { itemAlias: 'myItem', indexAlias: 'myIndex' };
+      carouselSlide.state = { c: 'd' } as any;
+
+      carouselSlide.onUpdate();
+
+      expect(carouselSlide.state).to.eql({ c: 'd', slide, index });
     });
   });
 });

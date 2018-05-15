@@ -2,7 +2,6 @@ import { tag, Tag } from '@storefront/core';
 
 @tag('gb-raw', '<span></span>')
 class Raw {
-
   content: string;
 
   onBeforeMount() {
@@ -20,7 +19,7 @@ class Raw {
   }
 }
 
-interface Raw extends Tag<Raw.Props> { }
+interface Raw extends Tag<Raw.Props> {}
 namespace Raw {
   export interface Props extends Tag.Props {
     content: string;

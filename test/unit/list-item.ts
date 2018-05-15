@@ -1,50 +1,58 @@
+import * as sinon from 'sinon';
 import ListItem from '../../src/list-item';
 import suite from './_suite';
 
 suite('ListItem', ({ expect, spy }) => {
   let listItem: ListItem;
 
-  beforeEach(() => listItem = new ListItem());
+  beforeEach(() => (listItem = new ListItem()));
 
   describe('init()', () => {
-    it('should expose the item and index', () => {
+    it('should provide the item and index as aliases', () => {
       const itemAlias = 'someAlias';
       const indexAlias = 'someIndex';
-      const expose = listItem.expose = spy();
-      const item = listItem.item = { a: 'b' };
-      const index = listItem.i = <any>{ c: 'd' };
-      listItem.$list = { itemAlias, indexAlias };
-      listItem.unexpose = () => null;
+      const provide = (listItem.provide = spy());
+      const item = { a: 'b' };
+      const index = 9;
+      const state = { item, index };
+      listItem.props = { itemAlias, indexAlias };
 
       listItem.init();
 
-      expect(expose).to.be.calledWith(itemAlias, item);
-      expect(expose).to.be.calledWith(indexAlias, index);
+      expect(provide).to.be.calledWith(itemAlias, sinon.match((cb) => expect(cb(null, state)).to.eq(item)));
+      expect(provide).to.be.calledWith(indexAlias, sinon.match((cb) => expect(cb(null, state)).to.eq(index)));
     });
+  });
 
-    it('should call unexpose()', () => {
-      const unexpose = listItem.unexpose = spy();
-      listItem.expose = () => null;
-      listItem.$list = {};
+  describe('onBeforeMount()', () => {
+    it('should call updateState()', () => {
+      const updateState = (listItem.updateState = spy());
 
-      listItem.init();
+      listItem.onBeforeMount();
 
-      expect(unexpose).to.be.calledWith('list');
+      expect(updateState).to.be.called;
     });
   });
 
   describe('onUpdate()', () => {
     it('should update item and index aliases', () => {
-      const item = listItem.item = { a: 'b' };
-      const index = listItem.i = 7;
-      const itemAlias = listItem.itemAlias = 'myItem';
-      const indexAlias = listItem.indexAlias = 'myIndex';
-      const updateAlias = listItem.updateAlias = spy();
+      const updateState = (listItem.updateState = spy());
 
       listItem.onUpdate();
 
-      expect(updateAlias).to.be.calledWith(itemAlias, item);
-      expect(updateAlias).to.be.calledWith(indexAlias, index);
+      expect(updateState).to.be.called;
+    });
+  });
+
+  describe('updateState()', () => {
+    it('should update item and index aliases', () => {
+      const item = (listItem.item = { a: 'b' });
+      const index = (listItem.i = 7);
+      listItem.state = { c: 'd' } as any;
+
+      listItem.onUpdate();
+
+      expect(listItem.state).to.eql({ c: 'd', item, index });
     });
   });
 });

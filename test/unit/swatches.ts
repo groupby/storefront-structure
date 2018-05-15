@@ -1,12 +1,13 @@
+import * as sinon from 'sinon';
 import Swatches from '../../src/swatches';
 import suite from './_suite';
 
-suite('Swatches', ({ expect, spy, itShouldHaveAlias }) => {
+suite('Swatches', ({ expect, spy, itShouldProvideAlias }) => {
   let swatches: Swatches;
 
-  beforeEach(() => swatches = new Swatches());
+  beforeEach(() => (swatches = new Swatches()));
 
-  itShouldHaveAlias(Swatches, 'swatches');
+  itShouldProvideAlias(Swatches, 'swatches');
 
   describe('constructor()', () => {
     describe('state', () => {

@@ -3,7 +3,8 @@ import * as sinon from 'sinon';
 import Carousel from '../../src/carousel';
 import suite from './_suite';
 
-suite('Carousel', ({ expect, spy, stub }) => {
+suite('Carousel', ({ expect, spy, stub, itShouldProvideAlias }) => {
+  itShouldProvideAlias(Carousel, 'carousel');
 
   describe('settings', () => {
     it('should default to default settings if no settings are passed in', () => {
@@ -33,17 +34,6 @@ suite('Carousel', ({ expect, spy, stub }) => {
       ];
     });
 
-    describe('init()', () => {
-      it('should call expose()', () => {
-        const props = carousel.props;
-        const expose = carousel.expose = spy();
-
-        carousel.init();
-
-        expect(expose).to.be.calledWith('carousel', props);
-      });
-    });
-
     describe('onMount()', () => {
       it('should add event listener for window resize', () => {
         const addEventListener = spy();
@@ -57,7 +47,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
     describe('onUpdate()', () => {
       it('should add cloned items to state', () => {
-        const clone = carousel.cloneItems = spy();
+        const clone = (carousel.cloneItems = spy());
 
         carousel.onUpdate();
 
@@ -79,7 +69,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
     describe('moveNext', () => {
       it('should call slideHandler function with correct slide number', () => {
         carousel.state.currentSlide = 0;
-        const slideHandler = carousel.slideHandler = spy();
+        const slideHandler = (carousel.slideHandler = spy());
 
         carousel.moveNext();
 
@@ -90,7 +80,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
     describe('movePrevious', () => {
       it('should call slideHandler function with correct slide number', () => {
         carousel.state.currentSlide = 0;
-        const slideHandler = carousel.slideHandler = spy();
+        const slideHandler = (carousel.slideHandler = spy());
 
         carousel.movePrevious();
 
@@ -131,9 +121,9 @@ suite('Carousel', ({ expect, spy, stub }) => {
           touches: [{ pageX: 0, pageY: 5 }],
           target: {
             addEventListener,
-          }
+          },
         };
-        const set = carousel.set = spy();
+        const set = (carousel.set = spy());
 
         carousel.onTouchStart(<any>event);
 
@@ -143,16 +133,16 @@ suite('Carousel', ({ expect, spy, stub }) => {
     });
 
     describe('onTouchEnd()', () => {
-      beforeEach(() => carousel.state.touchObject = { startX: 0, startY: 5 });
+      beforeEach(() => (carousel.state.touchObject = { startX: 0, startY: 5 }));
 
       it('should swipe to next slides if swipe distance is long enough', () => {
         const removeEventListener = spy();
         const event = {
           changedTouches: [{ pageX: 30, pageY: 15 }],
-          target: { removeEventListener }
+          target: { removeEventListener },
         };
         const shouldSwipeToNext = stub(Carousel, 'shouldSwipeToNext').returns(true);
-        const next = carousel.moveNext = spy();
+        const next = (carousel.moveNext = spy());
 
         carousel.onTouchEnd(<any>event);
 
@@ -166,10 +156,10 @@ suite('Carousel', ({ expect, spy, stub }) => {
         const removeEventListener = spy();
         const event = {
           changedTouches: [{ pageX: -40, pageY: 15 }],
-          target: { removeEventListener }
+          target: { removeEventListener },
         };
         const shouldSwipeToNext = stub(Carousel, 'shouldSwipeToNext').returns(false);
-        const previous = carousel.movePrevious = spy();
+        const previous = (carousel.movePrevious = spy());
 
         carousel.onTouchEnd(<any>event);
 
@@ -182,10 +172,10 @@ suite('Carousel', ({ expect, spy, stub }) => {
         const removeEventListener = spy();
         const event = {
           changedTouches: [{ pageX: 10, pageY: 15 }],
-          target: { removeEventListener }
+          target: { removeEventListener },
         };
-        const next = carousel.moveNext = spy();
-        const previous = carousel.movePrevious = spy();
+        const next = (carousel.moveNext = spy());
+        const previous = (carousel.movePrevious = spy());
         stub(Carousel, 'shouldSwipeToNext').returns(false);
 
         carousel.onTouchEnd(<any>event);
@@ -199,8 +189,8 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
     describe('slideHandler()', () => {
       it('should simply set slide number if speed is 0', () => {
-        const reset = carousel.resetCurrentSlideNum = spy();
-        const update = carousel.set = spy();
+        const reset = (carousel.resetCurrentSlideNum = spy());
+        const update = (carousel.set = spy());
 
         carousel.slideHandler(-1);
 
@@ -246,7 +236,11 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
           carousel.slideHandler(10);
           // tslint:disable-next-line:max-line-length
-          expect(addEventListener.getCall(0)).to.be.calledWithExactly('transitionend', carousel.disableTransition, false);
+          expect(addEventListener.getCall(0)).to.be.calledWithExactly(
+            'transitionend',
+            carousel.disableTransition,
+            false
+          );
           expect(reset).not.to.be.called;
 
           clock.tick(100);
@@ -289,8 +283,8 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
     describe('resetToRealSlide()', () => {
       it('should reset slide when scrolling three slides to the next', () => {
-        const reset = carousel.resetCurrentSlideNum = spy();
-        const set = carousel.set = spy();
+        const reset = (carousel.resetCurrentSlideNum = spy());
+        const set = (carousel.set = spy());
 
         carousel.resetToRealSlide(9, 12, 10);
 
@@ -302,7 +296,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
 
     describe('resetCurrentSlideNum()', () => {
       it('should reset slide when scrolling three slides to next', () => {
-        const set = carousel.set = spy();
+        const set = (carousel.set = spy());
 
         carousel.resetCurrentSlideNum(9, 12, 10);
 
@@ -310,7 +304,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
       });
 
       it('should reset slide when scrolling three slides to previous', () => {
-        const set = carousel.set = spy();
+        const set = (carousel.set = spy());
 
         carousel.resetCurrentSlideNum(0, -3, 10);
 
@@ -323,7 +317,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
         const removeEventListener = spy();
         const track = { removeEventListener };
         carousel.refs = <any>{ track };
-        const set = carousel.set = spy();
+        const set = (carousel.set = spy());
 
         carousel.disableTransition();
 
@@ -361,7 +355,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
           a: 'b',
           '-webkit-transition': '500ms ease',
           transition: '500ms ease',
-          '-ms-transition': '500ms ease'
+          '-ms-transition': '500ms ease',
         };
         carousel.state.transitioning = true;
         carousel.props.speed = 500;
@@ -380,7 +374,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
           transform,
           '-webkit-transform': transform,
           '-ms-transform': transform,
-          width: `${trackWidth}px`
+          width: `${trackWidth}px`,
         };
         carousel.getSlideWidth = () => width;
         stub(Carousel, 'calculatePosition').returns(500);
@@ -400,9 +394,7 @@ suite('Carousel', ({ expect, spy, stub }) => {
     });
 
     describe('calculatePosition()', () => {
-      it('should return correct position value', () =>
-        expect(Carousel.calculatePosition(2, 100, 2)).to.eq(500)
-      );
+      it('should return correct position value', () => expect(Carousel.calculatePosition(2, 100, 2)).to.eq(500));
     });
   });
 });

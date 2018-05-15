@@ -1,9 +1,8 @@
-import { alias, tag, Tag } from '@storefront/core';
+import { provide, tag, Tag } from '@storefront/core';
 
-@alias('swatches')
+@provide('swatches')
 @tag('gb-swatches', require('./index.html'))
 class Swatches {
-
   state: Swatches.State = {
     onClick: (event) => {
       if (this.props.onClick) {
@@ -12,7 +11,7 @@ class Swatches {
     },
     onActivate: (event) => {
       event.preventUpdate = true;
-      if ( this.props.onChange) {
+      if (this.props.onChange) {
         this.props.onChange(event.item.i, true);
       }
     },
@@ -21,11 +20,11 @@ class Swatches {
       if (this.props.onChange) {
         this.props.onChange(event.item.i, false);
       }
-    }
+    },
   };
 }
 
-interface Swatches extends Tag<Swatches.Props, Swatches.State> { }
+interface Swatches extends Tag<Swatches.Props, Swatches.State> {}
 namespace Swatches {
   export interface Props extends Tag.Props {
     items?: any[];

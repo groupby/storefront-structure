@@ -1,5 +1,5 @@
 <select ref="selector" onchange="{ updateSelection }">
-  <option data-is="gb-select-option" each="{ option, i in $select.options }" value="{ JSON.stringify(option.value) }" label="{ option.label }" selected="{ option.selected }">
-    <yield>{ $option.label }</yield>
+  <option data-is="gb-select-option" each="{ option, i in props.options }" value="{ JSON.stringify(option.value) }" label="{ option.label }" selected="{ option.selected }">
+    <yield>{ option.label }</yield>
   </option>
 </select>

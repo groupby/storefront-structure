@@ -2,12 +2,11 @@ import { tag, utils, Tag } from '@storefront/core';
 
 @tag('gb-toggle', require('./index.html'), require('./index.css'))
 class Toggle {
-
   props: Toggle.Props = {
-    checked: false
+    checked: false,
   };
   refs: {
-    input: HTMLInputElement,
+    input: HTMLInputElement;
   };
 
   onMount() {
@@ -22,7 +21,7 @@ class Toggle {
   }
 }
 
-interface Toggle extends Tag<Toggle.Props> { }
+interface Toggle extends Tag<Toggle.Props> {}
 namespace Toggle {
   export interface Props extends Tag.Props {
     checked?: boolean;
