@@ -5,7 +5,7 @@
   <li class="load" if="{ $infinite.loadMore && $infinite.prevExists }">
     <gb-button class="load-prev" on-click="{ $infinite.clickPrev }">Load Previous</gb-button>
   </li>
-  <li data-is="gb-list-item" class="gb-list__item" each="{ item, i in items }">
+  <li data-is="gb-list-item" class="gb-list__item" each="{ item, i in props.items }">
     <yield/>
   </li>
   <li data-is="gb-list-item" class="load second-loader" if="{ $infinite.isFetchingForward }" _consumes="infinite">
