@@ -16,6 +16,17 @@ suite('FilteredList', ({ expect, spy }) => {
     });
   });
 
+  describe('childProps()', () => {
+    it('should return childProps object', () => {
+      const itemAlias = 'itemAlias';
+      const indexAlias = 'indexAlias';
+      const items = (filteredList.items = <any>[1, 2, 3, 4]);
+
+      filteredList.props = { ...filteredList.props, itemAlias, indexAlias };
+      expect(filteredList.childProps()).to.eql({ itemAlias, indexAlias, items });
+    });
+  });
+
   describe('onBeforeMount()', () => {
     it('should call updateItems()', () => {
       const updateItems = (filteredList.updateItems = spy());
