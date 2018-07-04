@@ -129,11 +129,10 @@ class Slider {
   }
 
   removeEventListeners() {
-    const { removeEventListener } = utils.WINDOW().document;
-    removeEventListener('mousemove', this.onMouseMove);
-    removeEventListener('touchmove', this.onTouchMove);
-    removeEventListener('mouseup', this.onDragEnd);
-    removeEventListener('touchend', this.onDragEnd);
+    utils.WINDOW().document.removeEventListener('mousemove', this.onMouseMove);
+    utils.WINDOW().document.removeEventListener('touchmove', this.onTouchMove);
+    utils.WINDOW().document.removeEventListener('mouseup', this.onDragEnd);
+    utils.WINDOW().document.removeEventListener('touchend', this.onDragEnd);
   }
 }
 
