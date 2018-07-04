@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Props | @storefront/structure</title>
+	<title>State | @storefront/structure</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../classes/modal.html">Modal</a>
+					<a href="../classes/filteredlist.html">FilteredList</a>
 				</li>
 				<li>
-					<a href="modal.props.html">Props</a>
+					<a href="filteredlist.state.html">State</a>
 				</li>
 			</ul>
-			<h1>Interface Props</h1>
+			<h1>Interface State</h1>
 		</div>
 	</div>
 </header>
@@ -73,12 +73,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">Props</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">Props</span>
-							</li>
-						</ul>
+						<span class="target">State</span>
 					</li>
 				</ul>
 			</section>
@@ -89,10 +84,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="modal.props.html#autoopen" class="tsd-kind-icon">auto<wbr>Open</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="modal.props.html#storesection" class="tsd-kind-icon">store<wbr>Section</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="modal.props.html#stylish" class="tsd-kind-icon">stylish</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="modal.props.html#ui" class="tsd-kind-icon">ui</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filteredlist.state.html#items" class="tsd-kind-icon">items</a></li>
 							</ul>
 						</section>
 					</div>
@@ -101,45 +93,12 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="autoopen" class="tsd-anchor"></a>
-					<h3>auto<wbr>Open</h3>
-					<div class="tsd-signature tsd-kind-icon">auto<wbr>Open<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="items" class="tsd-anchor"></a>
+					<h3>items</h3>
+					<div class="tsd-signature tsd-kind-icon">items<span class="tsd-signature-symbol">:</span> <a href="../classes/filteredlist.html#item" class="tsd-signature-type">Item</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/01bf14c/src/modal/index.ts#L49">src/modal/index.ts:49</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="storesection" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> store<wbr>Section</h3>
-					<div class="tsd-signature tsd-kind-icon">store<wbr>Section<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from Props.storeSection</p>
-						<ul>
-							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:70</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="stylish" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> stylish</h3>
-					<div class="tsd-signature tsd-kind-icon">stylish<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from Props.stylish</p>
-						<ul>
-							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:69</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="ui" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> ui</h3>
-					<div class="tsd-signature tsd-kind-icon">ui<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from Props.ui</p>
-						<ul>
-							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:68</li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/01bf14c/src/filtered-list/index.ts#L55">src/filtered-list/index.ts:55</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -167,9 +126,23 @@
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="../classes/customselect.html" class="tsd-kind-icon">Custom<wbr>Select</a>
 					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-has-type-parameter">
 						<a href="../classes/filteredlist.html" class="tsd-kind-icon">Filtered<wbr>List</a>
+						<ul>
+							<li class="current tsd-kind-interface tsd-parent-kind-class">
+								<a href="filteredlist.state.html" class="tsd-kind-icon">State</a>
+								<ul>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="filteredlist.state.html#items" class="tsd-kind-icon">items</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="../classes/icon.html" class="tsd-kind-icon">Icon</a>
 					</li>
@@ -185,32 +158,9 @@
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="../classes/listitem.html" class="tsd-kind-icon">List<wbr>Item</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-class tsd-has-type-parameter">
+					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="../classes/modal.html" class="tsd-kind-icon">Modal</a>
-						<ul>
-							<li class="current tsd-kind-interface tsd-parent-kind-class">
-								<a href="modal.props.html" class="tsd-kind-icon">Props</a>
-								<ul>
-									<li class=" tsd-kind-property tsd-parent-kind-interface">
-										<a href="modal.props.html#autoopen" class="tsd-kind-icon">auto<wbr>Open</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-										<a href="modal.props.html#storesection" class="tsd-kind-icon">store<wbr>Section</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-										<a href="modal.props.html#stylish" class="tsd-kind-icon">stylish</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-										<a href="modal.props.html#ui" class="tsd-kind-icon">ui</a>
-									</li>
-								</ul>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="../classes/nativeselect.html" class="tsd-kind-icon">Native<wbr>Select</a>
 					</li>
