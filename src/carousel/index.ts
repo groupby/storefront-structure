@@ -27,7 +27,7 @@ class Carousel {
   animationEndCallback: NodeJS.Timer = null;
 
   onMount() {
-    utils.WINDOW().addEventListener('resize', this.update);
+    utils.WINDOW().addEventListener('resize', this.forceUpdate);
   }
 
   onUpdate() {
@@ -35,8 +35,10 @@ class Carousel {
   }
 
   onUnmount() {
-    utils.WINDOW().removeEventListener('resize', this.update);
+    utils.WINDOW().removeEventListener('resize', this.forceUpdate);
   }
+
+  forceUpdate = () => this.set(true);
 
   moveNext = () => this.slideHandler(this.state.currentSlide + this.props.slidesToScroll);
 

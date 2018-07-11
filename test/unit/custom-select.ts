@@ -44,7 +44,7 @@ suite('CustomSelect', ({ expect, spy, stub, itShouldProvideAlias }) => {
           expect(onSelect).to.be.calledWith(index);
         });
 
-        it('should update() isActive to false', () => {
+        it('should set() isActive to false', () => {
           const set = (customSelect.set = spy());
           customSelect.props = <any>{};
 
@@ -118,7 +118,7 @@ suite('CustomSelect', ({ expect, spy, stub, itShouldProvideAlias }) => {
   describe('onHoverDeactivate()', () => {
     it('should set preventUpdate', () => {
       const event: any = {};
-      customSelect.update = () => null;
+      customSelect.set = () => null;
       customSelect.props = <any>{};
 
       customSelect.onHoverDeactivate(event);
@@ -126,24 +126,24 @@ suite('CustomSelect', ({ expect, spy, stub, itShouldProvideAlias }) => {
       expect(event.preventUpdate).to.be.true;
     });
 
-    it('should call update()', () => {
-      const update = (customSelect.update = spy());
+    it('should call set()', () => {
+      const set = (customSelect.set = spy());
       customSelect.props = <any>{};
 
       customSelect.onHoverDeactivate(<any>{});
 
-      expect(update).to.be.called;
+      expect(set).to.be.calledWith(true);
     });
 
-    it('should call update() if configured for hover', () => {
-      customSelect.update = () => expect.fail();
+    it('should call set() if configured for hover', () => {
+      customSelect.set = () => expect.fail();
       customSelect.props = <any>{ hover: true };
 
       customSelect.onHoverDeactivate(<any>{});
     });
 
-    it('should call update() if active', () => {
-      customSelect.update = () => expect.fail();
+    it('should call set() if active', () => {
+      customSelect.set = () => expect.fail();
       customSelect.props = <any>{};
       customSelect.state = { isActive: true } as any;
 

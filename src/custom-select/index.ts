@@ -42,7 +42,7 @@ class CustomSelect {
   onHoverDeactivate(event: MouseEvent & Tag.Event) {
     event.preventUpdate = true;
     if (!this.props.hover && !this.state.isActive) {
-      this.update();
+      this.set(true);
     }
   }
 

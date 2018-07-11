@@ -41,7 +41,7 @@ suite('Carousel', ({ expect, spy, stub, itShouldProvideAlias }) => {
 
         carousel.onMount();
 
-        expect(addEventListener).to.be.calledWithExactly('resize', carousel.update);
+        expect(addEventListener).to.be.calledWithExactly('resize', carousel.forceUpdate);
       });
     });
 
@@ -62,7 +62,17 @@ suite('Carousel', ({ expect, spy, stub, itShouldProvideAlias }) => {
 
         carousel.onUnmount();
 
-        expect(removeEventListener).to.be.calledWithExactly('resize', carousel.update);
+        expect(removeEventListener).to.be.calledWithExactly('resize', carousel.forceUpdate);
+      });
+    });
+
+    describe('forceUpdate()', () => {
+      it('should call set with true to trigger an update', () => {
+        const set = (carousel.set = spy());
+
+        carousel.forceUpdate();
+
+        expect(set).to.be.calledWithExactly(true);
       });
     });
 
