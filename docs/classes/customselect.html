@@ -117,6 +117,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="customselect.html#isinitialized" class="tsd-kind-icon">is<wbr>Initialized</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="customselect.html#props-1" class="tsd-kind-icon">props</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="customselect.html#refs" class="tsd-kind-icon">refs</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="customselect.html#_aliases" class="tsd-kind-icon">_aliases</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="customselect.html#_riot_id" class="tsd-kind-icon">_riot_<wbr>id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="customselect.html#actions" class="tsd-kind-icon">actions</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="customselect.html#config" class="tsd-kind-icon">config</a></li>
@@ -147,6 +148,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="customselect.html#set" class="tsd-kind-icon">set</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="customselect.html#subscribe" class="tsd-kind-icon">subscribe</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="customselect.html#subscribeonce" class="tsd-kind-icon">subscribe<wbr>Once</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="customselect.html#expose" class="tsd-kind-icon">expose</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-static"><a href="customselect.html#init" class="tsd-kind-icon">init</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="customselect.html#mixin" class="tsd-kind-icon">mixin</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="customselect.html#mount" class="tsd-kind-icon">mount</a></li>
@@ -161,8 +163,10 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="customselect.html#one" class="tsd-kind-icon">one</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="customselect.html#shouldupdate" class="tsd-kind-icon">should<wbr>Update</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="customselect.html#trigger" class="tsd-kind-icon">trigger</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="customselect.html#unexpose" class="tsd-kind-icon">unexpose</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="customselect.html#unmount" class="tsd-kind-icon">unmount</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="customselect.html#update" class="tsd-kind-icon">update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="customselect.html#updatealias" class="tsd-kind-icon">update<wbr>Alias</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -253,7 +257,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides Tag.props</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/745c682/src/custom-select/index.ts#L9">src/custom-select/index.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/e6ffbdf/src/custom-select/index.ts#L9">src/custom-select/index.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -263,7 +267,7 @@
 					<div class="tsd-signature tsd-kind-icon">refs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/745c682/src/custom-select/index.ts#L8">src/custom-select/index.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/e6ffbdf/src/custom-select/index.ts#L8">src/custom-select/index.ts:8</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -274,6 +278,17 @@
 							</li>
 						</ul>
 					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+					<a name="_aliases" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagOptional">Optional</span> _aliases</h3>
+					<div class="tsd-signature tsd-kind-icon">_aliases<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from Tag._aliases</p>
+						<ul>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:33</li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 					<a name="_riot_id" class="tsd-anchor"></a>
@@ -304,7 +319,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin.config</p>
 						<ul>
-							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:92</li>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:100</li>
 						</ul>
 					</aside>
 				</section>
@@ -315,7 +330,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin.flux</p>
 						<ul>
-							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:93</li>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:101</li>
 						</ul>
 					</aside>
 				</section>
@@ -338,7 +353,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin.log</p>
 						<ul>
-							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:95</li>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:103</li>
 						</ul>
 					</aside>
 				</section>
@@ -405,7 +420,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin.services</p>
 						<ul>
-							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:94</li>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:102</li>
 						</ul>
 					</aside>
 				</section>
@@ -486,7 +501,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/745c682/src/custom-select/index.ts#L49">src/custom-select/index.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/e6ffbdf/src/custom-select/index.ts#L49">src/custom-select/index.ts:49</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -509,7 +524,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/745c682/src/custom-select/index.ts#L56">src/custom-select/index.ts:56</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/e6ffbdf/src/custom-select/index.ts#L56">src/custom-select/index.ts:56</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -526,7 +541,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/745c682/src/custom-select/index.ts#L35">src/custom-select/index.ts:35</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/e6ffbdf/src/custom-select/index.ts#L35">src/custom-select/index.ts:35</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -549,7 +564,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/745c682/src/custom-select/index.ts#L42">src/custom-select/index.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/e6ffbdf/src/custom-select/index.ts#L42">src/custom-select/index.ts:42</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -572,7 +587,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/745c682/src/custom-select/index.ts#L31">src/custom-select/index.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/e6ffbdf/src/custom-select/index.ts#L31">src/custom-select/index.ts:31</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -589,7 +604,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/745c682/src/custom-select/index.ts#L23">src/custom-select/index.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/e6ffbdf/src/custom-select/index.ts#L23">src/custom-select/index.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -818,6 +833,33 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+					<a name="expose" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> expose</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">expose<span class="tsd-signature-symbol">(</span>alias<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Tag.expose</p>
+								<ul>
+									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:34</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>alias: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> value: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-static">
 					<a name="init" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> init</h3>
@@ -981,7 +1023,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Lifecycle.onBeforeMount</p>
 								<ul>
-									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:79</li>
+									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:87</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1004,7 +1046,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Lifecycle.onBeforeUnmount</p>
 								<ul>
-									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:88</li>
+									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:96</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1022,7 +1064,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Lifecycle.onMount</p>
 								<ul>
-									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:80</li>
+									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:88</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1040,7 +1082,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Lifecycle.onUnmount</p>
 								<ul>
-									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:89</li>
+									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:97</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1058,7 +1100,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Lifecycle.onUpdate</p>
 								<ul>
-									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:84</li>
+									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:92</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1087,7 +1129,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Lifecycle.onUpdated</p>
 								<ul>
-									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:87</li>
+									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:95</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1144,7 +1186,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Lifecycle.shouldUpdate</p>
 								<ul>
-									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:81</li>
+									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:89</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1200,6 +1242,30 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+					<a name="unexpose" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> unexpose</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">unexpose<span class="tsd-signature-symbol">(</span>alias<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Tag.unexpose</p>
+								<ul>
+									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:35</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>alias: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1267,6 +1333,33 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+					<a name="updatealias" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> update<wbr>Alias</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Alias<span class="tsd-signature-symbol">(</span>alias<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Tag.updateAlias</p>
+								<ul>
+									<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:36</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>alias: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>value: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Object literals</h2>
@@ -1277,7 +1370,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides Tag.state</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/745c682/src/custom-select/index.ts#L12">src/custom-select/index.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/e6ffbdf/src/custom-select/index.ts#L12">src/custom-select/index.ts:12</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -1286,7 +1379,7 @@
 						<div class="tsd-signature tsd-kind-icon">is<wbr>Active<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/745c682/src/custom-select/index.ts#L20">src/custom-select/index.ts:20</a></li>
+								<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/e6ffbdf/src/custom-select/index.ts#L20">src/custom-select/index.ts:20</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1300,7 +1393,7 @@
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/745c682/src/custom-select/index.ts#L14">src/custom-select/index.ts:14</a></li>
+										<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/e6ffbdf/src/custom-select/index.ts#L14">src/custom-select/index.ts:14</a></li>
 									</ul>
 								</aside>
 								<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1323,7 +1416,7 @@
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/745c682/src/custom-select/index.ts#L13">src/custom-select/index.ts:13</a></li>
+										<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/e6ffbdf/src/custom-select/index.ts#L13">src/custom-select/index.ts:13</a></li>
 									</ul>
 								</aside>
 								<h4 class="tsd-returns-title">Returns <a href="../interfaces/select.option.html" class="tsd-signature-type">Option</a></h4>
@@ -1383,6 +1476,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="customselect.html#refs" class="tsd-kind-icon">refs</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+								<a href="customselect.html#_aliases" class="tsd-kind-icon">_aliases</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 								<a href="customselect.html#_riot_id" class="tsd-kind-icon">_riot_<wbr>id</a>
@@ -1459,6 +1555,9 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="customselect.html#subscribeonce" class="tsd-kind-icon">subscribe<wbr>Once</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+								<a href="customselect.html#expose" class="tsd-kind-icon">expose</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-static">
 								<a href="customselect.html#init" class="tsd-kind-icon">init</a>
 							</li>
@@ -1502,10 +1601,16 @@
 								<a href="customselect.html#trigger" class="tsd-kind-icon">trigger</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+								<a href="customselect.html#unexpose" class="tsd-kind-icon">unexpose</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 								<a href="customselect.html#unmount" class="tsd-kind-icon">unmount</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 								<a href="customselect.html#update" class="tsd-kind-icon">update</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+								<a href="customselect.html#updatealias" class="tsd-kind-icon">update<wbr>Alias</a>
 							</li>
 							<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-overwrite">
 								<a href="customselect.html#state-1" class="tsd-kind-icon">state</a>
