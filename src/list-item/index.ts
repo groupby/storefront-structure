@@ -17,9 +17,6 @@ class ListItem {
   init() {
     this.provide(this.props.itemAlias, (_, { item }) => item);
     this.provide(this.props.indexAlias, (_, { index }) => index);
-  }
-
-  onBeforeMount() {
     this.updateState();
   }
 

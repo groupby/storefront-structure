@@ -8,28 +8,20 @@ suite('ListItem', ({ expect, spy }) => {
   beforeEach(() => (listItem = new ListItem()));
 
   describe('init()', () => {
-    it('should provide the item and index as aliases', () => {
+    it('should provide the item and index as aliases and call updateState()', () => {
       const itemAlias = 'someAlias';
       const indexAlias = 'someIndex';
       const provide = (listItem.provide = spy());
       const item = { a: 'b' };
       const index = 9;
       const state = { item, index };
+      const updateState = (listItem.updateState = spy());
       listItem.props = { itemAlias, indexAlias };
 
       listItem.init();
 
       expect(provide).to.be.calledWith(itemAlias, sinon.match((cb) => expect(cb(null, state)).to.eq(item)));
       expect(provide).to.be.calledWith(indexAlias, sinon.match((cb) => expect(cb(null, state)).to.eq(index)));
-    });
-  });
-
-  describe('onBeforeMount()', () => {
-    it('should call updateState()', () => {
-      const updateState = (listItem.updateState = spy());
-
-      listItem.onBeforeMount();
-
       expect(updateState).to.be.called;
     });
   });
