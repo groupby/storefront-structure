@@ -28,6 +28,12 @@ class FilteredList {
     this.set(true);
   }
 
+  onFilterFocus(event: Tag.Event & FocusEvent) {
+    if (typeof this.props.onFilterFocus === 'function') {
+      this.props.onFilterFocus(event);
+    }
+  }
+
   updateItems(value: string = this.refs.filter.value) {
     value = value.trim().toLowerCase();
     const filtered = this.props.items.filter((item) => {
@@ -54,6 +60,7 @@ namespace FilteredList {
     items?: Item[];
     itemAlias?: string;
     indexAlias?: string;
+    onFilterFocus?: (event: FocusEvent) => void;
   }
 
   export interface State {

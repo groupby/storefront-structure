@@ -69,6 +69,26 @@ suite('FilteredList', ({ expect, spy }) => {
     });
   });
 
+  describe('onFilterFocus()', () => {
+    it('should call props.onFilterFocus()', () => {
+      const onFilterFocus = spy();
+      const event: any = { a: 'b' };
+      filteredList.props = { onFilterFocus };
+
+      filteredList.onFilterFocus(event);
+
+      expect(onFilterFocus).to.be.calledWith(event);
+    });
+
+    it('should do nothing if props.onFilterFocus is not a function', () => {
+      const onFilterFocus: any = true;
+      const event: any = { a: 'b' };
+      filteredList.props = { onFilterFocus };
+
+      expect(() => filteredList.onFilterFocus(event)).to.not.throw;
+    });
+  });
+
   describe('updateItems()', () => {
     it('should filter items', () => {
       const filterValue = 'e';

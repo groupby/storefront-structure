@@ -1,4 +1,4 @@
-<input aria-label="{ props.placeholder }" ref="filter" oninput="{ onFilterChange }" placeholder="{ props.placeholder }">
+<input aria-label="{ props.placeholder }" ref="filter" oninput="{ onFilterChange }" onfocus="{ onFilterFocus }" placeholder="{ props.placeholder }">
 <gb-list _props="{ childProps() }">
   <yield/>
 </gb-list>
