@@ -45,23 +45,31 @@ suite('FilteredList', ({ expect, spy }) => {
     });
   });
 
-  describe('onFilterChange()', () => {
+  describe('onUpdate()', () => {
     it('should call updateItems()', () => {
       const updateItems = (filteredList.updateItems = spy());
+      const items = ['a', 'b'];
+      filteredList.props = { items };
 
-      filteredList.onFilterChange(<any>{});
+      filteredList.onUpdate();
 
       expect(updateItems).to.be.calledWith();
     });
   });
 
-  describe('updateItems()', () => {
-    let set;
+  describe('onFilterChange()', () => {
+    it('should call updateItems()', () => {
+      const updateItems = (filteredList.updateItems = spy());
+      const set = (filteredList.set = spy());
 
-    beforeEach(() => {
-      set = filteredList.set = spy();
+      filteredList.onFilterChange(<any>{});
+
+      expect(updateItems).to.be.calledWith();
+      expect(set).to.be.calledWithExactly(true);
     });
+  });
 
+  describe('updateItems()', () => {
     it('should filter items', () => {
       const filterValue = 'e';
       const items = ['abc', 'def', 'ghi', 'eee'];
@@ -70,7 +78,7 @@ suite('FilteredList', ({ expect, spy }) => {
 
       filteredList.updateItems();
 
-      expect(set).to.be.calledWithExactly({ items: ['def', 'eee'] });
+      expect(filteredList.state.items).to.eql(['def', 'eee']);
     });
 
     it('should filter falsey item', () => {
@@ -81,7 +89,7 @@ suite('FilteredList', ({ expect, spy }) => {
 
       filteredList.updateItems();
 
-      expect(set).to.be.calledWithExactly({ items: ['efg'] });
+      expect(filteredList.state.items).to.eql(['efg']);
     });
 
     it('should filter out invalid items', () => {
@@ -92,7 +100,7 @@ suite('FilteredList', ({ expect, spy }) => {
 
       filteredList.updateItems();
 
-      expect(set).to.be.calledWithExactly({ items: [{ value: 'efg' }] });
+      expect(filteredList.state.items).to.eql([{ value: 'efg' }]);
     });
 
     it('should trim filter value', () => {
@@ -103,7 +111,7 @@ suite('FilteredList', ({ expect, spy }) => {
 
       filteredList.updateItems();
 
-      expect(set).to.be.calledWithExactly({ items: ['def', 'eee'] });
+      expect(filteredList.state.items).to.eql(['def', 'eee']);
     });
 
     it('should filter case-insensitively', () => {
@@ -114,7 +122,7 @@ suite('FilteredList', ({ expect, spy }) => {
 
       filteredList.updateItems();
 
-      expect(set).to.be.calledWithExactly({ items: ['dEf', 'efe'] });
+      expect(filteredList.state.items).to.eql(['dEf', 'efe']);
     });
 
     it('should use value passed in', () => {
@@ -125,7 +133,7 @@ suite('FilteredList', ({ expect, spy }) => {
 
       filteredList.updateItems('e');
 
-      expect(set).to.be.calledWithExactly({ items: ['def', 'eee'] });
+      expect(filteredList.state.items).to.eql(['def', 'eee']);
     });
   });
 });

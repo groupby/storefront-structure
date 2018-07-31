@@ -19,8 +19,13 @@ class FilteredList {
     this.updateItems('');
   }
 
+  onUpdate() {
+    this.updateItems();
+  }
+
   onFilterChange(event: Tag.Event) {
     this.updateItems();
+    this.set(true);
   }
 
   updateItems(value: string = this.refs.filter.value) {
@@ -38,7 +43,7 @@ class FilteredList {
     });
 
     if (filtered.length !== 0 || this.state.items.length !== 0) {
-      this.set({ items: filtered });
+      this.state.items = filtered;
     }
   }
 }
