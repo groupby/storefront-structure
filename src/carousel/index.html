@@ -1,15 +1,15 @@
-<div class="carousel" ref="wrapper" touchstart="{ onTouchStart }">
+<div class="carousel" ref="wrapper" touchstart="{onTouchStart}">
   <div class="carousel__list">
-    <div class="carousel__track" ref="track" style="{ trackStyle() }">
-      <div data-is="gb-carousel-slide" class="carousel__slide" style="width: { parent.getSlideWidth() }px" each="{ slide in state.items }">
+    <div class="carousel__track" ref="track" style="{trackStyle()}">
+      <div data-is="gb-carousel-slide" class="carousel__slide" style="width: {parent.getSlideWidth()}px" each="{slide in state.items}">
         <yield/>
       </div>
     </div>
   </div>
-  <a class="carousel__prev" onclick="{ movePrevious }">
+  <a class="carousel__prev" onclick="{movePrevious}">
     &#10094;
   </a>
-  <a class="carousel__next" onclick="{ moveNext }">
+  <a class="carousel__next" onclick="{moveNext}">
     &#10095;
   </a>
 </div>

@@ -1,7 +1,7 @@
-<gb-list items="{ props.items }">
+<gb-list items="{props.items}">
   <yield>
     <gb-container _consumes="swatches">
-      <gb-swatch color="{ parent.item.color }" label="{ parent.item.label }" on-click="{ $swatches.onClick }" onmouseenter="{ $swatches.onActivate }" onmouseleave="{ $swatches.onDeactivate }"></gb-swatch>
+      <gb-swatch color="{parent.item.color}" label="{parent.item.label}" on-click="{$swatches.onClick}" onmouseenter="{$swatches.onActivate}" onmouseleave="{$swatches.onDeactivate}"></gb-swatch>
     </gb-container>
   </yield>
 </gb-list>

@@ -1,8 +1,8 @@
-<div class="gb-pill__container { gb-pill__group: props.onClose }">
-  <a class="gb-pill__content { gb-pill--selected: props.selected }" onclick="{ onClick }">
+<div class="gb-pill__container {gb-pill__group: props.onClose}">
+  <a class="gb-pill__content {gb-pill--selected: props.selected}" onclick="{onClick}">
     <yield/>
   </a>
-  <a if="{ props.onClose }" class="gb-pill__content { gb-pill__close: props.selected }" onclick="{ onClose }">
+  <a if="{props.onClose}" class="gb-pill__content {gb-pill__close: props.selected}" onclick="{onClose}">
     x
   </a>
 </div>

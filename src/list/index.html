@@ -1,5 +1,5 @@
-<ul ref="wrapper" class="gb-list__wrapper { isGrid() ? 'gb-list__wrapper--grid' : 'gb-list__wrapper--column' }">
-  <li data-is="gb-list-item" class="gb-list__item" each="{ item, i in props.items }" _props="{ parent.childProps() }">
+<ul ref="wrapper" class="gb-list__wrapper {isGrid() ? 'gb-list__wrapper--grid' : 'gb-list__wrapper--column'}">
+  <li data-is="gb-list-item" class="gb-list__item" each="{item, i in props.items}" _props="{parent.childProps()}">
     <yield/>
   </li>
 </ul>
