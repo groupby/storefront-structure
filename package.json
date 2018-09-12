@@ -82,6 +82,6 @@
     "webpack": "^3.4.1"
   },
   "peerDependencies": {
-    "@storefront/core": "~1.43.1"
+    "@storefront/core": "~1.46.9"
   }
 }
