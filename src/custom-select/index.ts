@@ -5,6 +5,7 @@ import Select from '../select';
 @provide('customSelect')
 @tag('gb-custom-select', require('./index.html'), require('./index.css'))
 class CustomSelect {
+  aliases: any;
   refs: { toggle: Button };
   props: CustomSelect.Props = {
     hover: false,
@@ -19,6 +20,9 @@ class CustomSelect {
     },
     isActive: false,
   };
+  init() {
+    console.log('DEBUG customselect aliases', this.aliases);
+  }
 
   onUpdated() {
     if (this.state.isActive) {
