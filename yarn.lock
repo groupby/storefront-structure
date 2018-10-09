@@ -41,11 +41,11 @@
   dependencies:
     samsam "1.3.0"
 
-"@storefront/core@~1.47.0":
-  version "1.47.0"
-  resolved "https://registry.yarnpkg.com/@storefront/core/-/core-1.47.0.tgz#c0c5d85d410d468b395e9eda0bccb996989ff8f0"
+"@storefront/core@~1.46.9":
+  version "1.46.10"
+  resolved "https://registry.yarnpkg.com/@storefront/core/-/core-1.46.10.tgz#c2170e6f3be9d77f597977f9f31e03143755c397"
   dependencies:
-    "@storefront/flux-capacitor" "1.57.0"
+    "@storefront/flux-capacitor" "1.54.1"
     "@types/clone" "^0.1.30"
     "@types/deep-assign" "^0.1.0"
     "@types/js-cookie" "^2.0.28"
@@ -62,15 +62,15 @@
     riot "^3.9.5"
     url-parse "^1.1.9"
 
-"@storefront/flux-capacitor@1.57.0":
-  version "1.57.0"
-  resolved "https://registry.yarnpkg.com/@storefront/flux-capacitor/-/flux-capacitor-1.57.0.tgz#b802b0cfea95c9a79a7f0ac186f652fd78923721"
+"@storefront/flux-capacitor@1.54.1":
+  version "1.54.1"
+  resolved "https://registry.yarnpkg.com/@storefront/flux-capacitor/-/flux-capacitor-1.54.1.tgz#fefc9738ddca377c4c2f150fd98e239ec2be3bab"
   dependencies:
     "@types/redux-logger" "^3.0.0"
     cuid "^1.3.8"
     eventemitter3 "^3.0.0"
     fetch-ponyfill "^4.1.0"
-    groupby-api "2.5.6"
+    groupby-api "2.5.0"
     redux "^3.7.0"
     redux-batch-enhancer "^0.1.3"
     redux-logger "^3.0.6"
@@ -185,8 +185,8 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.18.tgz#9e96603a02a38889d08f451906f9cb56a2725ff5"
 
 "@types/node@^7.0.14":
-  version "7.0.71"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.71.tgz#256bad647718bcdaed64c006687917d4d320aee1"
+  version "7.0.70"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.70.tgz#688aaeb6e6d374ed016c4dc2c46de695859d6887"
 
 "@types/node@^9.3.0":
   version "9.6.15"
@@ -2128,9 +2128,9 @@ graceful-fs@^4.1.2, graceful-fs@^4.1.5, graceful-fs@^4.1.6:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
 
-groupby-api@2.5.6:
-  version "2.5.6"
-  resolved "https://registry.yarnpkg.com/groupby-api/-/groupby-api-2.5.6.tgz#0b7955961a4c150c25ef4e48f521009dd002aed6"
+groupby-api@2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/groupby-api/-/groupby-api-2.5.0.tgz#520468dcbb83ff4e45ffd7f9f9e70b291cc07551"
   dependencies:
     "@types/clone" "^0.1.30"
     "@types/deep-equal" "^0.0.30"
@@ -2796,7 +2796,7 @@ just-extend@^1.1.27:
 
 kind-of@^2.0.1:
   version "2.0.1"
-  resolved "http://registry.npmjs.org/kind-of/-/kind-of-2.0.1.tgz#018ec7a4ce7e3a86cb9141be519d24c8faa981b5"
+  resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-2.0.1.tgz#018ec7a4ce7e3a86cb9141be519d24c8faa981b5"
   dependencies:
     is-buffer "^1.0.2"
 
@@ -3294,8 +3294,8 @@ nan@^2.3.0:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.6.2.tgz#e4ff34e6c95fdfb5aecc08de6596f43605a7db45"
 
 nan@^2.9.2:
-  version "2.11.1"
-  resolved "https://registry.yarnpkg.com/nan/-/nan-2.11.1.tgz#90e22bccb8ca57ea4cd37cc83d3819b52eea6766"
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.11.0.tgz#574e360e4d954ab16966ec102c0c049fd961a099"
 
 nanomatch@^1.2.9:
   version "1.2.13"

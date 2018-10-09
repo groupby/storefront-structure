@@ -7,6 +7,6 @@ gb-list.gb-ui .gb-list__wrapper--grid,
   flex-wrap: wrap;
 }
 
-.gb-list__wrapper--grid .gb-list__item.gb-ui {
-  flex: 1;
+gb-list > .gb-list__wrapper--grid .gb-list__item.gb-ui {
+  flex: 1 1 0%;
 }
