@@ -8,6 +8,7 @@ suite('InfiniteList', ({ expect, spy, itShouldProvideAlias }) => {
   beforeEach(() => (infiniteList = new InfiniteList()));
 
   itShouldProvideAlias(InfiniteList, 'list');
+  itShouldProvideAlias(InfiniteList, 'infiniteList');
 
   describe('inheritance', () => {
     it('should extend List', () => {
