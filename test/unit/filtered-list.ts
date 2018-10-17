@@ -69,6 +69,34 @@ suite('FilteredList', ({ expect, spy }) => {
     });
   });
 
+  describe('onKeyDown()', () => {
+    it('should select refinement', () => {
+      const refinements: any = [{ value: 'a' , onClick: spy() }, { value: 'b', onClick: spy() }];
+      const keyboardEvent = { keyCode: 13 }
+      const input = <any>{ value: 'a' };
+      filteredList.props = { items: refinements };
+      filteredList.refs = {filter: input}
+
+      filteredList.onKeyDown(keyboardEvent);
+
+      expect(refinements[0].onClick).to.be.called
+      expect(refinements[1].onClick).to.be.not.called
+    });
+
+    it('should not select refinement', () => {
+      const refinements: any = [{ value: 'a' , onClick: spy() }, { value: 'b', onClick: spy() }];
+      const keyboardEvent = { keyCode: 15 }
+      const input = <any>{ value: 'a' };
+      filteredList.props = { items: refinements };
+      filteredList.refs = {filter: input}
+
+      filteredList.onKeyDown(keyboardEvent);
+
+      expect(refinements[0].onClick).to.be.not.called
+      expect(refinements[1].onClick).to.be.not.called
+    });
+  });
+
   describe('onFilterFocus()', () => {
     it('should call props.onFilterFocus()', () => {
       const onFilterFocus = spy();

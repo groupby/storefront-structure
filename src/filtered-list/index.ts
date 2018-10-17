@@ -1,5 +1,7 @@
 import { tag, Tag } from '@storefront/core';
 
+const RETURN_KEY_CODE = 13;
+
 @tag('gb-filtered-list', require('./index.html'))
 class FilteredList {
   refs: { filter: HTMLInputElement };
@@ -21,6 +23,17 @@ class FilteredList {
 
   onUpdate() {
     this.updateItems();
+  }
+
+  onKeyDown(event) {
+    const value = this.refs.filter.value.trim().toLowerCase();
+    if (event.keyCode === RETURN_KEY_CODE) {
+      const foundItem = this.props.items.find((item) => item && (<FilteredList.ItemObject>item).value && (<FilteredList.ItemObject>item).value.toLowerCase() === value);
+       
+      if (foundItem && typeof (<FilteredList.ItemObject>foundItem).onClick === 'function') {
+        (<FilteredList.ItemObject>foundItem).onClick(event)
+      }
+    }
   }
 
   onFilterChange(event: Tag.Event) {
@@ -67,7 +80,9 @@ namespace FilteredList {
     items: Item[];
   }
 
-  export type Item = string | { value: string };
+  export type Item = string | ItemObject;
+
+  export type ItemObject = { value: string, onClick: (e: MouseEvent & Tag.Event) => void };
 }
 
 export default FilteredList;
