@@ -111,6 +111,7 @@
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-type-alias tsd-parent-kind-class tsd-is-static"><a href="filteredlist.html#item" class="tsd-kind-icon">Item</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-class tsd-is-static"><a href="filteredlist.html#itemobject" class="tsd-kind-icon">Item<wbr>Object</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -146,6 +147,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="filteredlist.html#onbeforemount" class="tsd-kind-icon">on<wbr>Before<wbr>Mount</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="filteredlist.html#onfilterchange" class="tsd-kind-icon">on<wbr>Filter<wbr>Change</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="filteredlist.html#onfilterfocus" class="tsd-kind-icon">on<wbr>Filter<wbr>Focus</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="filteredlist.html#onkeydown" class="tsd-kind-icon">on<wbr>Key<wbr>Down</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="filteredlist.html#onupdate" class="tsd-kind-icon">on<wbr>Update</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="filteredlist.html#provide" class="tsd-kind-icon">provide</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="filteredlist.html#select" class="tsd-kind-icon">select</a></li>
@@ -189,12 +191,51 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-class tsd-is-static">
 					<a name="item" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> Item</h3>
-					<div class="tsd-signature tsd-kind-icon">Item<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></div>
+					<div class="tsd-signature tsd-kind-icon">Item<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="filteredlist.html#itemobject" class="tsd-signature-type">ItemObject</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/74cc3ff/src/filtered-list/index.ts#L70">src/filtered-list/index.ts:70</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/bd7701a/src/filtered-list/index.ts#L83">src/filtered-list/index.ts:83</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-class tsd-is-static">
+					<a name="itemobject" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> Item<wbr>Object</h3>
+					<div class="tsd-signature tsd-kind-icon">Item<wbr>Object<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/bd7701a/src/filtered-list/index.ts#L85">src/filtered-list/index.ts:85</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>on<wbr>Click<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></h5>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-siganture">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MouseEvent</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>e: <span class="tsd-signature-type">MouseEvent</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">Event</span></h5>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -275,7 +316,7 @@
 					<div class="tsd-signature tsd-kind-icon">refs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/74cc3ff/src/filtered-list/index.ts#L5">src/filtered-list/index.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/bd7701a/src/filtered-list/index.ts#L7">src/filtered-list/index.ts:7</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -461,7 +502,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/74cc3ff/src/filtered-list/index.ts#L13">src/filtered-list/index.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/bd7701a/src/filtered-list/index.ts#L15">src/filtered-list/index.ts:15</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
@@ -537,7 +578,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/74cc3ff/src/filtered-list/index.ts#L18">src/filtered-list/index.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/bd7701a/src/filtered-list/index.ts#L20">src/filtered-list/index.ts:20</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -554,7 +595,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/74cc3ff/src/filtered-list/index.ts#L26">src/filtered-list/index.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/bd7701a/src/filtered-list/index.ts#L39">src/filtered-list/index.ts:39</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -577,13 +618,36 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/74cc3ff/src/filtered-list/index.ts#L31">src/filtered-list/index.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/bd7701a/src/filtered-list/index.ts#L44">src/filtered-list/index.ts:44</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>event: <span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">FocusEvent</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="onkeydown" class="tsd-anchor"></a>
+					<h3>on<wbr>Key<wbr>Down</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Key<wbr>Down<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/bd7701a/src/filtered-list/index.ts#L28">src/filtered-list/index.ts:28</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -600,7 +664,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/74cc3ff/src/filtered-list/index.ts#L22">src/filtered-list/index.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/bd7701a/src/filtered-list/index.ts#L24">src/filtered-list/index.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -839,7 +903,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/74cc3ff/src/filtered-list/index.ts#L37">src/filtered-list/index.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/bd7701a/src/filtered-list/index.ts#L50">src/filtered-list/index.ts:50</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1389,7 +1453,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides Tag.props</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/74cc3ff/src/filtered-list/index.ts#L6">src/filtered-list/index.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/bd7701a/src/filtered-list/index.ts#L8">src/filtered-list/index.ts:8</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -1398,7 +1462,7 @@
 						<div class="tsd-signature tsd-kind-icon">items<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/74cc3ff/src/filtered-list/index.ts#L7">src/filtered-list/index.ts:7</a></li>
+								<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/bd7701a/src/filtered-list/index.ts#L9">src/filtered-list/index.ts:9</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1410,7 +1474,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides Tag.state</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/74cc3ff/src/filtered-list/index.ts#L9">src/filtered-list/index.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/bd7701a/src/filtered-list/index.ts#L11">src/filtered-list/index.ts:11</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -1419,7 +1483,7 @@
 						<div class="tsd-signature tsd-kind-icon">items<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/74cc3ff/src/filtered-list/index.ts#L10">src/filtered-list/index.ts:10</a></li>
+								<li>Defined in <a href="https://github.com/groupby/storefront-structure/blob/bd7701a/src/filtered-list/index.ts#L12">src/filtered-list/index.ts:12</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -1461,6 +1525,9 @@
 							</li>
 							<li class=" tsd-kind-type-alias tsd-parent-kind-class tsd-is-static">
 								<a href="filteredlist.html#item" class="tsd-kind-icon">Item</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-class tsd-is-static">
+								<a href="filteredlist.html#itemobject" class="tsd-kind-icon">Item<wbr>Object</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="filteredlist.html#_consumes" class="tsd-kind-icon">_consumes</a>
@@ -1536,6 +1603,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="filteredlist.html#onfilterfocus" class="tsd-kind-icon">on<wbr>Filter<wbr>Focus</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="filteredlist.html#onkeydown" class="tsd-kind-icon">on<wbr>Key<wbr>Down</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="filteredlist.html#onupdate" class="tsd-kind-icon">on<wbr>Update</a>
@@ -1702,6 +1772,9 @@
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="../globals.html#move_previous_upward_min_angle" class="tsd-kind-icon">MOVE_<wbr>PREVIOUS_<wbr>UPWARD_<wbr>MIN_<wbr>ANGLE</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="../globals.html#return_key_code" class="tsd-kind-icon">RETURN_<wbr>KEY_<wbr>CODE</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="../globals.html#zindex_high" class="tsd-kind-icon">ZINDEX_<wbr>HIGH</a>
