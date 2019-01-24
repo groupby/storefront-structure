@@ -1,4 +1,10 @@
-# StoreFront structure
+# [MOVED] StoreFront structure
+
+* * *
+
+**This repository has been moved to <https://github.com/groupby/storefront>.**
+
+* * *
 
 StoreFront structural components, building blocks for high-level components
 
